@@ -1,10 +1,10 @@
-import { CrdsEmbedPage } from './app.po';
+import { MigrationProjectPage } from './app.po';
 
-describe('crds-embed App', function() {
-  let page: CrdsEmbedPage;
+describe('migration-project App', function() {
+  let page: MigrationProjectPage;
 
   beforeEach(() => {
-    page = new CrdsEmbedPage();
+    page = new MigrationProjectPage();
   });
 
   it('should display message saying app works', () => {
