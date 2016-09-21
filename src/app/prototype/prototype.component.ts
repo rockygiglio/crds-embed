@@ -3,7 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-prototype',
-  templateUrl: 'prototype.component.html'
+  templateUrl: 'prototype.component.html',
+  styleUrls: ['prototype.component.css']
 })
 export class PrototypeComponent implements OnInit {
   

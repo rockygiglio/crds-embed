@@ -29,7 +29,8 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
-    "angular-cli": "1.0.0-beta.14",
+    "angular-cli": "^1.0.0-beta.15",
+    "bootstrap-sass": "^3.3.7",
     "codelyzer": "~0.0.26",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",
@@ -38,10 +39,10 @@
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
+    "node-sass": "^3.10.0",
     "protractor": "4.0.5",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
-    "typescript": "2.0.2",
-    "webpack": "^2.1.0-beta.22"
+    "typescript": "2.0.2"
   }
 }
