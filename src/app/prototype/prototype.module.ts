@@ -9,11 +9,38 @@ import { PrototypePaymentComponent } from './prototype-payment/prototype-payment
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
 
+import { createStore, Store, StoreEnhancer } from 'redux';
+
+import { prototypeReducer } from './prototype.reducer';
+import { PrototypeState } from './prototype.state';
+import { PrototypeStore } from './prototype.store';
+
+let devtools: StoreEnhancer<PrototypeState> =
+  window['devToolsExtension'] ?
+  window['devToolsExtension']() : f => f;
+
+let store: Store<PrototypeState> = createStore<PrototypeState>(
+  prototypeReducer,
+  devtools
+);
+
+
 @NgModule({
   imports: [
     CommonModule,
     prototypeRouting
   ],
-  declarations: [PrototypeComponent, PrototypeAmountComponent, PrototypeDetailsComponent, PrototypeAuthenticationComponent, PrototypePaymentComponent, PrototypeSummaryComponent, PrototypeConfirmationComponent]
+  declarations: [
+    PrototypeComponent,
+    PrototypeAmountComponent,
+    PrototypeDetailsComponent,
+    PrototypeAuthenticationComponent,
+    PrototypePaymentComponent,
+    PrototypeSummaryComponent,
+    PrototypeConfirmationComponent
+  ],
+  providers: [
+    { provide: PrototypeStore, useValue: store }
+  ]
 })
 export class PrototypeModule { }
