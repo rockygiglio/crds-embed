@@ -4,7 +4,7 @@ import { PrototypeComponent } from './prototype/prototype.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/prototype', pathMatch: 'full' },
+  { path: '', redirectTo: '/prototype/amount', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

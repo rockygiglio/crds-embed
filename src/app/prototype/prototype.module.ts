@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { createStore, Store, StoreEnhancer } from 'redux';
+import { ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
+
 import { PrototypeComponent } from './prototype.component';
 import { prototypeRouting } from './prototype.routing';
 import { PrototypeAmountComponent } from './prototype-amount/prototype-amount.component';
@@ -8,8 +11,6 @@ import { PrototypeAuthenticationComponent } from './prototype-authentication/pro
 import { PrototypePaymentComponent } from './prototype-payment/prototype-payment.component';
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
-
-import { createStore, Store, StoreEnhancer } from 'redux';
 
 import { prototypeReducer } from './prototype-state/prototype.reducer';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
@@ -27,6 +28,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
 
 @NgModule({
   imports: [
+    ButtonsModule,
     CommonModule,
     prototypeRouting
   ],

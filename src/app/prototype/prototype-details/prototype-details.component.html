@@ -1,8 +1,22 @@
-<p>
-  prototype-details works!
-</p>
+<header class="page-header">
+  <h2>Details:</h2>
+</header>
 
-<footer>
-  <a href="#" class="btn btn-secondary" (click)="back()">Go Back</a>
-  <a href="#" class="btn btn-primary" (click)="next()">Next</a>
+<h3>Give To:</h3>
+<div class="btn-group">
+  <label class="btn btn-default" [(ngModel)]="fund" btnRadio="I'm In">I'm In</label>
+  <label class="btn btn-default" [(ngModel)]="fund" btnRadio="Crossroads General">Crossroads General</label>
+  <label class="btn btn-default" [(ngModel)]="fund" btnRadio="ReachOut">ReachOut</label>
+</div>
+
+<h3>Frequency:</h3>
+<div class="btn-group">
+  <label class="btn btn-default" [(ngModel)]="frequency" btnRadio="One Time">One Time</label>
+  <label class="btn btn-default" [(ngModel)]="frequency" btnRadio="Weekly">Weekly</label>
+  <label class="btn btn-default" [(ngModel)]="frequency" btnRadio="Monthly">Monthly</label>
+</div>
+
+<footer class="page-footer">
+  <a href="#" class="btn btn-primary pull-right" (click)="next()">Next</a>
+  <a href="#" class="btn btn-secondary pull-left" (click)="back()">Go Back</a>
 </footer>

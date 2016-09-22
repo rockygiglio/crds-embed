@@ -9,6 +9,9 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 })
 export class PrototypeDetailsComponent {
 
+  fund: string;
+  frequency: string;
+
   constructor(@Inject(PrototypeStore) private store: any) {}
 
   back() {

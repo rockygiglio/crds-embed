@@ -3,7 +3,20 @@
 @import 'variables';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-.btn {
-  &.btn-primary {
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 400px;
+}
+
+.page-header {
+  margin: 0 0 1em;
+  h1, h2, h3 {
+    margin: 0;
   }
+}
+
+.page-footer {
+  @include clearfix;
+  margin-top: 1em;
 }
