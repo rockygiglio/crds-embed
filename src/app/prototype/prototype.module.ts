@@ -11,9 +11,9 @@ import { PrototypeConfirmationComponent } from './prototype-confirmation/prototy
 
 import { createStore, Store, StoreEnhancer } from 'redux';
 
-import { prototypeReducer } from './prototype.reducer';
-import { PrototypeState } from './prototype.interfaces';
-import { PrototypeStore } from './prototype.store';
+import { prototypeReducer } from './prototype-state/prototype.reducer';
+import { PrototypeState } from './prototype-state/prototype.interfaces';
+import { PrototypeStore } from './prototype-state/prototype.store';
 
 let devtools: StoreEnhancer<PrototypeState> =
   window['devToolsExtension'] ?

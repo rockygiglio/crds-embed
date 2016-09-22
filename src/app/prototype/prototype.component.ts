@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Store } from 'redux';
-import { PrototypeStore } from './prototype.store';
-import { PrototypeState } from './prototype.interfaces';
-import * as PrototypeActions from './prototype.action-creators';
+import { PrototypeStore } from './prototype-state/prototype.store';
+import { PrototypeState } from './prototype-state/prototype.interfaces';
+import * as PrototypeActions from './prototype-state/prototype.action-creators';
 
 @Component({
   selector: 'app-prototype',
