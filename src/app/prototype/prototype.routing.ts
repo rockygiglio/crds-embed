@@ -14,12 +14,13 @@ const prototypeRoutes: Routes = [
     path: 'prototype',
     component: PrototypeComponent,
     children: [
+      { path: 'amount', component: PrototypeAmountComponent },
       { path: 'details', component: PrototypeDetailsComponent },
       { path: 'auth', component: PrototypeAuthenticationComponent },
       { path: 'payment', component: PrototypePaymentComponent },
       { path: 'summary', component: PrototypeSummaryComponent },
       { path: 'confirmation', component: PrototypeConfirmationComponent },
-      { path: '', component: PrototypeAmountComponent }
+      { path: '', redirectTo: 'amount', pathMatch: 'full' }      
     ]
   }
 ];

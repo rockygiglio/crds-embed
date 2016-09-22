@@ -1,8 +1,8 @@
 import { Action, Reducer } from 'redux';
-import { PrototypeState } from './prototype.state';
-import { INCREMENT, DECREMENT } from './prototype.action-creators';
+import { PrototypeState } from './prototype.interfaces';
+import { INCREMENT, DECREMENT, RENDER } from './prototype.action-creators';
 
-let initialState: PrototypeState = { counter: 0 };
+let initialState: PrototypeState = { counter: 0, action: 'amount' };
 
 export const prototypeReducer: Reducer<PrototypeState> = 
   (state: PrototypeState = initialState, action: Action): PrototypeState => {
@@ -11,6 +11,8 @@ export const prototypeReducer: Reducer<PrototypeState> =
         return Object.assign({}, state, { counter: state.counter + 1 });
       case DECREMENT:
         return Object.assign({}, state, { counter: state.counter - 1 });
+      case RENDER:
+        return Object.assign({}, state, { action: action['action'] });
       default:
         return state;
     }

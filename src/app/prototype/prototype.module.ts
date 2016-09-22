@@ -12,7 +12,7 @@ import { PrototypeConfirmationComponent } from './prototype-confirmation/prototy
 import { createStore, Store, StoreEnhancer } from 'redux';
 
 import { prototypeReducer } from './prototype.reducer';
-import { PrototypeState } from './prototype.state';
+import { PrototypeState } from './prototype.interfaces';
 import { PrototypeStore } from './prototype.store';
 
 let devtools: StoreEnhancer<PrototypeState> =

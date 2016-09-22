@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { PrototypeStore } from '../prototype.store';
+import * as PrototypeActions from '../prototype.action-creators';
 
 @Component({
   selector: 'app-prototype-amount',
   templateUrl: './prototype-amount.component.html',
   styleUrls: ['./prototype-amount.component.css']
 })
-export class PrototypeAmountComponent implements OnInit {
+export class PrototypeAmountComponent {
 
-  constructor() { }
+  constructor(@Inject(PrototypeStore) private store: any) {}
 
-  ngOnInit() {
+  next() {
+    this.store.dispatch(PrototypeActions.render('details'));
+    return false;
   }
 
 }
