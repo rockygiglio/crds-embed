@@ -1,13 +1,13 @@
-<header class="page-header">
+<div class="page-header">
   <h2>Amount:</h2>
-</header>
+</div>
 
 <div class="btn-group">
-  <label class="btn btn-default" [(ngModel)]="predefinedAmount" btnRadio="5">$5</label>
-  <label class="btn btn-default" [(ngModel)]="predefinedAmount" btnRadio="25">$25</label>
-  <label class="btn btn-default" [(ngModel)]="predefinedAmount" btnRadio="100">$100</label>
-  <label class="btn btn-default" [(ngModel)]="predefinedAmount" btnRadio="500">$500</label>
-  <label class="btn btn-default" [(ngModel)]="predefinedAmount" btnRadio="1000">$1000</label>
+  <label class="btn btn-option" [(ngModel)]="gift.amount" btnRadio="5">$5</label>
+  <label class="btn btn-option" [(ngModel)]="gift.amount" btnRadio="25">$25</label>
+  <label class="btn btn-option" [(ngModel)]="gift.amount" btnRadio="100">$100</label>
+  <label class="btn btn-option" [(ngModel)]="gift.amount" btnRadio="500">$500</label>
+  <label class="btn btn-option" [(ngModel)]="gift.amount" btnRadio="1000">$1000</label>
 </div>
 
 <hr>
@@ -16,10 +16,10 @@
   <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
   <div class="input-group">
     <div class="input-group-addon">$</div>
-    <input type="text" class="form-control" placeholder="Or Enter Amount">
+    <input type="text" class="form-control" placeholder="Or Enter Amount" [(ngModel)]="gift.custom_amount">
   </div>
 </div>
 
 <footer class="page-footer">
-  <a href="#" class="btn btn-primary pull-right" (click)="next()">Next</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()">Next</a>
 </footer>

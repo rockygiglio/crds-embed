@@ -4,24 +4,16 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 
 @Component({
-  selector: 'app-prototype-details',
-  templateUrl: './prototype-details.component.html',
-  styleUrls: ['./prototype-details.component.css']
+  selector: 'app-prototype-password',
+  templateUrl: './prototype-password.component.html',
+  styleUrls: ['./prototype-password.component.scss']
 })
-export class PrototypeDetailsComponent {
-
-  fund: string;
-  frequency: string;
+export class PrototypePasswordComponent {
 
   constructor(@Inject(PrototypeStore) private store: any,
-              private gift: PrototypeGiftService) {}
+              private gift: PrototypeGiftService) { }
 
   back() {
-    this.store.dispatch(PrototypeActions.render('amount'));
-    return false;
-  }
-
-  next() {
     this.store.dispatch(PrototypeActions.render('auth'));
     return false;
   }

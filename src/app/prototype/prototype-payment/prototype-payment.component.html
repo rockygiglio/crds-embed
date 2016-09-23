@@ -1,12 +1,38 @@
 <header class="page-header">
-  <h2>Payment:</h2>
+  <h2>Payment Type:</h2>
 </header>
 
-<p>
-  prototype-payment works!
-</p>
+<tabset>
+  <tab heading="Bank Account" active="true">
+    <h3>Account Type:</h3>
+    <label>
+      <input name="account-type" type="radio" [(ngModel)]="gift.account_type" value="personal"> Personal
+    </label>&nbsp;&nbsp;
+    <label>
+      <input name="account-type" type="radio" [(ngModel)]="gift.account_type" value="business"> Business
+    </label>
+    
+    <br><br>
+    
+    <div ng>
+      <input type="text" class="form-control" placeholder="Name on the Account" [(ngModel)]="gift.account_name"><br>
+      <input type="text" class="form-control" placeholder="Routing Number" [(ngModel)]="gift.routing_number"><br>
+      <input type="text" class="form-control" placeholder="Account Number" [(ngModel)]="gift.account_number">
+    </div>
+  </tab>
+  <tab heading="Credit Card">
+    <br>
+    <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+    <div>
+      <input type="text" class="form-control" placeholder="Credit Card Number" [(ngModel)]="gift.credit_card_number"><br>
+      <input type="text" class="form-control" placeholder="Expiration" [(ngModel)]="gift.exp_date"><br>
+      <input type="text" class="form-control" placeholder="CVV" [(ngModel)]="gift.cvv"><br>
+      <input type="text" class="form-control" placeholder="Zip Code" [(ngModel)]="gift.zip_code">
+    </div>
+  </tab>
+</tabset>
 
 <footer class="page-footer">
-  <a href="#" class="btn btn-secondary" (click)="back()">Go Back</a>
-  <a href="#" class="btn btn-primary" (click)="next()">Next</a>
+  <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()">Next</a>
 </footer>

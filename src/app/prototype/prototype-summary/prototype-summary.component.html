@@ -1,12 +1,30 @@
 <header class="page-header">
-  <h2>Summary:</h2>
+  <h2>Confirm:</h2>
 </header>
 
-<p>
-  prototype-summary works!
-</p>
+<table class="table">
+  <tr>
+    <td><strong>Donation Amount:</strong></td>
+    <td class="text-right">$100.00</td>
+  </tr>
+  <tr>
+    <td><strong>To:</strong></td>
+    <td class="text-right">I'm in Campaign</td>
+  </tr>
+  <tr>
+    <td><strong>Frequency:</strong></td>
+    <td class="text-right">One Time</td>
+  </tr>
+  <tr>
+    <td><strong>Payment:</strong></td>
+    <td class="text-right">
+      Account ending in 3007<br>
+      <a href="#">change</a>
+    </td>
+  </tr>
+</table>
 
 <footer class="page-footer">
-  <a href="#" class="btn btn-secondary" (click)="back()">Go Back</a>
-  <a href="#" class="btn btn-primary" (click)="next()">Confirm</a>
+  <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()">Give $100</a>
 </footer>

@@ -1,12 +1,41 @@
-<header class="page-header">
-  <h2>Authentication:</h2>
-</header>
+<tabset>
+  <tab heading="Sign In">
+    <h3>I Have An Account</h3>
+    
+    <div>
+      <input type="email" placeholder="Email" class="form-control" [(ngModel)]="gift.email"><br>
+      <input type="password" placeholder="Password" class="form-control"><br>
+    </div>
 
-<p>
-  prototype-authentication works!
-</p>
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="pull-left">
+          <input type="checkbox" checked="checked"> Keep me logged in
+        </label>
+      </div>
+      <div class="col-sm-2">
+        <p class="text-right">
+          <a routerLink="/prototype/password">Forgot password?</a><br>
+          <a href="#">Need help?</a>
+        </p>
+      </div>
+    </div>
 
-<footer class="page-footer">
-  <a href="#" class="btn btn-secondary" (click)="back()">Go Back</a>
-  <a href="#" class="btn btn-primary" (click)="next()">Next</a>
-</footer>
+    <p>Or <a routerLink="/prototype/registration">register for an account</a></p>
+
+    <footer class="page-footer">
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <a href="#" class="btn btn-next pull-right" (click)="next()">Sign In</a>
+    </footer>
+  </tab>
+  <tab heading="Give as a Guest">
+    <h3>Guest</h3>
+    <div>
+      <input type="email" placeholder="Email Address" class="form-control" [(ngModel)]="gift.email">
+    </div>
+    <footer class="page-footer">
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <a href="#" class="btn btn-next pull-right" (click)="next()">Next</a>
+    </footer>
+  </tab>
+</tabset>

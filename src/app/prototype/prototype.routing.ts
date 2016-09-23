@@ -8,6 +8,8 @@ import { PrototypeAuthenticationComponent } from './prototype-authentication/pro
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
 import { PrototypePaymentComponent } from './prototype-payment/prototype-payment.component';
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
+import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
+import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 
 const prototypeRoutes: Routes = [
   {
@@ -20,6 +22,8 @@ const prototypeRoutes: Routes = [
       { path: 'payment', component: PrototypePaymentComponent },
       { path: 'summary', component: PrototypeSummaryComponent },
       { path: 'confirmation', component: PrototypeConfirmationComponent },
+      { path: 'registration', component: PrototypeRegistrationComponent },
+      { path: 'password', component: PrototypePasswordComponent },
       { path: '', redirectTo: 'amount', pathMatch: 'full' }      
     ]
   }

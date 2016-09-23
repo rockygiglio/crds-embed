@@ -2,6 +2,11 @@
 
 @import 'variables';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'buttons';
+
+h2, h3 {
+  font-size: 150%;
+}
 
 .container {
   margin-right: auto;
@@ -11,12 +16,15 @@
 
 .page-header {
   margin: 0 0 1em;
-  h1, h2, h3 {
+  h2, h3 {
     margin: 0;
   }
 }
 
 .page-footer {
   @include clearfix;
-  margin-top: 1em;
+  border-top: 1px solid $gray-lighter;
+  margin-top: 2em;
+  padding-top: 1em;
 }
+
