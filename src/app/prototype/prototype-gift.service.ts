@@ -1,8 +1,9 @@
 export class PrototypeGiftService {
-  amount: string;
-  custom_amount: string;
-  fund: string;
-  frequency: string;
+  amount: number
+  predefined_amount: number;
+  custom_amount: number;
+  fund: string = "I'm In";
+  frequency: string = "One Time";
   payment_type: string;
   account_type: string;
   account_name: string;

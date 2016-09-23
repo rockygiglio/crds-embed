@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
@@ -9,8 +9,10 @@ import { PrototypeGiftService } from '../prototype-gift.service';
   templateUrl: './prototype-amount.component.html',
   styleUrls: ['./prototype-amount.component.css']
 })
-export class PrototypeAmountComponent {
-  public predefinedAmount:string;
+export class PrototypeAmountComponent implements OnInit {
+  public predefinedAmounts: number[] = [5, 25, 100, 500, 1000];  
+  public selectedAmount: string;
+  public customAmount: number;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService) {}
@@ -20,4 +22,23 @@ export class PrototypeAmountComponent {
     return false;
   }
 
+  onCustomAmount(newValue) {
+    delete(this.selectedAmount);
+    this.gift.amount = newValue; 
+  }
+
+  onSelectAmount(newValue) {
+    delete(this.customAmount);
+    this.gift.amount = parseInt(newValue); 
+  }
+
+  ngOnInit() {
+    if(this.gift.amount) {
+      if(this.predefinedAmounts.indexOf(this.gift.amount)> -1) {
+        this.selectedAmount = this.gift.amount.toString();
+      } else {
+        this.customAmount = this.gift.amount;
+      }
+    }
+  }
 }
