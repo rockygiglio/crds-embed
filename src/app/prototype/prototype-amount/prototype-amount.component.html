@@ -2,22 +2,26 @@
   <h2>Amount:</h2>
 </div>
 
-<div class="btn-group">
-  <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
-    <label class="btn btn-option" [(ngModel)]="selectedAmount" btnRadio="{{amount}}" (ngModelChange)="onSelectAmount($event)">${{amount}}</label>
-  </template>
-</div>
+<form [formGroup]="form">
 
-<hr>
-
-<div class="form-group">
-  <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-  <div class="input-group">
-    <div class="input-group-addon">$</div>
-    <input type="number" class="form-control" placeholder="Or Enter Amount" [(ngModel)]="customAmount" (ngModelChange)="onCustomAmount($event)">
+  <div class="btn-group">
+    <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
+      <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
+    </template>
   </div>
-</div>
 
-<footer class="page-footer">
-  <a href="#" class="btn btn-next pull-right" (click)="next()">Next</a>
-</footer>
+  <hr>
+  
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="text" class="form-control" placeholder="Or Enter Amount" [formControl]="form.get('customAmount')" [(ngModel)]="customAmount" (ngModelChange)="onCustomAmount($event)">
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }">Next</a>
+  </footer>
+
+</form>

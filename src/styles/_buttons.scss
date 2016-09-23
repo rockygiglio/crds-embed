@@ -13,7 +13,7 @@
 .btn-option {
   @include button-variant($cr-grey, #FFF, lighten($cr-grey, 30));
   &.active {
-    &, &:hover { 
+    &, &:hover, &:focus { 
       background-color: $cr-teal;
       border-color: $cr-teal;
       color: #FFF;

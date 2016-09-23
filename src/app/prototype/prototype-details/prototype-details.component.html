@@ -3,20 +3,21 @@
 </header>
 
 <h3>Give To:</h3>
-<div class="btn-group">
-  <label class="btn btn-option" [(ngModel)]="gift.fund" btnRadio="I'm In">I'm In</label>
-  <label class="btn btn-option" [(ngModel)]="gift.fund" btnRadio="Crossroads General">Crossroads General</label>
-  <label class="btn btn-option" [(ngModel)]="gift.fund" btnRadio="ReachOut">ReachOut</label>
-</div>
+
+<template ngFor let-fund [ngForOf]="funds" let-i="index">
+  <div class="btn-group">
+    <button class="btn btn-option" (click)="setFund(fund)" [ngClass]="{ active: (gift.fund == fund.name) }">{{fund.name}}</button>
+  </div>
+</template>
 
 <h3>Frequency:</h3>
-<div class="btn-group">
-  <label class="btn btn-option" [(ngModel)]="gift.frequency" btnRadio="One Time">One Time</label>
-  <label class="btn btn-option" [(ngModel)]="gift.frequency" btnRadio="Weekly">Weekly</label>
-  <label class="btn btn-option" [(ngModel)]="gift.frequency" btnRadio="Monthly">Monthly</label>
-</div>
+<template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
+  <div class="btn-group">
+    <button class="btn btn-option" (click)="this.gift.frequency = frequency" [ngClass]="{ active: (gift.frequency == frequency), disabled: (availableFrequencies.indexOf(frequency) === -1) }" [disabled]="availableFrequencies.indexOf(frequency) === -1">{{frequency}}</button>
+  </div>
+</template>
 
 <footer class="page-footer">
   <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-  <a href="#" class="btn btn-next pull-right" (click)="next()">Next</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }">Next</a>
 </footer>
