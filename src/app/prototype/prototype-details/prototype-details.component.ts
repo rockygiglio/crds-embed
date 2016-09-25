@@ -29,9 +29,6 @@ export class PrototypeDetailsComponent implements OnInit {
   ];
   defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
   availableFrequencies: Array<string> = this.defaultFrequencies;
-
-  fund: string;
-  frequency: string;
   form: FormGroup;
 
   constructor(@Inject(PrototypeStore) private store: any,
@@ -39,7 +36,7 @@ export class PrototypeDetailsComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
-    this.setFund(_.first(this.funds));
+    this.setFrequencies();
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]]
@@ -58,8 +55,14 @@ export class PrototypeDetailsComponent implements OnInit {
 
   setFund(fund) {
     this.gift.fund = fund.name;
-    this.availableFrequencies = _.find(this.funds, (f) => { return (f.name == fund.name) }).frequencies;
-    this.gift.frequency = _.first(this.availableFrequencies);
+    this.setFrequencies();
+  }
+
+  setFrequencies() {
+    this.availableFrequencies = _.find(this.funds, (f) => { return (f.name == this.gift.fund) }).frequencies; 
+    if(this.availableFrequencies.indexOf(this.gift.frequency) === -1) {
+      this.gift.frequency = _.first(this.availableFrequencies);
+    }
   }
 
 }
