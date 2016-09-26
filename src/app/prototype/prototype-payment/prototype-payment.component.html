@@ -11,23 +11,32 @@
     <label>
       <input name="account-type" type="radio" [(ngModel)]="gift.account_type" value="business"> Business
     </label>
-    
     <br><br>
-    
-    <div ng>
-      <input type="text" class="form-control" placeholder="Name on the Account" [(ngModel)]="gift.account_name"><br>
-      <input type="text" class="form-control" placeholder="Routing Number" [(ngModel)]="gift.routing_number"><br>
-      <input type="text" class="form-control" placeholder="Account Number" [(ngModel)]="gift.account_number">
+
+    <input type="text" class="form-control" placeholder="Name on the Account" [(ngModel)]="gift.account_name"><br>
+    <div class="row">
+      <div class="col-xs-6">
+        <input type="text" class="form-control" placeholder="Routing Number" [(ngModel)]="gift.routing_number"><br>
+      </div>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" placeholder="Account Number" [(ngModel)]="gift.account_number">
+      </div>
     </div>
   </tab>
   <tab heading="Credit Card">
     <br>
     <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
-    <div>
-      <input type="text" class="form-control" placeholder="Credit Card Number" [(ngModel)]="gift.credit_card_number"><br>
-      <input type="text" class="form-control" placeholder="Expiration" [(ngModel)]="gift.exp_date"><br>
-      <input type="text" class="form-control" placeholder="CVV" [(ngModel)]="gift.cvv"><br>
-      <input type="text" class="form-control" placeholder="Zip Code" [(ngModel)]="gift.zip_code">
+    <input type="text" class="form-control" placeholder="Credit Card Number" [(ngModel)]="gift.credit_card_number"><br>
+    <div class="row">
+      <div class="col-xs-4">
+        <input type="text" class="form-control" placeholder="Expiration" [(ngModel)]="gift.exp_date"><br>
+      </div>
+      <div class="col-xs-4">
+        <input type="text" class="form-control" placeholder="CVV" [(ngModel)]="gift.cvv"><br>
+      </div>
+      <div class="col-xs-4">
+        <input type="text" class="form-control" placeholder="Zip Code" [(ngModel)]="gift.zip_code">
+      </div>
     </div>
   </tab>
 </tabset>

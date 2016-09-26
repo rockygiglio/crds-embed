@@ -21,6 +21,9 @@ export class PrototypeAmountComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    if(this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
+      this.customAmount = this.gift.amount;
+    }
     this.form = this._fb.group({
       amount: [this.gift.amount, [<any>Validators.required]],
       customAmount: [this.gift.amount, [<any>Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*$')]],
