@@ -3,7 +3,7 @@
 </header>
 
 <p class="lead">
- Thank you for the $100.00 gift to the I'm in Campaign'
+ Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} <span *ngIf="gift.frequency != 'One Time'">{{ gift.frequency }}</span> gift to the '{{ gift.fund }}'.
 </p>
 
-<p>A receipt has been sent to bmiller@crossroads.net</p>
+<p>A receipt has been sent to {{ gift.email }}</p>

@@ -27,7 +27,7 @@
       </footer>
     </tab>
 
-    <tab heading="Give as a Guest">
+    <tab heading="Give as a Guest" [disabled]="gift.frequency != 'One Time'">
       <h3>Guest</h3>
       <div>
         <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')"><br>

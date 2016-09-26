@@ -5,21 +5,24 @@
 <table class="table">
   <tr>
     <td><strong>Donation Amount:</strong></td>
-    <td class="text-right">$100.00</td>
+    <td class="text-right">{{ gift.amount | currency:'USD':true }}</td>
   </tr>
   <tr>
     <td><strong>To:</strong></td>
-    <td class="text-right">I'm in Campaign</td>
+    <td class="text-right">{{ gift.fund }}</td>
   </tr>
   <tr>
     <td><strong>Frequency:</strong></td>
-    <td class="text-right">One Time</td>
+    <td class="text-right">
+      {{ gift.frequency }}<br>
+      <small *ngIf="gift.frequency != 'One Time'">Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}</small>
+    </td>
   </tr>
   <tr>
     <td><strong>Payment:</strong></td>
     <td class="text-right">
-      Account ending in 3007<br>
-      <a href="#">change</a>
+      Account ending in {{ gift.account_number | slice:-4 }}<br>
+      <small><a routerLink="/prototype/payment">change</a></small>
     </td>
   </tr>
 </table>
