@@ -11,7 +11,13 @@ export class PrototypeGiftService {
   routing_number: string;
   account_number: string;
   exp_date: string;
+  start_date: string;
   cvv: string;
   zip_code: string;
   email: string;
+
+  resetDate() {
+    this.start_date = undefined;
+    return false;
+  }
 }

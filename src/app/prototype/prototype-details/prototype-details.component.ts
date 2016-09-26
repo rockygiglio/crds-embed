@@ -30,16 +30,18 @@ export class PrototypeDetailsComponent implements OnInit {
   defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
   availableFrequencies: Array<string> = this.defaultFrequencies;
   form: FormGroup;
-
+  startDate:any = new Date();
+  
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
     this.setFrequencies();
+    this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : new Date();
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
-      frequency: [this.gift.frequency, [<any>Validators.required]]
+      frequency: [this.gift.frequency, [<any>Validators.required]],
     });
   }
 
@@ -53,9 +55,9 @@ export class PrototypeDetailsComponent implements OnInit {
     return false;
   }
 
-  setFund(fund) {
-    this.gift.fund = fund.name;
-    this.setFrequencies();
+  resetDate() {
+    this.startDate = undefined;
+    this.gift.resetDate();
   }
 
   setFrequencies() {
@@ -63,6 +65,30 @@ export class PrototypeDetailsComponent implements OnInit {
     if(this.availableFrequencies.indexOf(this.gift.frequency) === -1) {
       this.gift.frequency = _.first(this.availableFrequencies);
     }
+  }
+
+  displayDate() {
+    return (this.gift.frequency != 'One Time' && this.gift.start_date != undefined);
+  }
+
+  displayDatePicker() {
+    return (this.gift.frequency != 'One Time') && !this.displayDate();
+  }
+
+  onClickFund(fund) {
+    this.gift.fund = fund.name;
+    this.setFrequencies();
+  }
+
+  onClickFrequency(frequency) {
+    this.gift.frequency = frequency
+    if(frequency == 'One Time') {
+      this.resetDate();
+    }
+  }
+
+  onClickDate(newValue) {
+    this.gift.start_date = newValue;
   }
 
 }

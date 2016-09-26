@@ -8,20 +8,25 @@
 
   <template ngFor let-fund [ngForOf]="funds" let-i="index">
     <div class="btn-group">
-      <button class="btn btn-option" (click)="setFund(fund)" [ngClass]="{ active: (gift.fund == fund.name) }">{{fund.name}}</button>
+      <button class="btn btn-option" (click)="onClickFund(fund)" [ngClass]="{ active: (gift.fund == fund.name) }">{{fund.name}}</button>
     </div>
   </template>
 
   <h3>Frequency:</h3>
   <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
     <div class="btn-group">
-      <button class="btn btn-option" (click)="this.gift.frequency = frequency" [ngClass]="{ active: (gift.frequency == frequency), disabled: (availableFrequencies.indexOf(frequency) === -1) }" [disabled]="availableFrequencies.indexOf(frequency) === -1">{{frequency}}</button>
+      <button class="btn btn-option" (click)="onClickFrequency(frequency)" [ngClass]="{ active: (gift.frequency == frequency), disabled: (availableFrequencies.indexOf(frequency) === -1) }" [disabled]="availableFrequencies.indexOf(frequency) === -1">{{frequency}}</button>
     </div>
   </template>
-
-  <footer class="page-footer">
-    <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-    <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }">Next</a>
-  </footer>
-
 </form>
+
+<br>
+<div *ngIf="displayDatePicker()"><datepicker [(ngModel)]="startDate" [minDate]="minDate" [showWeeks]="false" (ngModelChange)="onClickDate($event)"></datepicker></div>
+<div class="alert alert-warning" *ngIf="displayDate()">
+  Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}. <a href="#" (click)="gift.resetDate()">Change</a>
+</div>
+
+<footer class="page-footer">
+  <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }">Next</a>
+</footer>
