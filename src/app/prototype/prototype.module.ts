@@ -19,6 +19,7 @@ import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeGiftService } from './prototype-gift.service';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
+import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 
 let devtools: StoreEnhancer<PrototypeState> =
   window['devToolsExtension'] ?
@@ -49,7 +50,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     PrototypeSummaryComponent,
     PrototypeConfirmationComponent,
     PrototypeRegistrationComponent,
-    PrototypePasswordComponent
+    PrototypePasswordComponent,
+    PrototypeEmailComponent
   ],
   providers: [
     PrototypeGiftService,

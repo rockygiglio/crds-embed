@@ -10,6 +10,7 @@ import { PrototypePaymentComponent } from './prototype-payment/prototype-payment
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
+import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 
 const prototypeRoutes: Routes = [
   {
@@ -24,6 +25,7 @@ const prototypeRoutes: Routes = [
       { path: 'confirmation', component: PrototypeConfirmationComponent },
       { path: 'registration', component: PrototypeRegistrationComponent },
       { path: 'password', component: PrototypePasswordComponent },
+      { path: 'email', component: PrototypeEmailComponent },
       { path: '', redirectTo: 'amount', pathMatch: 'full' }      
     ]
   }
