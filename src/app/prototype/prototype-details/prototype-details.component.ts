@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
@@ -15,15 +15,15 @@ declare var _;
 export class PrototypeDetailsComponent implements OnInit {
   funds: { name: string, frequencies: Array<string> }[] = [
     {
-      name: "I'm In",
+      name: 'I\'m In',
       frequencies: ['One Time', 'Weekly', 'Monthly']
     },
     {
-      name: "Crossroads General",
+      name: 'Crossroads General',
       frequencies: ['One Time', 'Weekly', 'Monthly']
     },
     {
-      name: "Reach Out",
+      name: 'Reach Out',
       frequencies: ['One Time']
     }
   ];
@@ -31,7 +31,7 @@ export class PrototypeDetailsComponent implements OnInit {
   availableFrequencies: Array<string> = this.defaultFrequencies;
   form: FormGroup;
   startDate:any = new Date();
-  
+
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder) {}
@@ -61,18 +61,21 @@ export class PrototypeDetailsComponent implements OnInit {
   }
 
   setFrequencies() {
-    this.availableFrequencies = _.find(this.funds, (f) => { return (f.name == this.gift.fund) }).frequencies; 
+    this.availableFrequencies = _.find(this.funds, (f) => {
+      return (f.name === this.gift.fund);
+    }).frequencies;
+
     if(this.availableFrequencies.indexOf(this.gift.frequency) === -1) {
       this.gift.frequency = _.first(this.availableFrequencies);
     }
   }
 
   displayDate() {
-    return (this.gift.frequency != 'One Time' && this.gift.start_date != undefined);
+    return (this.gift.frequency !== 'One Time' && this.gift.start_date !== undefined);
   }
 
   displayDatePicker() {
-    return (this.gift.frequency != 'One Time') && !this.displayDate();
+    return (this.gift.frequency !== 'One Time') && !this.displayDate();
   }
 
   onClickFund(fund) {
@@ -81,8 +84,8 @@ export class PrototypeDetailsComponent implements OnInit {
   }
 
   onClickFrequency(frequency) {
-    this.gift.frequency = frequency
-    if(frequency == 'One Time') {
+    this.gift.frequency = frequency;
+    if(frequency === 'One Time') {
       this.resetDate();
     }
   }

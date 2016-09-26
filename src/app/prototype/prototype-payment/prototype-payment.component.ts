@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
@@ -25,7 +25,7 @@ export class PrototypePaymentComponent implements OnInit {
       account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       account_type: ['', [<any>Validators.required]]
     });
-    
+
     this.ccForm = this._fb.group({
       account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       exp_date: ['', [<any>Validators.required]],
@@ -43,7 +43,7 @@ export class PrototypePaymentComponent implements OnInit {
     this.store.dispatch(PrototypeActions.render('summary'));
     return false;
   }
-  
+
   resetPayment() {
     setTimeout(() => this.gift.account_number = '');
     return false;

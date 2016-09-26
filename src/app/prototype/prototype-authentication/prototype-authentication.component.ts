@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
@@ -29,6 +29,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if(this.gift.email) {
       this.next();
     }
@@ -41,6 +42,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
     this.form.valueChanges.subscribe((value: any) => {
       this.gift.email = value.email;
     });
+
   }
 
 }

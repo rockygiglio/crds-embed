@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { PrototypeStore } from '../prototype-state/prototype.store';
-import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
 @Component({

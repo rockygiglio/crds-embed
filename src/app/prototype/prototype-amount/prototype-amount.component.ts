@@ -11,7 +11,7 @@ import { PrototypeGiftService } from '../prototype-gift.service';
   styleUrls: ['./prototype-amount.component.css']
 })
 export class PrototypeAmountComponent implements OnInit {
-  public predefinedAmounts: number[] = [5, 25, 100, 500, 1000];  
+  public predefinedAmounts: number[] = [5, 25, 100, 500, 1000];
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
@@ -50,7 +50,7 @@ export class PrototypeAmountComponent implements OnInit {
 
   setAmount(newValue) {
     (<FormControl>this.form.controls['amount']).setValue(newValue, { onlySelf: true });
-    this.gift.amount = parseInt(newValue);
+    this.gift.amount = parseInt(newValue, 10);
   }
 
 }
