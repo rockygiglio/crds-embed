@@ -12,6 +12,13 @@
     <td class="text-right">{{ gift.fund }}</td>
   </tr>
   <tr>
+    <td><strong>From:</strong></td>
+    <td class="text-right" *ngIf="isAuthenticated()">
+      {{ gift.email }}<br>
+      <small><a href="#">change</a></small>
+    </td>
+  </tr>
+  <tr>
     <td><strong>Frequency:</strong></td>
     <td class="text-right">
       {{ gift.frequency }}<br>

@@ -24,4 +24,8 @@ export class PrototypeSummaryComponent {
     return false;
   }
 
+  isAuthenticated() {
+    return true;
+  }
+
 }
