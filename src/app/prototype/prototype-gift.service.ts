@@ -14,6 +14,7 @@ export class PrototypeGiftService {
   cvv: string;
   zip_code: string;
   email: string;
+  is_guest: boolean = false;
 
   resetDate() {
     this.start_date = undefined;

@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeComponent } from './prototype.component';
 import { PrototypeAmountComponent } from './prototype-amount/prototype-amount.component';
+import { PrototypeGiftService } from './prototype-gift.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
@@ -24,6 +25,7 @@ describe('Component: Prototype', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
+        PrototypeGiftService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeComponent);

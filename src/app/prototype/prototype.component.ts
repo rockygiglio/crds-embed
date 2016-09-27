@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
+import { PrototypeGiftService } from './prototype-gift.service';
 
 @Component({
   selector: 'app-prototype',
@@ -14,7 +15,8 @@ export class PrototypeComponent {
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private gift: PrototypeGiftService) {
     store.subscribe(() => this.readState());
   }
 

@@ -28,6 +28,12 @@ export class PrototypeAuthenticationComponent implements OnInit {
     return false;
   }
 
+  guest() {
+    this.gift.is_guest = true;
+    this.store.dispatch(PrototypeActions.render('payment'));
+    return false;
+  }
+
   ngOnInit() {
 
     if (this.gift.email) {

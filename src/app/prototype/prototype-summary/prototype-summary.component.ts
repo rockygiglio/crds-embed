@@ -24,8 +24,8 @@ export class PrototypeSummaryComponent {
     return false;
   }
 
-  isAuthenticated() {
-    return true;
+  isGuest() {
+    return this.gift.is_guest;
   }
 
 }
