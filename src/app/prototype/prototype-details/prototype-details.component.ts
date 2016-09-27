@@ -30,7 +30,7 @@ export class PrototypeDetailsComponent implements OnInit {
   defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
   availableFrequencies: Array<string> = this.defaultFrequencies;
   form: FormGroup;
-  startDate:any = new Date();
+  startDate: any = new Date();
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
@@ -65,7 +65,7 @@ export class PrototypeDetailsComponent implements OnInit {
       return (f.name === this.gift.fund);
     }).frequencies;
 
-    if(this.availableFrequencies.indexOf(this.gift.frequency) === -1) {
+    if (this.availableFrequencies.indexOf(this.gift.frequency) === -1) {
       this.gift.frequency = _.first(this.availableFrequencies);
     }
   }
@@ -85,7 +85,7 @@ export class PrototypeDetailsComponent implements OnInit {
 
   onClickFrequency(frequency) {
     this.gift.frequency = frequency;
-    if(frequency === 'One Time') {
+    if (frequency === 'One Time') {
       this.resetDate();
     }
   }

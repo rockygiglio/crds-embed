@@ -21,7 +21,7 @@ export class PrototypeAmountComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
-    if(this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
+    if (this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;
     }
     this.form = this._fb.group({
@@ -37,7 +37,7 @@ export class PrototypeAmountComponent implements OnInit {
   }
 
   onCustomAmount(newValue) {
-    if(!isNaN(newValue)) {
+    if (!isNaN(newValue)) {
       delete(this.selectedAmount);
       this.setAmount(newValue);
     }

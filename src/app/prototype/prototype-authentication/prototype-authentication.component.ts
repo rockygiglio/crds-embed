@@ -30,7 +30,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
   ngOnInit() {
 
-    if(this.gift.email) {
+    if (this.gift.email) {
       this.next();
     }
 
