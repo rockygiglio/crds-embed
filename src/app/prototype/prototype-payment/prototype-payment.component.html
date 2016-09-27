@@ -21,22 +21,22 @@
           <input type="text" class="form-control" placeholder="Routing Number" formControlName="routing_number" [(ngModel)]="gift.routing_number"><br>
         </div>
         <div class="col-xs-6">
-          <input type="text" class="form-control" placeholder="Account Number" formControlName="account_number" [(ngModel)]="gift.account_number">
+          <input type="text" class="form-control" placeholder="Account Number" formControlName="ach_account_number" [(ngModel)]="gift.ach_account_number">
         </div>
       </div>
 
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-        <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !achForm.valid }">Next</a>
+        <a href="#" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }">Next</a>
       </footer>
     </form>
   </tab>
   <tab heading="Credit Card">
     <br>
     <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
-    
+
     <form [formGroup]="ccForm">
-      <input type="text" class="form-control" placeholder="Credit Card Number" formControlName="account_number" [(ngModel)]="gift.account_number"><br>
+      <input type="text" class="form-control" placeholder="Credit Card Number" formControlName="cc_account_number" [(ngModel)]="gift.cc_account_number"><br>
       <div class="row">
         <div class="col-xs-4">
           <input type="text" class="form-control" placeholder="Expiration" formControlName="exp_date" [(ngModel)]="gift.exp_date"><br>
@@ -51,7 +51,7 @@
 
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-        <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !ccForm.valid }">Next</a>
+        <a href="#" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: !ccForm.valid }">Next</a>
       </footer>
     </form>
   </tab>

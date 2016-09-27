@@ -19,15 +19,19 @@ export class PrototypePaymentComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    if (this.gift.payment_type) {
+      this.gift.resetPaymentDetails();
+    }
+
     this.achForm = this._fb.group({
       name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
-      account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      ach_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       account_type: ['', [<any>Validators.required]]
     });
 
     this.ccForm = this._fb.group({
-      account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      cc_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       exp_date: ['', [<any>Validators.required]],
       cvv: ['', [<any>Validators.required]],
       zip_code: ['', [<any>Validators.required]]
@@ -39,13 +43,15 @@ export class PrototypePaymentComponent implements OnInit {
     return false;
   }
 
-  next() {
+  achNext() {
+    this.gift.payment_type = 'ach';
     this.store.dispatch(PrototypeActions.render('summary'));
     return false;
   }
 
-  resetPayment() {
-    setTimeout(() => this.gift.account_number = '');
+  ccNext() {
+    this.gift.payment_type = 'cc';
+    this.store.dispatch(PrototypeActions.render('summary'));
     return false;
   }
 

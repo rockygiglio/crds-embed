@@ -28,7 +28,7 @@
   <tr>
     <td><strong>Payment:</strong></td>
     <td class="text-right">
-      Account ending in {{ gift.account_number | slice:-4 }}<br>
+      Account ending in {{ gift.accountNumber() | slice:-4 }}<br>
       <small><a routerLink="/prototype/payment">change</a></small>
     </td>
   </tr>
