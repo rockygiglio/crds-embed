@@ -44,14 +44,18 @@ export class PrototypePaymentComponent implements OnInit {
   }
 
   achNext() {
-    this.gift.payment_type = 'ach';
-    this.store.dispatch(PrototypeActions.render('summary'));
+    if (this.achForm.valid) {
+      this.gift.payment_type = 'ach';
+      this.store.dispatch(PrototypeActions.render('summary'));
+    }
     return false;
   }
 
   ccNext() {
-    this.gift.payment_type = 'cc';
-    this.store.dispatch(PrototypeActions.render('summary'));
+    if (this.ccForm.valid) {
+      this.gift.payment_type = 'cc';
+      this.store.dispatch(PrototypeActions.render('summary'));
+    }
     return false;
   }
 

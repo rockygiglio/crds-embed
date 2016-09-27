@@ -6,7 +6,7 @@
   <tab heading="Bank Account" active="true">
     <h3>Account Type:</h3>
 
-    <form [formGroup]="achForm">
+    <form [formGroup]="achForm" (ngSubmit)="achNext()">
       <label>
         <input type="radio" formControlName="account_type" [(ngModel)]="gift.account_type" value="personal"> Personal
       </label>&nbsp;&nbsp;
@@ -27,7 +27,7 @@
 
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-        <a href="#" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }">Next</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }" value="Next">
       </footer>
     </form>
   </tab>
@@ -35,7 +35,7 @@
     <br>
     <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
 
-    <form [formGroup]="ccForm">
+    <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
       <input type="text" class="form-control" placeholder="Credit Card Number" formControlName="cc_account_number" [(ngModel)]="gift.cc_account_number"><br>
       <div class="row">
         <div class="col-xs-4">
@@ -51,7 +51,7 @@
 
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-        <a href="#" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: !ccForm.valid }">Next</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: !ccForm.valid }" value="Next">
       </footer>
     </form>
   </tab>

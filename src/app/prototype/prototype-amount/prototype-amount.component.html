@@ -2,16 +2,16 @@
   <h2>Amount:</h2>
 </div>
 
-<form [formGroup]="form">
+<div class="btn-group">
+  <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
+    <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
+  </template>
+</div>
 
-  <div class="btn-group">
-    <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
-      <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
-    </template>
-  </div>
+<hr>
 
-  <hr>
-  
+<form [formGroup]="form" (ngSubmit)="next()">
+
   <div class="form-group">
     <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
     <div class="input-group">
@@ -21,7 +21,7 @@
   </div>
 
   <footer class="page-footer">
-    <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }">Next</a>
+    <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
   </footer>
 
 </form>

@@ -23,21 +23,29 @@ export class PrototypeAuthenticationComponent implements OnInit {
     return false;
   }
 
-  next() {
+  adv() {
     this.store.dispatch(PrototypeActions.render('payment'));
+  }
+
+  next() {
+    if (this.form.valid) {
+      this.adv();
+    }
     return false;
   }
 
   guest() {
-    this.gift.is_guest = true;
-    this.store.dispatch(PrototypeActions.render('payment'));
+    if (this.form.valid) {
+      this.gift.is_guest = true;
+      this.adv();
+    }
     return false;
   }
 
   ngOnInit() {
 
     if (this.gift.email) {
-      this.next();
+      this.adv();
     }
 
     this.form = this._fb.group({
