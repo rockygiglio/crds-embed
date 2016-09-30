@@ -32,7 +32,7 @@ export class PrototypeAmountComponent implements OnInit {
   }
 
   next() {
-    if (this.form.valid) {
+    if (this.gift.amount) {
       this.store.dispatch(PrototypeActions.render('details'));
     }
     return false;
