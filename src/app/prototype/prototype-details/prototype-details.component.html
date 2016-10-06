@@ -21,8 +21,8 @@
 </form>
 
 <br>
-<div *ngIf="displayDatePicker()"><datepicker [(ngModel)]="startDate" [minDate]="minDate" [showWeeks]="false" (ngModelChange)="onClickDate($event)"></datepicker></div>
-<div class="alert alert-warning" *ngIf="displayDate()">
+<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date"><datepicker [(ngModel)]="startDate" [minDate]="minDate" [showWeeks]="false" (ngModelChange)="onClickDate($event)"></datepicker></div>
+<div class="alert alert-warning" *ngIf="gift.start_date">
   Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}. <a href="#" (click)="gift.resetDate()">Change</a>
 </div>
 

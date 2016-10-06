@@ -3,7 +3,7 @@
 </header>
 
 <tabset>
-  <tab heading="Bank Account" active="true">
+  <tab heading="Bank Account" active="true" (select)="gift.payment_type = 'ach'">
     <h3>Account Type:</h3>
 
     <form [formGroup]="achForm" (ngSubmit)="achNext()">
@@ -31,7 +31,7 @@
       </footer>
     </form>
   </tab>
-  <tab heading="Credit Card">
+  <tab heading="Credit Card" (select)="gift.payment_type = 'cc'">
     <br>
     <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
 
@@ -51,7 +51,7 @@
 
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-        <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: !ccForm.valid }" value="Next">
+        <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: (gift.payment_type == 'cc' && !ccForm.valid) || (gift.payment_type == 'ach' && !achForm.valid) }" value="Next">
       </footer>
     </form>
   </tab>
