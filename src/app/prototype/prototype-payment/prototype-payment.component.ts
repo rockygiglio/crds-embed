@@ -8,11 +8,12 @@ import { PrototypeGiftService } from '../prototype-gift.service';
 @Component({
   selector: 'app-prototype-payment',
   templateUrl: './prototype-payment.component.html',
-  styleUrls: ['./prototype-payment.component.css']
+  styleUrls: ['./prototype-payment.component.scss']
 })
 export class PrototypePaymentComponent implements OnInit {
   achForm: FormGroup;
   ccForm: FormGroup;
+  hideCheck: boolean = true;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
@@ -24,10 +25,9 @@ export class PrototypePaymentComponent implements OnInit {
     }
 
     this.achForm = this._fb.group({
-      name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
       ach_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      account_type: ['', [<any>Validators.required]]
+      account_type: ['personal', [<any>Validators.required]]
     });
 
     this.ccForm = this._fb.group({

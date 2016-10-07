@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createStore, Store, StoreEnhancer } from 'redux';
-import { AlertModule, ButtonsModule, DatepickerModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { PrototypeComponent } from './prototype.component';
 import { prototypeRouting } from './prototype.routing';
@@ -35,6 +35,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   imports: [
     AlertModule,
     ButtonsModule,
+    CollapseModule,
     CommonModule,
     DatepickerModule,
     prototypeRouting,

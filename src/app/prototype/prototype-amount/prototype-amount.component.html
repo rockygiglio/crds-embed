@@ -2,6 +2,10 @@
   <h2>Amount:</h2>
 </div>
 
+<div class="alert alert-warning" *ngIf="gift.init">
+  <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=40; next();">$40 donation</a>?
+</div>
+
 <div class="btn-group">
   <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
     <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>

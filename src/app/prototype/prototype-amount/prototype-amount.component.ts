@@ -32,6 +32,7 @@ export class PrototypeAmountComponent implements OnInit {
   }
 
   next() {
+    this.gift.init = false;
     if (this.gift.amount) {
       this.store.dispatch(PrototypeActions.render('details'));
     }

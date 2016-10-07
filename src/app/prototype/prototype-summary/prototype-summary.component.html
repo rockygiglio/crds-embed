@@ -4,29 +4,29 @@
 
 <table class="table">
   <tr>
-    <td><strong>Donation Amount:</strong></td>
+    <td><a routerLink="/prototype/amount"><strong>Donation Amount:</strong></a></td>
     <td class="text-right">{{ gift.amount | currency:'USD':true }}</td>
   </tr>
   <tr>
-    <td><strong>To:</strong></td>
+    <td><a routerLink="/prototype/details"><strong>To:</strong></a></td>
     <td class="text-right">{{ gift.fund }}</td>
   </tr>
   <tr *ngIf="!isGuest()">
-    <td><strong>From:</strong></td>
+    <td><a routerLink="/prototype/email"><strong>From:</strong></a></td>
     <td class="text-right">
       {{ gift.email }}<br>
       <small><a routerLink="/prototype/email">change</a></small>
     </td>
   </tr>
   <tr>
-    <td><strong>Frequency:</strong></td>
+    <td><a routerLink="/prototype/details"><strong>Frequency:</strong></a></td>
     <td class="text-right">
       {{ gift.frequency }}<br>
       <small *ngIf="gift.frequency != 'One Time'">Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}</small>
     </td>
   </tr>
   <tr>
-    <td><strong>Payment:</strong></td>
+    <td><a routerLink="/prototype/payment"><strong>Payment:</strong></a></td>
     <td class="text-right">
       Account ending in {{ gift.accountNumber() | slice:-4 }}<br>
       <small><a routerLink="/prototype/payment">change</a></small>

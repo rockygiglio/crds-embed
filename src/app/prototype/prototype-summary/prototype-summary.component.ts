@@ -7,7 +7,7 @@ import { PrototypeGiftService } from '../prototype-gift.service';
 @Component({
   selector: 'app-prototype-summary',
   templateUrl: './prototype-summary.component.html',
-  styleUrls: ['./prototype-summary.component.css']
+  styleUrls: ['./prototype-summary.component.scss']
 })
 export class PrototypeSummaryComponent {
 
