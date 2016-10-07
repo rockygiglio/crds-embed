@@ -1,0 +1,26 @@
+<header class="page-header">
+  <h2>Register for An Account</h2>
+</header>
+
+<form [formGroup]="form">
+
+  <div class="row">
+    <div class="col-xs-6">
+      <input type="text" class="form-control" placeholder="First Name">
+    </div>
+    <div class="col-xs-6">
+      <input type="text" class="form-control" placeholder="Last Name">
+    </div>
+  </div><br>
+
+  <input type="text" class="form-control" placeholder="Email Address" [formControl]="form.get('email')"><br>
+  <input type="password" class="form-control" placeholder="Password"><br>
+
+  <small class="text-muted">By registering, you agree to our <a href="#">terms of service</a> and <a href="#">privacy policy</a>. You will begin receiving email communications. Preferences can be managed in your profile.</small>
+
+  <footer class="page-footer">
+    <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+    <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }">Next</a>
+  </footer>
+
+</form>

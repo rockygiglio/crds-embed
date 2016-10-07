@@ -1,0 +1,59 @@
+<header class="page-header">
+  <h2>Payment Type:</h2>
+</header>
+
+<tabset>
+  <tab heading="Bank Account" active="true" (select)="gift.payment_type = 'ach'">
+    <h3>Account Type:</h3>
+
+    <form [formGroup]="achForm" (ngSubmit)="achNext()">
+      <label>
+        <input type="radio" formControlName="account_type" [(ngModel)]="gift.account_type" value="personal"> Personal
+      </label>&nbsp;&nbsp;
+      <label>
+        <input type="radio" formControlName="account_type" [(ngModel)]="gift.account_type" value="business"> Business
+      </label>
+      <br><br>
+
+      <input type="text" class="form-control" placeholder="Name on the Account" formControlName="name" [(ngModel)]="gift.account_name"><br>
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="text" class="form-control" placeholder="Routing Number" formControlName="routing_number" [(ngModel)]="gift.routing_number"><br>
+        </div>
+        <div class="col-xs-6">
+          <input type="text" class="form-control" placeholder="Account Number" formControlName="ach_account_number" [(ngModel)]="gift.ach_account_number">
+        </div>
+      </div>
+
+      <footer class="page-footer">
+        <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }" value="Next">
+      </footer>
+    </form>
+  </tab>
+  <tab heading="Credit Card" (select)="gift.payment_type = 'cc'">
+    <br>
+    <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+
+    <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
+      <input type="text" class="form-control" placeholder="Credit Card Number" formControlName="cc_account_number" [(ngModel)]="gift.cc_account_number"><br>
+      <div class="row">
+        <div class="col-xs-4">
+          <input type="text" class="form-control" placeholder="Expiration" formControlName="exp_date" [(ngModel)]="gift.exp_date"><br>
+        </div>
+        <div class="col-xs-4">
+          <input type="text" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv"><br>
+        </div>
+        <div class="col-xs-4">
+          <input type="text" class="form-control" placeholder="Zip Code" formControlName="zip_code" [(ngModel)]="gift.zip_code">
+        </div>
+      </div>
+
+      <footer class="page-footer">
+        <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: (gift.payment_type == 'cc' && !ccForm.valid) || (gift.payment_type == 'ach' && !achForm.valid) }" value="Next">
+      </footer>
+    </form>
+  </tab>
+</tabset>
+

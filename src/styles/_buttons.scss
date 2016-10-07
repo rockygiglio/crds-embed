@@ -1,0 +1,41 @@
+.btn-previous {
+  @include button-variant(#FFF, $cr-grey, $cr-grey);
+}
+
+.btn-next {
+  @include button-variant(#FFF, $cr-light-blue, $cr-light-blue);
+}
+
+.btn-next {
+  @include button-variant(#FFF, $cr-light-blue, $cr-light-blue);
+}
+
+.btn-option {
+  @include button-variant($cr-grey, #FFF, lighten($cr-grey, 30));
+  &.active {
+    &, &:hover, &:focus { 
+      background-color: $cr-teal;
+      border-color: $cr-teal;
+      color: #FFF;
+      box-shadow: none;
+    }
+  }
+}
+
+.btn-group {
+  > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+  > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    margin-right: 0.5em;
+  }
+  > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: $border-radius-base;
+  }
+  > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: $border-radius-base;
+    border-bottom-right-radius: $border-radius-base;
+  }
+  > .btn:last-child:not(:first-child):not(.dropdown-toggle) {
+    border-top-left-radius: $border-radius-base;
+    border-bottom-left-radius: $border-radius-base;
+  }
+}
