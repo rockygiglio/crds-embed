@@ -7,7 +7,7 @@ export class PrototypeGiftService {
   fund: string = 'I\'m In';
   frequency: string = 'One Time';
   payment_type: string;
-  account_type: string;
+  account_type: string = 'personal';
   account_name: string;
   routing_number: string;
   ach_account_number: string;
@@ -18,6 +18,7 @@ export class PrototypeGiftService {
   start_date: string;
   email: string;
   is_guest: boolean = false;
+  init: boolean = true;
 
   resetDate() {
     this.start_date = undefined;
@@ -41,6 +42,10 @@ export class PrototypeGiftService {
   }
 
   accountNumber() {
-    return this.payment_type === 'cc' ? this.cc_account_number : this.ach_account_number;
+    try {
+      return this.payment_type === 'cc' ? this.cc_account_number.toString() : this.ach_account_number.toString();
+    } catch (event) {
+      return undefined;
+    }
   }
 }

@@ -8,20 +8,23 @@
 
     <form [formGroup]="achForm" (ngSubmit)="achNext()">
       <label>
-        <input type="radio" formControlName="account_type" [(ngModel)]="gift.account_type" value="personal"> Personal
+        <input type="radio" formControlName="account_type" [(ngModel)]="gift.account_type" value="personal" checked> Personal
       </label>&nbsp;&nbsp;
       <label>
         <input type="radio" formControlName="account_type" [(ngModel)]="gift.account_type" value="business"> Business
       </label>
       <br><br>
 
-      <input type="text" class="form-control" placeholder="Name on the Account" formControlName="name" [(ngModel)]="gift.account_name"><br>
-      <div class="row">
-        <div class="col-xs-6">
-          <input type="text" class="form-control" placeholder="Routing Number" formControlName="routing_number" [(ngModel)]="gift.routing_number"><br>
-        </div>
-        <div class="col-xs-6">
-          <input type="text" class="form-control" placeholder="Account Number" formControlName="ach_account_number" [(ngModel)]="gift.ach_account_number">
+      <input type="number" class="form-control" placeholder="Routing Number" formControlName="routing_number" [(ngModel)]="gift.routing_number" pattern="[0-9]*"><br>
+      <input type="number" class="form-control" placeholder="Account Number" formControlName="ach_account_number" [(ngModel)]="gift.ach_account_number" pattern="[0-9]*">
+
+      <div class="sample-check">
+        <small>
+          <a (click)="hideCheck = false;" *ngIf="hideCheck">Where can I find this information?</a>
+          <a (click)="hideCheck = true;" *ngIf="!hideCheck">Hide sample check</a>
+        </small>
+        <div [collapse]="hideCheck">
+          <img src="/assets/check.svg" alt="" class="img-responsive">
         </div>
       </div>
 
@@ -36,16 +39,16 @@
     <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
 
     <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
-      <input type="text" class="form-control" placeholder="Credit Card Number" formControlName="cc_account_number" [(ngModel)]="gift.cc_account_number"><br>
+      <input type="number" class="form-control" placeholder="Credit Card Number" formControlName="cc_account_number" [(ngModel)]="gift.cc_account_number" pattern="[0-9]*"><br>
       <div class="row">
         <div class="col-xs-4">
-          <input type="text" class="form-control" placeholder="Expiration" formControlName="exp_date" [(ngModel)]="gift.exp_date"><br>
+          <input type="number" class="form-control" placeholder="Expiration" formControlName="exp_date" [(ngModel)]="gift.exp_date"><br>
         </div>
         <div class="col-xs-4">
-          <input type="text" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv"><br>
+          <input type="number" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*"><br>
         </div>
         <div class="col-xs-4">
-          <input type="text" class="form-control" placeholder="Zip Code" formControlName="zip_code" [(ngModel)]="gift.zip_code">
+          <input type="number" class="form-control" placeholder="Zip Code" formControlName="zip_code" [(ngModel)]="gift.zip_code" pattern="[0-9]*">
         </div>
       </div>
 

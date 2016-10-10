@@ -2,7 +2,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, TabsModule, CollapseModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { PrototypePaymentComponent } from './prototype-payment.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
@@ -20,6 +20,7 @@ describe('Component: PrototypePayment', () => {
       declarations: [ PrototypePaymentComponent ],
       imports: [
         AlertModule,
+        CollapseModule,
         ReactiveFormsModule,
         TabsModule
       ],
