@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service.ts';
 
 @Component({
   selector: 'app-prototype-amount',
@@ -18,6 +19,7 @@ export class PrototypeAmountComponent implements OnInit {
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
+              private quickAmounts: QuickDonationAmountsService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
@@ -29,6 +31,12 @@ export class PrototypeAmountComponent implements OnInit {
       customAmount: [this.gift.amount, [<any>Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*$')]],
       selectedAmount: [this.gift.amount]
     });
+  }
+
+  getQuickAmounts(){
+    console.log('Get quick amounts called');
+    let quickAmts =this.quickAmounts.getQuickDonationAmounts();
+    console.log(quickAmts);
   }
 
   next() {

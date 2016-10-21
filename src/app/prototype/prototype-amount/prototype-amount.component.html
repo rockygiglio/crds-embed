@@ -25,6 +25,9 @@
   </div>
 
   <footer class="page-footer">
+    <!--TEST-->
+    <input type="submit" class="btn btn-next pull-right" (click)="getQuickAmounts()" value="TEST">
+    <!--TEST-->
     <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
   </footer>
 
