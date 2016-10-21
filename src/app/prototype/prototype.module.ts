@@ -20,6 +20,7 @@ import { PrototypeGiftService } from './prototype-gift.service';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
+import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prototype-payment-amount.component';
 
 let devtools: StoreEnhancer<PrototypeState> =
   window['devToolsExtension'] ?
@@ -52,7 +53,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     PrototypeConfirmationComponent,
     PrototypeRegistrationComponent,
     PrototypePasswordComponent,
-    PrototypeEmailComponent
+    PrototypeEmailComponent,
+    PrototypePaymentAmountComponent
   ],
   providers: [
     PrototypeGiftService,

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PrototypeComponent } from './prototype.component';
 import { PrototypeGiftAmountComponent } from './prototype-gift-amount/prototype-gift-amount.component';
+import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prototype-payment-amount.component';
 import { PrototypeDetailsComponent } from './prototype-details/prototype-details.component';
 import { PrototypeAuthenticationComponent } from './prototype-authentication/prototype-authentication.component';
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
@@ -34,7 +35,7 @@ const prototypeRoutes: Routes = [
       },
       {
         path: 'payment', children: [
-          { path: 'amount', component: PrototypeGiftAmountComponent },
+          { path: 'amount', component: PrototypePaymentAmountComponent },
           { path: 'auth', component: PrototypeAuthenticationComponent },
           { path: 'payment', component: PrototypePaymentComponent },
           { path: 'summary', component: PrototypeSummaryComponent },
@@ -42,6 +43,7 @@ const prototypeRoutes: Routes = [
           { path: 'registration', component: PrototypeRegistrationComponent },
           { path: 'password', component: PrototypePasswordComponent },
           { path: 'email', component: PrototypeEmailComponent },
+          { path: 'details', redirectTo: 'amount', pathMatch: 'full' },
           { path: '', redirectTo: 'amount', pathMatch: 'full' }
         ]
       }
