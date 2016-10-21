@@ -25,6 +25,7 @@ export class PrototypePaymentComponent implements OnInit {
     }
 
     this.achForm = this._fb.group({
+      account_holder_name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
       ach_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       account_type: ['personal', [<any>Validators.required]]
