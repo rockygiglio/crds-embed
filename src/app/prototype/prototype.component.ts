@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
@@ -10,14 +10,23 @@ import { PrototypeGiftService } from './prototype-gift.service';
   templateUrl: 'prototype.component.html',
   styleUrls: ['prototype.component.css']
 })
-export class PrototypeComponent {
+export class PrototypeComponent implements OnInit {
   action: string;
+  flowType: string;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
               private router: Router,
               private gift: PrototypeGiftService) {
     store.subscribe(() => this.readState());
+  }
+
+  ngOnInit() {
+    this.route.params.forEach((params) => {
+      if(Object.keys(params).indexOf('type') > -1) {
+        this.flowType = params['type'];
+      }
+    });
   }
 
   readState() {

@@ -7,10 +7,10 @@ import { PrototypeGiftService } from '../prototype-gift.service';
 @Component({
   selector: 'app-prototype-amount',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './prototype-amount.component.html',
-  styleUrls: ['./prototype-amount.component.css']
+  templateUrl: './prototype-gift-amount.component.html',
+  styleUrls: ['./prototype-gift-amount.component.css']
 })
-export class PrototypeAmountComponent implements OnInit {
+export class PrototypeGiftAmountComponent implements OnInit {
   public predefinedAmounts: number[] = [5, 25, 100, 500, 1000];
   public selectedAmount: string;
   public customAmount: number;
@@ -34,7 +34,7 @@ export class PrototypeAmountComponent implements OnInit {
   next() {
     this.gift.init = false;
     if (this.gift.amount) {
-      this.store.dispatch(PrototypeActions.render('details'));
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
     }
     return false;
   }

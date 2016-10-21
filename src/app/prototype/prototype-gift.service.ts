@@ -1,6 +1,7 @@
 declare var _;
 
 export class PrototypeGiftService {
+  flow_type: string = 'gift';
   amount: number;
   predefined_amount: number;
   custom_amount: number;

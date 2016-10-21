@@ -6,7 +6,7 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModul
 
 import { PrototypeComponent } from './prototype.component';
 import { prototypeRouting } from './prototype.routing';
-import { PrototypeAmountComponent } from './prototype-amount/prototype-amount.component';
+import { PrototypeGiftAmountComponent } from './prototype-gift-amount/prototype-gift-amount.component';
 import { PrototypeDetailsComponent } from './prototype-details/prototype-details.component';
 import { PrototypeAuthenticationComponent } from './prototype-authentication/prototype-authentication.component';
 import { PrototypePaymentComponent } from './prototype-payment/prototype-payment.component';
@@ -44,7 +44,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   ],
   declarations: [
     PrototypeComponent,
-    PrototypeAmountComponent,
+    PrototypeGiftAmountComponent,
     PrototypeDetailsComponent,
     PrototypeAuthenticationComponent,
     PrototypePaymentComponent,

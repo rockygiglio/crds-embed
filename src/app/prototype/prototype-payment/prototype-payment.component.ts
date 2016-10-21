@@ -39,14 +39,14 @@ export class PrototypePaymentComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render('details'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
     return false;
   }
 
   achNext() {
     if (this.achForm.valid) {
       this.gift.payment_type = 'ach';
-      this.store.dispatch(PrototypeActions.render('summary'));
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
     }
     return false;
   }
@@ -54,7 +54,7 @@ export class PrototypePaymentComponent implements OnInit {
   ccNext() {
     if (this.ccForm.valid) {
       this.gift.payment_type = 'cc';
-      this.store.dispatch(PrototypeActions.render('summary'));
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
     }
     return false;
   }

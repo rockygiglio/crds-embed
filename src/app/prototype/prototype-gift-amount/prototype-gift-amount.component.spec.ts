@@ -3,20 +3,20 @@
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { PrototypeAmountComponent } from './prototype-amount.component';
+import { PrototypeGiftAmountComponent } from './prototype-gift-amount.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 
-describe('Component: PrototypeAmount', () => {
+describe('Component: PrototypeGiftAmount', () => {
 
   let component;
   let fixture;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrototypeAmountComponent ],
+      declarations: [ PrototypeGiftAmountComponent ],
       imports: [
         ReactiveFormsModule
       ],
@@ -25,7 +25,7 @@ describe('Component: PrototypeAmount', () => {
         PrototypeGiftService
       ]
     });
-    this.fixture = TestBed.createComponent(PrototypeAmountComponent);
+    this.fixture = TestBed.createComponent(PrototypeGiftAmountComponent);
     this.component = this.fixture.componentInstance;
   });
 

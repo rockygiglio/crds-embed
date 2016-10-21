@@ -4,7 +4,7 @@ import { RENDER } from './prototype.action-creators';
 
 let initialState: PrototypeState = { action: 'amount' };
 
-export const prototypeReducer: Reducer<PrototypeState> = 
+export const prototypeReducer: Reducer<PrototypeState> =
   (state: PrototypeState = initialState, action: Action): PrototypeState => {
     switch (action.type) {
       case RENDER:
