@@ -4,7 +4,7 @@
 
 <table class="table">
   <tr>
-    <td><a routerLink="/prototype/amount"><strong>Donation Amount:</strong></a></td>
+    <td><a routerLink="/prototype/amount"><strong>Amount:</strong></a></td>
     <td class="text-right">{{ gift.amount | currency:'USD':true }}</td>
   </tr>
   <tr>
@@ -36,5 +36,5 @@
 
 <footer class="page-footer">
   <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-  <a href="#" class="btn btn-next pull-right" (click)="next()">Give {{ gift.amount | currency:'USD':true }}</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()">Submit {{ gift.amount | currency:'USD':true }}</a>
 </footer>
