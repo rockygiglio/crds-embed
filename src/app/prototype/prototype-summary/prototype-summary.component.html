@@ -4,32 +4,32 @@
 
 <table class="table">
   <tr>
-    <td><a routerLink="/prototype/amount"><strong>Amount:</strong></a></td>
+    <td><a routerLink="/prototype/{{ gift.flow_type}}/amount"><strong>Amount:</strong></a></td>
     <td class="text-right">{{ gift.amount | currency:'USD':true }}</td>
   </tr>
   <tr>
-    <td><a routerLink="/prototype/details"><strong>To:</strong></a></td>
+    <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>To:</strong></a></td>
     <td class="text-right">{{ gift.fund }}</td>
   </tr>
   <tr *ngIf="!isGuest()">
-    <td><a routerLink="/prototype/email"><strong>From:</strong></a></td>
+    <td><a routerLink="/prototype/{{ gift.flow_type}}/email"><strong>From:</strong></a></td>
     <td class="text-right">
       {{ gift.email }}<br>
-      <small><a routerLink="/prototype/email">change</a></small>
+      <small><a routerLink="/prototype/{{ gift.flow_type}}/email">change</a></small>
     </td>
   </tr>
   <tr>
-    <td><a routerLink="/prototype/details"><strong>Frequency:</strong></a></td>
+    <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>Frequency:</strong></a></td>
     <td class="text-right">
       {{ gift.frequency }}<br>
       <small *ngIf="gift.frequency != 'One Time'">Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}</small>
     </td>
   </tr>
   <tr>
-    <td><a routerLink="/prototype/payment"><strong>Payment:</strong></a></td>
+    <td><a routerLink="/prototype/{{ gift.flow_type}}/payment"><strong>Payment:</strong></a></td>
     <td class="text-right">
       Account ending in {{ gift.accountNumber() | slice:-4 }}<br>
-      <small><a routerLink="/prototype/payment">change</a></small>
+      <small><a routerLink="/prototype/{{ gift.flow_type}}/payment">change</a></small>
     </td>
   </tr>
 </table>
