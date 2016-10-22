@@ -2,8 +2,41 @@
   <h2>Amount:</h2>
 </div>
 
+<h3>[Product/Invoice ID#]</h3>
 
-<footer class="page-footer">
-  <a href="#" class="btn btn-next pull-right" (click)="next()">Next</a>
-</footer>
+<form [formGroup]="form" (ngSubmit)="next()">
+    <div class="form-group">
+      <div class="radio disabled">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" disabled>
+          Minimum Payment $0.00
+        </label>
+      </div>
+    </div>
 
+    <div class="form-group">
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>
+          Total Amount $300.00
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+              <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+              <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <input type="text" class="form-control" placeholder="Or Enter Custom Amount" [formControl]="form.get('customAmount')" [(ngModel)]="customAmount" (ngModelChange)="onCustomAmount($event)">
+              </div>
+        </label>
+      </div>
+    </div>
+
+  <footer class="page-footer">
+    <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
+  </footer>
+</form>
