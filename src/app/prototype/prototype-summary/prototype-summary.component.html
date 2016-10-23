@@ -18,7 +18,7 @@
       <small><a routerLink="/prototype/{{ gift.flow_type}}/email">change</a></small>
     </td>
   </tr>
-  <tr>
+  <tr *ngIf="gift.flow_type != 'payment'">
     <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>Frequency:</strong></a></td>
     <td class="text-right">
       {{ gift.frequency }}<br>
