@@ -2,7 +2,7 @@
   <h2>Amount:</h2>
 </div>
 
-<h3>[Product/Invoice ID#]</h3>
+<h3>{{product_id}}</h3>
 
 <hr>
 
@@ -11,7 +11,7 @@
     <div class="radio disabled">
       <label>
         <input type="radio" value="minAmount">
-        Minimum Payment $0.00
+        Minimum Payment {{ amount_due.min_amount | currency: "USD":true }}
       </label>
     </div>
   </div>
@@ -20,7 +20,7 @@
     <div class="radio">
       <label>
         <input type="radio" value="totalAmount">
-        Total Amount $300.00
+        Total Amount {{ amount_due.total_amount | currency: "USD":true }}
       </label>
     </div>
   </div>

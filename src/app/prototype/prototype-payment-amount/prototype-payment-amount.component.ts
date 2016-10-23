@@ -14,6 +14,12 @@ export class PrototypePaymentAmountComponent implements OnInit {
   public form: FormGroup;
   public customAmount: number;
 
+  "product_id" = "Summer Camp 2017";
+  "amount_due" = {
+    "min_amount": 0.00,
+    "total_amount": 400.00
+  }
+
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder) {
