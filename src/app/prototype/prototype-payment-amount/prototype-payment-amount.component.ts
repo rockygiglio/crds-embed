@@ -13,12 +13,19 @@ import { PrototypeGiftService } from '../prototype-gift.service';
 export class PrototypePaymentAmountComponent implements OnInit {
   public form: FormGroup;
   public customAmount: number;
+  public selectedAmount: string;
 
   "product_id" = "Summer Camp 2017";
-  "amount_due" = {
-    "min_amount": 0.00,
-    "total_amount": 400.00
-  }
+  "amount_due" = [
+    {
+      label: "Minimum Payment",
+      amount: 0.00
+    },
+    {
+      label: "Total Amount Due",
+      amount: 400.00
+    }
+  ]
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
@@ -28,7 +35,9 @@ export class PrototypePaymentAmountComponent implements OnInit {
 
   ngOnInit() {
     this.form = this._fb.group({
-      customAmount: [this.gift.amount, [<any>Validators.required]]
+      amount: [this.gift.amount, [<any>Validators.required]],
+      customAmount: [this.gift.amount, [<any>Validators.required]],
+      selectedAmount: [this.gift.amount]
     });
   }
 
@@ -39,10 +48,19 @@ export class PrototypePaymentAmountComponent implements OnInit {
 
   onCustomAmount(newValue) {
     if (!isNaN(newValue)) {
-      // delete(this.selectedAmount);
-      // this.setAmount(newValue);
-      console.log('Fixed it!');
+      delete(this.selectedAmount);
+      this.setAmount(newValue);
     }
+  }
+
+  onSelectAmount(event, newValue) {
+    delete(this.customAmount);
+    this.setAmount(newValue);
+  }
+
+  setAmount(newValue) {
+    (<FormControl>this.form.controls['amount']).setValue(newValue, { onlySelf: true });
+    this.gift.amount = parseInt(newValue, 10);
   }
 
 }
