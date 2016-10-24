@@ -11,7 +11,7 @@
     <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>To:</strong></a></td>
     <td class="text-right">{{ gift.fund }}</td>
   </tr>
-  <tr *ngIf="!isGuest()">
+  <tr *ngIf="isGuest()">
     <td><a routerLink="/prototype/{{ gift.flow_type}}/email"><strong>From:</strong></a></td>
     <td class="text-right">
       {{ gift.email }}<br>
