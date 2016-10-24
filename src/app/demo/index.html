@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta name="description" content="Dev Playground">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap.css" type="text/css" />
+</head>
+<body>
+  <h1>iFrame Resizing Test</h1>
+  <div class="responsive">
+    <div class="row">
+      <div class="column"></div>
+    </div>
+    <div class="row">
+      <div class="column column-half">
+        <h3 style="color:#900;">No Resize Enabled</h3>
+        <iframe id="noResize" src="iframe.html" frameborder="0"></iframe>    
+      </div>
+      <div class="column column-half">
+        <h3 style="color:#090;">Resize Enabled</h3>
+        <iframe id="hasResize" src="iframe.html" frameborder="0"></iframe>  
+      </div>
+    </div>
+    <div class="row">
+      <div class="column column-fourth">&nbsp;</div>
+      <div class="column column-fourth">&nbsp;</div>
+      <div class="column column-fourth">&nbsp;</div>
+      <div class="column column-fourth">&nbsp;</div>
+    </div>
+    <div class="row">
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+      <div class="column column-eighth">&nbsp;</div>
+    </div>
+  </div>
+  <script src="../node_modules/iframe-resizer/js/iframeResizer.min.js"></script>
+  <script>
+    var iframes = iFrameResize({
+      heightCalculationMethod: 'bodyScroll'
+    }, '#hasResize');
+  </script>
+</body>
+</html>
