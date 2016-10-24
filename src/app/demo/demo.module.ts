@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DemoComponent } from './demo.component';
 import { DemoRouting } from './demo.routing';
+import { ContentComponent } from './content/content.component';
 import { IframeComponent } from './iframe/iframe.component';
 
 @NgModule({
@@ -11,6 +12,7 @@ import { IframeComponent } from './iframe/iframe.component';
   ],
   declarations: [
     DemoComponent,
+    ContentComponent,
     IframeComponent
   ],
   providers: [

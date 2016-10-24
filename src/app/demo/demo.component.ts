@@ -1,7 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-
-declare var iFrameResize:any;
 
 @Component({
   selector: 'demo',
@@ -12,14 +9,6 @@ declare var iFrameResize:any;
 export class DemoComponent {
 
   constructor() {
-
-    /*
-    require('iframe-resizer/js/iframeResizer.min.js');
-
-    var iframes = iFrameResize({
-        heightCalculationMethod: 'bodyScroll'
-    }, '#hasResize');
-    */
     
   }
 

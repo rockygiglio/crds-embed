@@ -1,5 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'iframe-demo',
