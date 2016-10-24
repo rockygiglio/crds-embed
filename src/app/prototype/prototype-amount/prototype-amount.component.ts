@@ -15,8 +15,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 })
 
 export class PrototypeAmountComponent implements OnInit {
-  quickDonationAmounts;
-  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];//[5,4,3,2,1];
+  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts']; //get data from route resolve
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
@@ -29,14 +28,6 @@ export class PrototypeAmountComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
-    console.log(this.route);
-
-    this.getQuickAmounts();
-
-    this.quickDonationAmounts = this.route.snapshot.data['quickDonationAmounts'];
-
-    console.log('Snapshot amts');
-    console.log(this.quickDonationAmounts);
 
     if (this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;
@@ -47,22 +38,6 @@ export class PrototypeAmountComponent implements OnInit {
       customAmount: [this.gift.amount, [<any>Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*$')]],
       selectedAmount: [this.gift.amount]
     });
-  }
-
-  getQuickAmounts() {
-    this.quickAmounts.getQuickDonationAmounts()
-        .subscribe(
-            httpResp => {
-              this.predefinedAmounts = httpResp;
-              console.log('Logging from resp');
-              console.log(httpResp);
-
-              this.toggleDataLoaded();
-
-              console.log('Is data loaded? ' + this.isDataLoaded);
-
-            },
-            error =>  this.predefinedAmounts = <any>error); //should be this.errorMsg
   }
 
   toggleDataLoaded(){

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, JsonpModule } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import {Component, NgZone} from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 import 'rxjs/add/observable/throw';
 
@@ -37,14 +35,11 @@ export class QuickDonationAmountsService implements Resolve<number[]> {
     }
 
     private extractData(res: Response) {
-        console.log('Got response:' );
-        console.log(res);
         let body = res.json();
-        console.log(body);
         return body || { };
     }
+
     private handleError (error: Response | any) {
-        // In a real world app, we might use a remote logging infrastructure
         let errMsg: string;
         if (error instanceof Response) {
             const body = error.json() || '';
@@ -56,8 +51,4 @@ export class QuickDonationAmountsService implements Resolve<number[]> {
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
-
-    // getQuickDonationAmounts(): number[] {
-    //     return [1,2,3,4,5];
-    // }
 }

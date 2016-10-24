@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule, JsonpModule  } from '@angular/http';
-import { Http, Response } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createStore, Store, StoreEnhancer } from 'redux';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -23,8 +22,6 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
-
-import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -65,24 +62,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   providers: [
     PrototypeGiftService,
     QuickDonationAmountsService,
-    { provide: PrototypeStore, useValue: store }/*,
-    {
-      provide: 'quickDonationAmounts',
-      // useValue: () => {
-      //   return {
-      //     id: 1,
-      //     name: 'Some Contact',
-      //     website: 'http://some.website.com'
-      //   };
-      // }
-      useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-          return {
-            id: 1,
-            name: 'Some Contact',
-            website: 'http://some.website.com'
-          };
-      }
-    }*/
+    { provide: PrototypeStore, useValue: store }
   ]
 })
 export class PrototypeModule { }
