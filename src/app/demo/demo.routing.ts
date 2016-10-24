@@ -2,7 +2,7 @@ import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DemoComponent } from './demo.component';
-import { IframeComponent } from './iframe.component';
+import { IframeComponent } from './iframe/iframe.component';
 
 const demoRoutes: Routes = [
   {

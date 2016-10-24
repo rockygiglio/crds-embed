@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DemoComponent } from './demo.component';
 import { DemoRouting } from './demo.routing';
-import { IframeComponent } from './iframe.component';
+import { IframeComponent } from './iframe/iframe.component';
 
 @NgModule({
   imports: [

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'iframe-demo',
   templateUrl: 'iframe.component.html',
-  styleUrls: ['demo.component.css']
+  styleUrls: ['../demo.component.css']
 })
 
 export class IframeComponent {
