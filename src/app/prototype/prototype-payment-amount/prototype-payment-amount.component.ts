@@ -4,6 +4,8 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
+declare var _;
+
 @Component({
   selector: 'app-prototype-payment-amount',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,14 +17,14 @@ export class PrototypePaymentAmountComponent implements OnInit {
   public customAmount: number;
   public selectedAmount: string;
 
-  "product_id" = "Summer Camp 2017";
-  "amount_due" = [
+  product_id = "Summer Camp 2017";
+  amount_due = [
     {
-      label: "Minimum Payment",
-      amount: 0.00
+      label: "Minimumn Due",
+      amount: 100.00
     },
     {
-      label: "Total Amount Due",
+      label: "Total Due",
       amount: 400.00
     }
   ]
@@ -34,6 +36,10 @@ export class PrototypePaymentAmountComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (_.pluck(this.amount_due, 'amount').indexOf(this.gift.amount) === -1) {
+      this.customAmount = this.gift.amount;
+    }
+
     this.form = this._fb.group({
       amount: [this.gift.amount, [<any>Validators.required]],
       customAmount: [this.gift.amount, [<any>Validators.required]],
@@ -56,6 +62,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
   onSelectAmount(event, newValue) {
     delete(this.customAmount);
     this.setAmount(newValue);
+    console.log(newValue);
   }
 
   setAmount(newValue) {
