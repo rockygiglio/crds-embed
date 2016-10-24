@@ -24,6 +24,8 @@ import { PrototypeRegistrationComponent } from './prototype-registration/prototy
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 
+import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+
 
 let devtools: StoreEnhancer<PrototypeState> =
   window['devToolsExtension'] ?
@@ -63,7 +65,24 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   providers: [
     PrototypeGiftService,
     QuickDonationAmountsService,
-    { provide: PrototypeStore, useValue: store }
+    { provide: PrototypeStore, useValue: store }/*,
+    {
+      provide: 'quickDonationAmounts',
+      // useValue: () => {
+      //   return {
+      //     id: 1,
+      //     name: 'Some Contact',
+      //     website: 'http://some.website.com'
+      //   };
+      // }
+      useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+          return {
+            id: 1,
+            name: 'Some Contact',
+            website: 'http://some.website.com'
+          };
+      }
+    }*/
   ]
 })
 export class PrototypeModule { }

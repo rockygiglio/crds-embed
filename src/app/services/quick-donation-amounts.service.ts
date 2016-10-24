@@ -3,7 +3,6 @@ import { Http, Response, JsonpModule } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import {Component, NgZone} from '@angular/core';
-import { Injectable }             from '@angular/core';
 import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 import 'rxjs/add/observable/throw';
@@ -17,9 +16,13 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class QuickDonationAmountsService {
+export class QuickDonationAmountsService implements Resolve<number[]> {
 
     constructor (private http: Http) {}
+
+    resolve(route: ActivatedRouteSnapshot) {
+        return this.getQuickDonationAmounts();
+    }
 
     private baseUrl = 'http://localhost:49380/';
 

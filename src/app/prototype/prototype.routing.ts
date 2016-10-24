@@ -11,13 +11,19 @@ import { PrototypeConfirmationComponent } from './prototype-confirmation/prototy
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
+import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 
 const prototypeRoutes: Routes = [
   {
     path: 'prototype',
     component: PrototypeComponent,
     children: [
-      { path: 'amount', component: PrototypeAmountComponent },
+      { path: 'amount',
+        component: PrototypeAmountComponent,
+        resolve: {
+          quickDonationAmounts: QuickDonationAmountsService
+        }},
       { path: 'details', component: PrototypeDetailsComponent },
       { path: 'auth', component: PrototypeAuthenticationComponent },
       { path: 'payment', component: PrototypePaymentComponent },
