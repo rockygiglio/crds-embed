@@ -5,7 +5,6 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service.ts';
 import { ActivatedRoute } from '@angular/router';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-prototype-amount',
@@ -15,7 +14,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 })
 
 export class PrototypeAmountComponent implements OnInit {
-  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts']; //get data from route resolve
+  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
@@ -24,7 +23,6 @@ export class PrototypeAmountComponent implements OnInit {
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
               private gift: PrototypeGiftService,
-              private quickAmounts: QuickDonationAmountsService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
