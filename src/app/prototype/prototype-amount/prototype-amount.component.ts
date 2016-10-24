@@ -11,11 +11,13 @@ import { QuickDonationAmountsService } from '../../services/quick-donation-amoun
   templateUrl: './prototype-amount.component.html',
   styleUrls: ['./prototype-amount.component.css']
 })
+
 export class PrototypeAmountComponent implements OnInit {
-  public predefinedAmounts: number[] = [5, 25, 100, 500, 1000];
+  public predefinedAmounts: number[] = [5,4,3,2,1];
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
+  public isDataLoaded: boolean = false;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
@@ -23,9 +25,12 @@ export class PrototypeAmountComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    this.getQuickAmounts();
+
     if (this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;
     }
+
     this.form = this._fb.group({
       amount: [this.gift.amount, [<any>Validators.required]],
       customAmount: [this.gift.amount, [<any>Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*$')]],
@@ -33,10 +38,24 @@ export class PrototypeAmountComponent implements OnInit {
     });
   }
 
-  getQuickAmounts(){
-    console.log('Get quick amounts called');
-    let quickAmts =this.quickAmounts.getQuickDonationAmounts();
-    console.log(quickAmts);
+  getQuickAmounts() {
+    this.quickAmounts.getQuickDonationAmounts()
+        .subscribe(
+            httpResp => {
+              this.predefinedAmounts = httpResp;
+              console.log('Logging from resp');
+              console.log(httpResp);
+
+              this.toggleDataLoaded();
+
+              console.log('Is data loaded? ' + this.isDataLoaded);
+
+            },
+            error =>  this.predefinedAmounts = <any>error); //should be this.errorMsg
+  }
+
+  toggleDataLoaded(){
+    this.isDataLoaded = !this.isDataLoaded;
   }
 
   next() {

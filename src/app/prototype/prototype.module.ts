@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule  } from '@angular/http';
 import { Http, Response } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createStore, Store, StoreEnhancer } from 'redux';
@@ -24,6 +24,7 @@ import { PrototypeRegistrationComponent } from './prototype-registration/prototy
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 
+
 let devtools: StoreEnhancer<PrototypeState> =
   window['devToolsExtension'] ?
   window['devToolsExtension']() : f => f;
@@ -44,7 +45,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     DatepickerModule,
     prototypeRouting,
     ReactiveFormsModule,
-    TabsModule
+    TabsModule,
+    JsonpModule
   ],
   declarations: [
     PrototypeComponent,
