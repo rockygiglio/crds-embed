@@ -1,6 +1,8 @@
 declare var _;
 
 export class PrototypeGiftService {
+  invoice_id: number = 123;
+  product_name: string = 'Summer Camp 2017';
   flow_type: string = 'gift';
   amount: number;
   predefined_amount: number;

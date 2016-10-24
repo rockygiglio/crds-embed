@@ -17,10 +17,10 @@ export class PrototypePaymentAmountComponent implements OnInit {
   public customAmount: number;
   public selectedAmount: string;
 
-  product_id = "Summer Camp 2017";
+  product_id = this.gift.invoice_id;
   amount_due = [
     {
-      label: "Minimumn Due",
+      label: "Minimum Due",
       amount: 100.00
     },
     {
