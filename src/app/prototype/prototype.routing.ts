@@ -48,20 +48,6 @@ const prototypeRoutes: Routes = [
         ]
       }
     ]
-
-    // children: [
-    //   { path: 'gift/amount', component: PrototypeGiftAmountComponent },
-    //   // { path: 'payment/amount', component: PrototypeAmountComponent },
-    //   { path: ':type/details', component: PrototypeDetailsComponent },
-    //   { path: ':type/auth', component: PrototypeAuthenticationComponent },
-    //   { path: ':type/payment', component: PrototypePaymentComponent },
-    //   { path: ':type/summary', component: PrototypeSummaryComponent },
-    //   { path: ':type/confirmation', component: PrototypeConfirmationComponent },
-    //   { path: ':type/registration', component: PrototypeRegistrationComponent },
-    //   { path: ':type/password', component: PrototypePasswordComponent },
-    //   { path: ':type/email', component: PrototypeEmailComponent },
-    //   { path: '', redirectTo: 'amount', pathMatch: 'full' }
-    // ]
   }
 ];
 
