@@ -4,8 +4,8 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "npm run browser && npm run serve",
-    "browser": "start http://localhost:4200",
+    "start": "npm run browser & npm run serve & wait",
+    "browser": "node browser.js",
     "serve": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test --watch false",
@@ -47,6 +47,7 @@
     "karma-remap-istanbul": "^0.2.1",
     "karma-phantomjs-launcher": "^1.0.0",
     "node-sass": "^3.10.0",
+    "open": "^0.0.5",
     "protractor": "4.0.5",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
