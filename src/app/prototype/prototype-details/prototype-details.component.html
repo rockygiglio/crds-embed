@@ -2,22 +2,24 @@
   <h2>Details:</h2>
 </header>
 
-<h3>Give To:</h3>
-
 <form [formGroup]="form">
+  <div class="btn-form btn-form--underline">
+    <h3 class="btn-form__header">Give To:</h3>
+    <template ngFor let-fund [ngForOf]="funds" let-i="index">
+      <div class="btn-group">
+        <button class="btn btn-option" (click)="onClickFund(fund)" [ngClass]="{ active: (gift.fund == fund.name) }">{{fund.name}}</button>
+      </div>
+    </template>
+  </div>
 
-  <template ngFor let-fund [ngForOf]="funds" let-i="index">
-    <div class="btn-group">
-      <button class="btn btn-option" (click)="onClickFund(fund)" [ngClass]="{ active: (gift.fund == fund.name) }">{{fund.name}}</button>
-    </div>
-  </template>
-
-  <h3>Frequency:</h3>
-  <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
-    <div class="btn-group">
-      <button class="btn btn-option" (click)="onClickFrequency(frequency)" [ngClass]="{ active: (gift.frequency == frequency), disabled: (availableFrequencies.indexOf(frequency) === -1) }" [disabled]="availableFrequencies.indexOf(frequency) === -1">{{frequency}}</button>
-    </div>
-  </template>
+  <div class="btn-form btn-form--underline">
+    <h3 class="btn-form__header">Frequency:</h3>
+    <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
+      <div class="btn-group">
+        <button class="btn btn-option" (click)="onClickFrequency(frequency)" [ngClass]="{ active: (gift.frequency == frequency), disabled: (availableFrequencies.indexOf(frequency) === -1) }" [disabled]="availableFrequencies.indexOf(frequency) === -1">{{frequency}}</button>
+      </div>
+    </template>
+  </div>
 </form>
 
 <br>

@@ -23,13 +23,44 @@ h2, h3 {
 
 .page-footer {
   @include clearfix;
-  border-top: 1px solid $gray-lighter;
-  margin-top: 2em;
-  padding-top: 1em;
 }
 
 hr,
 tbody > tr > td,
 .page-header {
-  border-color: #ddd;
+  // border-color: #ddd;
+}
+
+.page-header {
+  text-transform: uppercase;
+  font-family: "bebas-neue",sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25em;
+  color: $text-color-dark;
+  border-bottom: 1px solid $accent-color;
+}
+
+.btn-form {
+  button {
+    border-color: $accent-color;
+    color: $text-color-dark;
+    font-size: .9em;
+  }
+
+  &--underline {
+    border-bottom: 1px solid $accent-color;
+    margin-bottom: 1em;
+    padding-bottom: 1.5em;
+  }
+
+  &__header {
+    text-transform: uppercase;
+    color: $text-color;
+    font-size: .9em;
+  }
+}
+
+.btn {
+  border-radius: 2px;
 }
