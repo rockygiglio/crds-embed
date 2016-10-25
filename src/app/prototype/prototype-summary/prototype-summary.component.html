@@ -7,13 +7,10 @@
     <td><a routerLink="/prototype/{{ gift.flow_type}}/amount"><strong>Amount:</strong></a></td>
     <td class="text-right">{{ gift.amount | currency:'USD':true }}</td>
   </tr>
-  <tr *ngIf="gift.flow_type == 'gift'">
+  <tr>
     <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>To:</strong></a></td>
-    <td class="text-right">{{ gift.fund }}</td>
-  </tr>
-  <tr *ngIf="gift.flow_type == 'payment'">
-    <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>Product:</strong></a></td>
-    <td class="text-right">{{ gift.product_name }}</td>
+    <td *ngIf="gift.flow_type == 'gift'" class="text-right">{{ gift.fund }}</td>
+    <td *ngIf="gift.flow_type == 'payment'" class="text-right">{{ gift.product_name }}</td>
   </tr>
   <tr>
     <td><a routerLink="/prototype/{{ gift.flow_type}}/email"><strong>From:</strong></a></td>
