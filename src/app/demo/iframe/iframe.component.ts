@@ -10,7 +10,7 @@ export class IframeComponent {
 
   iFrameResizerCW:any;
 
-  /*-------------------------
+  /*--------------------------
   IMPORTANT: For all content 
   windows to work you will
   need to include this script
@@ -19,7 +19,7 @@ export class IframeComponent {
   controller script. To keep
   from memory leaks I only
   assign this once.
-  --------------------------*/
+  ---------------------------*/
   constructor() {
     if ( this.iFrameResizerCW === undefined ) {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.min.js');
