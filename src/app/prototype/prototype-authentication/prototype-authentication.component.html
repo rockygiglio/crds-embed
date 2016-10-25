@@ -27,7 +27,7 @@
     </form>
   </tab>
 
-  <tab heading="Give as a Guest" [disabled]="gift.frequency != 'One Time'">
+  <tab *ngIf="gift.flow_type == 'gift'" heading="Give as a Guest" [disabled]="gift.frequency != 'One Time'">
     <h3>Guest</h3>
     <form [formGroup]="form" (ngSubmit)="guest()">
       <div>
