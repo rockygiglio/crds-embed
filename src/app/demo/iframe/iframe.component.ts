@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'iframe-demo',
@@ -8,10 +8,22 @@ import { Component, Inject } from '@angular/core';
 
 export class IframeComponent {
 
+  iFrameResizerCW:any;
+
+  /*-------------------------
+  IMPORTANT: For all content 
+  windows to work you will
+  need to include this script
+  or it won't be able to 
+  report to the parent
+  controller script. To keep
+  from memory leaks I only
+  assign this once.
+  --------------------------*/
   constructor() {
-
-    require('iframe-resizer/js/iframeResizer.contentWindow.min.js');
-
+    if ( this.iFrameResizerCW === undefined ) {
+      this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.min.js');
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'demo',
@@ -6,10 +6,4 @@ import { Component, Inject } from '@angular/core';
   styleUrls: ['demo.component.css']
 })
 
-export class DemoComponent {
-
-  constructor() {
-    
-  }
-
-}
+export class DemoComponent {}

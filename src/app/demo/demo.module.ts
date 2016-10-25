@@ -14,8 +14,6 @@ import { IframeComponent } from './iframe/iframe.component';
     DemoComponent,
     ContentComponent,
     IframeComponent
-  ],
-  providers: [
   ]
 })
 

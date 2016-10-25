@@ -4,7 +4,9 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "ng serve",
+    "start": "npm run browser && npm run serve",
+    "browser": "start http://localhost:4200",
+    "serve": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test --watch false",
     "build-dev": "ng build",
