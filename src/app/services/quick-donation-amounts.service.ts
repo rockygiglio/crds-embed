@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, JsonpModule } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
@@ -16,17 +16,14 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class QuickDonationAmountsService implements Resolve<number[]> {
 
+    private baseUrl = 'http://localhost:49380/';
+    private getQuickAmtsUrl = this.baseUrl + 'api/donations/predefinedamounts';
+
     constructor (private http: Http) {}
 
     resolve(route: ActivatedRouteSnapshot) {
         return this.getQuickDonationAmounts();
     }
-
-    private baseUrl = 'http://localhost:49380/';
-
-    private getQuickAmtsUrl = this.baseUrl + 'api/donations/predefinedamounts';
-
-    private result: any;
 
     getQuickDonationAmounts (): Observable<number[]> {
         return this.http.get(this.getQuickAmtsUrl)
@@ -41,8 +38,6 @@ export class QuickDonationAmountsService implements Resolve<number[]> {
 
     private handleError (res: Response | any) {
         console.log('Call for predefined amounts failed, defaulting to front-end settings');
-        return [
-            [5,10,25,100,500]
-        ];
+        return [[5, 10, 25, 100, 500]];
     }
 }
