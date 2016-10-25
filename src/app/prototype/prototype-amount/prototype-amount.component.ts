@@ -3,6 +3,8 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service.ts';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-prototype-amount',
@@ -10,20 +12,25 @@ import { PrototypeGiftService } from '../prototype-gift.service';
   templateUrl: './prototype-amount.component.html',
   styleUrls: ['./prototype-amount.component.css']
 })
+
 export class PrototypeAmountComponent implements OnInit {
-  public predefinedAmounts: number[] = [5, 25, 100, 500, 1000];
+  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
+  public isDataLoaded: boolean = false;
 
   constructor(@Inject(PrototypeStore) private store: any,
+              private route: ActivatedRoute,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+
     if (this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;
     }
+
     this.form = this._fb.group({
       amount: [this.gift.amount, [<any>Validators.required]],
       customAmount: [this.gift.amount, [<any>Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*$')]],

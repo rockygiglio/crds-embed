@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createStore, Store, StoreEnhancer } from 'redux';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -17,9 +18,11 @@ import { prototypeReducer } from './prototype-state/prototype.reducer';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeGiftService } from './prototype-gift.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service.ts';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
+
 
 let devtools: StoreEnhancer<PrototypeState> =
   window['devToolsExtension'] ?
@@ -37,10 +40,12 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     ButtonsModule,
     CollapseModule,
     CommonModule,
+    HttpModule,
     DatepickerModule,
     prototypeRouting,
     ReactiveFormsModule,
-    TabsModule
+    TabsModule,
+    JsonpModule
   ],
   declarations: [
     PrototypeComponent,
@@ -56,6 +61,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   ],
   providers: [
     PrototypeGiftService,
+    QuickDonationAmountsService,
     { provide: PrototypeStore, useValue: store }
   ]
 })
