@@ -38,7 +38,10 @@ tbody > tr > td,
   font-weight: 400;
   font-size: 1.25em;
   color: $text-color-dark;
-  border-bottom: 1px solid $accent-color;
+
+  &--underline {
+    border-bottom: 1px solid $accent-color;
+  }
 }
 
 .btn-form {
