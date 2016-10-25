@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
 import { PrototypeGiftService } from './prototype-gift.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service.ts';
 
 @Component({
   selector: 'app-prototype',
@@ -17,7 +18,8 @@ export class PrototypeComponent implements OnInit {
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
               private router: Router,
-              private gift: PrototypeGiftService) {
+              private gift: PrototypeGiftService,
+              private quickAmts: QuickDonationAmountsService) {
     store.subscribe(() => this.readState());
   }
 

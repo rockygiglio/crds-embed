@@ -8,6 +8,8 @@ import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeComponent } from './prototype.component';
 import { PrototypeAmountComponent } from './prototype-amount/prototype-amount.component';
 import { PrototypeGiftService } from './prototype-gift.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { HttpModule, JsonpModule  } from '@angular/http';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
@@ -21,11 +23,11 @@ describe('Component: Prototype', () => {
     TestBed.configureTestingModule({
       declarations: [ PrototypeComponent ],
       imports: [
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService
+        PrototypeGiftService, QuickDonationAmountsService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeComponent);
