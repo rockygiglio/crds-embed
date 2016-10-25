@@ -62,7 +62,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
   onSelectAmount(event, newValue) {
     delete(this.customAmount);
     this.setAmount(newValue);
-    console.log(newValue);
+    // console.log(newValue);
   }
 
   setAmount(newValue) {
