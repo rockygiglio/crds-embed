@@ -38,10 +38,6 @@ export class PrototypeAmountComponent implements OnInit {
     });
   }
 
-  toggleDataLoaded(){
-    this.isDataLoaded = !this.isDataLoaded;
-  }
-
   next() {
     this.gift.init = false;
     if (this.gift.amount) {
