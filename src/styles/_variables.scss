@@ -18,5 +18,7 @@ $accent-color: $cr-grey;
 $text-color: $accent-color;
 $text-color-dark: darken($text-color, 30);
 
+$input-bg-color: lighten($accent-color, 30);
+
 $btn-next-bg: $primary-color;
 $btn-prev-bg: $accent-color;

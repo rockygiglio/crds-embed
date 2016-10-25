@@ -38,6 +38,7 @@ tbody > tr > td,
   font-weight: 400;
   font-size: 1.25em;
   color: $text-color-dark;
+  border: none;
 
   &--underline {
     border-bottom: 1px solid $accent-color;
@@ -66,4 +67,12 @@ tbody > tr > td,
 
 .btn {
   border-radius: 2px;
+}
+
+.form-control {
+  background-color: $input-bg-color;
+  border-radius: 2px;
+  color: $text-color;
+  box-shadow: none;
+  border: none;
 }
