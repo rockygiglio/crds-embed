@@ -1,13 +1,15 @@
-<header class="page-header">
-  <h2>Thanks!</h2>
-</header>
+<div class="confirmation-background">
+  <header class="page-header">
+    <h2>Thanks!</h2>
+  </header>
 
-<p *ngIf="gift.flow_type == 'gift'" class="lead">
- Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} <span *ngIf="gift.frequency != 'One Time'">{{ gift.frequency }}</span> gift to the '{{ gift.fund }}' campaign.
-</p>
+  <p *ngIf="gift.flow_type == 'gift'" class="text-block--lg-font">
+   Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} <span *ngIf="gift.frequency != 'One Time'">{{ gift.frequency }}</span> gift to the '{{ gift.fund }}' campaign.
+  </p>
 
-<p *ngIf="gift.flow_type == 'payment'" class="lead">
- Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} payment for '{{ gift.product_name }}'.
-</p>
+  <p *ngIf="gift.flow_type == 'payment'" class="text-block--lg-font">
+   Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} payment for '{{ gift.product_name }}'.
+  </p>
 
-<p>A receipt has been sent to {{ gift.email }}</p>
+  <p>A receipt has been sent to {{ gift.email }}</p>
+</div>
