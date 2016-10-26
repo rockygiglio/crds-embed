@@ -32,10 +32,9 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-
+    autoWatch: false,
+    browserNoActivityTimeout: 100000,
     browsers: ['PhantomJS'],
-        
-    singleRun: false
+    singleRun: true
   });
 };
