@@ -16,7 +16,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class QuickDonationAmountsService implements Resolve<number[]> {
 
-    private baseUrl = 'http://localhost:49380/';
+    private baseUrl = '//localhost:49380/';
     private getQuickAmtsUrl = this.baseUrl + 'api/donations/predefinedamounts';
 
     constructor (private http: Http) {}
