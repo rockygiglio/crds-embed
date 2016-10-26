@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeComponent } from './prototype.component';
-import { PrototypeAmountComponent } from './prototype-amount/prototype-amount.component';
+import { PrototypeGiftAmountComponent } from './prototype-gift-amount/prototype-gift-amount.component';
 import { PrototypeGiftService } from './prototype-gift.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { HttpModule, JsonpModule  } from '@angular/http';
