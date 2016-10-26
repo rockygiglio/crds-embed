@@ -16,8 +16,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
   public form: FormGroup;
   public customAmount: number;
   public selectedAmount: string;
-
-  product_id = this.gift.invoice_id;
+  
   amount_due = [
     {
       label: "Minimum Due",
@@ -62,7 +61,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
   onSelectAmount(event, newValue) {
     delete(this.customAmount);
     this.setAmount(newValue);
-    console.log(newValue);
+    // console.log(newValue);
   }
 
   setAmount(newValue) {

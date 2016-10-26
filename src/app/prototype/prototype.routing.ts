@@ -12,6 +12,8 @@ import { PrototypeConfirmationComponent } from './prototype-confirmation/prototy
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
+import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 
 const prototypeRoutes: Routes = [
   {
@@ -21,7 +23,12 @@ const prototypeRoutes: Routes = [
       { path: '', redirectTo: 'gift', pathMatch: 'full' },
       {
         path: 'gift', children: [
-          { path: 'amount', component: PrototypeGiftAmountComponent },
+          { path: 'amount',
+            component: PrototypeGiftAmountComponent,
+            resolve: {
+              quickDonationAmounts: QuickDonationAmountsService
+            }
+          },
           { path: 'details', component: PrototypeDetailsComponent },
           { path: 'auth', component: PrototypeAuthenticationComponent },
           { path: 'payment', component: PrototypePaymentComponent },
@@ -48,20 +55,6 @@ const prototypeRoutes: Routes = [
         ]
       }
     ]
-
-    // children: [
-    //   { path: 'gift/amount', component: PrototypeGiftAmountComponent },
-    //   // { path: 'payment/amount', component: PrototypeAmountComponent },
-    //   { path: ':type/details', component: PrototypeDetailsComponent },
-    //   { path: ':type/auth', component: PrototypeAuthenticationComponent },
-    //   { path: ':type/payment', component: PrototypePaymentComponent },
-    //   { path: ':type/summary', component: PrototypeSummaryComponent },
-    //   { path: ':type/confirmation', component: PrototypeConfirmationComponent },
-    //   { path: ':type/registration', component: PrototypeRegistrationComponent },
-    //   { path: ':type/password', component: PrototypePasswordComponent },
-    //   { path: ':type/email', component: PrototypeEmailComponent },
-    //   { path: '', redirectTo: 'amount', pathMatch: 'full' }
-    // ]
   }
 ];
 
