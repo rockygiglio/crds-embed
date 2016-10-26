@@ -7,6 +7,9 @@ $cr-grey: #AFAFAF; //#878785; //PMS Cool Grey 9
 $cr-teal: #56AFA9;
 $cr-white: #FFF;
 
+$fontface-header: "bebas-neue",sans-serif;
+$fontface-body: "ratio",sans-serif;
+
 // Bootstrap Overrides
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $brand-primary: $cr-light-blue;
@@ -18,7 +21,14 @@ $accent-color: $cr-grey;
 $text-color: $accent-color;
 $text-color-dark: darken($text-color, 30);
 
-$input-bg-color: lighten($accent-color, 30);
+$input-bg-color: lighten($accent-color, 27);
+$page-bg-color: lighten($accent-color, 27);
 
-$btn-next-bg: $primary-color;
-$btn-prev-bg: $accent-color;
+@mixin header-font($fontface, $fontsize) {
+  text-transform: uppercase;
+  font-family: $fontface;
+  font-style: normal;
+  font-weight: 400;
+  font-size: $fontsize;
+  color: $text-color-dark;
+}
