@@ -39,7 +39,6 @@ export class PrototypeDetailsComponent implements OnInit {
   ngOnInit() {
     this.setFrequencies();
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
-    console.log(this.startDate);
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],
@@ -47,12 +46,12 @@ export class PrototypeDetailsComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render('amount'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/amount'));
     return false;
   }
 
   next() {
-    this.store.dispatch(PrototypeActions.render('auth'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/auth'));
     return false;
   }
 

@@ -1,23 +1,22 @@
 /* tslint:disable:no-unused-variable */
-
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { PrototypeSummaryComponent } from './prototype-summary.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
+import { PrototypePaymentAmountComponent } from './prototype-payment-amount.component';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 
-describe('Component: PrototypeSummary', () => {
+describe('Component: PrototypePaymentAmount', () => {
 
   let component;
   let fixture;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrototypeSummaryComponent ],
+      declarations: [ PrototypePaymentAmountComponent ],
       imports: [
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule
@@ -27,7 +26,7 @@ describe('Component: PrototypeSummary', () => {
         PrototypeGiftService
       ]
     });
-    this.fixture = TestBed.createComponent(PrototypeSummaryComponent);
+    this.fixture = TestBed.createComponent(PrototypePaymentAmountComponent);
     this.component = this.fixture.componentInstance;
   });
 

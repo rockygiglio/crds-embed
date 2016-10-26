@@ -15,12 +15,12 @@ export class PrototypeSummaryComponent {
               private gift: PrototypeGiftService) {}
 
   back() {
-    this.store.dispatch(PrototypeActions.render('payment'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
     return false;
   }
 
   next() {
-    this.store.dispatch(PrototypeActions.render('confirmation'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
     return false;
   }
 

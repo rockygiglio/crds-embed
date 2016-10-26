@@ -1,6 +1,8 @@
 declare var _;
 
 export class PrototypeGiftService {
+  product_name: string = 'Summer Camp 2017';
+  flow_type: string = 'gift';
   amount: number;
   predefined_amount: number;
   custom_amount: number;
@@ -19,6 +21,17 @@ export class PrototypeGiftService {
   email: string;
   is_guest: boolean = false;
   init: boolean = true;
+
+  reset() {
+    _.each([
+      'email',
+      'amount',
+    ], (f) => {
+      delete(this[f]);
+    });
+    this.resetDate();
+    this.resetPaymentDetails();
+  }
 
   resetDate() {
     this.start_date = undefined;
