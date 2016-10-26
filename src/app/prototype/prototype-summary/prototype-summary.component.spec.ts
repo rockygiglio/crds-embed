@@ -2,6 +2,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PrototypeSummaryComponent } from './prototype-summary.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
@@ -18,6 +19,7 @@ describe('Component: PrototypeSummary', () => {
     TestBed.configureTestingModule({
       declarations: [ PrototypeSummaryComponent ],
       imports: [
+        RouterTestingModule.withRoutes([]),
         ReactiveFormsModule
       ],
       providers:    [
