@@ -28,51 +28,85 @@ h2, h3 {
 hr,
 tbody > tr > td,
 .page-header {
-  // border-color: #ddd;
+  border-color: #ddd;
 }
 
-.page-header {
-  text-transform: uppercase;
-  font-family: "bebas-neue",sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.25em;
-  color: $text-color-dark;
-  border: none;
+.inline-giving {
+  .page-header {
+    @include header-font($fontface-header, 1.25em);
 
-  &--underline {
-    border-bottom: 1px solid $accent-color;
-  }
-}
+    border: none;
 
-.btn-form {
-  button {
-    border-color: $accent-color;
-    color: $text-color-dark;
-    font-size: .9em;
+    &--border-btm {
+      border-bottom: 1px solid $accent-color;
+    }
   }
 
-  &--underline {
-    border-bottom: 1px solid $accent-color;
-    margin-bottom: 1em;
-    padding-bottom: 1.5em;
+  .btn-form {
+    &--border-btm {
+      border-bottom: 1px solid $accent-color;
+      margin-bottom: 1em;
+      padding-bottom: 1.5em;
+    }
+
+    &__header {
+      color: $text-color;
+      font-size: .9em;
+      text-transform: uppercase;
+    }
   }
 
-  &__header {
-    text-transform: uppercase;
+  .btn {
+    border-radius: 2px;
+  }
+
+  .form-control {
+    background-color: $input-bg-color;
+    border-radius: 2px;
+    border: none;
+    box-shadow: none;
     color: $text-color;
-    font-size: .9em;
+    margin: -5px;
   }
-}
 
-.btn {
-  border-radius: 2px;
-}
+  .inline-form {
+    &__input {
+      &:first-of-type {
+        padding-right: 3px;
+      }
+      &:last-of-type {
+        padding-left: 3px;
+      }
+    }
+  }
 
-.form-control {
-  background-color: $input-bg-color;
-  border-radius: 2px;
-  color: $text-color;
-  box-shadow: none;
-  border: none;
+  .text-block {
+    .text-block__link--underline {
+      text-decoration: underline;
+      color: currentColor;
+
+      &:hover {
+        color: $text-color-dark;
+      }
+    }
+
+    &--lg-font {
+      font-family: $fontface-body;
+      font-size: 1.75em;
+      font-weight: 300;
+    }
+  }
+
+  .confirmation-background {
+    background: $page-bg-color;
+    padding: 1.25em 1.25em 2em 1.25em;
+
+    .page-header {
+      padding-bottom: 0;
+    }
+
+    p:last-of-type {
+      padding-top: .5em;
+    }
+  }
 }
