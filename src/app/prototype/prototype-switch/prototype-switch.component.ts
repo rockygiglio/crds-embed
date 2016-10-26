@@ -15,9 +15,6 @@ export class PrototypeSwitchComponent {
 
     this.gift.flow_type = this.gift.flow_type == 'payment' ? 'gift' : 'payment';
     this.gift.reset();
-
-    console.log(this.gift.flow_type);
-
     this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/amount'));
   }
 
