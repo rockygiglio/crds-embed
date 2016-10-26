@@ -1,9 +1,9 @@
-<header class="page-header page-header--underline">
+<header class="page-header page-header--border-btm">
   <h2>Details:</h2>
 </header>
 
 <form [formGroup]="form">
-  <div class="btn-form btn-form--underline">
+  <div class="btn-form btn-form--border-btm">
     <h3 class="btn-form__header">Give To:</h3>
     <template ngFor let-fund [ngForOf]="funds" let-i="index">
       <div class="btn-group">
@@ -12,7 +12,7 @@
     </template>
   </div>
 
-  <div class="btn-form btn-form--underline">
+  <div class="btn-form btn-form--border-btm">
     <h3 class="btn-form__header">Frequency:</h3>
     <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
       <div class="btn-group">
