@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h2>Amount:</h2>
+</div>
+
+<div class="btn-group">
+    <button *ngFor="let item of amount_due" class="btn btn-option" (click)="onSelectAmount($event, item.amount)" [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">{{ item.label }}: {{ item.amount| currency: "USD":true }}</button>
+</div>
+
+<hr>
+
+<form [formGroup]="form" (ngSubmit)="next()">
+
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="text" class="form-control" placeholder="Or Enter Amount" [formControl]="form.get('customAmount')" [(ngModel)]="customAmount" (ngModelChange)="onCustomAmount($event)">
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <input type="submit" class="btn btn-next pull-right" (click)="next()" value="Next">
+  </footer>
+</form>

@@ -3,17 +3,17 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
-import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service.ts';
+import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-prototype-amount',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './prototype-amount.component.html',
-  styleUrls: ['./prototype-amount.component.css']
+  templateUrl: './prototype-gift-amount.component.html',
+  styleUrls: ['./prototype-gift-amount.component.css']
 })
 
-export class PrototypeAmountComponent implements OnInit {
+export class PrototypeGiftAmountComponent implements OnInit {
   public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];
   public selectedAmount: string;
   public customAmount: number;
@@ -41,7 +41,7 @@ export class PrototypeAmountComponent implements OnInit {
   next() {
     this.gift.init = false;
     if (this.gift.amount) {
-      this.store.dispatch(PrototypeActions.render('details'));
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
     }
     return false;
   }

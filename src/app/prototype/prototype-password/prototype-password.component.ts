@@ -15,7 +15,7 @@ export class PrototypePasswordComponent {
               private gift: PrototypeGiftService) { }
 
   back() {
-    this.store.dispatch(PrototypeActions.render('auth'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/auth'));
     return false;
   }
 

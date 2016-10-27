@@ -19,12 +19,12 @@ export class PrototypeAuthenticationComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   back() {
-    this.store.dispatch(PrototypeActions.render('details'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
     return false;
   }
 
   adv() {
-    this.store.dispatch(PrototypeActions.render('payment'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
   }
 
   next() {

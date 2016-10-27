@@ -7,21 +7,23 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModul
 
 import { PrototypeComponent } from './prototype.component';
 import { prototypeRouting } from './prototype.routing';
-import { PrototypeAmountComponent } from './prototype-amount/prototype-amount.component';
+import { PrototypeGiftAmountComponent } from './prototype-gift-amount/prototype-gift-amount.component';
 import { PrototypeDetailsComponent } from './prototype-details/prototype-details.component';
 import { PrototypeAuthenticationComponent } from './prototype-authentication/prototype-authentication.component';
 import { PrototypePaymentComponent } from './prototype-payment/prototype-payment.component';
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
+import { PrototypeSwitchComponent } from './prototype-switch/prototype-switch.component';
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
 
 import { prototypeReducer } from './prototype-state/prototype.reducer';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeGiftService } from './prototype-gift.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service.ts';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
+import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prototype-payment-amount.component';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -49,15 +51,17 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   ],
   declarations: [
     PrototypeComponent,
-    PrototypeAmountComponent,
+    PrototypeGiftAmountComponent,
     PrototypeDetailsComponent,
     PrototypeAuthenticationComponent,
     PrototypePaymentComponent,
     PrototypeSummaryComponent,
+    PrototypeSwitchComponent,
     PrototypeConfirmationComponent,
     PrototypeRegistrationComponent,
     PrototypePasswordComponent,
-    PrototypeEmailComponent
+    PrototypeEmailComponent,
+    PrototypePaymentAmountComponent
   ],
   providers: [
     PrototypeGiftService,

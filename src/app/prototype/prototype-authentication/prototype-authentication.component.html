@@ -14,12 +14,12 @@
         </div>
         <div class="col-xs-6">
           <p class="text-right">
-            <a routerLink="/prototype/password">Forgot password?</a><br>
+            <a routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
             <a href="#">Need help?</a>
           </p>
         </div>
       </div>
-      <p>Or <a routerLink="/prototype/registration">register for an account</a></p>
+      <p>Or <a routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
         <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
@@ -27,7 +27,7 @@
     </form>
   </tab>
 
-  <tab heading="Give as a Guest" [disabled]="gift.frequency != 'One Time'">
+  <tab *ngIf="gift.flow_type == 'gift'" heading="Give as a Guest" [disabled]="gift.frequency != 'One Time'">
     <h3>Guest</h3>
     <form [formGroup]="form" (ngSubmit)="guest()">
       <div>

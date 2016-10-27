@@ -25,6 +25,7 @@ export class PrototypePaymentComponent implements OnInit {
     }
 
     this.achForm = this._fb.group({
+      account_holder_name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
       ach_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       account_type: ['personal', [<any>Validators.required]]
@@ -39,14 +40,14 @@ export class PrototypePaymentComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render('details'));
+    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
     return false;
   }
 
   achNext() {
     if (this.achForm.valid) {
       this.gift.payment_type = 'ach';
-      this.store.dispatch(PrototypeActions.render('summary'));
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
     }
     return false;
   }
@@ -54,7 +55,7 @@ export class PrototypePaymentComponent implements OnInit {
   ccNext() {
     if (this.ccForm.valid) {
       this.gift.payment_type = 'cc';
-      this.store.dispatch(PrototypeActions.render('summary'));
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
     }
     return false;
   }
