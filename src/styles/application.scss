@@ -115,7 +115,18 @@ tbody > tr > td,
     width: 100%;
 
     .btn {
+      // color: $secondary-color;
+      border-color: $secondary-color;
       width: 50%;
+    }
+
+    .btn-option {
+      color: $secondary-color;
+      
+      &.active {
+        background-color: $secondary-color;
+        color: $cr-white;
+      }
     }
 
     .btn:first-child:not(:last-child) {
