@@ -5,6 +5,7 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../../services/previous-gift-amount.service';
+import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -20,12 +21,14 @@ export class PrototypeGiftAmountComponent implements OnInit {
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
-  public isDataLoaded: boolean = false;
   public previous: number = 20;
+  public loggedInUser: any;
+  public pmtInfo: any;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
               private gift: PrototypeGiftService,
+              private existingPaymentInfoService: ExistingPaymentInfoService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
@@ -39,7 +42,30 @@ export class PrototypeGiftAmountComponent implements OnInit {
       customAmount: [this.gift.amount, [<any>Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*$')]],
       selectedAmount: [this.gift.amount]
     });
+
   }
+
+  //-------------------------------------------------------------------------------------------------------------------
+  test(){
+
+    console.log('Starting test');
+    this.existingPaymentInfoService.getTestUser()
+        .subscribe(
+            loggedInUser => this.loggedInUser = loggedInUser,
+            loggedInUser =>  this.loggedInUser = loggedInUser);
+    console.log('Emit from subscribe');
+    console.log(this.loggedInUser);
+
+    if (this.loggedInUser){
+      this.existingPaymentInfoService.getExistingPaymentInfo(this.loggedInUser.userToken)
+          .subscribe(
+              pmtInfo => this.pmtInfo = pmtInfo,
+              pmtInfo =>  this.pmtInfo = pmtInfo);
+      console.log(this.pmtInfo);
+    }
+
+  }
+  //-------------------------------------------------------------------------------------------------------------------
 
   next() {
     this.gift.init = false;
