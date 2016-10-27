@@ -2,12 +2,14 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { PrototypeAuthenticationComponent } from './prototype-authentication.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 
@@ -26,7 +28,7 @@ describe('Component: PrototypeAuthentication', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService
+        PrototypeGiftService, CheckGuestEmailService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeAuthenticationComponent);
