@@ -49,7 +49,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
  checkEmail(event) {
     this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
-      resp => {this.guestEmail = resp;}
+      resp => { this.guestEmail = resp; }
     );
  }
 
