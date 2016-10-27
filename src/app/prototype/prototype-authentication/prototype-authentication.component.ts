@@ -13,6 +13,8 @@ import { CheckGuestEmailService } from '../../../app/services/check-guest-email.
   providers: [CheckGuestEmailService]
 })
 export class PrototypeAuthenticationComponent implements OnInit {
+  public signinOption:string = 'Sign In';
+
   form: FormGroup;
   email: string;
   guestEmail: boolean;
