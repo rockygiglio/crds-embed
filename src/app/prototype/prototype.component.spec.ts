@@ -10,6 +10,7 @@ import { PrototypeGiftAmountComponent } from './prototype-gift-amount/prototype-
 import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prototype-payment-amount.component';
 import { PrototypeGiftService } from './prototype-gift.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { HttpModule, JsonpModule  } from '@angular/http';
 
 class MockPrototypeStore { public subscribe() {}; }
@@ -28,7 +29,7 @@ describe('Component: Prototype', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService, QuickDonationAmountsService
+        PrototypeGiftService, QuickDonationAmountsService, PreviousGiftAmountService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeComponent);

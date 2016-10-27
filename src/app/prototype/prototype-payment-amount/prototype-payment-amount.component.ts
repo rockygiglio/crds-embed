@@ -19,14 +19,14 @@ export class PrototypePaymentAmountComponent implements OnInit {
 
   amount_due = [
     {
-      label: "Minimum Due",
+      label: 'Minimum Due',
       amount: 100.00
     },
     {
-      label: "Total Due",
+      label: 'Total Due',
       amount: 400.00
     }
-  ]
+  ];
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
