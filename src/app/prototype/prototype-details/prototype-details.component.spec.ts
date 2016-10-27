@@ -8,6 +8,9 @@ import { PrototypeDetailsComponent } from './prototype-details.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
+import { ActivatedRoute } from '@angular/router';
+
+class MockActivatedRoute {}
 class MockPrototypeStore { public subscribe() {}; }
 
 describe('Component: PrototypeDetails', () => {
@@ -24,6 +27,7 @@ describe('Component: PrototypeDetails', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         PrototypeGiftService
       ]
     });
@@ -34,5 +38,6 @@ describe('Component: PrototypeDetails', () => {
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
+
 
 });
