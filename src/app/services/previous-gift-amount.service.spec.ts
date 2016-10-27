@@ -1,5 +1,5 @@
 import {TestBed, getTestBed, async, inject} from '@angular/core/testing';
-import {Headers, BaseRequestOptions, Response, HttpModule, Http, XHRBackend, RequestMethod} from '@angular/http';
+import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
 
 import {ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';

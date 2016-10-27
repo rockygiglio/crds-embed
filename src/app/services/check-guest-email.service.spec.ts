@@ -1,9 +1,8 @@
-/* tslint:disable:max-line-length */
 import {TestBed, getTestBed, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
+
 import {ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-
 import { CheckGuestEmailService } from './check-guest-email.service';
 
 describe('CheckGuestEmailService', () => {
@@ -33,7 +32,7 @@ describe('CheckGuestEmailService', () => {
     TestBed.compileComponents();
   }));
 
-  it("returns false when guest email does not exist",
+  it('returns false when guest email does not exist',
     async(inject([CheckGuestEmailService], (checkGuestEmailService) => {
       mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -46,26 +45,20 @@ describe('CheckGuestEmailService', () => {
 
       checkGuestEmailService.guestEmailExists('foo@blaziksmnahg.com').subscribe(
       (data) => {
-        console.log(data);
         expect(data).toBe(false);
       });
     }))
   );
 
-  it("returns true when guest email does exist",
-    async(inject([CheckGuestEmailService], (checkGuestEmailService) => {
+  it('returns true when guest email does exist',
+    async(inject([CheckGuestEmailService], (checkGuestEmailServiceTwo) => {
       mockBackend.connections.subscribe(
       (connection: MockConnection) => {
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-            body: true
-          }
-        )));
+        connection.mockError(new Error('Some error'));
       });
 
-      checkGuestEmailService.guestEmailExists('good@example.com').subscribe(
+      checkGuestEmailServiceTwo.guestEmailExists('good@example.com').subscribe(
       (data) => {
-        console.log(data);
         expect(data).toBe(true);
       });
     }))
