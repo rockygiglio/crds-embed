@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeState } from './prototype-state/prototype.interfaces';
 import { PrototypeGiftService } from './prototype-gift.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service.ts';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 
 @Component({
   selector: 'app-prototype',
@@ -19,13 +20,14 @@ export class PrototypeComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private gift: PrototypeGiftService,
-              private quickAmts: QuickDonationAmountsService) {
+              private quickAmts: QuickDonationAmountsService,
+              private prevAmt: PreviousGiftAmountService) {
     store.subscribe(() => this.readState());
   }
 
   ngOnInit() {
     this.route.params.forEach((params) => {
-      if(Object.keys(params).indexOf('type') > -1) {
+      if (Object.keys(params).indexOf('type') > -1) {
         this.flowType = params['type'];
       }
     });

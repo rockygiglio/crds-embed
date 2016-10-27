@@ -16,6 +16,7 @@ import { PrototypeEmailComponent } from './prototype-email/prototype-email.compo
 import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { DonationFundService } from '../services/donation-fund.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 
 const prototypeRoutes: Routes = [
   {
@@ -29,7 +30,8 @@ const prototypeRoutes: Routes = [
           { path: 'amount',
             component: PrototypeGiftAmountComponent,
             resolve: {
-              quickDonationAmounts: QuickDonationAmountsService
+              quickDonationAmounts: QuickDonationAmountsService,
+              previousGiftAmount: PreviousGiftAmountService
             }
           },
           { path: 'details',
