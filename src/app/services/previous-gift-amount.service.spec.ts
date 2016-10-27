@@ -44,7 +44,7 @@ describe('Quick Donation Amounts Service', () => {
                         )));
                 });
 
-            previousGiftAmountService.getQuickDonationAmounts().subscribe(
+            previousGiftAmountService.get().subscribe(
                 (data) => {
                     expect(data).toBe(40);
                 });
