@@ -22,16 +22,16 @@
       </div>
 
       <div class="col-xs-6">
-        <p class="text-right">
-          <a routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
-          <a href="#">Need help?</a>
+        <p class="pull-right text-left text-block">
+          <a class="text-block__link--underline" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
+          <a class="text-block__link--underline" href="#">Need help?</a>
         </p>
       </div>
     </div>
 
     <hr>
 
-    <p>Or <a routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
+    <p class="text-block text-block--pb-2">Or <a routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
     <footer class="page-footer">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
       <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
