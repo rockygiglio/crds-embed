@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, Request, RequestOptions, RequestMethod, URLSearchParams } from '@angular/http';
+import { Http, Response, Headers, Request, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolve } from '@angular/router';
 
@@ -11,7 +11,7 @@ export class PreviousGiftAmountService implements Resolve<number> {
 
     private base = 'https://gatewayint.crossroads.net:443/gateway/api/';
     private url = this.base + 'donations';
-    private headers:Headers = new Headers();
+    private headers: Headers = new Headers();
 
     constructor (private http: Http) {}
 
@@ -27,8 +27,6 @@ export class PreviousGiftAmountService implements Resolve<number> {
             impersonateDonorId: '',
             includeRecurring: false
         };
-
-        let self = this;
 
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Parameter', JSON.stringify(params));
@@ -49,7 +47,7 @@ export class PreviousGiftAmountService implements Resolve<number> {
         return body || 40;
     }
 
-    private error (fallback:number) {
+    private error (fallback: number) {
         return [40];
     }
 }
