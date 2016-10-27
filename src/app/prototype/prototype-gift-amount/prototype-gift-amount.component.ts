@@ -4,6 +4,7 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { ActivatedRoute } from '@angular/router';
+import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 
 @Component({
   selector: 'app-prototype-amount',
@@ -20,10 +21,13 @@ export class PrototypeGiftAmountComponent implements OnInit {
   public form: FormGroup;
   public isDataLoaded: boolean = false;
   public previous: number = 20;
+  public loggedInUser: any;
+  public pmtInfo: any;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
               private gift: PrototypeGiftService,
+              private existingPaymentInfoService: ExistingPaymentInfoService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
@@ -40,6 +44,28 @@ export class PrototypeGiftAmountComponent implements OnInit {
       selectedAmount: [this.gift.amount]
     });
   }
+
+    //-------------------------------------------------------------------------------------------------------------------
+    test(){
+
+        console.log('Starting test');
+        this.existingPaymentInfoService.getTestUser()
+            .subscribe(
+                loggedInUser => this.loggedInUser = loggedInUser,
+                loggedInUser =>  this.loggedInUser = loggedInUser);
+        console.log('Emit from subscribe');
+        console.log(this.loggedInUser);
+
+        if (this.loggedInUser){
+            this.existingPaymentInfoService.getExistingPaymentInfo(this.loggedInUser.userToken)
+                .subscribe(
+                    pmtInfo => this.pmtInfo = pmtInfo,
+                    pmtInfo =>  this.pmtInfo = pmtInfo);
+            console.log(this.pmtInfo);
+        }
+
+    }
+    //-------------------------------------------------------------------------------------------------------------------
 
   next() {
     this.gift.init = false;
