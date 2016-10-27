@@ -4,19 +4,24 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 
 @Component({
   selector: 'app-prototype-authentication',
   templateUrl: './prototype-authentication.component.html',
-  styleUrls: ['./prototype-authentication.component.css']
+  styleUrls: ['./prototype-authentication.component.css'],
+  providers: [CheckGuestEmailService]
 })
 export class PrototypeAuthenticationComponent implements OnInit {
   form: FormGroup;
   email: string;
+  guestEmail: boolean;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
-              private _fb: FormBuilder) {}
+              private _fb: FormBuilder,
+              private checkGuestEmailService: CheckGuestEmailService
+              ) {}
 
   back() {
     this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
@@ -41,6 +46,12 @@ export class PrototypeAuthenticationComponent implements OnInit {
     }
     return false;
   }
+
+ checkEmail(event) {
+    this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
+      resp => { this.guestEmail = resp; }
+    );
+ }
 
   ngOnInit() {
 
