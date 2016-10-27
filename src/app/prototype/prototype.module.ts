@@ -20,6 +20,7 @@ import { PrototypeState } from './prototype-state/prototype.interfaces';
 import { PrototypeStore } from './prototype-state/prototype.store';
 import { PrototypeGiftService } from './prototype-gift.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { DonationFundService } from '../services/donation-fund.service';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
@@ -66,6 +67,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
   providers: [
     PrototypeGiftService,
     QuickDonationAmountsService,
+    DonationFundService,
     { provide: PrototypeStore, useValue: store }
   ]
 })

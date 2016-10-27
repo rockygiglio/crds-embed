@@ -15,6 +15,7 @@ import { PrototypePasswordComponent } from './prototype-password/prototype-passw
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { DonationFundService } from '../services/donation-fund.service';
 
 const prototypeRoutes: Routes = [
   {
@@ -31,7 +32,12 @@ const prototypeRoutes: Routes = [
               quickDonationAmounts: QuickDonationAmountsService
             }
           },
-          { path: 'details', component: PrototypeDetailsComponent },
+          { path: 'details',
+            component: PrototypeDetailsComponent,
+            resolve: {
+              giveTo: DonationFundService
+            }
+          },
           { path: 'auth', component: PrototypeAuthenticationComponent },
           { path: 'payment', component: PrototypePaymentComponent },
           { path: 'summary', component: PrototypeSummaryComponent },
