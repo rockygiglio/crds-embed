@@ -4,6 +4,7 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service';
+import { PreviousGiftAmountService } from '../../services/previous-gift-amount.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,10 +16,12 @@ import { ActivatedRoute } from '@angular/router';
 
 export class PrototypeGiftAmountComponent implements OnInit {
   public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];
+  public previousAmount: number = this.route.snapshot.data['previousGiftAmount'];
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
   public isDataLoaded: boolean = false;
+  public previous: number = 20;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
