@@ -22,6 +22,17 @@ export class PrototypeGiftService {
   is_guest: boolean = false;
   init: boolean = true;
 
+  reset() {
+    _.each([
+      'email',
+      'amount',
+    ], (f) => {
+      delete(this[f]);
+    });
+    this.resetDate();
+    this.resetPaymentDetails();
+  }
+
   resetDate() {
     this.start_date = undefined;
     return false;

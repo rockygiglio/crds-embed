@@ -39,7 +39,6 @@ export class PrototypeDetailsComponent implements OnInit {
   ngOnInit() {
     this.setFrequencies();
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
-    console.log(this.startDate);
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],

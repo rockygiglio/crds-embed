@@ -7,6 +7,7 @@ import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prot
 import { PrototypeDetailsComponent } from './prototype-details/prototype-details.component';
 import { PrototypeAuthenticationComponent } from './prototype-authentication/prototype-authentication.component';
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
+import { PrototypeSwitchComponent } from './prototype-switch/prototype-switch.component';
 import { PrototypePaymentComponent } from './prototype-payment/prototype-payment.component';
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
@@ -21,6 +22,7 @@ const prototypeRoutes: Routes = [
     component: PrototypeComponent,
     children: [
       { path: '', redirectTo: 'gift', pathMatch: 'full' },
+      { path: 'switch', component: PrototypeSwitchComponent },
       {
         path: 'gift', children: [
           { path: 'amount',

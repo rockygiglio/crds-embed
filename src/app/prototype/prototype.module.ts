@@ -12,6 +12,7 @@ import { PrototypeDetailsComponent } from './prototype-details/prototype-details
 import { PrototypeAuthenticationComponent } from './prototype-authentication/prototype-authentication.component';
 import { PrototypePaymentComponent } from './prototype-payment/prototype-payment.component';
 import { PrototypeSummaryComponent } from './prototype-summary/prototype-summary.component';
+import { PrototypeSwitchComponent } from './prototype-switch/prototype-switch.component';
 import { PrototypeConfirmationComponent } from './prototype-confirmation/prototype-confirmation.component';
 
 import { prototypeReducer } from './prototype-state/prototype.reducer';
@@ -55,6 +56,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     PrototypeAuthenticationComponent,
     PrototypePaymentComponent,
     PrototypeSummaryComponent,
+    PrototypeSwitchComponent,
     PrototypeConfirmationComponent,
     PrototypeRegistrationComponent,
     PrototypePasswordComponent,
