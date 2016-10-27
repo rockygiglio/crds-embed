@@ -45,7 +45,8 @@
 
 <div *ngIf="paymentMethod == 'Credit Card'" heading="Credit Card">
   <!-- <br> -->
-  <alert dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+  <alert *ngIf="gift.flow_type == 'gift'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+  <alert *ngIf="gift.flow_type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
     <input type="number" class="form-control" placeholder="Credit Card Number" formControlName="cc_account_number" [(ngModel)]="gift.cc_account_number" pattern="[0-9]*"><br>
