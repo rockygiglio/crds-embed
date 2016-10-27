@@ -19,8 +19,8 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
-              private _fb: FormBuilder,
-              private checkGuestEmailService: CheckGuestEmailService) {}
+              private _fb: FormBuilder
+              ) {}
 
   back() {
     this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
@@ -46,11 +46,11 @@ export class PrototypeAuthenticationComponent implements OnInit {
     return false;
   }
   
-  checkEmail(event) {
-    this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
-      resp => {this.guestEmail = resp}
-    );
-  }
+ // checkEmail(event) {
+ //   this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
+ //     resp => {this.guestEmail = resp}
+ //   );
+ // }
 
   ngOnInit() {
 

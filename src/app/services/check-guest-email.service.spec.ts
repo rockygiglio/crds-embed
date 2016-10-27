@@ -6,7 +6,7 @@ import {MockBackend, MockConnection} from '@angular/http/testing';
 
 import { CheckGuestEmailService } from './check-guest-email.service';
 
-describe('FindUserService', () => {
+describe('CheckGuestEmailService', () => {
 
   let mockBackend: MockBackend;
 
@@ -46,7 +46,8 @@ describe('FindUserService', () => {
 
       checkGuestEmailService.guestEmailExists('foo@blaziksmnahg.com').subscribe(
       (data) => {
-        expect(data[0]).toBe(false);
+        console.log(data);
+        expect(data).toBe(false);
       });
     }))
   );
@@ -64,7 +65,8 @@ describe('FindUserService', () => {
 
       checkGuestEmailService.guestEmailExists('good@example.com').subscribe(
       (data) => {
-        expect(data[0]).toBe(true);
+        console.log(data);
+        expect(data).toBe(true);
       });
     }))
   );
