@@ -1,17 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve } from '@angular/router';
 
-import 'rxjs/add/observable/throw';
-
-// Operators
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class QuickDonationAmountsService implements Resolve<number[]> {
@@ -21,7 +14,7 @@ export class QuickDonationAmountsService implements Resolve<number[]> {
 
     constructor (private http: Http) {}
 
-    resolve(route: ActivatedRouteSnapshot) {
+    resolve() {
         return this.getQuickDonationAmounts();
     }
 
@@ -36,8 +29,7 @@ export class QuickDonationAmountsService implements Resolve<number[]> {
         return body || { };
     }
 
-    private handleError (res: Response | any) {
-        console.log('Call for predefined amounts failed, defaulting to front-end settings');
+    private handleError () {
         return [[5, 10, 25, 100, 500]];
     }
 }
