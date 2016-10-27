@@ -69,6 +69,17 @@ tbody > tr > td,
     margin: -5px;
   }
 
+  input[type='radio'] {
+    label & {
+      font-weight: normal;
+    }
+  }
+
+  label {
+    color: $text-color-dark;
+    font-weight: normal;
+  }
+
   .inline-form {
     &__input {
       &:first-of-type {

@@ -4,7 +4,9 @@
 
 <tabset>
   <tab heading="Bank Account" active="true" (select)="gift.payment_type = 'ach'">
-    <h3>Account Type:</h3>
+    <header class="page-header">
+      <h2>Account Type:</h2>
+    </header>
 
     <form [formGroup]="achForm" (ngSubmit)="achNext()">
       <label>
