@@ -1,9 +1,9 @@
 import {TestBed, getTestBed, async, inject} from '@angular/core/testing';
-import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
+import {Headers, BaseRequestOptions, Response, HttpModule, Http, XHRBackend, RequestMethod} from '@angular/http';
 
 import {ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {QuickDonationAmountsService} from './quick-donation-amounts.service';
+import {PreviousGiftAmountService} from './previous-gift-amount.service';
 
 
 describe('Quick Donation Amounts Service', () => {
@@ -13,7 +13,7 @@ describe('Quick Donation Amounts Service', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                QuickDonationAmountsService,
+                PreviousGiftAmountService,
                 MockBackend,
                 BaseRequestOptions,
                 {
@@ -33,24 +33,20 @@ describe('Quick Donation Amounts Service', () => {
         TestBed.compileComponents();
     }));
 
-    it('it should get predefined donations amounts',
-        async(inject([QuickDonationAmountsService], (quickDonationAmountsService) => {
+    it('it should provide a previous gift amount',
+        async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
             mockBackend.connections.subscribe(
                 (connection: MockConnection) => {
                     connection.mockRespond(new Response(
                         new ResponseOptions({
-                                body: [5, 20, 50, 100, 500]
+                                body: 40
                             }
                         )));
                 });
 
-            quickDonationAmountsService.getQuickDonationAmounts().subscribe(
+            previousGiftAmountService.get().subscribe(
                 (data) => {
-                    expect(data[0]).toBe(5);
-                    expect(data[1]).toBe(20);
-                    expect(data[2]).toBe(50);
-                    expect(data[3]).toBe(100);
-                    expect(data[4]).toBe(500);
+                    expect(data).toBe(40);
                 });
         }))
     );
