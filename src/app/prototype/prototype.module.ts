@@ -23,6 +23,7 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { DonationFundService } from '../services/donation-fund.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { LoginService } from '../services/login.service';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
@@ -74,7 +75,9 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     PreviousGiftAmountService,
     LoginService,
     CookieService,
+    ExistingPaymentInfoService,
     { provide: PrototypeStore, useValue: store }
   ]
 })
+
 export class PrototypeModule { }
