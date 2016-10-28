@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, Request, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolve } from '@angular/router';
+import { CookieService } from 'angular2-cookie/core';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -14,11 +15,8 @@ export class PreviousGiftAmountService implements Resolve<number> {
     private headers: Headers = new Headers();
     private token: string = '';
 
-    constructor (private http: Http) {
-
-        // add code to set token value
-        // this.token = $cookie.get('sessionId');
-
+    constructor (private http: Http, private cookieService: CookieService) {
+        this.token = this.cookieService.get('sessionId');
     }
 
     resolve() {
@@ -27,16 +25,11 @@ export class PreviousGiftAmountService implements Resolve<number> {
 
     get (): Observable<number> {
 
-        let params = {
-            limit : 1,
-            softcredit: false,
-            impersonateDonorId: '',
-            includeRecurring: false,
-            Authorization: this.token
-        };
+        let pre = this.url;
+        this.url = pre + "?limit=1";
 
         this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Parameter', JSON.stringify(params));
+        this.headers.append('Authorization', this.token);
 
         let options = new RequestOptions({
             method: RequestMethod.Get,
@@ -51,10 +44,12 @@ export class PreviousGiftAmountService implements Resolve<number> {
 
     private extract(res: Response) {
         let body = res.json();
-        return body || 40;
+        let amount = body.donations[0].amount.toString(); 
+        let amountFormatted = amount.substr(0,amount.length-2) + "." + amount.substr(amount.length-2);
+        return amountFormatted || 0;
     }
 
-    private error (fallback: number) {
-        return [40];
+    private error (res: Response) {
+        return [0];
     }
 }

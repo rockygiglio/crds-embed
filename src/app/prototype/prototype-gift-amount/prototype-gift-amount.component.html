@@ -2,7 +2,7 @@
   <h2>Amount:</h2>
 </div>
 
-<div class="alert alert-warning" *ngIf="gift.init">
+<div class="alert alert-warning" *ngIf="gift.init && previousAmount">
   <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
 </div>
 
