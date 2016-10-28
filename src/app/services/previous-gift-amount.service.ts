@@ -12,8 +12,14 @@ export class PreviousGiftAmountService implements Resolve<number> {
     private base = 'https://gatewayint.crossroads.net:443/gateway/api/';
     private url = this.base + 'donations';
     private headers: Headers = new Headers();
+    private token: string = '';
 
-    constructor (private http: Http) {}
+    constructor (private http: Http) {
+
+        // add code to set token value
+        // this.token = $cookie.get('sessionId');
+
+    }
 
     resolve() {
         return this.get();
@@ -25,7 +31,8 @@ export class PreviousGiftAmountService implements Resolve<number> {
             limit : 1,
             softcredit: false,
             impersonateDonorId: '',
-            includeRecurring: false
+            includeRecurring: false,
+            Authorization: this.token
         };
 
         this.headers.append('Content-Type', 'application/json');
