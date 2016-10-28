@@ -22,11 +22,13 @@ import { PrototypeGiftService } from './prototype-gift.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { LoginService } from '../services/login.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { PrototypeRegistrationComponent } from './prototype-registration/prototype-registration.component';
 import { PrototypePasswordComponent } from './prototype-password/prototype-password.component';
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prototype-payment-amount.component';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -71,6 +73,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     QuickDonationAmountsService,
     DonationFundService,
     PreviousGiftAmountService,
+    LoginService,
+    CookieService,
     ExistingPaymentInfoService,
     { provide: PrototypeStore, useValue: store }
   ]
