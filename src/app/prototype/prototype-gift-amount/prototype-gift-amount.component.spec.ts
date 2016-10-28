@@ -2,10 +2,12 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { PrototypeGiftAmountComponent } from './prototype-gift-amount.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -20,12 +22,13 @@ describe('Component: PrototypeGiftAmount', () => {
     TestBed.configureTestingModule({
       declarations: [ PrototypeGiftAmountComponent ],
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule, HttpModule
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        PrototypeGiftService
+        PrototypeGiftService,
+        ExistingPaymentInfoService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeGiftAmountComponent);
