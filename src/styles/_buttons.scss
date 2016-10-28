@@ -1,22 +1,18 @@
 .btn-previous {
-  @include button-variant(#FFF, $cr-grey, $cr-grey);
+  @include button-variant($cr-white, $accent-color, $accent-color);
 }
 
 .btn-next {
-  @include button-variant(#FFF, $cr-light-blue, $cr-light-blue);
-}
-
-.btn-next {
-  @include button-variant(#FFF, $cr-light-blue, $cr-light-blue);
+  @include button-variant($cr-white, $primary-color, $primary-color);
 }
 
 .btn-option {
-  @include button-variant($cr-grey, #FFF, lighten($cr-grey, 30));
+  @include button-variant($text-color-dark, $cr-white, $accent-color);
   &.active {
-    &, &:hover, &:focus { 
-      background-color: $cr-teal;
-      border-color: $cr-teal;
-      color: #FFF;
+    &, &:hover, &:focus {
+      background-color: $secondary-color;
+      border-color: $secondary-color;
+      color: $cr-white;
       box-shadow: none;
     }
   }
