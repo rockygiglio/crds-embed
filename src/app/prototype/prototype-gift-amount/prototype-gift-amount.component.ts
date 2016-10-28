@@ -3,8 +3,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
-import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service';
-import { PreviousGiftAmountService } from '../../services/previous-gift-amount.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,8 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class PrototypeGiftAmountComponent implements OnInit {
-  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];
-  public previousAmount: number = this.route.snapshot.data['previousGiftAmount'];
+  public predefinedAmounts: number[];
+  public previousAmount: number;
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
@@ -29,6 +27,8 @@ export class PrototypeGiftAmountComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    this.predefinedAmounts = this.route.snapshot.data['quickDonationAmounts'];
+    this.previousAmount = this.route.snapshot.data['previousGiftAmount'];
 
     if (this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;

@@ -31,7 +31,10 @@
     <h3>Guest</h3>
     <form [formGroup]="form" (ngSubmit)="guest()">
       <div>
-        <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')"><br>
+        <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')" (blur)="checkEmail($event)"><br>
+      </div>
+      <div *ngIf="guestEmail">
+        <p>Looks like that email is already taken</p>
       </div>
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>

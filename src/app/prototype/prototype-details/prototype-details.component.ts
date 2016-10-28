@@ -5,7 +5,16 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
+import { ActivatedRoute } from '@angular/router';
+
 declare var _;
+
+interface Program {
+  Name: string;
+  ProgramId: number;
+  ProgramType: number;
+  AllowRecurringGiving: boolean;
+}
 
 @Component({
   selector: 'app-prototype-details',
@@ -13,30 +22,27 @@ declare var _;
   styleUrls: ['./prototype-details.component.css']
 })
 export class PrototypeDetailsComponent implements OnInit {
-  funds: { name: string, frequencies: Array<string> }[] = [
-    {
-      name: 'I\'m In',
-      frequencies: ['One Time', 'Weekly', 'Monthly']
-    },
-    {
-      name: 'Crossroads General',
-      frequencies: ['One Time', 'Weekly', 'Monthly']
-    },
-    {
-      name: 'Reach Out',
-      frequencies: ['One Time']
-    }
-  ];
+
+  funds: Array<Program>;
   defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
   availableFrequencies: Array<string> = this.defaultFrequencies;
   form: FormGroup;
   startDate: any;
+  defaultFund: Program = {
+    'ProgramId': 3,
+    'Name': 'General Giving',
+    'ProgramType': 1,
+    'AllowRecurringGiving': true
+  };
 
   constructor(@Inject(PrototypeStore) private store: any,
+              private route: ActivatedRoute,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    this.funds = this.route.snapshot.data['giveTo'];
+    this.gift.fund = this.defaultFund.Name;
     this.setFrequencies();
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
     this.form = this._fb.group({
@@ -61,17 +67,20 @@ export class PrototypeDetailsComponent implements OnInit {
   }
 
   setFrequencies() {
-    this.availableFrequencies = _.find(this.funds, (f) => {
-      return (f.name === this.gift.fund);
-    }).frequencies;
+    let selectedFund = _.find(this.funds, (f) => {
+      return (f.Name === this.gift.fund);
+    });
 
-    if (this.availableFrequencies.indexOf(this.gift.frequency) === -1) {
+    if (selectedFund.AllowRecurringGiving) {
+      this.availableFrequencies = this.defaultFrequencies;
+    } else {
       this.gift.frequency = _.first(this.availableFrequencies);
+      this.availableFrequencies = _.first(this.availableFrequencies);
     }
   }
 
   onClickFund(fund) {
-    this.gift.fund = fund.name;
+    this.gift.fund = fund.Name;
     this.setFrequencies();
   }
 
