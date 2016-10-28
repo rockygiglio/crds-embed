@@ -25,10 +25,11 @@
   </div>
 
   <footer class="page-footer">
-    <!--TESTING BUTTON - DELETE!!-->
-    <input type="submit" class="btn btn-next pull-right" (click)="test()" value="Test">
-    <!--TESTING BUTTON - DELETE!!-->
     <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
   </footer>
+
+  <!--TESTING BUTTON - DELETE!!-->
+  <input type="submit" class="btn btn-next pull-right" (click)="getTestUserPmtInfo()" value="TEST BTN: Get Prev Payment Info">
+  <!--TESTING BUTTON - DELETE!!-->
 
 </form>

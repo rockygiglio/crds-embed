@@ -45,27 +45,33 @@ export class PrototypeGiftAmountComponent implements OnInit {
     });
   }
 
-    //-------------------------------------------------------------------------------------------------------------------
-    test(){
-
-        console.log('Starting test');
-        this.existingPaymentInfoService.getTestUser()
-            .subscribe(
-                loggedInUser => this.loggedInUser = loggedInUser,
-                loggedInUser =>  this.loggedInUser = loggedInUser);
-        console.log('Emit from subscribe');
-        console.log(this.loggedInUser);
-
-        if (this.loggedInUser){
-            this.existingPaymentInfoService.getExistingPaymentInfo(this.loggedInUser.userToken)
-                .subscribe(
-                    pmtInfo => this.pmtInfo = pmtInfo,
-                    pmtInfo =>  this.pmtInfo = pmtInfo);
-            console.log(this.pmtInfo);
-        }
-
+  // ----------------------------------TESTING FUNCTIONS FOR QA, REMOVE AFTER TESTING-----------------------------------
+  getTestUserPmtInfo() {
+      console.log('Getting test user token...');
+      this.existingPaymentInfoService.getTestUser()
+          .subscribe(
+              loggedInUser => {
+                this.loggedInUser = loggedInUser;
+                console.log('Got user token:');
+                console.log(this.loggedInUser);
+                this.testGetUserPmtInfo(this.loggedInUser.userToken);
+              },
+              loggedInUser =>  this.loggedInUser = loggedInUser);
     }
-    //-------------------------------------------------------------------------------------------------------------------
+
+
+    testGetUserPmtInfo(userToken) {
+      console.log('Getting previous payment data for user...');
+      this.existingPaymentInfoService.getExistingPaymentInfo(userToken)
+          .subscribe(
+              pmtInfo => {
+                this.pmtInfo = pmtInfo;
+                console.log('Got payment info: ');
+                console.log(this.pmtInfo);
+              },
+              pmtInfo =>  this.pmtInfo = pmtInfo);
+    }
+  // -------------------------------------------------------------------------------------------------------------------
 
   next() {
     this.gift.init = false;

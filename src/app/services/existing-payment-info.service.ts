@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 import 'rxjs/add/observable/throw';
 
@@ -28,12 +27,6 @@ export class ExistingPaymentInfoService {
 
     constructor (private http: Http) {}
 
-    getExistingPaymentInfoForUser(): Observable<any[]> {
-        return this.http.post(this.loginUrl, this.testUserAcct)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
 
     getTestUser (): Observable<any[]> {
         return this.http.post(this.loginUrl, this.testUserAcct)
@@ -41,7 +34,7 @@ export class ExistingPaymentInfoService {
             .catch(this.handleError);
     }
 
-    getExistingPaymentInfo (userToken: any): Observable<any[]> {
+    getExistingPaymentInfo (userToken: string): Observable<any[]> {
 
         let headers = new Headers({ 'Accept': 'application/json' });
         headers.append('Authorization', `${userToken}`);
@@ -61,6 +54,6 @@ export class ExistingPaymentInfoService {
     }
 
     private handleError (res: Response | any) {
-        return [[5, 10, 25, 100, 500]];
+        return [[]];
     }
 }
