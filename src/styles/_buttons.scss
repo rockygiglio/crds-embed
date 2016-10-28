@@ -7,7 +7,7 @@
 }
 
 .btn-option {
-  @include button-variant($text-color-dark, $cr-white, $accent-color);
+  @include button-variant($text-color, $cr-white, $accent-color);
   &.active {
     &, &:hover, &:focus {
       background-color: $secondary-color;
