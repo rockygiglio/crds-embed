@@ -17,6 +17,8 @@ $primary-color: $cr-light-blue;
 $secondary-color: $cr-teal;
 $accent-color: $cr-grey;
 
+$underline-color: lighten($accent-color, 20);
+
 $text-color: $accent-color;
 $text-color-dark: darken($text-color, 30);
 
