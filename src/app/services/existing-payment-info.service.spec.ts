@@ -1,9 +1,9 @@
 import {TestBed, getTestBed, async, inject} from '@angular/core/testing';
-import {Headers, BaseRequestOptions, Response, HttpModule, Http, XHRBackend, RequestMethod} from '@angular/http';
+import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
 
 import {ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {PreviousGiftAmountService} from './previous-gift-amount.service';
+import {ExistingPaymentInfoService} from './existing-payment-info.service';
 
 
 describe('Quick Donation Amounts Service', () => {
@@ -13,7 +13,7 @@ describe('Quick Donation Amounts Service', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                PreviousGiftAmountService,
+                ExistingPaymentInfoService,
                 MockBackend,
                 BaseRequestOptions,
                 {
@@ -33,20 +33,20 @@ describe('Quick Donation Amounts Service', () => {
         TestBed.compileComponents();
     }));
 
-    it('it should provide a previous gift amount',
-        async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
+    it('it should fetch previous payment info',
+        async(inject([ExistingPaymentInfoService], (ExistingPaymentInfoService) => {
             mockBackend.connections.subscribe(
                 (connection: MockConnection) => {
                     connection.mockRespond(new Response(
                         new ResponseOptions({
-                                body: 40
+                                body: 42
                             }
                         )));
                 });
 
-            previousGiftAmountService.getQuickDonationAmounts().subscribe(
+            ExistingPaymentInfoService.getExistingPaymentInfo('123abc').subscribe(
                 (data) => {
-                    expect(data).toBe(40);
+                    expect(data).toBe(42);
                 });
         }))
     );

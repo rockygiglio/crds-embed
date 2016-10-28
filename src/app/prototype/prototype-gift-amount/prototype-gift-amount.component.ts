@@ -3,9 +3,8 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
-import { QuickDonationAmountsService } from '../../services/quick-donation-amounts.service';
-import { PreviousGiftAmountService } from '../../services/previous-gift-amount.service';
 import { ActivatedRoute } from '@angular/router';
+import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 
 @Component({
   selector: 'app-prototype-amount',
@@ -15,20 +14,25 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class PrototypeGiftAmountComponent implements OnInit {
-  public predefinedAmounts: number[] = this.route.snapshot.data['quickDonationAmounts'];
-  public previousAmount: number = this.route.snapshot.data['previousGiftAmount'];
+  public predefinedAmounts: number[];
+  public previousAmount: number;
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
   public isDataLoaded: boolean = false;
   public previous: number = 20;
+  public loggedInUser: any;
+  public pmtInfo: any;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
               private gift: PrototypeGiftService,
+              private existingPaymentInfoService: ExistingPaymentInfoService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    this.predefinedAmounts = this.route.snapshot.data['quickDonationAmounts'];
+    this.previousAmount = this.route.snapshot.data['previousGiftAmount'];
 
     if (this.predefinedAmounts.indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;
@@ -40,6 +44,34 @@ export class PrototypeGiftAmountComponent implements OnInit {
       selectedAmount: [this.gift.amount]
     });
   }
+
+  // ----------------------------------TESTING FUNCTIONS FOR QA, REMOVE AFTER TESTING-----------------------------------
+  getTestUserPmtInfo() {
+      console.log('Getting test user token...');
+      this.existingPaymentInfoService.getTestUser()
+          .subscribe(
+              loggedInUser => {
+                this.loggedInUser = loggedInUser;
+                console.log('Got user token:');
+                console.log(this.loggedInUser);
+                this.testGetUserPmtInfo(this.loggedInUser.userToken);
+              },
+              loggedInUser =>  this.loggedInUser = loggedInUser);
+    }
+
+
+    testGetUserPmtInfo(userToken) {
+      console.log('Getting previous payment data for user...');
+      this.existingPaymentInfoService.getExistingPaymentInfo(userToken)
+          .subscribe(
+              pmtInfo => {
+                this.pmtInfo = pmtInfo;
+                console.log('Got payment info: ');
+                console.log(this.pmtInfo);
+              },
+              pmtInfo =>  this.pmtInfo = pmtInfo);
+    }
+  // -------------------------------------------------------------------------------------------------------------------
 
   next() {
     this.gift.init = false;
