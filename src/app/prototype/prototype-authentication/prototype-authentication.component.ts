@@ -5,6 +5,8 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
+import { LoginService } from '../../services/login.service';
+import { CookieService } from 'angular2-cookie/core';
 
 @Component({
   selector: 'app-prototype-authentication',
@@ -22,7 +24,9 @@ export class PrototypeAuthenticationComponent implements OnInit {
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder,
-              private checkGuestEmailService: CheckGuestEmailService
+              private checkGuestEmailService: CheckGuestEmailService,
+              private loginService: LoginService,
+              private cookieService: CookieService
               ) {}
 
   back() {
@@ -36,6 +40,13 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
   next() {
     if (this.form.valid) {
+      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
+      .subscribe(
+        user => {
+          this.cookieService.put('sessionId', user.userToken);
+        },
+        error => console.log(error)
+      );
       this.adv();
     }
     return false;
