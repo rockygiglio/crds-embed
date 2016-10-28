@@ -41,9 +41,17 @@ tbody > tr > td,
       border-bottom: 1px solid $underline-color;
     }
 
-    &--no-btm-space {
-      padding-bottom: 0;
+    &--mb-0 {
       margin-bottom: 0;
+    }
+
+    &--pb-0 {
+      padding-bottom: 0;
+    }
+
+    &--no-btm-space {
+      @extend .page-header--mb-0;
+      @extend .page-header--pb-0;
     }
   }
 
@@ -65,10 +73,6 @@ tbody > tr > td,
     }
   }
 
-  .btn {
-    // border-radius: 2px;
-  }
-
   .btn-group {
     &--flex {
       display: flex;
@@ -87,9 +91,13 @@ tbody > tr > td,
     }
   }
 
-  form {
-    // margin-left: 5px;
+  .table {
+    td:last-child {
+      color: $text-color-dark;
+    }
+  }
 
+  form {
     .input-group-addon {
       border: none;
       background-color: $input-bg-color;
@@ -100,11 +108,14 @@ tbody > tr > td,
 
     .form-control {
       background-color: $input-bg-color;
-      // border-radius: 2px;
       border: none;
       box-shadow: none;
       color: $text-color;
-      // margin: -5px;
+    }
+
+    // Tight margin between inputs - removed for review
+    .form-control--tight-margin {
+      margin: -5px -5px -5px 0;
     }
 
     label {
@@ -112,17 +123,18 @@ tbody > tr > td,
     }
   }
 
+  // Tighten margin between inline inputs - removed for review
   .inline-form {
-    margin: 0;
+    // margin: 0;
 
     &__input {
-      padding: 0 5px;
+      // padding: 0 5px;
 
       &:first-of-type {
-        padding-left: 0;
+        // padding-left: 0;
       }
       &:last-of-type {
-        padding-right: 0;
+        // padding-right: 0;
       }
     }
   }
@@ -187,7 +199,7 @@ tbody > tr > td,
     padding: 1em 0 2em;
   }
 
-  .confirmation-background {
+  .contrast-background {
     background: $page-bg-color;
     padding: 1.25em 1.25em 2em 1.25em;
 
