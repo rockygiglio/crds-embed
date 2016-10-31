@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
-import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { HttpClientService } from './http-client.service';
 
 @Injectable()
 export class UserSessionService {
@@ -10,48 +7,29 @@ export class UserSessionService {
   private readonly accessToken: string = 'sessionId';
   private readonly refreshToken: string = 'refreshToken';
 
-  private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-  private loginUrl = this.baseUrl + 'Login';
-
-  constructor(private http: HttpClientService, private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService) { }
 
   getAccessToken(): string {
-    return this.cookieService.get('sessionId');
+    return this.cookieService.get(this.accessToken);
   }
 
   getRefreshToken(): string {
-    return this.cookieService.get('refreshToken');
+    return this.cookieService.get(this.refreshToken);
   }
 
-  isLoggedIn(): boolean {
-    return !!this.cookieService.get(this.accessToken);
-  }
-
-  login(email: string, password: string): Observable<any> {
-    let body = {
-      'username': email,
-      'password': password
-    };
-
-    return this.http.post(this.loginUrl, body)
-      .catch(this.handleError);
-  }
-
-  logOut(): void {
+  removeAccessToken(): void {
     this.cookieService.remove(this.accessToken);
+  }
+
+  removeRefreshToken(): void {
     this.cookieService.remove(this.refreshToken);
   }
 
   setAccessToken(value: string): void {
-    this.cookieService.put('sessionId', value);
+    this.cookieService.put(this.accessToken, value);
   }
 
   setRefreshToken(value: string): void {
-    this.cookieService.put('refreshToken', value);
+    this.cookieService.put(this.refreshToken, value);
   }
-
-  private handleError(res: Response | any) {
-    return [res.json()];
-  }
-
 }
