@@ -1,0 +1,33 @@
+// Brand Colors
+$cr-light-blue: #0095D9;
+$cr-blue: #3b6e8f; //PMS 5405 C58 M17 Y0   K46
+$cr-orange: #b05c30; //PMS 167  C0  M60 Y100 K17
+$cr-dkblue: #113556;
+$cr-grey: #AFAFAF; //#878785; //PMS Cool Grey 9
+$cr-teal: #56AFA9;
+$cr-white: #FFF;
+
+$fontface-header: "bebas-neue",sans-serif;
+
+// Bootstrap Overrides
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$brand-primary: $cr-light-blue;
+
+$primary-color: $cr-light-blue;
+$secondary-color: $cr-teal;
+$accent-color: $cr-grey;
+
+$text-color: $accent-color;
+$text-color-dark: darken($text-color, 30);
+
+$input-bg-color: lighten($accent-color, 27);
+$page-bg-color: lighten($accent-color, 27);
+
+@mixin header-font($fontface, $fontsize) {
+  text-transform: uppercase;
+  font-family: $fontface;
+  font-style: normal;
+  font-weight: 400;
+  font-size: $fontsize;
+  color: $text-color-dark;
+}

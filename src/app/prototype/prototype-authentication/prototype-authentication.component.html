@@ -1,0 +1,45 @@
+<tabset>
+  <tab heading="Sign In">
+    <h3>I Have An Account</h3>
+    <form [formGroup]="form" (ngSubmit)="next()">
+      <div>
+        <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')"><br>
+        <input type="password" class="form-control" placeholder="Password" [formControl]="form.get('password')"><br>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <label>
+            <input type="checkbox" checked="checked"> Keep me logged in
+          </label>
+        </div>
+        <div class="col-xs-6">
+          <p class="text-right">
+            <a routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
+            <a href="#">Need help?</a>
+          </p>
+        </div>
+      </div>
+      <p>Or <a routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
+      <footer class="page-footer">
+        <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
+      </footer>
+    </form>
+  </tab>
+
+  <tab *ngIf="gift.flow_type == 'gift'" heading="Give as a Guest" [disabled]="gift.frequency != 'One Time'">
+    <h3>Guest</h3>
+    <form [formGroup]="form" (ngSubmit)="guest()">
+      <div>
+        <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')" (blur)="checkEmail($event)"><br>
+      </div>
+      <div *ngIf="guestEmail">
+        <p>Looks like that email is already taken</p>
+      </div>
+      <footer class="page-footer">
+        <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="guest()" [ngClass]="{ disabled: !form.valid }" value="Next">
+      </footer>
+    </form>
+  </tab>
+</tabset>

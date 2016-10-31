@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h2>Amount:</h2>
+</div>
+
+<div class="alert alert-warning" *ngIf="gift.init">
+  <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
+</div>
+
+<div class="btn-group">
+  <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
+    <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
+  </template>
+</div>
+
+<hr>
+
+<form [formGroup]="form" (ngSubmit)="next()">
+
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="text" class="form-control" placeholder="Or Enter Amount" [formControl]="form.get('customAmount')" [(ngModel)]="customAmount" (ngModelChange)="onCustomAmount($event)">
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
+  </footer>
+
+  <!--TESTING BUTTON - DELETE!!-->
+  <input type="submit" class="btn btn-next pull-right" (click)="getTestUserPmtInfo()" value="TEST BTN: Get Prev Payment Info">
+  <!--TESTING BUTTON - DELETE!!-->
+
+</form>

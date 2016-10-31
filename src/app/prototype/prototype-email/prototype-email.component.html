@@ -1,0 +1,12 @@
+<header class="page-header">
+  <h2>Change Email</h2>
+</header>
+
+<form [formGroup]="form">
+  <input type="text" class="form-control" placeholder="Email Address" formControlName="email"><br>
+</form>
+
+<footer class="page-footer">
+  <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+  <a href="#" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }">Update</a>
+</footer>
