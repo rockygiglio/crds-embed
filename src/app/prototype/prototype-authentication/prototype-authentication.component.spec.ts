@@ -28,6 +28,7 @@ describe('Component: PrototypeAuthentication', () => {
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         TabsModule,
+        ButtonsModule,
         HttpModule
       ],
       providers:    [
