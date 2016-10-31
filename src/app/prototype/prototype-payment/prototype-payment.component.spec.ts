@@ -2,7 +2,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule, TabsModule, CollapseModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, ButtonsModule, TabsModule, CollapseModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { PrototypePaymentComponent } from './prototype-payment.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
@@ -22,7 +22,8 @@ describe('Component: PrototypePayment', () => {
         AlertModule,
         CollapseModule,
         ReactiveFormsModule,
-        TabsModule
+        TabsModule,
+        ButtonsModule
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
