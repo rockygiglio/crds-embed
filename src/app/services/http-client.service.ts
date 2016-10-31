@@ -5,9 +5,7 @@ import { UserSessionService } from './user-session.service';
 @Injectable()
 export class HttpClientService {
 
-  constructor(private http: Http, private userSession: UserSessionService) {
-    console.log(this.userSession.accessToken);
-  }
+  constructor(private http: Http, private userSession: UserSessionService) { }
 
   get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
@@ -24,7 +22,7 @@ export class HttpClientService {
     return this.http.post(url, data, requestOptions).map(this.extractAuthToken);
   }
 
-  private extractAuthToken(res: Response) {
+  private extractAuthToken = (res: Response) => {
     let body = res.json();
     if (body != null && body.userToken) {
       this.userSession.setAccessToken(body.userToken);

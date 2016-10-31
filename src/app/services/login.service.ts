@@ -17,17 +17,8 @@ export class LoginService {
       'password': password
     };
 
-    //let headers = new Headers({ 'Content-Type': 'application/json' });
-    //let options = new RequestOptions({ headers: headers });
-
     return this.http.post(this.loginUrl, body)
-                    //.map(this.extractData)
                     .catch(this.handleError);
-  }
-
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
   }
 
   private handleError(res: Response | any) {

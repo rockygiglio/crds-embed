@@ -11,7 +11,7 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 import { LoginService } from '../../services/login.service';
-import { CookieService } from 'angular2-cookie/core';
+import { UserSessionService } from '../../services/user-session.service';
 import { FormBuilder } from '@angular/forms';
 
 class MockPrototypeStore { public subscribe() {}; }
@@ -32,7 +32,7 @@ describe('Component: PrototypeAuthentication', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService, FormBuilder, CheckGuestEmailService, LoginService, CookieService
+        PrototypeGiftService, FormBuilder, CheckGuestEmailService, LoginService, UserSessionService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeAuthenticationComponent);

@@ -5,7 +5,7 @@ import { LoginService } from './login.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 
-describe('Service: Login', () => {
+fdescribe('Service: Login', () => {
 
   const mockResponse = {
     'userToken': 'AAEAAKVu0E-usertoken',
