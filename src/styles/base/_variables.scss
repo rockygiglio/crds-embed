@@ -9,7 +9,9 @@ $cr-white: #FFF;
 
 // Bootstrap Overrides
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$fontface-header: "bebas-neue",sans-serif;
+
+// To be changed with Typekit tranfer
+$fontface-header: "bebas-neue", sans-serif;
 
 // Default colors
 $bg-color: $cr-white !default;
@@ -22,12 +24,3 @@ $text-color: #777 !default;
 $input-text-color: #505050 !default;
 $input-bg-color: #FBFBFB !default;
 $page-bg-color: #F4F4F4 !default;
-
-@mixin header-font($fontface, $fontsize) {
-  color: $header-color;
-  font-family: $fontface;
-  font-size: $fontsize;
-  font-style: normal;
-  font-weight: 400;
-  text-transform: uppercase;
-}
