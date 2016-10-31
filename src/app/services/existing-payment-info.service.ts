@@ -11,6 +11,7 @@ export class ExistingPaymentInfoService {
     private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
     private loginUrl = this.baseUrl + 'login';
     private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
+    private userPaymentInfo = null;
 
     private testUserAcct = {
         username: 'scrudgemcduckcrds@mailinator.com',
@@ -20,6 +21,13 @@ export class ExistingPaymentInfoService {
 
     constructor (private http: Http) {}
 
+    setUserPaymentInfo (userPaymentInfo){
+        this.userPaymentInfo = userPaymentInfo;
+    }
+
+    getUserPaymentInfo(){
+        return this.userPaymentInfo;
+    }
 
     getTestUser (): Observable<any[]> {
         return this.http.post(this.loginUrl, this.testUserAcct)
