@@ -7,29 +7,27 @@ $cr-grey: #AFAFAF; //#878785; //PMS Cool Grey 9
 $cr-teal: #56AFA9;
 $cr-white: #FFF;
 
-$fontface-header: "bebas-neue",sans-serif;
-
 // Bootstrap Overrides
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$brand-primary: $cr-light-blue;
+$fontface-header: "bebas-neue",sans-serif;
 
-$primary-color: $cr-light-blue;
-$secondary-color: $cr-teal;
-$accent-color: $cr-grey;
-
-$underline-color: lighten($accent-color, 20);
-
-$text-color: $accent-color;
-$text-color-dark: darken($text-color, 30);
-
-$input-bg-color: lighten($accent-color, 27);
-$page-bg-color: lighten($accent-color, 27);
+// Default colors
+$bg-color: $cr-white !default;
+$primary-color: $cr-light-blue !default;
+$secondary-color: $cr-teal !default;
+$accent-color: $cr-grey !default;
+$header-color: #666 !default;
+$underline-color: #EEE !default;
+$text-color: #777 !default;
+$input-text-color: #505050 !default;
+$input-bg-color: #FBFBFB !default;
+$page-bg-color: #F4F4F4 !default;
 
 @mixin header-font($fontface, $fontsize) {
-  text-transform: uppercase;
+  color: $header-color;
   font-family: $fontface;
+  font-size: $fontsize;
   font-style: normal;
   font-weight: 400;
-  font-size: $fontsize;
-  color: $text-color-dark;
+  text-transform: uppercase;
 }

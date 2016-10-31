@@ -3,6 +3,13 @@
 @import 'variables';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import 'buttons';
+@import 'dark-theme';
+
+@import 'base/module';
+@import 'layout/module';
+@import 'themes/module';
+@import 'utils/module';
+@import 'vendors/module';
 
 h2, h3 {
   font-size: 150%;
@@ -32,6 +39,8 @@ tbody > tr > td,
 }
 
 .inline-giving {
+  background-color: $bg-color;
+
   .page-header {
     @include header-font($fontface-header, 1.25em);
 
@@ -74,6 +83,19 @@ tbody > tr > td,
   }
 
   .btn-group {
+    .btn-option {
+      background-color: transparent;
+
+      :hover,
+      :active {
+        background-color: $secondary-color;
+      }
+    }
+
+    .active {
+      background-color: $secondary-color;
+    }
+
     &--flex {
       display: flex;
       flex-flow: row nowrap;
@@ -93,7 +115,7 @@ tbody > tr > td,
 
   .table {
     td:last-child {
-      color: $text-color-dark;
+      color: darken($text-color, 30);
     }
   }
 
@@ -101,7 +123,6 @@ tbody > tr > td,
     .input-group-addon {
       border: none;
       background-color: $input-bg-color;
-      color: $text-color;
       font-size: 1.5em;
       font-weight: bold;
     }
@@ -110,32 +131,14 @@ tbody > tr > td,
       background-color: $input-bg-color;
       border: none;
       box-shadow: none;
-      color: $text-color;
-    }
 
-    // Tight margin between inputs - removed for review
-    .form-control--tight-margin {
-      margin: -5px -5px -5px 0;
+      &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: lighten($input-text-color, 10);
+      }
     }
 
     label {
       font-weight: normal;
-    }
-  }
-
-  // Tighten margin between inline inputs - removed for review
-  .inline-form {
-    // margin: 0;
-
-    &__input {
-      // padding: 0 5px;
-
-      &:first-of-type {
-        // padding-left: 0;
-      }
-      &:last-of-type {
-        // padding-right: 0;
-      }
     }
   }
 
@@ -145,7 +148,7 @@ tbody > tr > td,
       color: currentColor;
 
       &:hover {
-        color: $text-color-dark;
+        color: darken($text-color, 30);
       }
     }
 
