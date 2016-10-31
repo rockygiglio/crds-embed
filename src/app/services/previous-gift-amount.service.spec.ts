@@ -7,7 +7,7 @@ import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { CookieService } from 'angular2-cookie/core';
 
 
-describe('Existing Payment Info Service', () => {
+describe('Previous Gift Amount Service', () => {
 
   let mockBackend: MockBackend;
 
