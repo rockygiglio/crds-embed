@@ -23,11 +23,10 @@ export class PreviousGiftAmountService implements Resolve<number> {
         return this.get();
     }
 
-    get (): Observable<number> {
+    get(): Observable<string> {
 
         let pre = this.url;
-        this.url = pre + "?limit=1";
-
+        this.url = pre + '?limit=1';
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Authorization', this.token);
 
@@ -44,12 +43,19 @@ export class PreviousGiftAmountService implements Resolve<number> {
 
     private extract(res: Response) {
         let body = res.json();
-        let amount = body.donations[0].amount.toString(); 
-        let amountFormatted = amount.substr(0,amount.length-2) + "." + amount.substr(amount.length-2);
-        return amountFormatted || 0;
+        let amount: string;
+
+        if ( body.donations !== undefined && body.donations[0] !== undefined ) {
+            amount =  body.donations[0].amount.toString();
+            amount = amount.substr(0, amount.length - 2) + '.' + amount.substr(amount.length - 2);
+        } else {
+            amount =  '0.00';
+        }
+
+        return amount;
     }
 
     private error (res: Response) {
-        return [0];
+        return ['0.00'];
     }
 }
