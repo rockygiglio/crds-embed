@@ -29,6 +29,32 @@ export class ExistingPaymentInfoService {
         return this.userPaymentInfo;
     }
 
+    getLastFourOfBankOrCcAcctNum(){
+        console.log('Getting last 4 in service:');
+
+        let lastFour: any = null;
+
+        var isPrevPmtDataAvailable = this.userPaymentInfo && this.userPaymentInfo !== [];
+
+        console.log('Is previous data available? ' + isPrevPmtDataAvailable);
+        console.log(this.userPaymentInfo);
+
+        if(isPrevPmtDataAvailable){
+            console.log('User pmt info exists:');
+            console.log(this.userPaymentInfo);
+            console.log('CC last 4');
+            console.log(this.userPaymentInfo.default_source.credit_card.last4);
+            console.log('Bank last 4');
+            console.log(this.userPaymentInfo.default_source.bank_account.last4);
+            lastFour = this.userPaymentInfo.default_source.credit_card.last4 ||
+                       this.userPaymentInfo.default_source.bank_account.last4;
+        }
+
+        console.log('Final last 4 returned from service');
+        console.log(lastFour);
+        return lastFour;
+    };
+
     getTestUser (): Observable<any[]> {
         return this.http.post(this.loginUrl, this.testUserAcct)
             .map(this.extractData)
