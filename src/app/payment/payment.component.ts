@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ParameterService} from "../services/parameter.service";
+import { Location } from '@angular/common';
+import { ParameterService } from "../services/parameter.service";
 
 @Component({
   selector: 'app-payment',
@@ -8,8 +9,14 @@ import {ParameterService} from "../services/parameter.service";
 })
 export class PaymentComponent implements OnInit {
 
-  constructor(private paramsService: ParameterService) {}
+  constructor(public params: ParameterService,
+              private location: Location) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.params.type === 'donation') {
+      this.location.go('/donation')
+    }
+  }
 
 }

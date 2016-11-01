@@ -8,10 +8,6 @@ const PaymentRoutes: Routes = [
   {
     path: 'payment',
     component: PaymentComponent,
-    children: [
-      { path: '', redirectTo: 'landing', pathMatch: 'full' },
-      { path: 'landing', component: LandingComponent }
-    ]
   }
 ];
 

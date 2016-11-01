@@ -7,8 +7,6 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModul
 import { PaymentComponent } from './payment.component';
 import { PaymentRouting } from './payment.routing';
 
-import { LandingComponent } from './landing/landing.component';
-
 import { ParameterService } from '../services/parameter.service';
 
 @NgModule({
@@ -25,8 +23,7 @@ import { ParameterService } from '../services/parameter.service';
     JsonpModule
   ],
   declarations: [
-    PaymentComponent,
-    LandingComponent
+    PaymentComponent
   ],
   providers: [
     ParameterService
