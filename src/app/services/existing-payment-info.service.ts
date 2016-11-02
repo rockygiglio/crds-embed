@@ -38,31 +38,17 @@ export class ExistingPaymentInfoService {
 
 
     getLastFourOfBankOrCcAcctNum() {
-        console.log('Getting last 4 in service:');
 
         let lastFour: any = null;
 
         let prevPmtDataIsEmptyArray: any = this.helperIsArrayOfLength(this.userPaymentInfo, 0);
         let isPrevPmtDataAvailable: any = this.userPaymentInfo && !prevPmtDataIsEmptyArray;
 
-        console.log('Is previous data available? ' + isPrevPmtDataAvailable);
-        console.log(this.userPaymentInfo);
-        console.log([]);
-
         if (isPrevPmtDataAvailable) {
-            console.log('User pmt info exists:');
-            console.log(this.userPaymentInfo);
-            console.log('CC last 4');
-            console.log(this.userPaymentInfo.default_source.credit_card.last4);
-            console.log('Bank last 4');
-            console.log(this.userPaymentInfo.default_source.bank_account.last4);
             lastFour = this.userPaymentInfo.default_source.credit_card.last4 ||
                        this.userPaymentInfo.default_source.bank_account.last4;
         }
 
-        console.log('Final last 4 returned from service');
-        console.log(lastFour);
-        //this.setUserPaymentInfo(lastFour);
         return lastFour;
     };
 
@@ -92,7 +78,6 @@ export class ExistingPaymentInfoService {
 
 
     private handleError (res: Response | any) {
-        console.log('Hit error condition');
         this.userPaymentInfo = null;
         return [[]];
     }
