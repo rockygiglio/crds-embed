@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { DonationComponent } from './donation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
+import { GiftService } from "../services/gift.service";
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
@@ -20,7 +21,8 @@ describe('Component: Payment', () => {
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
       ],
-      providers:    [
+      providers: [
+        GiftService
       ]
     });
     this.fixture = TestBed.createComponent(DonationComponent);

@@ -2,11 +2,14 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpModule, JsonpModule  } from '@angular/http';
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { PaymentComponent } from './payment.component';
-import { HttpModule, JsonpModule  } from '@angular/http';
+import { GivingStore } from "../giving-state/giving.store";
+import { GiftService } from "../services/gift.service";
 
-class MockPrototypeStore { public subscribe() {}; }
+class MockGivingStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
 
 describe('Component: Payment', () => {
@@ -18,9 +21,11 @@ describe('Component: Payment', () => {
     TestBed.configureTestingModule({
       declarations: [ PaymentComponent ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
       ],
-      providers:    [
+      providers: [
+        { provide: GivingStore, useClass: MockGivingStore },
+        GiftService
       ]
     });
     this.fixture = TestBed.createComponent(PaymentComponent);

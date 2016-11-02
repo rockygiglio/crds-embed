@@ -42,19 +42,10 @@ export class GiftService {
 
     this.type = this.queryParams['type'];
 
-
-
     if (this.type === 'payment' || this.type === 'donation') {
-      // this.invoiceId = this.validate('invoice_id', +this.queryParams['invoice_id']);
-      // this.totalCost = this.validate('total_cost', +this.queryParams['total_cost']);
-      // this.minPayment = this.validate('min_payment', +this.queryParams['min_payment']);
-
-      /**
-       * TODO testing only
-       */
-      this.invoiceId = 1234;
-      this.totalCost = 400;
-      this.minPayment = 100;
+      this.invoiceId = this.validate('invoice_id', +this.queryParams['invoice_id']);
+      this.totalCost = this.validate('total_cost', +this.queryParams['total_cost']);
+      this.minPayment = this.validate('min_payment', +this.queryParams['min_payment']);
 
       this.title = this.queryParams['title'] || '';
       this.url = this.queryParams['url'] || '';
