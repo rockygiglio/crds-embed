@@ -23,15 +23,141 @@ h2, h3 {
 
 .page-footer {
   @include clearfix;
-  border-top: 1px solid $gray-lighter;
-  margin-top: 2em;
-  padding-top: 1em;
 }
 
 hr,
 tbody > tr > td,
 .page-header {
   border-color: #ddd;
+}
+
+.inline-giving {
+  .page-header {
+    @include header-font($fontface-header, 1.25em);
+
+    border: none;
+
+    &--border-btm {
+      border-bottom: 1px solid $accent-color;
+    }
+
+    &--no-btm-space {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .btn-form {
+    &--border-btm {
+      border-bottom: 1px solid $accent-color;
+      margin-bottom: 1em;
+      padding-bottom: 1.5em;
+    }
+
+    &__header {
+      color: $text-color;
+      font-size: .9em;
+      text-transform: uppercase;
+    }
+  }
+
+  .btn {
+    border-radius: 2px;
+  }
+
+  form {
+    margin-left: 5px;
+
+    .form-control {
+      background-color: $input-bg-color;
+      border-radius: 2px;
+      border: none;
+      box-shadow: none;
+      color: $text-color;
+      margin: -5px;
+    }
+  }
+
+  .inline-form {
+    margin: 0;
+
+    &__input {
+      padding: 0 5px;
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+      &:last-of-type {
+        padding-right: 0;
+      }
+    }
+  }
+
+  .text-block {
+    .text-block__link--underline {
+      text-decoration: underline;
+      color: currentColor;
+
+      &:hover {
+        color: $text-color-dark;
+      }
+    }
+
+    &--lg-font {
+      font-size: 1.75em;
+      font-weight: 300;
+      padding-top: 1em;
+    }
+  }
+
+  .form-nav {
+    padding: 1em 0 2em;
+    width: 100%;
+
+    .btn {
+      width: 50%;
+    }
+
+    .btn:first-child:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+
+      margin-right: 0;
+    }
+
+    .btn:last-child:not(:first-child) {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+  }
+
+  .radio-group {
+    padding: 1em 0 2em;
+  }
+
+  input[type='radio'] {
+    label & {
+      font-weight: normal;
+    }
+  }
+
+  label {
+    color: $text-color-dark;
+    font-weight: normal;
+  }
+
+  .confirmation-background {
+    background: $page-bg-color;
+    padding: 1.25em 1.25em 2em 1.25em;
+
+    p:last-of-type {
+      padding-top: .5em;
+    }
+  }
 }
 
 .navbar-prototype .nav > li {

@@ -12,6 +12,7 @@ import { PrototypeGiftService } from './prototype-gift.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { HttpModule, JsonpModule  } from '@angular/http';
+import { CookieService } from 'angular2-cookie/core';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
@@ -29,7 +30,7 @@ describe('Component: Prototype', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService, QuickDonationAmountsService, PreviousGiftAmountService
+        PrototypeGiftService, QuickDonationAmountsService, PreviousGiftAmountService, CookieService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeComponent);

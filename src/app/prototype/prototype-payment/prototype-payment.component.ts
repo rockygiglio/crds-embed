@@ -11,6 +11,8 @@ import { PrototypeGiftService } from '../prototype-gift.service';
   styleUrls: ['./prototype-payment.component.scss']
 })
 export class PrototypePaymentComponent implements OnInit {
+  public paymentMethod:string = 'Bank Account';
+
   achForm: FormGroup;
   ccForm: FormGroup;
   hideCheck: boolean = true;

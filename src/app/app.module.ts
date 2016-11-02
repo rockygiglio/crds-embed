@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 import { PrototypeModule } from './prototype/prototype.module';
+import { PaymentModule } from './payment/payment.module';
 import { DemoModule } from './demo/demo.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -12,10 +13,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     BrowserModule,
     routing,
     PrototypeModule,
+    PaymentModule,
     DemoModule
   ],
   declarations: [ AppComponent, PageNotFoundComponent ],
   providers: [ appRoutingProviders ],
-  bootstrap:    [ AppComponent ]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
