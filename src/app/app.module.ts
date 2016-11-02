@@ -11,14 +11,16 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PaymentComponent } from "./payment/payment.component";
 import { DonationComponent } from "./donation/donation.component";
 
-import { ParameterService } from "./services/parameter.service";
+import { GiftService } from "./services/gift.service";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
     BrowserModule,
     routing,
     PrototypeModule,
-    DemoModule
+    DemoModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
@@ -28,7 +30,7 @@ import { ParameterService } from "./services/parameter.service";
   ],
   providers: [
     appRoutingProviders,
-    ParameterService
+    GiftService
   ],
   bootstrap: [ AppComponent ]
 })

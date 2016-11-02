@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ParameterService } from "../services/parameter.service";
+import { GiftService } from "../services/gift.service";
 
 @Component({
   selector: 'app-donation',
@@ -8,7 +8,7 @@ import { ParameterService } from "../services/parameter.service";
 })
 export class DonationComponent implements OnInit {
 
-  constructor(private params: ParameterService) {}
+  constructor(public gift: GiftService) {}
 
   ngOnInit() {}
 
