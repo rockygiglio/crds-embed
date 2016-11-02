@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
-
-import * as _ from "lodash";
 
 @Injectable()
 export class ParameterService {
@@ -18,8 +15,7 @@ export class ParameterService {
 
   public errors: Array<string> = [];
 
-  constructor(private http: Http,
-              private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute) {
     this.processQueryParams();
   }
 
@@ -39,7 +35,7 @@ export class ParameterService {
     }
   }
 
-  private validate(key, value) {
+  private validate(key:string, value:number) {
     if(isNaN(value) && this.type === 'payment') {
       this.errors.push(`${key} is missing or invalid`);
     }
