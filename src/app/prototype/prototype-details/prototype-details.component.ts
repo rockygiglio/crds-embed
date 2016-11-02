@@ -6,8 +6,7 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 
 import { ActivatedRoute } from '@angular/router';
-
-declare var _;
+import * as _ from 'underscore';
 
 interface Program {
   Name: string;
@@ -67,7 +66,7 @@ export class PrototypeDetailsComponent implements OnInit {
   }
 
   setFrequencies() {
-    let selectedFund = _.find(this.funds, (f) => {
+    let selectedFund = _.find(this.funds, (f: any) => {
       return (f.Name === this.gift.fund);
     });
 
@@ -75,23 +74,23 @@ export class PrototypeDetailsComponent implements OnInit {
       this.availableFrequencies = this.defaultFrequencies;
     } else {
       this.gift.frequency = _.first(this.availableFrequencies);
-      this.availableFrequencies = _.first(this.availableFrequencies);
+      this.availableFrequencies.push(_.first(this.availableFrequencies));
     }
   }
 
-  onClickFund(fund) {
+  onClickFund(fund: any) {
     this.gift.fund = fund.Name;
     this.setFrequencies();
   }
 
-  onClickFrequency(frequency) {
+  onClickFrequency(frequency: any) {
     this.gift.frequency = frequency;
     if (frequency === 'One Time') {
       this.resetDate();
     }
   }
 
-  onClickDate(newValue) {
+  onClickDate(newValue: any) {
     this.gift.start_date = newValue;
   }
 

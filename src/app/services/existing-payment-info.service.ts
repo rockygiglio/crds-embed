@@ -46,7 +46,7 @@ export class ExistingPaymentInfoService {
         return body || { };
     }
 
-    private handleError (res: Response | any) {
+    private handleError(res: Response | any): any[] {
         return [[]];
     }
 }

@@ -1,4 +1,4 @@
-declare var _;
+import * as _ from 'underscore';
 
 export class PrototypeGiftService {
   product_name: string = 'Summer Camp 2017';
@@ -26,7 +26,7 @@ export class PrototypeGiftService {
     _.each([
       'email',
       'amount',
-    ], (f) => {
+    ], (f: any) => {
       delete(this[f]);
     });
     this.resetDate();
@@ -49,7 +49,7 @@ export class PrototypeGiftService {
       'exp_date',
       'cvv',
       'zip_code'
-    ], (f) => {
+    ], (f: any) => {
       delete(this[f]);
     });
   }
