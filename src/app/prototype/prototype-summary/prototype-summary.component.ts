@@ -22,7 +22,7 @@ export class PrototypeSummaryComponent {
     this.lastFourOfAcctNumber = this.getLastFourOfAccountNumber();
   }
 
-  getLastFourOfAccountNumber (){
+  getLastFourOfAccountNumber() {
 
     let lastFourOfPrevPmtInfo = this.existingPaymentInfoService.getLastFourOfBankOrCcAcctNum();
 

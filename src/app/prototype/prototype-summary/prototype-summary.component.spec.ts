@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PrototypeSummaryComponent } from './prototype-summary.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
+import { HttpModule } from '@angular/http';
 
 class MockPrototypeStore { public subscribe() {}; }
 
@@ -20,11 +22,11 @@ describe('Component: PrototypeSummary', () => {
       declarations: [ PrototypeSummaryComponent ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        ReactiveFormsModule
+        ReactiveFormsModule, HttpModule
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService
+        PrototypeGiftService, ExistingPaymentInfoService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeSummaryComponent);

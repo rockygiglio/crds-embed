@@ -98,7 +98,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
             error =>  {
               this.userPmtInfo = null;
               this.existingPaymentInfoService.setUserPaymentInfo(null);
-            })
+            });
   }
 
 }
