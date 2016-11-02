@@ -6,7 +6,6 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 import { LoginService } from '../../services/login.service';
-import { CookieService } from 'angular2-cookie/core';
 import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 
 @Component({
@@ -26,8 +25,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
               private _fb: FormBuilder,
               private checkGuestEmailService: CheckGuestEmailService,
               private loginService: LoginService,
-              private cookieService: CookieService,
-              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private existingPaymentInfoService: ExistingPaymentInfoService
               ) {}
 
   back() {
@@ -44,7 +42,6 @@ export class PrototypeAuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
-          this.cookieService.put('sessionId', user.userToken);
           this.getUserPaymentInfo(user.userToken);
           this.adv();
         },
