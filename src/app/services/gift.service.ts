@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 
+declare var _;
+
 @Injectable()
 export class GiftService {
 
@@ -17,6 +19,15 @@ export class GiftService {
 
   public amount: number;
   public customAmount: number;
+  public paymentType: string;
+  public accountType: string;
+  public accountName: string;
+  public routingNumber: string;
+  public achNumber: string;
+  public ccNumber: string;
+  public expDate: string;
+  public cvv: string;
+  public zipCode: string;
 
   constructor(private route: ActivatedRoute) {
     this.processQueryParams();
@@ -31,6 +42,22 @@ export class GiftService {
     }
 
     return result
+  }
+
+  public resetPaymentDetails() {
+    _.each([
+      'paymentType',
+      'accountType',
+      'accountName',
+      'routingNumber',
+      'achNumber',
+      'ccNumber',
+      'expDate',
+      'cvv',
+      'zipCode'
+    ], (f) => {
+      delete(this[f]);
+    });
   }
 
   /*******************
