@@ -6,7 +6,7 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 
 import { ActivatedRoute } from '@angular/router';
-import * as _ from 'underscore';
+import * as _ from 'lodash';
 
 interface Program {
   Name: string;
