@@ -31,7 +31,7 @@ module.exports = function (config) {
     reporters: ['progress', 'karma-remap-istanbul'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
     autoWatch: false,
     browserNoActivityTimeout: 100000,
     browsers: ['PhantomJS'],

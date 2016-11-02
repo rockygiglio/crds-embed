@@ -24,7 +24,6 @@ export class HttpClientService {
 
   private extractAuthToken = (res: Response) => {
     let body = res.json();
-    console.log(body);
     if (body != null && body.userToken) {
       this.userSession.setAccessToken(body.userToken);
     }
