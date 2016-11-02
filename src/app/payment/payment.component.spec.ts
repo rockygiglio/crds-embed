@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { PaymentComponent } from './payment.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
+import { ParameterService } from "../services/parameter.service";
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
@@ -20,8 +21,7 @@ describe('Component: Payment', () => {
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
       ],
-      providers:    [
-      ]
+      providers:    [ ParameterService ]
     });
     this.fixture = TestBed.createComponent(PaymentComponent);
     this.component = this.fixture.componentInstance;

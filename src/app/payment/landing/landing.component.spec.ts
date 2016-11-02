@@ -4,6 +4,14 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LandingComponent } from './landing.component';
+import { ParameterService } from "../../services/parameter.service";
+import { ActivatedRoute } from "@angular/router";
+
+class MockActivatedRoute {
+  public snapshot = {
+    queryParams: []
+  };
+}
 
 describe('LandingComponent', () => {
   let component: LandingComponent;
@@ -11,7 +19,11 @@ describe('LandingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LandingComponent ]
+      declarations: [ LandingComponent ],
+      providers: [
+        ParameterService,
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
+      ]
     })
     .compileComponents();
   }));
