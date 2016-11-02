@@ -16,6 +16,8 @@ import { FormBuilder } from '@angular/forms';
 
 class MockPrototypeStore { public subscribe() {}; }
 
+class MockLoginService { public login() {}; }
+
 describe('Component: PrototypeAuthentication', () => {
 
   let component;
@@ -32,7 +34,8 @@ describe('Component: PrototypeAuthentication', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService, FormBuilder, CheckGuestEmailService, LoginService, UserSessionService
+        { provide: LoginService, useClass: MockLoginService},
+        PrototypeGiftService, FormBuilder, CheckGuestEmailService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeAuthenticationComponent);

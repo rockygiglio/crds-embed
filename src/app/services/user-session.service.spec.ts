@@ -26,4 +26,18 @@ describe('Service: UserSession', () => {
     service.setRefreshToken(refreshToken);
     expect(service.getRefreshToken()).toBe(refreshToken);
   }));
+
+  it('should check if user is logged in', inject([UserSessionService], (service: UserSessionService) => {
+    let accessToken = 'qwertyuio1234567890';
+    service.setAccessToken(accessToken);
+    expect(service.isLoggedIn()).toBeTruthy();
+  }));
+
+  it('should log a user out', inject([UserSessionService], (service: UserSessionService) => {
+    let accessToken = 'qwertyuio1234567890';
+    service.setAccessToken(accessToken);
+    service.logOut();
+    expect(service.isLoggedIn()).toBeFalsy();
+  }));
+
 });

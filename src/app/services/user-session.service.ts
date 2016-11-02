@@ -9,20 +9,21 @@ export class UserSessionService {
 
   constructor(private cookieService: CookieService) { }
 
+  isLoggedIn(): boolean {
+    return !!this.cookieService.get(this.accessToken);
+  }
+
+  logOut(): void {
+    this.cookieService.remove(this.accessToken);
+    this.cookieService.remove(this.refreshToken);
+  }
+
   getAccessToken(): string {
     return this.cookieService.get(this.accessToken);
   }
 
   getRefreshToken(): string {
     return this.cookieService.get(this.refreshToken);
-  }
-
-  removeAccessToken(): void {
-    this.cookieService.remove(this.accessToken);
-  }
-
-  removeRefreshToken(): void {
-    this.cookieService.remove(this.refreshToken);
   }
 
   setAccessToken(value: string): void {

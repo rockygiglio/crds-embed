@@ -6,7 +6,6 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 import { LoginService } from '../../services/login.service';
-import { UserSessionService } from '../../services/user-session.service';
 
 @Component({
   selector: 'app-prototype-authentication',
@@ -23,8 +22,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
               private gift: PrototypeGiftService,
               private _fb: FormBuilder,
               private checkGuestEmailService: CheckGuestEmailService,
-              private loginService: LoginService,
-              private userSessionService: UserSessionService
+              private loginService: LoginService
               ) {}
 
   back() {
@@ -40,10 +38,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
-        user => {
-          this.userSessionService.setAccessToken(user.userToken);
-          this.userSessionService.setRefreshToken(user.refreshToken);
-        },
+        user => { },
         error => console.log(error)
       );
       this.adv();
