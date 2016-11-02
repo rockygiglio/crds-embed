@@ -17,6 +17,7 @@ import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 
 const prototypeRoutes: Routes = [
   {
@@ -31,7 +32,8 @@ const prototypeRoutes: Routes = [
             component: PrototypeGiftAmountComponent,
             resolve: {
               quickDonationAmounts: QuickDonationAmountsService,
-              previousGiftAmount: PreviousGiftAmountService
+              previousGiftAmount: PreviousGiftAmountService,
+              existingPaymentInfo: ExistingPaymentInfoService
             }
           },
           { path: 'details',
@@ -52,7 +54,12 @@ const prototypeRoutes: Routes = [
       },
       {
         path: 'payment', children: [
-          { path: 'amount', component: PrototypePaymentAmountComponent },
+          { path: 'amount',
+            component: PrototypePaymentAmountComponent,
+            resolve: {
+              existingPaymentInfo: ExistingPaymentInfoService
+            }
+          },
           { path: 'auth', component: PrototypeAuthenticationComponent },
           { path: 'payment', component: PrototypePaymentComponent },
           { path: 'summary', component: PrototypeSummaryComponent },

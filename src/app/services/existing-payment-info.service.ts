@@ -21,6 +21,11 @@ export class ExistingPaymentInfoService {
 
     constructor (private http: Http) {}
 
+    resolve() {
+        let userToken = 'someString';
+        return this.getExistingPaymentInfo(userToken);
+    }
+
 
     setUserPaymentInfo(userPaymentInfo) {
         this.userPaymentInfo = userPaymentInfo;
@@ -57,6 +62,7 @@ export class ExistingPaymentInfoService {
 
         console.log('Final last 4 returned from service');
         console.log(lastFour);
+        //this.setUserPaymentInfo(lastFour);
         return lastFour;
     };
 
@@ -80,11 +86,14 @@ export class ExistingPaymentInfoService {
 
     private extractData(res: Response) {
         let body = res.json();
+        this.userPaymentInfo = body || { };
         return body || { };
     }
 
 
     private handleError (res: Response | any) {
+        console.log('Hit error condition');
+        this.userPaymentInfo = null;
         return [[]];
     }
 
