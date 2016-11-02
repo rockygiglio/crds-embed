@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Inject, Component, OnInit } from '@angular/cor
 import { Location } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { GiftService } from "../services/gift.service";
-import { PrototypeStore } from "../prototype/prototype-state/prototype.store";
+import { GivingStore } from "../giving-state/giving.store";
 
 @Component({
   selector: 'app-payment',
@@ -14,10 +14,8 @@ export class PaymentComponent implements OnInit {
   public customAmount: number;
   public selectedAmount: string;
   public amountDue: Array<Object>;
-  private PrototypeActions;
 
-
-  constructor(@Inject(PrototypeStore) private store: any,
+  constructor(@Inject(GivingStore) private store: any,
               private location: Location,
               private gift: GiftService,
               private fb: FormBuilder) {

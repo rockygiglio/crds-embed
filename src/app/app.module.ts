@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from "@angular/forms";
+import { Store, StoreEnhancer, createStore } from "redux";
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -12,7 +14,20 @@ import { PaymentComponent } from "./payment/payment.component";
 import { DonationComponent } from "./donation/donation.component";
 
 import { GiftService } from "./services/gift.service";
-import { ReactiveFormsModule } from "@angular/forms";
+
+import { GivingStore } from "./giving-state/giving.store";
+import { GivingState } from "./giving-state/giving.interfaces";
+import { givingReducer } from "./giving-state/giving.reducer";
+
+
+let devtools: StoreEnhancer<GivingState> =
+      window['devToolsExtension'] ?
+        window['devToolsExtension']() : f => f;
+
+let store: Store<GivingState> = createStore<GivingState>(
+  givingReducer,
+  devtools
+);
 
 @NgModule({
   imports: [
@@ -30,7 +45,8 @@ import { ReactiveFormsModule } from "@angular/forms";
   ],
   providers: [
     appRoutingProviders,
-    GiftService
+    GiftService,
+    { provide: GivingStore, useValue: store }
   ],
   bootstrap: [ AppComponent ]
 })
