@@ -29,3 +29,15 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 ## Further help
 
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Parameters
+
+Query parameters are used to define the several initial values.  
+* `type` - string - REQUIRED - only accepted are [payment, donation]
+* `invoice_id` - numeric - REQUIRED if type=payment
+* `total_cost` - numeric - REQUIRED if type=payment
+* `min_payment` - numeric - REQUIRED if type=payment
+* `title` - string - optional
+* `url` - string - optional
+
+An example `http://localhost:4200?type=payment&min_payment=123&invoice_id=1234&total_cost=1234`
