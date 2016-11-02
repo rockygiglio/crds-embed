@@ -42,8 +42,8 @@ export class ExistingPaymentInfoService {
 
         let lastFour: any = null;
 
-        let prevPmtDataIsEmptyArray = this.helperIsArrayOfLength(this.userPaymentInfo, 0);
-        let isPrevPmtDataAvailable = this.userPaymentInfo && !prevPmtDataIsEmptyArray;
+        let prevPmtDataIsEmptyArray: any = this.helperIsArrayOfLength(this.userPaymentInfo, 0);
+        let isPrevPmtDataAvailable: any = this.userPaymentInfo && !prevPmtDataIsEmptyArray;
 
         console.log('Is previous data available? ' + isPrevPmtDataAvailable);
         console.log(this.userPaymentInfo);

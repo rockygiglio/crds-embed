@@ -29,7 +29,7 @@ export class PrototypeSummaryComponent {
     let lastFourOfNewPmtInfo = this.gift.accountNumber() ?
                                this.gift.accountNumber().substr(this.gift.accountNumber().length - 4) : null;
 
-    let lastFour = lastFourOfPrevPmtInfo || lastFourOfNewPmtInfo;
+    let lastFour: any = lastFourOfPrevPmtInfo || lastFourOfNewPmtInfo;
 
     console.log('Get last 4 of existing payment method or the predefined gift amount');
 
