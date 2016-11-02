@@ -54,7 +54,7 @@ export class GiftService {
     }
   }
 
-  private validate(key, value) {
+  private validate(key:string, value:number) {
     if(isNaN(value) && this.type === 'payment') {
       this.errors.push(`${key} is missing or invalid`);
     }
