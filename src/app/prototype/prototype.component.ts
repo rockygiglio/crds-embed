@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PrototypeStore } from './prototype-state/prototype.store';
@@ -10,8 +10,7 @@ import { PreviousGiftAmountService } from '../services/previous-gift-amount.serv
 @Component({
   selector: 'app-prototype',
   templateUrl: 'prototype.component.html',
-  styleUrls: ['../../styles/application.scss', 'prototype.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['prototype.component.css']
 })
 export class PrototypeComponent implements OnInit {
   action: string;

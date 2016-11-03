@@ -6,6 +6,7 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 import { LoginService } from '../../services/login.service';
+import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 
 @Component({
   selector: 'app-prototype-authentication',
@@ -17,12 +18,14 @@ export class PrototypeAuthenticationComponent implements OnInit {
   form: FormGroup;
   email: string;
   guestEmail: boolean;
+  userPmtInfo: any;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder,
               private checkGuestEmailService: CheckGuestEmailService,
-              private loginService: LoginService
+              private loginService: LoginService,
+              private existingPaymentInfoService: ExistingPaymentInfoService
               ) {}
 
   back() {
@@ -38,10 +41,14 @@ export class PrototypeAuthenticationComponent implements OnInit {
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
-        user => { },
-        error => console.log(error)
+        user => {
+          this.getUserPaymentInfo(user.userToken);
+          this.adv();
+        },
+        error => {
+          this.adv();
+        }
       );
-      this.adv();
     }
     return false;
   }
@@ -75,6 +82,19 @@ export class PrototypeAuthenticationComponent implements OnInit {
       this.gift.email = value.email;
     });
 
+  }
+
+  getUserPaymentInfo(userToken) {
+    this.existingPaymentInfoService.getExistingPaymentInfo(userToken)
+        .subscribe(
+            pmtInfo => {
+              this.userPmtInfo = pmtInfo;
+              this.existingPaymentInfoService.setUserPaymentInfo(pmtInfo);
+            },
+            error =>  {
+              this.userPmtInfo = null;
+              this.existingPaymentInfoService.setUserPaymentInfo(null);
+            });
   }
 
 }

@@ -33,7 +33,7 @@ export class HttpClientService {
     return body || {};
   }
 
-  private getRequestOption(options?: RequestOptions):  RequestOptions {
+  public getRequestOption(options?: RequestOptions):  RequestOptions {
     let reqOptions = options || new RequestOptions();
     reqOptions.headers = this.createAuthorizationHeader(reqOptions.headers);
     return reqOptions;

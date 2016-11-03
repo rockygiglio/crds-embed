@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { HttpClientService } from './http-client.service';
+import { UserSessionService } from './user-session.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -9,44 +11,82 @@ import 'rxjs/add/operator/map';
 export class ExistingPaymentInfoService {
 
     private baseUrl = process.env.CRDS_API_ENDPOINT + 'api/';
-    private loginUrl = this.baseUrl + 'login';
     private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
+    private userPaymentInfo = null;
 
-    private testUserAcct = {
-        username: 'scrudgemcduckcrds@mailinator.com',
-        password: 'madmoneyyall'
+
+    constructor (private http: Http,
+                 private httpClientService: HttpClientService,
+                 private userSessionService: UserSessionService) {}
+
+    resolve() {
+        let userToken = this.userSessionService.getAccessToken();
+        return this.getExistingPaymentInfo(userToken);
+    }
+
+
+    setUserPaymentInfo(userPaymentInfo) {
+        this.userPaymentInfo = userPaymentInfo;
+    }
+
+
+    getUserPaymentInfo() {
+        return this.userPaymentInfo;
+    }
+
+
+    getLastFourOfBankOrCcAcctNum() {
+
+        let lastFour: any = null;
+
+        let prevPmtDataIsEmptyArray: any = this.helperIsArrayOfLength(this.userPaymentInfo, 0);
+        let isPrevPmtDataAvailable: any = this.userPaymentInfo && !prevPmtDataIsEmptyArray;
+
+        if (isPrevPmtDataAvailable) {
+            lastFour = this.userPaymentInfo.default_source.credit_card.last4 ||
+                       this.userPaymentInfo.default_source.bank_account.last4;
+        }
+
+        return lastFour;
     };
 
 
-    constructor (private http: Http) {}
-
-
-    getTestUser (): Observable<any[]> {
-        return this.http.post(this.loginUrl, this.testUserAcct)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
     getExistingPaymentInfo (userToken: string): Observable<any[]> {
 
-        let headers = new Headers({ 'Accept': 'application/json' });
-        headers.append('Authorization', `${userToken}`);
+        let requestOptions: any = this.httpClientService.getRequestOption();
 
-
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.get(this.getPreviousPmtUrl, options)
+        return this.http.get(this.getPreviousPmtUrl, requestOptions)
                         .map(this.extractData)
                         .catch(this.handleError);
-
     }
+
 
     private extractData(res: Response) {
         let body = res.json();
+        this.userPaymentInfo = body || { };
+
+        console.log('Got previous pmt info for user: ');
+        console.log(this.userPaymentInfo);
+
         return body || { };
     }
 
-    private handleError(res: Response | any): any[] {
+
+    private handleError (res: Response | any) {
+        this.userPaymentInfo = null;
         return [[]];
+    }
+
+
+    helperIsArrayOfLength(obj, length) {
+        let isArrayOfSpecifiedLength = false;
+
+        if(Array.isArray(obj)) {
+            if(obj.length === length) {
+                isArrayOfSpecifiedLength = true;
+            }
+        }
+
+        return isArrayOfSpecifiedLength;
     }
 }

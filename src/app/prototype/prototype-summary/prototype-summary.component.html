@@ -29,7 +29,7 @@
   <tr>
     <td><a routerLink="/prototype/{{ gift.flow_type}}/payment"><strong>Payment:</strong></a></td>
     <td class="text-right">
-      Account ending in {{ gift.accountNumber() | slice:-4 }}<br>
+      Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
       <small><a routerLink="/prototype/{{ gift.flow_type}}/payment">change</a></small>
     </td>
   </tr>

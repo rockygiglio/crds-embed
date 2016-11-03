@@ -4,6 +4,9 @@ import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angul
 import {ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ExistingPaymentInfoService} from './existing-payment-info.service';
+import { HttpClientService } from './http-client.service';
+import { UserSessionService } from './user-session.service';
+import { CookieService } from 'angular2-cookie/core';
 
 
 describe('Quick Donation Amounts Service', () => {
@@ -16,6 +19,9 @@ describe('Quick Donation Amounts Service', () => {
                 ExistingPaymentInfoService,
                 MockBackend,
                 BaseRequestOptions,
+                HttpClientService,
+                UserSessionService,
+                CookieService,
                 {
                     provide: Http,
                     deps: [MockBackend, BaseRequestOptions],
