@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { GivingStore } from './giving-state/giving.store';
@@ -10,7 +10,9 @@ import { PrototypeGiftService } from './prototype/prototype-gift.service';
 
 @Component({
   selector: 'app-root',
-  template: '<div class="prototype-component inline-giving container"><router-outlet></router-outlet></div>'
+  template: '<div class="prototype-component inline-giving container"><router-outlet></router-outlet></div>',
+  styleUrls: ['../styles/application.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
   action: string;

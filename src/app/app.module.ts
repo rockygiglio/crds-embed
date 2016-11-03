@@ -24,7 +24,6 @@ import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
 
 
-
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
         window['devToolsExtension']() : f => f;
