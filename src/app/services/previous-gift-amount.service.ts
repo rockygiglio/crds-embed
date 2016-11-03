@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Response, Headers } from '@angular/http';
+import { Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolve } from '@angular/router';
 import { HttpClientService } from './http-client.service';
@@ -12,8 +12,6 @@ import 'rxjs/add/operator/map';
 export class PreviousGiftAmountService implements Resolve<number> {
 
     private url = process.env.CRDS_API_ENDPOINT + 'api/donations';
-    private headers: Headers = new Headers();
-    private token: string = '';
 
     constructor (private http: HttpClientService,
                  private userSessionService: UserSessionService) {}
@@ -23,10 +21,11 @@ export class PreviousGiftAmountService implements Resolve<number> {
     }
 
     get(): Observable<string> {
-        let pre = this.url;
-        this.url = pre + '?limit=1';
+        let options = new RequestOptions({
+            body: { limit: 1, includeRecurring: false }
+        });
 
-        return this.http.get(this.url)
+        return this.http.get(this.url, options)
             .map(this.extract)
             .catch(this.error);
     }
