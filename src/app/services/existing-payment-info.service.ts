@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
 
@@ -10,14 +10,8 @@ import 'rxjs/add/operator/map';
 export class ExistingPaymentInfoService {
 
     private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-    private loginUrl = this.baseUrl + 'login';
     private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
     private userPaymentInfo = null;
-
-    private testUserAcct = {
-        username: 'scrudgemcduckcrds@mailinator.com',
-        password: 'madmoneyyall'
-    };
 
 
     constructor (private http: Http,
@@ -81,8 +75,8 @@ export class ExistingPaymentInfoService {
     helperIsArrayOfLength(obj, length) {
         let isArrayOfSpecifiedLength = false;
 
-        if(Array.isArray(obj)){
-            if(obj.length === length){
+        if(Array.isArray(obj)) {
+            if(obj.length === length) {
                 isArrayOfSpecifiedLength = true;
             }
         }

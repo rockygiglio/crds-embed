@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class GiftService {
@@ -30,7 +30,7 @@ export class GiftService {
       result = this.amount > 0;
     }
 
-    return result
+    return result;
   }
 
   /*******************
@@ -50,7 +50,7 @@ export class GiftService {
       this.title = this.queryParams['title'] || '';
       this.url = this.queryParams['url'] || '';
     } else {
-      this.errors.push('Invalid type')
+      this.errors.push('Invalid type');
     }
   }
 
