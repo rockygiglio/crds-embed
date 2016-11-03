@@ -10,6 +10,7 @@ import { PrototypeGiftService } from '../prototype-gift.service';
   templateUrl: './prototype-payment-amount.component.html',
   styleUrls: ['./prototype-payment-amount.component.scss']
 })
+
 export class PrototypePaymentAmountComponent implements OnInit {
   public form: FormGroup;
   public customAmount: number;
