@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class QuickDonationAmountsService implements Resolve<number[]> {
 
-    private getQuickAmtsUrl = process.env.EMBED_API_ENDPOINT + 'donations/predefinedamounts';
+    private getQuickAmtsUrl = process.env.CRDS_API_ENDPOINT + 'api/donations/predefinedamounts';
 
     constructor (private http: Http) {}
 

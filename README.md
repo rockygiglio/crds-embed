@@ -32,3 +32,7 @@ Query parameters are used to define the several initial values.
 * `url` - string - optional
 
 An example `http://localhost:8080?type=payment&min_payment=123&invoice_id=1234&total_cost=1234`
+
+## Apache configuration
+
+For additional apache configurations, please modify the `apache_site.conf` file in the root of this repository.

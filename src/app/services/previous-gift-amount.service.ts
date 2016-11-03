@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class PreviousGiftAmountService implements Resolve<number> {
 
-    private url = process.env.EMBED_API_ENDPOINT + 'donations';
+    private url = process.env.CRDS_API_ENDPOINT + 'api/donations';
     private headers: Headers = new Headers();
     private token: string = '';
 

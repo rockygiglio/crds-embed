@@ -6,7 +6,7 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class DonationFundService implements Resolve<any> {
 
-  private fundsUrl = process.env.EMBED_API_ENDPOINT + 'programs/1';
+  private fundsUrl = process.env.CRDS_API_ENDPOINT + 'api/programs/1';
 
   constructor(private http: Http) { }
 

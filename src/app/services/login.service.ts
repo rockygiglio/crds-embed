@@ -6,7 +6,7 @@ import { HttpClientService } from './http-client.service';
 @Injectable()
 export class LoginService {
 
-  private loginUrl = process.env.EMBED_API_ENDPOINT + 'Login';
+  private loginUrl = process.env.CRDS_API_ENDPOINT + 'api/login';
 
   constructor( private http: HttpClientService ) { }
 

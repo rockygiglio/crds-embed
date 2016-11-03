@@ -37,10 +37,6 @@ module.exports = webpackMerge(commonConfig, {
       'process.env': {
         'ENV': JSON.stringify(ENV)
       }
-    }),
-    new CopyWebpackPlugin([{
-      from: './apache_site.conf',
-      to: 'apache_site.conf',
-    }])
+    })
   ]
 });

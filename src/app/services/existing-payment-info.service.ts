@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ExistingPaymentInfoService {
 
-    private baseUrl = process.env.EMBED_API_ENDPOINT;
+    private baseUrl = process.env.CRDS_API_ENDPOINT + 'api/';
     private loginUrl = this.baseUrl + 'login';
     private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
 

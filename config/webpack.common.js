@@ -71,6 +71,11 @@ module.exports = {
     new CopyWebpackPlugin([{
       from: 'src/assets',
       to: 'assets',
-    }], { ignore: ['*.scss', 'mock-data/*'] })
+    }], { ignore: ['*.scss', 'mock-data/*'] }),
+    
+    new CopyWebpackPlugin([{
+      from: './apache_site.conf',
+      to: 'apache_site.conf',
+    }])
   ]
 };
