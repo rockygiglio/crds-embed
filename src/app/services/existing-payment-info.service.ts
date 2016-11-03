@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ExistingPaymentInfoService {
 
-    private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
+    private baseUrl = process.env.EMBED_API_ENDPOINT;
     private loginUrl = this.baseUrl + 'login';
     private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
 

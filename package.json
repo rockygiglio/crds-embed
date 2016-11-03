@@ -2,6 +2,7 @@
   "name": "crds-embed",
   "version": "1.0.0",
   "scripts": {
+    "serve": "npm run start",
     "start": "webpack-dev-server --inline --open --progress --port 8080",
     "test": "karma start",
     "build-dev": "npm run build",

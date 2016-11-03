@@ -6,8 +6,7 @@ import { HttpClientService } from './http-client.service';
 @Injectable()
 export class LoginService {
 
-  private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-  private loginUrl = this.baseUrl + 'Login';
+  private loginUrl = process.env.EMBED_API_ENDPOINT + 'Login';
 
   constructor( private http: HttpClientService ) { }
 

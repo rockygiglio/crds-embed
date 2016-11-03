@@ -6,8 +6,7 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class DonationFundService implements Resolve<any> {
 
-  private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-  private fundsUrl = this.baseUrl + 'programs/1';
+  private fundsUrl = process.env.EMBED_API_ENDPOINT + 'programs/1';
 
   constructor(private http: Http) { }
 

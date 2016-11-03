@@ -1,7 +1,8 @@
 # CrdsEmbed
 
 ## Development server
-Run `npm run start` for a dev server. The app will automatically reload if you change any of the source files.
+
+Run `npm run start` (`npm start` or `npm run serve`) for a dev server. The app will automatically reload if you change any of the source files.
 
 ## Environment Variables
 
