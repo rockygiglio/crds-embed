@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GiftService } from "../services/gift.service";
+import { GiftService } from '../services/gift.service';
 
 @Component({
   selector: 'app-donation',

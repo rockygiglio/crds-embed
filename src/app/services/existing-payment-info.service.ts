@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ExistingPaymentInfoService {
 
-    private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
+    private baseUrl = process.env.CRDS_API_ENDPOINT + 'api/';
     private loginUrl = this.baseUrl + 'login';
     private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
 
@@ -46,7 +46,7 @@ export class ExistingPaymentInfoService {
         return body || { };
     }
 
-    private handleError (res: Response | any) {
+    private handleError(res: Response | any): any[] {
         return [[]];
     }
 }
