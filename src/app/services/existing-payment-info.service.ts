@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { HttpClientService } from './http-client.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -19,7 +20,8 @@ export class ExistingPaymentInfoService {
     };
 
 
-    constructor (private http: Http) {}
+    constructor (private http: Http,
+                 private httpClientService: HttpClientService) {}
 
     resolve() {
         let userToken = 'someString';
@@ -53,16 +55,9 @@ export class ExistingPaymentInfoService {
     };
 
 
-    getTestUser (): Observable<any[]> {
-        return this.http.post(this.loginUrl, this.testUserAcct)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-
     getExistingPaymentInfo (userToken: string): Observable<any[]> {
 
-        let requestOptions = this.getRequestOptionsWithTokenInHeader(userToken);
+        let requestOptions: any = this.httpClientService.getRequestOption();
 
         return this.http.get(this.getPreviousPmtUrl, requestOptions)
                         .map(this.extractData)
@@ -82,15 +77,6 @@ export class ExistingPaymentInfoService {
         return [[]];
     }
 
-
-    getRequestOptionsWithTokenInHeader(userToken: string) {
-        let headers = new Headers({ 'Accept': 'application/json' });
-        headers.append('Authorization', `${userToken}`);
-
-        let options = new RequestOptions({ headers: headers });
-
-        return options;
-    }
 
     helperIsArrayOfLength(obj, length) {
         let isArrayOfSpecifiedLength = false;

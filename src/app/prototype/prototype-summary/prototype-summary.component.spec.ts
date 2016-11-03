@@ -9,6 +9,9 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
 import { HttpModule } from '@angular/http';
+import { UserSessionService } from '../../services/user-session.service';
+import { HttpClientService } from '../../services/http-client.service';
+import { CookieService } from 'angular2-cookie/core';
 
 class MockPrototypeStore { public subscribe() {}; }
 
@@ -26,7 +29,8 @@ describe('Component: PrototypeSummary', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService, ExistingPaymentInfoService
+        PrototypeGiftService, ExistingPaymentInfoService, UserSessionService,
+        HttpClientService, CookieService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeSummaryComponent);
