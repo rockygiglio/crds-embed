@@ -6,12 +6,12 @@ export class GiftService {
 
   private queryParams: Object;
 
+  public type: string = '';
   public invoiceId: number = 0;
   public totalCost: number = 0;
   public minPayment: number = 0;
   public title: string = '';
   public url: string = '';
-  public type: string = '';
 
   public errors: Array<string> = [];
 
@@ -43,8 +43,8 @@ export class GiftService {
     this.type = this.queryParams['type'];
 
     if (this.type === 'payment' || this.type === 'donation') {
-      this.invoiceId = this.validate('invoice_id', +this.queryParams['invoice_id']);
-      this.totalCost = this.validate('total_cost', +this.queryParams['total_cost']);
+      this.invoiceId = this.validate('invoice_id', + this.queryParams['invoice_id']);
+      this.totalCost = this.validate('total_cost', + this.queryParams['total_cost']);
       this.minPayment = this.validate('min_payment', +this.queryParams['min_payment']);
 
       this.title = this.queryParams['title'] || '';
