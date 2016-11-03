@@ -1,5 +1,3 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,8 +11,13 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
+import { HttpClientService } from '../services/http-client.service';
+import { UserSessionService } from '../services/user-session.service';
+
 
 class MockPrototypeStore { public subscribe() {}; }
+class MockHttpClientService { public get() {}; }
+class MockUserSessionService { public getAccessToken() {}; }
 class MockRouter { public navigate() {}; }
 
 describe('Component: Prototype', () => {
@@ -30,6 +33,8 @@ describe('Component: Prototype', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
+        { provide: HttpClientService, useClass: MockHttpClientService },
+        { provide: UserSessionService, useClass: MockUserSessionService },
         PrototypeGiftService, QuickDonationAmountsService, PreviousGiftAmountService, CookieService
       ]
     });
