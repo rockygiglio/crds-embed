@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 
 @Injectable()
-export class ParameterService {
+export class GiftService {
 
   private queryParams: Object;
 
@@ -15,11 +15,29 @@ export class ParameterService {
 
   public errors: Array<string> = [];
 
+  public amount: number;
+  public customAmount: number;
+
   constructor(private route: ActivatedRoute) {
     this.processQueryParams();
   }
 
-  processQueryParams() {
+  public validAmount() {
+    let result = true;
+    if (this.type === 'payment') {
+      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
+    } else if (this.type === 'donation') {
+      result = this.amount > 0;
+    }
+
+    return result
+  }
+
+  /*******************
+   * PRIVATE FUNCTIONS
+   *******************/
+
+  private processQueryParams() {
     this.queryParams = this.route.snapshot.queryParams;
 
     this.type = this.queryParams['type'];
@@ -28,19 +46,18 @@ export class ParameterService {
       this.invoiceId = this.validate('invoice_id', +this.queryParams['invoice_id']);
       this.totalCost = this.validate('total_cost', +this.queryParams['total_cost']);
       this.minPayment = this.validate('min_payment', +this.queryParams['min_payment']);
+
       this.title = this.queryParams['title'] || '';
       this.url = this.queryParams['url'] || '';
     } else {
-      this.errors.push('Invalid type');
+      this.errors.push('Invalid type')
     }
   }
 
-  private validate(key: string, value: number) {
-    if (isNaN(value) && this.type === 'payment') {
+  private validate(key:string, value:number) {
+    if(isNaN(value) && this.type === 'payment') {
       this.errors.push(`${key} is missing or invalid`);
     }
     return value;
   }
-
-
 }

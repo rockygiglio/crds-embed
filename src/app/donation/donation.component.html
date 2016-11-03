@@ -1,0 +1,20 @@
+
+<div class="prototype-component container">
+  <div *ngIf="params.errors.length > 0" id="error">
+    <h3>Errors:</h3>
+    <ul>
+      <li *ngFor="let error of params.errors"><pre>{{ error }}</pre></li>
+    </ul>
+  </div>
+  <div id="results">
+    <h3>Parameters:</h3>
+    <pre>
+      type: {{ params.type }}
+      title: {{ params.title }}
+      url: {{ params.url }}
+      invoice_id: {{ params.invoiceId }}
+      total_cost: {{ params.totalCost }}
+      min_payments: {{ params.minPayment }}
+    </pre>
+  </div>
+</div>
