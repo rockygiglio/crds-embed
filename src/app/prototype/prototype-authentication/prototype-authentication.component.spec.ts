@@ -20,8 +20,8 @@ class MockLoginService { public login() {}; }
 
 describe('Component: PrototypeAuthentication', () => {
 
-  let component;
-  let fixture;
+  let component: any;
+  let fixture: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'variables';
+$bootstrap-sass-asset-helper: true;
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import 'buttons';
 

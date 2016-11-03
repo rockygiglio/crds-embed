@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 describe('App: CrdsEmbed', () => {
 
   it('should create an instance', () => {
-    let component = new AppComponent();
+    let component: any = new AppComponent();
     expect(component).toBeTruthy();
   });
 

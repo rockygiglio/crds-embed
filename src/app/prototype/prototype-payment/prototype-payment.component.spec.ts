@@ -12,8 +12,8 @@ class MockPrototypeStore { public subscribe() {}; }
 
 describe('Component: PrototypePayment', () => {
 
-  let component;
-  let fixture;
+  let component: any;
+  let fixture: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

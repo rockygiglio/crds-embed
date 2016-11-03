@@ -22,8 +22,8 @@ class MockRouter { public navigate() {}; }
 
 describe('Component: Prototype', () => {
 
-  let component;
-  let fixture;
+  let component: any;
+  let fixture: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
