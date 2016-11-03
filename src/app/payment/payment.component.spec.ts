@@ -3,11 +3,11 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { PaymentComponent } from './payment.component';
-import { GivingStore } from "../giving-state/giving.store";
-import { GiftService } from "../services/gift.service";
+import { GivingStore } from '../giving-state/giving.store';
+import { GiftService } from '../services/gift.service';
 
 class MockGivingStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }

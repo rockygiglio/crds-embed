@@ -51,19 +51,19 @@ export class PrototypeGiftAmountComponent implements OnInit {
     return false;
   }
 
-  onCustomAmount(newValue) {
+  onCustomAmount(newValue: any) {
     if (!isNaN(newValue)) {
       delete(this.selectedAmount);
       this.setAmount(newValue);
     }
   }
 
-  onSelectAmount(event, newValue) {
+  onSelectAmount(event: any, newValue: any) {
     delete(this.customAmount);
     this.setAmount(newValue);
   }
 
-  setAmount(newValue) {
+  setAmount(newValue: any) {
     (<FormControl>this.form.controls['amount']).setValue(newValue, { onlySelf: true });
     this.gift.amount = parseInt(newValue, 10);
   }

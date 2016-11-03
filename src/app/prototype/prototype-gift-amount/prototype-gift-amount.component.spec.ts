@@ -18,8 +18,9 @@ class MockPrototypeStore { public subscribe() {}; }
 class MockActivatedRoute { }
 
 describe('Component: PrototypeGiftAmount', () => {
-  let component;
-  let fixture;
+
+  let component: any;
+  let fixture: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

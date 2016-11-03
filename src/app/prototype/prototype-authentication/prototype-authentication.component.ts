@@ -62,11 +62,11 @@ export class PrototypeAuthenticationComponent implements OnInit {
     return false;
   }
 
- checkEmail(event) {
+  checkEmail(event: any) {
     this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
       resp => { this.guestEmail = resp; }
     );
- }
+  }
 
   ngOnInit() {
 

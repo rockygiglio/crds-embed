@@ -13,8 +13,7 @@ export class CheckGuestEmailService {
     constructor (private http: Http) {}
 
     guestEmailExists(email: string) {
-        let baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/',
-            findUserURL = `${baseUrl}lookup/0/find/?email=${email}`;
+        let findUserURL = `${process.env.CRDS_API_ENDPOINT}api/lookup/0/find/?email=${email}`;
 
         return this.http.get(findUserURL)
             .map(this.success)
