@@ -46,7 +46,6 @@ export class PrototypeAuthenticationComponent implements OnInit {
           this.adv();
         },
         error => {
-          console.log(error);
           this.adv();
         }
       );
