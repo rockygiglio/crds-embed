@@ -29,6 +29,8 @@ import { PrototypePasswordComponent } from './prototype-password/prototype-passw
 import { PrototypeEmailComponent } from './prototype-email/prototype-email.component';
 import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prototype-payment-amount.component';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { UserSessionService } from '../services/user-session.service';
+import { HttpClientService } from '../services/http-client.service';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -76,6 +78,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     LoginService,
     CookieService,
     ExistingPaymentInfoService,
+    UserSessionService,
+    HttpClientService,
     { provide: PrototypeStore, useValue: store }
   ]
 })

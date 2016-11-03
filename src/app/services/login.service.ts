@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { HttpClientService } from './http-client.service';
 
 @Injectable()
 export class LoginService {
@@ -8,7 +9,7 @@ export class LoginService {
   private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
   private loginUrl = this.baseUrl + 'Login';
 
-  constructor(private http: Http ) { }
+  constructor( private http: HttpClientService ) { }
 
   login(email: string, password: string): Observable<any> {
     let body = {
@@ -16,17 +17,8 @@ export class LoginService {
       'password': password
     };
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.loginUrl, body, options)
-                    .map(this.extractData)
-                    .catch(this.handleError);
-  }
-
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
+    return this.http.post(this.loginUrl, body)
+      .catch(this.handleError);
   }
 
   private handleError(res: Response | any) {
