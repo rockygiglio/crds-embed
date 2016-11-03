@@ -1,23 +1,53 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from "@angular/forms";
+import { Store, StoreEnhancer, createStore } from "redux";
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
+
 import { PrototypeModule } from './prototype/prototype.module';
-import { PaymentModule } from './payment/payment.module';
 import { DemoModule } from './demo/demo.module';
+
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PaymentComponent } from "./payment/payment.component";
+import { DonationComponent } from "./donation/donation.component";
+
+import { GiftService } from "./services/gift.service";
+
+import { GivingStore } from "./giving-state/giving.store";
+import { GivingState } from "./giving-state/giving.interfaces";
+import { givingReducer } from "./giving-state/giving.reducer";
+
+
+let devtools: StoreEnhancer<GivingState> =
+      window['devToolsExtension'] ?
+        window['devToolsExtension']() : f => f;
+
+let store: Store<GivingState> = createStore<GivingState>(
+  givingReducer,
+  devtools
+);
 
 @NgModule({
   imports: [
     BrowserModule,
     routing,
     PrototypeModule,
-    PaymentModule,
-    DemoModule
+    DemoModule,
+    ReactiveFormsModule
   ],
-  declarations: [ AppComponent, PageNotFoundComponent ],
-  providers: [ appRoutingProviders ],
+  declarations: [
+    AppComponent,
+    PageNotFoundComponent,
+    PaymentComponent,
+    DonationComponent
+  ],
+  providers: [
+    appRoutingProviders,
+    GiftService,
+    { provide: GivingStore, useValue: store }
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
