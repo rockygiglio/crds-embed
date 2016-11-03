@@ -4,6 +4,8 @@ import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@ang
 import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
+import { HttpClientService } from './http-client.service';
+import { UserSessionService } from './user-session.service';
 import { CookieService } from 'angular2-cookie/core';
 
 
@@ -16,6 +18,8 @@ describe('Previous Gift Amount Service', () => {
       providers: [
         PreviousGiftAmountService,
         MockBackend,
+        HttpClientService,
+        UserSessionService,
         BaseRequestOptions,
         {
           provide: Http,
