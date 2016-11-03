@@ -5,7 +5,7 @@
     "serve": "npm run start",
     "start": "webpack-dev-server --inline --open --progress --port 8080",
     "test": "karma start",
-    "build-dev": "npm run build",
+    "build-dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "licenses": [
