@@ -13,6 +13,9 @@ You can also set the matching keyname values in your OS environment variables if
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+Currently `npm run build-dev` is a pseudonym for `npm run build` for TeamCity build step compatibility reasons.
+This is to be removed once TC configuration has been adjusted.
+
 ## Running unit tests
 
 Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
