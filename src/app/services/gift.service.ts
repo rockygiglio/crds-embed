@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 declare var _;
 
@@ -41,7 +41,7 @@ export class GiftService {
       result = this.amount > 0;
     }
 
-    return result
+    return result;
   }
 
   public resetPaymentDetails() {
@@ -77,12 +77,12 @@ export class GiftService {
       this.title = this.queryParams['title'] || '';
       this.url = this.queryParams['url'] || '';
     } else {
-      this.errors.push('Invalid type')
+      this.errors.push('Invalid type');
     }
   }
 
-  private validate(key:string, value:number) {
-    if(isNaN(value) && this.type === 'payment') {
+  private validate(key: string, value: number) {
+    if (isNaN(value) && this.type === 'payment') {
       this.errors.push(`${key} is missing or invalid`);
     }
     return value;

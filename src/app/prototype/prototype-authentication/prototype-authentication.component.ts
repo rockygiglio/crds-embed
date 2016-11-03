@@ -6,7 +6,6 @@ import * as PrototypeActions from '../prototype-state/prototype.action-creators'
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 import { LoginService } from '../../services/login.service';
-import { CookieService } from 'angular2-cookie/core';
 
 @Component({
   selector: 'app-prototype-authentication',
@@ -23,8 +22,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
               private gift: PrototypeGiftService,
               private _fb: FormBuilder,
               private checkGuestEmailService: CheckGuestEmailService,
-              private loginService: LoginService,
-              private cookieService: CookieService
+              private loginService: LoginService
               ) {}
 
   back() {
@@ -40,9 +38,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
-        user => {
-          this.cookieService.put('sessionId', user.userToken);
-        },
+        user => { },
         error => console.log(error)
       );
       this.adv();
@@ -58,11 +54,11 @@ export class PrototypeAuthenticationComponent implements OnInit {
     return false;
   }
 
- checkEmail(event) {
+  checkEmail(event: any) {
     this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
       resp => { this.guestEmail = resp; }
     );
- }
+  }
 
   ngOnInit() {
 

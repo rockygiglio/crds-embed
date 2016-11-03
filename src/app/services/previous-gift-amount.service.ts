@@ -10,8 +10,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class PreviousGiftAmountService implements Resolve<number> {
 
-    private base = 'https://gatewayint.crossroads.net:443/gateway/api/';
-    private url = this.base + 'donations';
+    private url = process.env.CRDS_API_ENDPOINT + 'api/donations';
     private headers: Headers = new Headers();
     private token: string = '';
 

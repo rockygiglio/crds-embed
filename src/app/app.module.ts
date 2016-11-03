@@ -52,5 +52,4 @@ let store: Store<GivingState> = createStore<GivingState>(
   ],
   bootstrap:    [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }

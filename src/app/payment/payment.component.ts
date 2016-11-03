@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Inject, Component, OnInit } from '@angular/core';
+import { Inject, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GiftService } from "../services/gift.service";
-import { GivingStore } from "../giving-state/giving.store";
+import { GiftService } from '../services/gift.service';
+import { GivingStore } from '../giving-state/giving.store';
 
 @Component({
   selector: 'app-payment',
@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     if (this.gift.type === 'donation') {
-      this.location.go('/donation')
+      this.location.go('/donation');
     }
 
     this.amountDue = [
@@ -74,7 +74,7 @@ export class PaymentComponent implements OnInit {
   private validateAmount(control) {
     return this.gift.validAmount() ? null : {
       validateAmount: true
-    }
+    };
   }
 
 }

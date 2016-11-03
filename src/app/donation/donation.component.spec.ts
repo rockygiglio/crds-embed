@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { DonationComponent } from './donation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
-import { GiftService } from "../services/gift.service";
+import { GiftService } from '../services/gift.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
