@@ -20,7 +20,7 @@ export class GiftService {
   public amount: number;
   public customAmount: number;
   public paymentType: string;
-  public accountType: string;
+  public accountType: string = 'personal';
   public accountName: string;
   public routingNumber: string;
   public achNumber: string;

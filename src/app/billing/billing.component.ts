@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { GiftService } from "../services/gift.service";
 import { GivingStore } from "../giving-state/giving.store";
+import * as GivingActions from '../giving-state/giving.action-creators';
+
 
 @Component({
   selector: 'app-billing',
@@ -9,7 +11,7 @@ import { GivingStore } from "../giving-state/giving.store";
   styleUrls: ['./billing.component.scss']
 })
 export class BillingComponent implements OnInit {
-  paymentMethod: string = 'Bank Account';
+  public paymentMethod: string = 'Bank Account';
   achForm: FormGroup;
   ccForm: FormGroup;
   hideCheck: boolean = true;
@@ -19,34 +21,39 @@ export class BillingComponent implements OnInit {
               private fb: FormBuilder) { }
 
   ngOnInit() {
-    if (this.gift.type) {
+    if (!this.gift.type) {
+      // this.store.dispatch(GivingActions.render('/payment'));
+    }
+    if (this.gift.paymentType) {
       this.gift.resetPaymentDetails();
     }
 
     this.achForm = this.fb.group({
-      account_holder_name: ['', [<any>Validators.required]],
-      routing_number: ['', [<any>Validators.required]],
-      ach_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      account_type: ['personal', [<any>Validators.required]]
+      accountHolder: ['', [<any>Validators.required]],
+      routingNumber: ['', [<any>Validators.required]],
+      achNumber:     ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      accountType:   ['personal', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
-      cc_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      exp_date: ['', [<any>Validators.required]],
-      cvv: ['', [<any>Validators.required]],
-      zip_code: ['', [<any>Validators.required]]
+      ccNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      expDate:  ['', [<any>Validators.required]],
+      cvv:      ['', [<any>Validators.required]],
+      zipCode:  ['', [<any>Validators.required]]
     });
+
   }
 
   back() {
-    // this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    this.store.dispatch(GivingActions.render('/payment'));
     return false;
   }
 
   achNext() {
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
-      // this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
+      console.log(this.gift);
+      // this.store.dispatch(GivingActions.render('summary'));
     }
     return false;
   }
@@ -54,7 +61,8 @@ export class BillingComponent implements OnInit {
   ccNext() {
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
-      // this.store.dispatch(GivingActions.render(this.gift.flow_type + '/summary'));
+      console.log(this.gift);
+      // this.store.dispatch(GivingActions.render('summary'));
     }
     return false;
   }

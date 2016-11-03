@@ -1,3 +1,70 @@
-<p>
-  billing works!
-</p>
+<header class="page-header page-header--no-btm-space">
+  <h2>Payment Type:</h2>
+</header>
+
+<div class="btn-group form-nav">
+  <label class="btn btn-option" [(ngModel)]="paymentMethod" btnRadio="Bank Account">Bank Account</label>
+  <label class="btn btn-option" [(ngModel)]="paymentMethod" btnRadio="Credit Card">Credit Card</label>
+</div>
+
+<div *ngIf="paymentMethod == 'Bank Account'" heading="Bank Account">
+  <header class="page-header page-header--no-btm-space">
+    <h2>Account Type:</h2>
+  </header>
+
+  <form [formGroup]="achForm" (ngSubmit)="achNext()">
+    <div class="radio-group">
+      <label>
+        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="personal" checked> Personal
+      </label>&nbsp;&nbsp;
+      <label>
+        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="business"> Business
+      </label>
+    </div>
+
+    <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountHolder" [(ngModel)]="account_holder_name" pattern=".*"><br>
+    <input type="tel" class="form-control" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
+    <input type="tel" class="form-control" placeholder="Account Number" formControlName="achNumber" [(ngModel)]="gift.achNumber" pattern="[0-9]*">
+
+    <div class="sample-check">
+      <small>
+        <a (click)="hideCheck = false;" *ngIf="hideCheck">Where can I find this information?</a>
+        <a (click)="hideCheck = true;" *ngIf="!hideCheck">Hide sample check</a>
+      </small>
+      <div [collapse]="hideCheck">
+        <img src="/assets/check.svg" alt="" class="img-responsive">
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <input type="submit" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }" value="Next">
+    </footer>
+  </form>
+</div>
+
+<div *ngIf="paymentMethod == 'Credit Card'" heading="Credit Card">
+  <!-- <br> -->
+  <alert *ngIf="gift.type == 'donation'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+  <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
+
+  <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
+    <input type="number" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" pattern="[0-9]*"><br>
+    <div class="row inline-form">
+      <div class="col-xs-4 inline-form__input">
+        <input type="number" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate"><br>
+      </div>
+      <div class="col-xs-4 inline-form__input">
+        <input type="number" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*"><br>
+      </div>
+      <div class="col-xs-4 inline-form__input">
+        <input type="number" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*">
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: !ccForm.valid }" value="Next">
+    </footer>
+  </form>
+</div>
