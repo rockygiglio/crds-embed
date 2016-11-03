@@ -6,7 +6,6 @@ var helpers = require('./helpers');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-console.log(ENV);
 
 module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
