@@ -31,8 +31,6 @@ export class PrototypeSummaryComponent {
 
     let lastFour: any = lastFourOfPrevPmtInfo || lastFourOfNewPmtInfo;
 
-    console.log('Get last 4 of existing payment method or the predefined gift amount');
-
     return lastFour;
   }
 

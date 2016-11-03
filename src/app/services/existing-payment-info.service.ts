@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
+import { UserSessionService } from './user-session.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -15,10 +16,11 @@ export class ExistingPaymentInfoService {
 
 
     constructor (private http: Http,
-                 private httpClientService: HttpClientService) {}
+                 private httpClientService: HttpClientService,
+                 private userSessionService: UserSessionService) {}
 
     resolve() {
-        let userToken = 'someString';
+        let userToken = this.userSessionService.getAccessToken();
         return this.getExistingPaymentInfo(userToken);
     }
 
