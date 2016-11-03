@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { PaymentComponent } from './payment.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
-import { ParameterService } from "../services/parameter.service";
+import { ParameterService } from '../services/parameter.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }

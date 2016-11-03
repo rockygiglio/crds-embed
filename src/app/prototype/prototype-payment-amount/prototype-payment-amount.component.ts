@@ -4,8 +4,6 @@ import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
 
-import * as _ from 'lodash';
-
 @Component({
   selector: 'app-prototype-payment-amount',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,9 +33,12 @@ export class PrototypePaymentAmountComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    /*
     if (_.pluck(this.amount_due, 'amount').indexOf(this.gift.amount) === -1) {
       this.customAmount = this.gift.amount;
     }
+    */
 
     this.form = this._fb.group({
       amount: [this.gift.amount, [<any>Validators.required]],

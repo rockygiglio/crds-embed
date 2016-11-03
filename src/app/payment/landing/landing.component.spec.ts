@@ -4,8 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LandingComponent } from './landing.component';
-import { ParameterService } from "../../services/parameter.service";
-import { ActivatedRoute } from "@angular/router";
+import { ParameterService } from '../../services/parameter.service';
+import { ActivatedRoute } from '@angular/router';
 
 class MockActivatedRoute {
   public snapshot = {

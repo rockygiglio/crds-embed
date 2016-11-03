@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ParameterService } from "../services/parameter.service";
+import { ParameterService } from '../services/parameter.service';
 
 @Component({
   selector: 'app-payment',
