@@ -30,6 +30,16 @@ $dt-page-bg-color: #222222;
     }
   }
 
+  .page-footer {
+    &--border-top {
+      border-top-color: $underline-color;
+    }
+  }
+
+  hr {
+    border-top-color: $underline-color;
+  }
+
   .btn-form {
     &--border-btm {
       border-bottom-color: $underline-color;
