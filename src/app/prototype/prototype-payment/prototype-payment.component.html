@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <footer class="page-footer">
+    <footer class="page-footer page-footer--border-top">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
       <input type="submit" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }" value="Next">
     </footer>
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <footer class="page-footer">
+    <footer class="page-footer page-footer--border-top">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
       <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: (gift.payment_type == 'cc' && !ccForm.valid) || (gift.payment_type == 'ach' && !achForm.valid) }" value="Next">
     </footer>
