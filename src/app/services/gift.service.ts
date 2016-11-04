@@ -41,6 +41,9 @@ export class GiftService {
   private processQueryParams() {
     this.queryParams = this.route.snapshot.queryParams;
 
+    console.log('Params');
+    console.log(this.queryParams);
+
     this.type = this.queryParams['type'];
 
     if (this.type === 'payment' || this.type === 'donation') {

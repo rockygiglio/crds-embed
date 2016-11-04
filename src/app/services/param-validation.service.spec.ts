@@ -152,4 +152,40 @@ describe('ParamValidationService', () => {
 
     }));
 
+    fit('should route to the correct verify function from isValidParam and return false',
+        inject([ParamValidationService], (srvc: ParamValidationService) => {
+
+        let queryParamsWithInvalidMinPmt: any = {
+            type: 'payment',
+            invoice_id: '123',
+            total_cost: '12.50',
+            min_payment: '100.00',
+            title: 'testTitle',
+            url: 'https://www.test.com',
+            fund_id: '50'
+        };
+
+        let isValid: boolean = srvc.isValidParam('min_payment', queryParamsWithInvalidMinPmt.min_payment, queryParamsWithInvalidMinPmt);
+        expect(isValid).toBe(false);
+
+    }));
+
+    fit('should route to the correct verify function from isValidParam and return true',
+    inject([ParamValidationService], (srvc: ParamValidationService) => {
+
+        let validQueryParams: any = {
+            type: 'payment',
+            invoice_id: '123',
+            total_cost: '12.50',
+            min_payment: '3.00',
+            title: 'testTitle',
+            url: 'https://www.test.com',
+            fund_id: '50'
+        };
+
+        let isValid: boolean = srvc.isValidParam('min_payment', validQueryParams.min_payment, validQueryParams);
+        expect(isValid).toBe(true);
+
+    }));
+
 });
