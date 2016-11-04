@@ -6,7 +6,7 @@
   <table class="table">
     <tr>
       <td><a routerLink="/prototype/{{ gift.flow_type}}/amount"><strong>Amount:</strong></a></td>
-      <td class="text-right">{{ gift.amount | currency:'USD':true }}</td>
+      <td class="text-right confirm-amount">{{ gift.amount | currency:'USD':true }}</td>
     </tr>
     <tr>
       <td><a routerLink="/prototype/{{ gift.flow_type}}/details"><strong>To:</strong></a></td>

@@ -78,6 +78,14 @@
   }
 
   .table {
+    .confirm-amount {
+      font-size: 30px;
+    }
+
+    td:first-child {
+      text-transform: uppercase;
+    }
+
     td:last-child {
       color: darken($text-color, 30);
     }
