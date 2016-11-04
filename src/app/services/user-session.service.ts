@@ -9,7 +9,9 @@ export class UserSessionService {
   private cookieOptions: CookieOptionsArgs;
 
   constructor(private cookieService: CookieService) {
-    this.cookieOptions = { domain: '.crossroads.net' };
+    if (process.env.CRDS_COOKIE_DOMAIN) {
+      this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
+    }
   }
 
   isLoggedIn(): boolean {

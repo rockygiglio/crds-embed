@@ -81,8 +81,8 @@ export class ExistingPaymentInfoService {
     helperIsArrayOfLength(obj, length) {
         let isArrayOfSpecifiedLength = false;
 
-        if(Array.isArray(obj)) {
-            if(obj.length === length) {
+        if (Array.isArray(obj)) {
+            if (obj.length === length) {
                 isArrayOfSpecifiedLength = true;
             }
         }
