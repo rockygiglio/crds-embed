@@ -73,8 +73,7 @@ describe('ParamValidationService', () => {
     it('should consider "12345" a valid invoice id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let invoiceId: string = '12345';
-        let type: string = 'donation';
-        let isValid: boolean = srvc.isInvoiceIdValid(invoiceId, type);
+        let isValid: boolean = srvc.isInvoiceIdValid(invoiceId);
         expect(isValid).toBe(true);
 
     }));
@@ -82,17 +81,7 @@ describe('ParamValidationService', () => {
     it('should consider "someString" an invalid invoice id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let invoiceId: string = 'someString';
-        let type: string = 'donation';
-        let isValid: boolean = srvc.isInvoiceIdValid(invoiceId, type);
-        expect(isValid).toBe(false);
-
-    }));
-
-    it('should fail if invalid typeParam is passed', inject([ParamValidationService], (srvc: ParamValidationService) => {
-
-        let invoiceId: string = 'someString';
-        let type: string = '123abc';
-        let isValid: boolean = srvc.isInvoiceIdValid(invoiceId, type);
+        let isValid: boolean = srvc.isInvoiceIdValid(invoiceId);
         expect(isValid).toBe(false);
 
     }));
@@ -100,10 +89,7 @@ describe('ParamValidationService', () => {
     it('should fail if totalCostParam is a not a decimal', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let totalCost: string = '123abc';
-        let type: string = 'donation';
-
-        let isValid: boolean = srvc.isInvoiceIdValid(totalCost, type);
-
+        let isValid: boolean = srvc.isInvoiceIdValid(totalCost);
         expect(isValid).toBe(false);
 
     }));
@@ -111,21 +97,18 @@ describe('ParamValidationService', () => {
     it('should succeed if totalCostParam is a decimal', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let totalCost: string = '12.55';
-        let type: string = 'donation';
-
-        let isValid: boolean = srvc.isInvoiceIdValid(totalCost, type);
-
+        let isValid: boolean = srvc.isInvoiceIdValid(totalCost);
         expect(isValid).toBe(true);
 
     }));
 
-    it('should succeed if totalCostParam is a decimal with leading o',
+    it('should succeed if totalCostParam is a decimal with leading 0',
         inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let totalCost: string = '0.55';
         let type: string = 'donation';
 
-        let isValid: boolean = srvc.isInvoiceIdValid(totalCost, type);
+        let isValid: boolean = srvc.isInvoiceIdValid(totalCost);
 
         expect(isValid).toBe(true);
 
