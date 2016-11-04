@@ -119,4 +119,16 @@ describe('ParamValidationService', () => {
 
     }));
 
+    it('should succeed if totalCostParam is a decimal with leading o',
+        inject([ParamValidationService], (srvc: ParamValidationService) => {
+
+        let totalCost: string = '0.55';
+        let type: string = 'donation';
+
+        let isValid: boolean = srvc.isInvoiceIdValid(totalCost, type);
+
+        expect(isValid).toBe(true);
+
+    }));
+
 });

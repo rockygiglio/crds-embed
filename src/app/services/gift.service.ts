@@ -12,6 +12,7 @@ export class GiftService {
   public minPayment: number = 0;
   public title: string = '';
   public url: string = '';
+  public fundId: number = 0;
 
   public errors: Array<string> = [];
 
