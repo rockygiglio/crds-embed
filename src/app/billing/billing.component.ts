@@ -1,10 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { GiftService } from '../services/gift.service';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+
 import { GivingStore } from '../giving-state/giving.store';
 import * as GivingActions from '../giving-state/giving.action-creators';
-import { CustomValidators } from '../validators/custom-validators';
 
+import { CustomValidators } from '../validators/custom-validators';
 
 @Component({
   selector: 'app-billing',
@@ -16,10 +19,30 @@ export class BillingComponent implements OnInit {
   achForm: FormGroup;
   ccForm: FormGroup;
   hideCheck: boolean = true;
+  achSubmitted = false;
+  userToken = null;
+  accountNumberPlaceholder = 'Account Number';
 
   constructor(@Inject(GivingStore) private store: any,
               private gift: GiftService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private paymentService: ExistingPaymentInfoService) {
+    paymentService.getTestUser().subscribe((userInfo) => {
+      paymentService.getExistingPaymentInfo(userInfo['userToken']).subscribe((paymentInfo) => {
+        if (paymentInfo) {
+          gift.email = paymentInfo['email'];
+          if (typeof paymentInfo['default_source'] !== 'undefined') {
+            gift.routingNumber = paymentInfo['default_source'].bank_account.routing;
+            gift.accountName   = paymentInfo['default_source'].bank_account.accountHolderName;
+            gift.accountType   = paymentInfo['default_source'].bank_account.accountHolderType === 'individual' ?
+              'personal' : 'business';
+
+            this.accountNumberPlaceholder = `XXXXXXXXX${paymentInfo['default_source'].bank_account.last4}`;
+          }
+        }
+      });
+    });
+  }
 
   ngOnInit() {
     if (!this.gift.type) {
@@ -30,15 +53,15 @@ export class BillingComponent implements OnInit {
     }
 
     this.achForm = this.fb.group({
-      accountHolder: ['', [<any>Validators.required]],
+      accountName: ['', [<any>Validators.required]],
       routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9)]],
-      achNumber:     ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       accountType:   ['personal', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
-      ccNumber: ['', [<any>CustomValidators.creditCard]],
-      expDate:  ['', [<any>CustomValidators.expirationDate]],
+      ccNumber: ['', [<any>Validators.required, <any>CustomValidators.creditCard]],
+      expDate:  ['', [<any>Validators.required, <any>CustomValidators.expirationDate]],
       cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
       zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
     });
@@ -51,6 +74,7 @@ export class BillingComponent implements OnInit {
   }
 
   achNext() {
+    this.achSubmitted = true;
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       console.log(this.gift);

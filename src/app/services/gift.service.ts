@@ -8,6 +8,7 @@ export class GiftService {
 
   private queryParams: Object;
 
+  // Parameter Information
   public invoiceId: number = 0;
   public totalCost: number = 0;
   public minPayment: number = 0;
@@ -17,13 +18,21 @@ export class GiftService {
 
   public errors: Array<string> = [];
 
+  // Payment Information
   public amount: number;
   public customAmount: number;
   public paymentType: string;
+
+  // user info
+  public email: string;
+
+  // ACH Information
   public accountType: string = 'personal';
   public accountName: string;
   public routingNumber: string;
-  public achNumber: string;
+  public accountNumber: string;
+
+  // Credit Card information
   public ccNumber: string;
   public expDate: string;
   public cvv: string;

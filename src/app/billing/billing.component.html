@@ -22,9 +22,9 @@
       </label>
     </div>
 
-    <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountHolder" [(ngModel)]="account_holder_name" pattern=".*"><br>
+    <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" [(ngModel)]="gift.accountName" pattern=".*"><br>
     <input type="tel" class="form-control" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
-    <input type="tel" class="form-control" placeholder="Account Number" formControlName="achNumber" [(ngModel)]="gift.achNumber" pattern="[0-9]*">
+    <input type="tel" class="form-control" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="[0-9]*">
 
     <div class="sample-check">
       <small>
@@ -36,9 +36,15 @@
       </div>
     </div>
 
+    <div class="errors" *ngIf="achSubmitted">
+      <div *ngIf="!achForm.controls.accountName.valid" class="alert alert-danger">Account Holder Name is required</div>
+      <div *ngIf="!achForm.controls.routingNumber.valid" class="alert alert-danger">Routing Number is required</div>
+      <div *ngIf="!achForm.controls.accountNumber.valid" class="alert alert-danger">Account Number is required</div>
+    </div>
+
     <footer class="page-footer">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-      <input type="submit" class="btn btn-next pull-right" (click)="achNext()" [ngClass]="{ disabled: !achForm.valid }" value="Next">
+      <input type="submit" class="btn btn-next pull-right" (click)="achNext()" value="Next">
     </footer>
   </form>
 </div>
@@ -49,16 +55,16 @@
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
-    <input type="number" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" pattern="[0-9]*"><br>
+    <input type="number" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" pattern="[0-9]*" autocomplete="cc-number"><br>
     <div class="row inline-form">
       <div class="col-xs-4 inline-form__input">
-        <input type="number" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate"><br>
+        <input type="number" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" autocomplete="cc-exp"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="number" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*"><br>
+        <input type="number" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*" autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="number" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*">
+        <input type="number" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*" autocomplete="zip-code">
       </div>
     </div>
 

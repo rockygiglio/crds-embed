@@ -8,45 +8,41 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ExistingPaymentInfoService {
 
-    private baseUrl = process.env.CRDS_API_ENDPOINT + 'api/';
-    private loginUrl = this.baseUrl + 'login';
-    private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
+  private baseUrl           = process.env.CRDS_API_ENDPOINT + 'api/';
+  private loginUrl          = this.baseUrl + 'login';
+  private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
 
-    private testUserAcct = {
-        username: 'scrudgemcduckcrds@mailinator.com',
-        password: 'madmoneyyall'
-    };
+  private testUserAcct = {
+    username: 'scrudgemcduckcrds@mailinator.com',
+    password: 'madmoneyyall'
+  };
 
+  constructor(private http: Http) {}
 
-    constructor (private http: Http) {}
+  getTestUser(): Observable<any[]> {
+    return this.http.post(this.loginUrl, this.testUserAcct)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
+  getExistingPaymentInfo(userToken: string): Observable<any[]> {
 
-    getTestUser (): Observable<any[]> {
-        return this.http.post(this.loginUrl, this.testUserAcct)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
+    let headers = new Headers({'Accept': 'application/json'});
+    headers.append('Authorization', `${userToken}`);
 
-    getExistingPaymentInfo (userToken: string): Observable<any[]> {
+    let options = new RequestOptions({headers: headers});
 
-        let headers = new Headers({ 'Accept': 'application/json' });
-        headers.append('Authorization', `${userToken}`);
+    return this.http.get(this.getPreviousPmtUrl, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
+  private extractData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
 
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.get(this.getPreviousPmtUrl, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
-
-    }
-
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-
-    private handleError(res: Response | any): any[] {
-        return [[]];
-    }
+  private handleError(res: Response | any): any[] {
+    return [[]];
+  }
 }
