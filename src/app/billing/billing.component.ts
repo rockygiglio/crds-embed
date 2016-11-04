@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { GiftService } from "../services/gift.service";
-import { GivingStore } from "../giving-state/giving.store";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { GiftService } from '../services/gift.service';
+import { GivingStore } from '../giving-state/giving.store';
 import * as GivingActions from '../giving-state/giving.action-creators';
+import { CustomValidators } from '../validators/custom-validators';
 
 
 @Component({
@@ -30,16 +31,16 @@ export class BillingComponent implements OnInit {
 
     this.achForm = this.fb.group({
       accountHolder: ['', [<any>Validators.required]],
-      routingNumber: ['', [<any>Validators.required]],
+      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9)]],
       achNumber:     ['', [<any>Validators.required, <any>Validators.minLength(4)]],
       accountType:   ['personal', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
-      ccNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      expDate:  ['', [<any>Validators.required]],
-      cvv:      ['', [<any>Validators.required]],
-      zipCode:  ['', [<any>Validators.required]]
+      ccNumber: ['', [<any>CustomValidators.creditCard]],
+      expDate:  ['', [<any>CustomValidators.expirationDate]],
+      cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
     });
 
   }

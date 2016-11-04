@@ -45,8 +45,7 @@ let store: Store<GivingState> = createStore<GivingState>(
     ReactiveFormsModule,
     routing,
     PrototypeModule,
-    DemoModule,
-
+    DemoModule
   ],
   declarations: [
     AppComponent,
