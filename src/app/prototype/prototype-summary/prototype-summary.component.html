@@ -30,15 +30,15 @@
     <tr>
       <td><a routerLink="/prototype/{{ gift.flow_type}}/payment"><strong>Payment:</strong></a></td>
       <td class="text-right">
-        Account ending in {{ gift.accountNumber() | slice:-4 }}<br>
+        Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
         <small><a routerLink="/prototype/{{ gift.flow_type}}/payment">change</a></small>
       </td>
     </tr>
   </table>
-</div>
 
-<footer class="page-footer page-footer--pt-1">
-  <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-  <a *ngIf="gift.flow_type == 'gift'" href="#" class="btn btn-next pull-right" (click)="next()">Give {{ gift.amount | currency:'USD':true }}</a>
-  <a *ngIf="gift.flow_type == 'payment'" href="#" class="btn btn-next pull-right" (click)="next()">Pay {{ gift.amount | currency:'USD':true }}</a>
-</footer>
+  <footer class="page-footer page-footer--pt-1">
+    <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+    <a *ngIf="gift.flow_type == 'gift'" href="#" class="btn btn-next pull-right" (click)="next()">Give {{ gift.amount | currency:'USD':true }}</a>
+    <a *ngIf="gift.flow_type == 'payment'" href="#" class="btn btn-next pull-right" (click)="next()">Pay {{ gift.amount | currency:'USD':true }}</a>
+  </footer>
+<div>

@@ -19,10 +19,7 @@ export class PrototypeGiftAmountComponent implements OnInit {
   public selectedAmount: string;
   public customAmount: number;
   public form: FormGroup;
-  public isDataLoaded: boolean = false;
   public previous: number = 20;
-  public loggedInUser: any;
-  public pmtInfo: any;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private route: ActivatedRoute,
@@ -45,33 +42,6 @@ export class PrototypeGiftAmountComponent implements OnInit {
     });
   }
 
-  // ----------------------------------TESTING FUNCTIONS FOR QA, REMOVE AFTER TESTING-----------------------------------
-  getTestUserPmtInfo() {
-      console.log('Getting test user token...');
-      this.existingPaymentInfoService.getTestUser()
-          .subscribe(
-              loggedInUser => {
-                this.loggedInUser = loggedInUser;
-                console.log('Got user token:');
-                console.log(this.loggedInUser);
-                this.testGetUserPmtInfo(this.loggedInUser.userToken);
-              },
-              loggedInUser =>  this.loggedInUser = loggedInUser);
-    }
-
-
-    testGetUserPmtInfo(userToken) {
-      console.log('Getting previous payment data for user...');
-      this.existingPaymentInfoService.getExistingPaymentInfo(userToken)
-          .subscribe(
-              pmtInfo => {
-                this.pmtInfo = pmtInfo;
-                console.log('Got payment info: ');
-                console.log(this.pmtInfo);
-              },
-              pmtInfo =>  this.pmtInfo = pmtInfo);
-    }
-  // ------------------------------------------------------------------------------------------------------------------=
 
   next() {
     this.gift.init = false;
@@ -81,19 +51,19 @@ export class PrototypeGiftAmountComponent implements OnInit {
     return false;
   }
 
-  onCustomAmount(newValue) {
+  onCustomAmount(newValue: any) {
     if (!isNaN(newValue)) {
       delete(this.selectedAmount);
       this.setAmount(newValue);
     }
   }
 
-  onSelectAmount(event, newValue) {
+  onSelectAmount(event: any, newValue: any) {
     delete(this.customAmount);
     this.setAmount(newValue);
   }
 
-  setAmount(newValue) {
+  setAmount(newValue: any) {
     (<FormControl>this.form.controls['amount']).setValue(newValue, { onlySelf: true });
     this.gift.amount = parseInt(newValue, 10);
   }
