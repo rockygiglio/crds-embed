@@ -15,7 +15,7 @@ export class ParamValidationService {
 
     isInvoiceIdValid(invoiceIdParam: any) {
 
-        let isANumber: boolean = !Number.isNaN(invoiceIdParam);
+        let isANumber: boolean = !isNaN(invoiceIdParam);
         let isGreaterThanZero: boolean = invoiceIdParam > 0;
 
         let isValid: boolean = isANumber && isGreaterThanZero;
@@ -33,26 +33,23 @@ export class ParamValidationService {
         return isValid;
     }
 
-    isMinimumPaymentValid(minPaymentParam: any) {
-        //
-        // let isValidTypeParamReceived: boolean = this.isTypeValid(typeParam);
-        // let isGreaterThanZero: boolean = totalCostParam > 0;
-        // var isDecimal: boolean = totalCostParam.match( /^(\d+\.?\d{0,9}|\.\d{1,9})$/ );
-        //
-        // let isValid: boolean = isValidTypeParamReceived && isDecimal && isGreaterThanZero;
-        //
-        // return isValid;
+    isMinPaymentValid(minPaymentParam: any, totalCostParam: any) {
+
+        let isGreaterThanZero: boolean = totalCostParam > 0;
+        let isDecimal: boolean = minPaymentParam.match( /^(\d+\.?\d{0,9}|\.\d{1,9})$/ );
+        let isLessThanOrEqualToTotalCost = minPaymentParam <=  totalCostParam;
+
+        let isValid: boolean = isDecimal && isGreaterThanZero && isLessThanOrEqualToTotalCost;
+
+        return isValid;
     }
 
     isTitleValid(titleParam: any) {
-        //
-        // let isValidTypeParamReceived: boolean = this.isTypeValid(typeParam);
-        // let isGreaterThanZero: boolean = totalCostParam > 0;
-        // var isDecimal: boolean = totalCostParam.match( /^(\d+\.?\d{0,9}|\.\d{1,9})$/ );
-        //
-        // let isValid: boolean = isValidTypeParamReceived && isDecimal && isGreaterThanZero;
-        //
-        // return isValid;
+
+        let isAtLeastOneCharLong: boolean = titleParam.length > 0;
+        let isValid: boolean = isAtLeastOneCharLong;
+
+        return isValid;
     }
 
     isUrlValid(urlParam: any) {
@@ -66,13 +63,11 @@ export class ParamValidationService {
     }
 
     isFundIdValid(fundIdParam: any) {
-        //
-        // let isValidTypeParamReceived: boolean = this.isTypeValid(typeParam);
-        // let isGreaterThanZero: boolean = totalCostParam > 0;
-        // var isDecimal: boolean = totalCostParam.match( /^(\d+\.?\d{0,9}|\.\d{1,9})$/ );
-        //
-        // let isValid: boolean = isValidTypeParamReceived && isDecimal && isGreaterThanZero;
-        //
-        // return isValid;
+
+        let isANumber: boolean = !isNaN(fundIdParam);
+
+        let isValid: boolean = isANumber;
+
+        return isValid;
     }
 }
