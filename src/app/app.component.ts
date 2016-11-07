@@ -1,5 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers';
+import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -9,5 +9,5 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  constructor(angulartics2: Angulartics2, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {}
+  constructor(angulartics2: Angulartics2, angulartics2GoogleTagManager: Angulartics2GoogleTagManager) {}
 }
