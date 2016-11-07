@@ -103,6 +103,39 @@ export class ParamValidationService {
         return isValid;
     }
 
+    castParamToProperType(paramName, paramValue){
+
+        let castParam = undefined;
+
+        switch(paramName) {
+            case this.embedParamNames.type:
+                castParam = paramValue;
+                break;
+            case this.embedParamNames.invoice_id :
+                castParam = parseInt(paramValue) || 0;
+                break;
+            case this.embedParamNames.total_cost:
+                castParam = parseFloat(paramValue) || 0;
+                break;
+            case this.embedParamNames.min_payment:
+                castParam = parseFloat(paramValue) || 0;
+                break;
+            case this.embedParamNames.title:
+                castParam = paramValue;
+                break;
+            case this.embedParamNames.url:
+                castParam = paramValue;
+                break;
+            case this.embedParamNames.fund_id:
+                castParam = parseInt(paramValue) || 0;
+                break;
+            default:
+                castParam = null;
+        }
+
+        return castParam;
+    }
+
      isValidParam(paramName, param, queryParams){
         let isValid = undefined;
         switch(paramName) {

@@ -21,7 +21,7 @@ export class GiftService {
   public customAmount: number;
 
   constructor(private route: ActivatedRoute,
-              private paramValidationService: ParamValidationService,) {
+              private hlpr: ParamValidationService,) {
     this.processQueryParams();
   }
 
@@ -40,30 +40,45 @@ export class GiftService {
    * PRIVATE FUNCTIONS
    *******************/
 
+  parseParamOrSetError(paramName, queryParams){
+
+    let isValid: boolean = queryParams[paramName] ? this.hlpr.isValidParam(paramName, queryParams[paramName], queryParams) : null;
+    let isRequired: boolean =  this.hlpr.isParamRequired(paramName, queryParams[this.hlpr.embedParamNames.type]);
+
+    let parsedParam: any = undefined;
+
+    if(isValid && isRequired){
+      parsedParam = queryParams[paramName];
+    } else if (!isValid && isRequired) {
+      parsedParam = null;
+      this.errors.push(`${paramName} is missing or invalid`);
+    } else if (isValid && !isRequired) {
+      parsedParam = queryParams[paramName];
+    } else if (!isValid && !isRequired) {
+      parsedParam = null;
+    }
+
+    return parsedParam;
+  }
+
   private processQueryParams() {
     this.queryParams = this.route.snapshot.queryParams;
-
-    console.log('Params');
-    console.log(this.queryParams);
 
     this.type = this.queryParams['type'];
 
     if (this.type === 'payment' || this.type === 'donation') {
-      this.invoiceId = this.validate('invoice_id', + this.queryParams['invoice_id']);
-      this.totalCost = this.validate('total_cost', + this.queryParams['total_cost']);
-      this.minPayment = this.validate('min_payment', +this.queryParams['min_payment']);
+      this.invoiceId = this.parseParamOrSetError('invoice_id', this.queryParams);
+      this.totalCost = this.parseParamOrSetError('total_cost', this.queryParams);
+      this.minPayment = this.parseParamOrSetError('min_payment', this.queryParams);
 
-      this.title = this.queryParams['title'] || '';
-      this.url = this.queryParams['url'] || '';
+      this.title = this.parseParamOrSetError('title', this.queryParams);
+      this.url = this.parseParamOrSetError('url', this.queryParams);
+      this.fundId = this.parseParamOrSetError('fund_id', this.queryParams);
     } else {
       this.errors.push('Invalid type');
     }
+
   }
 
-  private validate(key: string, value: number) {
-    if (isNaN(value) && this.type === 'payment') {
-      this.errors.push(`${key} is missing or invalid`);
-    }
-    return value;
-  }
+
 }
