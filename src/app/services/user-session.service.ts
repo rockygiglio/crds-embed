@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'angular2-cookie/core';
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 @Injectable()
 export class UserSessionService {
 
-  private readonly accessToken: string = 'sessionId';
-  private readonly refreshToken: string = 'refreshToken';
+  private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
+  private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
+  private cookieOptions: CookieOptionsArgs;
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService) {
+    if (process.env.CRDS_COOKIE_DOMAIN) {
+      this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
+    }
+  }
 
   isLoggedIn(): boolean {
     return !!this.cookieService.get(this.accessToken);
@@ -27,10 +32,10 @@ export class UserSessionService {
   }
 
   setAccessToken(value: string): void {
-    this.cookieService.put(this.accessToken, value);
+    this.cookieService.put(this.accessToken, value, this.cookieOptions);
   }
 
   setRefreshToken(value: string): void {
-    this.cookieService.put(this.refreshToken, value);
+    this.cookieService.put(this.refreshToken, value, this.cookieOptions);
   }
 }

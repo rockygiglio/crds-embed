@@ -5,7 +5,6 @@ import { HttpClientService } from './http-client.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
 import { UserSessionService } from './user-session.service';
-import { CookieService } from 'angular2-cookie/core';
 
 describe('Service: HttpClient', () => {
 
@@ -38,13 +37,20 @@ describe('Service: HttpClient', () => {
     'userPhone': '123-456-7890'
   };
 
+  class MockUserSessionService {
+    public setAccessToken(value: string): void {};
+    public setRefreshToken(value: string): void {};
+    public getAccessToken() {
+      return mockResponse.userToken;
+    };
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         HttpClientService,
         MockBackend,
-        UserSessionService,
-        CookieService,
+        { provide: UserSessionService, useClass: MockUserSessionService},
         BaseRequestOptions,
         {
           provide: Http,
@@ -62,18 +68,16 @@ describe('Service: HttpClient', () => {
     [HttpClientService, UserSessionService, MockBackend],
     (service, userService, mockBackend) => {
       let url = 'api/url';
-      let token = 'qwerty12345';
 
       spyOn(service.http, 'get').and.callThrough();
       mockBackend.connections.subscribe(conn => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
 
-      userService.setAccessToken(token);
       const result = service.get(url);
       let expectedReqOpts = new RequestOptions();
       let expectedHeaders = new Headers();
-      expectedHeaders.set('Authorization', token);
+      expectedHeaders.set('Authorization', mockResponse.userToken);
       expectedHeaders.set('Content-Type', 'application/json');
       expectedHeaders.set('Accept', 'application/json, text/plain, */*');
       expectedReqOpts.headers = expectedHeaders;
@@ -84,13 +88,11 @@ describe('Service: HttpClient', () => {
     [HttpClientService, UserSessionService, MockBackend],
     (service, userService, mockBackend) => {
       let url = 'api/url';
-      let token = 'qwerty12345';
 
       mockBackend.connections.subscribe(conn => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
 
-      service.userSession.setAccessToken(token);
       const result = service.get(url);
       result.subscribe(res => {
         expect(service.userSession.getAccessToken()).toBe(mockResponse.userToken);
