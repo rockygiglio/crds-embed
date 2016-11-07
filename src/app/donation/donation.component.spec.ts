@@ -10,6 +10,7 @@ import { ParamValidationService } from '../services/param-validation.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
+import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 describe('Component: Donation', () => {
 
@@ -20,7 +21,7 @@ describe('Component: Donation', () => {
     TestBed.configureTestingModule({
       declarations: [ DonationComponent ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, AlertModule
       ],
       providers: [
         GiftService, ParamValidationService
