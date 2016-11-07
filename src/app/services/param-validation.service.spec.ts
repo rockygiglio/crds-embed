@@ -152,7 +152,7 @@ describe('ParamValidationService', () => {
 
     }));
 
-    fit('should route to the correct verify function from isValidParam and return false',
+    it('should route to the correct verify function from isValidParam and return false',
         inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let queryParamsWithInvalidMinPmt: any = {
@@ -170,8 +170,8 @@ describe('ParamValidationService', () => {
 
     }));
 
-    fit('should route to the correct verify function from isValidParam and return true',
-    inject([ParamValidationService], (srvc: ParamValidationService) => {
+    it('should route to the correct verify function from isValidParam and return true',
+        inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let validQueryParams: any = {
             type: 'payment',
@@ -187,5 +187,44 @@ describe('ParamValidationService', () => {
         expect(isValid).toBe(true);
 
     }));
+
+    it('should return true for required payment params',
+        inject([ParamValidationService], (srvc: ParamValidationService) => {
+
+        let isInoviceIdReq: any = srvc.isParamRequired(srvc.embedParamNames.invoice_id, srvc.flowTypes.payment);
+        let isTotalCostReq: any = srvc.isParamRequired(srvc.embedParamNames.total_cost, srvc.flowTypes.payment);
+        let isMinPmtReq: any = srvc.isParamRequired(srvc.embedParamNames.min_payment, srvc.flowTypes.payment);
+
+        let allRequiredParamsReturnTrue = isInoviceIdReq && isTotalCostReq && isMinPmtReq;
+
+        expect(allRequiredParamsReturnTrue).toBe(true);
+
+    }));
+
+    it('should return false for donation params (none are required)',
+        inject([ParamValidationService], (srvc: ParamValidationService) => {
+
+            let isInoviceIdReq: any = srvc.isParamRequired(srvc.embedParamNames.invoice_id, srvc.flowTypes.donation);
+            let isTotalCostReq: any = srvc.isParamRequired(srvc.embedParamNames.total_cost, srvc.flowTypes.donation);
+            let isMinPmtReq: any = srvc.isParamRequired(srvc.embedParamNames.min_payment, srvc.flowTypes.donation);
+
+            let allRequiredParamsReturnFalse = !isInoviceIdReq && !isTotalCostReq && !isMinPmtReq;
+
+            expect(allRequiredParamsReturnFalse).toBe(true);
+
+    }));
+
+    it('should return false for pmt params that are not required',
+        inject([ParamValidationService], (srvc: ParamValidationService) => {
+
+            let isTitleReq: any = srvc.isParamRequired(srvc.embedParamNames.title, srvc.flowTypes.payment);
+            let isUrlReq: any = srvc.isParamRequired(srvc.embedParamNames.url, srvc.flowTypes.payment);
+            let isFundIdReq: any = srvc.isParamRequired(srvc.embedParamNames.fund_id, srvc.flowTypes.payment);
+
+            let noneOfTheParamsRequired = !isTitleReq && !isUrlReq && !isFundIdReq;
+
+            expect(noneOfTheParamsRequired).toBe(true);
+
+        }));
 
 });

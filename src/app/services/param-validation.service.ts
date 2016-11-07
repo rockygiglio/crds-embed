@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ParamValidationService {
     public flowTypes: any;
     public embedParamNames: any;
+    public requiredPmtParams: any[];
 
     constructor () {
         this.flowTypes = {
@@ -19,7 +21,23 @@ export class ParamValidationService {
             title: 'title',
             url: 'url',
             fund_id: 'fund_id'
-        } ;
+        };
+
+        this.requiredPmtParams = [
+            this.embedParamNames.invoice_id,
+            this.embedParamNames.total_cost,
+            this.embedParamNames.min_payment
+        ];
+    }
+
+    isParamRequired(paramName, flowType) {
+        if(flowType === this.flowTypes.donation) {
+            return false;
+        } else if (flowType === this.flowTypes.payment) {
+            return  _.includes(this.requiredPmtParams, paramName);
+        } else {
+            return false;
+        }
     }
 
 
@@ -52,17 +70,9 @@ export class ParamValidationService {
 
     isMinPaymentValid(minPaymentParam: any, totalCostParam: any) {
 
-        console.log('PARAMS RECEIVED BY isMinPaymentValid: ');
-        console.log(minPaymentParam);
-        console.log(totalCostParam);
-
         let isGreaterThanZero: boolean = totalCostParam > 0;
         let isDecimal: boolean = minPaymentParam.match( /^(\d+\.?\d{0,9}|\.\d{1,9})$/ );
         let isLessThanOrEqualToTotalCost = parseInt(minPaymentParam) <=  parseInt(totalCostParam);
-
-        console.log(isGreaterThanZero);
-        console.log(isDecimal);
-        console.log(isLessThanOrEqualToTotalCost);
 
         let isValid: boolean = isDecimal && isGreaterThanZero && isLessThanOrEqualToTotalCost;
 
