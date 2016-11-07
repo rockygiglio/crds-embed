@@ -40,6 +40,10 @@ export class GiftService {
   private processQueryParams() {
     this.queryParams = this.route.snapshot.queryParams;
 
+    if (this.queryParams['theme'] === 'dark') {
+      this.setTheme('dark-theme');
+    }
+
     this.type = this.queryParams['type'];
 
     if (this.type === 'payment' || this.type === 'donation') {
@@ -60,6 +64,10 @@ export class GiftService {
 
       console.error('Type is required');
     }
+  }
+
+  private setTheme(theme) {
+    document.body.classList.add(theme);
   }
 
   private validate(key: string, value: number) {

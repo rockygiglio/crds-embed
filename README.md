@@ -31,6 +31,7 @@ Query parameters are used to define the several initial values.
 * `min_payment` - numeric - REQUIRED if type=payment
 * `title` - string - optional
 * `url` - string - optional
+* `theme` - string - optional [light, dark] Will load the specified theme. If none specified, light theme is automatically used.
 
 An example `http://localhost:8080?type=payment&min_payment=123&invoice_id=1234&total_cost=1234`
 
