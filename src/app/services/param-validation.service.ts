@@ -42,10 +42,7 @@ export class ParamValidationService {
 
 
     isTypeValid(typeParam: any) {
-
-        let isValidOptionString: boolean = typeParam === 'payment' || typeParam === 'donation';
-
-        return isValidOptionString;
+        return typeParam === this.flowTypes.payment || typeParam === this.flowTypes.donation;
     }
 
     isInvoiceIdValid(invoiceIdParam: any) {
