@@ -21,7 +21,7 @@ export class GiftService {
   public customAmount: number;
 
   constructor(private route: ActivatedRoute,
-              private hlpr: ParamValidationService,) {
+              private hlpr: ParamValidationService) {
     this.processQueryParams();
   }
 
@@ -64,16 +64,16 @@ export class GiftService {
   private processQueryParams() {
     this.queryParams = this.route.snapshot.queryParams;
 
-    this.type = this.queryParams['type'];
+    this.type = this.queryParams[this.hlpr.embedParamNames.type];
 
-    if (this.type === 'payment' || this.type === 'donation') {
-      this.invoiceId = this.parseParamOrSetError('invoice_id', this.queryParams);
-      this.totalCost = this.parseParamOrSetError('total_cost', this.queryParams);
-      this.minPayment = this.parseParamOrSetError('min_payment', this.queryParams);
+    if (this.type === this.hlpr.flowTypes.payment || this.type === this.hlpr.flowTypes.donation) {
+      this.invoiceId = this.parseParamOrSetError(this.hlpr.embedParamNames.invoice_id, this.queryParams);
+      this.totalCost = this.parseParamOrSetError(this.hlpr.embedParamNames.total_cost, this.queryParams);
+      this.minPayment = this.parseParamOrSetError(this.hlpr.embedParamNames.min_payment, this.queryParams);
 
-      this.title = this.parseParamOrSetError('title', this.queryParams);
-      this.url = this.parseParamOrSetError('url', this.queryParams);
-      this.fundId = this.parseParamOrSetError('fund_id', this.queryParams);
+      this.title = this.parseParamOrSetError(this.hlpr.embedParamNames.title, this.queryParams);
+      this.url = this.parseParamOrSetError(this.hlpr.embedParamNames.url, this.queryParams);
+      this.fundId = this.parseParamOrSetError(this.hlpr.embedParamNames.fund_id, this.queryParams);
     } else {
       this.errors.push('Invalid type');
     }
