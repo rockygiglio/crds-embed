@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ParamValidationService } from './param-validation.service';
 
 @Injectable()
 export class GiftService {
@@ -19,7 +20,8 @@ export class GiftService {
   public amount: number;
   public customAmount: number;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private paramValidationService: ParamValidationService,) {
     this.processQueryParams();
   }
 

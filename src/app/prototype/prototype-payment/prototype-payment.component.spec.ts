@@ -7,6 +7,7 @@ import { AlertModule, ButtonsModule, TabsModule, CollapseModule } from 'ng2-boot
 import { PrototypePaymentComponent } from './prototype-payment.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
+import { ParamValidationService } from '../../services/param-validation.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 
@@ -27,7 +28,7 @@ describe('Component: PrototypePayment', () => {
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
-        PrototypeGiftService
+        PrototypeGiftService, ParamValidationService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypePaymentComponent);

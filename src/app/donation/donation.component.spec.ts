@@ -6,11 +6,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DonationComponent } from './donation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { GiftService } from '../services/gift.service';
+import { ParamValidationService } from '../services/param-validation.service';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
 
-describe('Component: Payment', () => {
+describe('Component: Donation', () => {
 
   let component;
   let fixture;
@@ -22,7 +23,7 @@ describe('Component: Payment', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
       ],
       providers: [
-        GiftService
+        GiftService, ParamValidationService
       ]
     });
     this.fixture = TestBed.createComponent(DonationComponent);
