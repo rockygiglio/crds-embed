@@ -7,7 +7,7 @@
 }
 
 .btn-option {
-  @include button-variant($text-color-dark, $cr-white, $accent-color);
+  @include button-variant($text-color, $cr-white, $accent-color);
   &.active {
     &, &:hover, &:focus {
       background-color: $secondary-color;
@@ -19,6 +19,8 @@
 }
 
 .btn-group {
+  margin-top: 5px;
+  
   > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
   > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
     margin-right: 0.5em;

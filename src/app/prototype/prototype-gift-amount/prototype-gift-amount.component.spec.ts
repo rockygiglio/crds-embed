@@ -8,6 +8,9 @@ import { PrototypeGiftAmountComponent } from './prototype-gift-amount.component'
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import { PrototypeGiftService } from '../prototype-gift.service';
 import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
+import { UserSessionService } from '../../services/user-session.service';
+import { HttpClientService } from '../../services/http-client.service';
+import { CookieService } from 'angular2-cookie/core';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -29,7 +32,8 @@ describe('Component: PrototypeGiftAmount', () => {
         { provide: PrototypeStore, useClass: MockPrototypeStore },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         PrototypeGiftService,
-        ExistingPaymentInfoService
+        ExistingPaymentInfoService, UserSessionService,
+        HttpClientService, CookieService
       ]
     });
     this.fixture = TestBed.createComponent(PrototypeGiftAmountComponent);

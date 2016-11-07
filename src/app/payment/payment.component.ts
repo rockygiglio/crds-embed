@@ -63,7 +63,7 @@ export class PaymentComponent implements OnInit {
 
   setAmount(value) {
     (<FormControl>this.form.controls['amount']).setValue(value, { onlySelf: true });
-    this.gift.amount = parseInt(value, 10);
+    this.gift.amount = parseFloat(value);
   }
 
   isValid() {

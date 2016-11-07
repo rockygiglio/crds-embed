@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header page-header--border-btm">
   <h2>Amount:</h2>
 </div>
 
@@ -6,13 +6,11 @@
   <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
 </div>
 
-<div class="btn-group">
+<div class="btn-group btn-group--flex btn-group--underline">
   <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
     <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
   </template>
 </div>
-
-<hr>
 
 <form [formGroup]="form" (ngSubmit)="next()">
 
@@ -24,12 +22,7 @@
     </div>
   </div>
 
-  <footer class="page-footer">
-    <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
+  <footer class="page-footer page-footer--pt-1">
+    <input type="submit" class="btn btn-next btn-block pull-right" (click)="next()" [ngClass]="{ disabled: !form.controls.amount.valid }" value="Next">
   </footer>
-
-  <!--TESTING BUTTON - DELETE!!-->
-  <input type="submit" class="btn btn-next pull-right" (click)="getTestUserPmtInfo()" value="TEST BTN: Get Prev Payment Info">
-  <!--TESTING BUTTON - DELETE!!-->
-
 </form>
