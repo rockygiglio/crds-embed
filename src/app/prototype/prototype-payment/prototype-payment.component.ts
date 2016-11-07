@@ -47,7 +47,6 @@ export class PrototypePaymentComponent implements OnInit {
   }
 
   achNext() {
-    console.log(this.achForm);
     if (this.achForm.valid) {
       this.gift.payment_type = 'ach';
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
