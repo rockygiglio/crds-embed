@@ -78,6 +78,15 @@ export class GiftService {
       this.errors.push('Invalid type');
     }
 
+    //Do not remove these logs - they were requested for testing
+    console.log('type ' + this.type);
+    console.log('invoice_id', this.invoiceId);
+    console.log('total_cost', this.totalCost);
+    console.log('min_payment', this.minPayment);
+    console.log('title', this.title);
+    console.log('url', this.url);
+    console.log('fund_id', this.fundId);
+
   }
 
 
