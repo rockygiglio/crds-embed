@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Store, StoreEnhancer, createStore } from 'redux';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -35,7 +37,8 @@ let store: Store<GivingState> = createStore<GivingState>(
     routing,
     PrototypeModule,
     DemoModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Angulartics2Module.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -46,7 +49,8 @@ let store: Store<GivingState> = createStore<GivingState>(
   providers: [
     appRoutingProviders,
     GiftService,
-    { provide: GivingStore, useValue: store }
+    { provide: GivingStore, useValue: store },
+    Angulartics2GoogleAnalytics
   ],
   bootstrap: [ AppComponent ]
 })
