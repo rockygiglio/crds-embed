@@ -41,7 +41,7 @@ export class ParamValidationService {
     }
 
 
-    isTypeValid(typeParam: any) {
+    isTypeParamValid(typeParam: any) {
         return typeParam === this.flowTypes.payment || typeParam === this.flowTypes.donation;
     }
 
@@ -107,7 +107,7 @@ export class ParamValidationService {
         let isValid = undefined;
         switch(paramName) {
             case this.embedParamNames.type:
-                isValid = this.isTypeValid(param);
+                isValid = this.isTypeParamValid(param);
                 break;
             case this.embedParamNames.invoice_id :
                 isValid = this.isInvoiceIdValid(param);

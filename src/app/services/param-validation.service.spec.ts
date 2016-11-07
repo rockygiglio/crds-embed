@@ -43,7 +43,7 @@ describe('ParamValidationService', () => {
     it('should consider "donation" a valid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let paramString: string = 'donation';
-        let isValid: boolean = srvc.isTypeValid(paramString);
+        let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(true);
 
     }));
@@ -51,21 +51,21 @@ describe('ParamValidationService', () => {
     it('should consider "payment" a valid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let paramString: string = 'payment';
-        let isValid: boolean = srvc.isTypeValid(paramString);
+        let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(true);
     }));
 
     it('should consider NULL an invalid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let paramString: string = null;
-        let isValid: boolean = srvc.isTypeValid(paramString);
+        let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(false);
     }));
 
     it('should consider UNDEFINED an invalid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
         let paramString: string = undefined;
-        let isValid: boolean = srvc.isTypeValid(paramString);
+        let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(false);
 
     }));
