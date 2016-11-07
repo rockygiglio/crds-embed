@@ -14,35 +14,27 @@ export class ExistingPaymentInfoService {
   private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
   private userPaymentInfo = null;
 
-
   constructor (private http: Http,
                private httpClientService: HttpClientService,
                private userSessionService: UserSessionService) {}
 
   resolve() {
-    let userToken = this.userSessionService.getAccessToken();
-    return this.getExistingPaymentInfo(userToken);
+    return this.getExistingPaymentInfo();
   }
-
 
   setUserPaymentInfo(userPaymentInfo) {
     this.userPaymentInfo = userPaymentInfo;
   }
 
-
   getUserPaymentInfo() {
     return this.userPaymentInfo;
   }
-
 
   getLastFourOfBankOrCcAcctNum() {
 
     let lastFour: any = null;
 
-    let prevPmtDataIsEmptyArray: any = this.helperIsArrayOfLength(this.userPaymentInfo, 0);
-    let isPrevPmtDataAvailable: any = this.userPaymentInfo && !prevPmtDataIsEmptyArray;
-
-    if (isPrevPmtDataAvailable) {
+    if (this.userPaymentInfo && this.userPaymentInfo.length > 0) {
       lastFour = this.userPaymentInfo.default_source.credit_card.last4 ||
         this.userPaymentInfo.default_source.bank_account.last4;
     }
@@ -50,8 +42,7 @@ export class ExistingPaymentInfoService {
     return lastFour;
   };
 
-
-  getExistingPaymentInfo (userToken: string): Observable<any[]> {
+  getExistingPaymentInfo(): Observable<any[]> {
 
     let requestOptions: any = this.httpClientService.getRequestOption();
 
@@ -60,7 +51,6 @@ export class ExistingPaymentInfoService {
       .catch(this.handleError);
   }
 
-
   private extractData(res: Response) {
     let body = res.json();
     this.userPaymentInfo = body || { };
@@ -68,25 +58,11 @@ export class ExistingPaymentInfoService {
     console.log('Got previous pmt info for user: ');
     console.log(this.userPaymentInfo);
 
-    return body || { };
+    return this.userPaymentInfo;
   }
-
 
   private handleError (res: Response | any) {
     this.userPaymentInfo = null;
     return [[]];
-  }
-
-
-  helperIsArrayOfLength(obj, length) {
-    let isArrayOfSpecifiedLength = false;
-
-    if (Array.isArray(obj)) {
-      if (obj.length === length) {
-        isArrayOfSpecifiedLength = true;
-      }
-    }
-
-    return isArrayOfSpecifiedLength;
   }
 }
