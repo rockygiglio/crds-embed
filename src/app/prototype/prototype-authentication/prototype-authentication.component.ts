@@ -15,7 +15,7 @@ import { ExistingPaymentInfoService } from '../../services/existing-payment-info
   providers: [CheckGuestEmailService]
 })
 export class PrototypeAuthenticationComponent implements OnInit {
-  public signinOption:string = 'Sign In';
+  public signinOption: string = 'Sign In';
 
   form: FormGroup;
   email: string;
