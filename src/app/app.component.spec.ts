@@ -5,7 +5,7 @@ import { GivingStore } from './giving-state/giving.store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
-import { GiftService } from './services/gift.service';
+import { LoadingService } from './services/loading.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ describe('App: CrdsEmbed', () => {
         PreviousGiftAmountService,
         UserSessionService,
         CookieService,
-        GiftService,
+        LoadingService,
         Angulartics2,
         Angulartics2GoogleTagManager,
         ParamValidationService
