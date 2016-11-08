@@ -21,6 +21,7 @@ import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
 
 import { GiftService } from './services/gift.service';
+import { LoadingService } from './services/loading.service';
 
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
@@ -63,6 +64,7 @@ let store: Store<GivingState> = createStore<GivingState>(
   ],
   providers:    [
     appRoutingProviders,
+    LoadingService,
     GiftService,
     { provide: GivingStore, useValue: store },
     Angulartics2GoogleTagManager
