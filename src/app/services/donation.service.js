@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Resolve } from '@angular/router';
 import { HttpClientService } from './http-client.service';
 import { UserSessionService } from './user-session.service';
+import { PaymentService } from './payment.service';
+import { PreviousSummaryService } from './previous-summary.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -11,131 +13,101 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DonationService implements Resolve<number> {
 
-    private transactionUrl = process.env.CRDS_API_ENDPOINT + 'api/donation';
+  constructor(private http: HttpClientService,
+    private userSessionService: UserSessionService,
+    private paymentService: PaymentService,
+    private previousSummaryService: PreviousSummaryService) { }
 
-    constructor (private http: HttpClientService,
-                 private userSessionService: UserSessionService) {}
+  resolve() {
+  }
 
-    resolve() {
-         // return this.postPayment();
-    }
+  submitTransactionInfo(giveForm) {
+    if (giveForm.accountForm.$valid) {
+      paymentService.getDonor(email)
+        .then(function (donor) {
+          this.updateDonorAndDonate(donor.id);
+        },
 
-    createBank() {
-      try {
-        donationService.bank = {
-          country: 'US',
-          currency: 'USD',
-          routing_number: GiveTransferService.donor.default_source.routing,
-          account_number: GiveTransferService.donor.default_source.bank_account_number,
-          account_holder_name: GiveTransferService.donor.default_source.account_holder_name,
-          account_holder_type: GiveTransferService.donor.default_source.account_holder_type
-        };
-      } catch(err) {
-        throw new Error('Unable to create bank account');
-      }
-
-    }
-
-    createCard() {
-      try {
-        donationService.card = {
-          name: GiveTransferService.donor.default_source.name,
-          number: GiveTransferService.donor.default_source.cc_number,
-          exp_month: GiveTransferService.donor.default_source.exp_date.substr(0, 2),
-          exp_year: GiveTransferService.donor.default_source.exp_date.substr(2, 2),
-          cvc: GiveTransferService.donor.default_source.cvc,
-          address_zip: GiveTransferService.donor.default_source.address_zip
-        };
-      } catch(err) {
-        throw new Error('Unable to create credit card');
-      }
-    }
-
-    createDonorAndDonate(programsInput) {
-      var pgram;
-      if (programsInput !== undefined) {
-        pgram = _.find(programsInput, { ProgramId: GiveTransferService.program.ProgramId });
-      } else {
-        pgram = GiveTransferService.program;
-      }
-
-      if (GiveTransferService.view === 'cc') {
-        donationService.createCard();
-        PaymentService.createDonorWithCard(donationService.card, GiveTransferService.email, GiveTransferService.donorFirstName, GiveTransferService.donorLastName)
-          .then(function (donor) {
-            donationService.donate(pgram, GiveTransferService.campaign);
-          }, PaymentService.stripeErrorHandler);
-      } else if (GiveTransferService.view === 'bank') {
-        donationService.createBank();
-        PaymentService.createDonorWithBankAcct(donationService.bank, GiveTransferService.email, GiveTransferService.donorFirstName, GiveTransferService.donorLastName)
-          .then(function (donor) {
-            donationService.donate(pgram, GiveTransferService.campaign);
-          }, PaymentService.stripeErrorHandler);
-      }
-    }    
-
-    confirmDonation(programsInput, successful) {
-      if (!Session.isActive()) {
-        $state.go(GiveFlow.login);
-      }
-
-      GiveTransferService.processing = true;
-      try {
-        var pgram;
-        if (programsInput) {
-          pgram = _.find(programsInput, { ProgramId: GiveTransferService.program.ProgramId });
-        } else {
-          pgram = GiveTransferService.program;
-        }
-
-        donationService.donate(pgram, GiveTransferService.campaign, function(confirmation) {
-          if (successful !== undefined) {
-            successful(confirmation);
-          }
-          console.log('successfully donated');
-        }, function(error) {
-
-          if (GiveTransferService.declinedPayment) {
-            GiveFlow.goToChange();
-          }
+        function (error) {
+          this.createDonorAndDonate();
         });
-      } catch (DonationException) {
-        GiveTransferService.processing = false;
-        $rootScope.$emit('notify', $rootScope.MESSAGES.failedResponse);
-      }
+    } else {
+      // TODO display general failure message on same page
+      // $rootScope.$emit('notify', $rootScope.MESSAGES.generalError);
+    }
+  }
+
+  updateDonorAndDonate(donorId) {
+    // The vm.email below is only required for guest giver, however, there
+    // is no harm in sending it for an authenticated user as well,
+    // so we'll keep it simple and send it in all cases.
+    if (GiveTransferService.view === 'cc') {
+      this.createCard();
+      paymentService.updateDonorWithCard(donorId, donationService.card, GiveTransferService.email)
+        .then(function (donor) {
+          donationService.donate(pgram, GiveTransferService.campaign);
+        }, paymentService.stripeErrorHandler);
+    } else if (GiveTransferService.view === 'bank') {
+      donationService.createBank();
+      paymentService.updateDonorWithBankAcct(donorId, donationService.bank, GiveTransferService.email)
+        .then(function (donor) {
+          donationService.donate(pgram, GiveTransferService.campaign);
+        }, paymentService.stripeErrorHandler);
+    }
+    return donationService;
+  }
+
+  createDonorAndDonate() {
+    if (GiveTransferService.view === 'cc') {
+      this.createCard();
+      paymentService.createDonorWithCard(donationService.card, GiveTransferService.email, GiveTransferService.donorFirstName, GiveTransferService.donorLastName)
+        .then(function (donor) {
+          this.donate();
+        }, paymentService.stripeErrorHandler);
+    } else if (GiveTransferService.view === 'bank') {
+      donationService.createBank();
+      paymentService.createDonorWithBankAcct(donationService.bank, GiveTransferService.email, GiveTransferService.donorFirstName, GiveTransferService.donorLastName)
+        .then(function (donor) {
+          donationService.donate(pgram, GiveTransferService.campaign);
+        }, paymentService.stripeErrorHandler);
+    }
+  }
+
+  createBank() {
+    try {
+// TODO get data from forms                      
+      this.bank = {
+        country: 'US',
+        currency: 'USD',
+        routing_number: 110000000,
+        account_number: 000123456789,
+        account_holder_name: 'Account Holder Name Here',
+        account_holder_type: 'Personal'
+      };
+    } catch (err) {
+      throw new Error('Unable to create bank account');
     }
 
-    donate(program, campaign, onSuccess, onFailure) {
-      if (campaign === undefined || campaign ===  null) {
-        campaign = { campaignId: null,  campaignName: null };
-      }
+  }
 
-      PaymentService.donateToProgram(
-          program.ProgramId,
-          campaign.campaignId,
-          GiveTransferService.amount,
-          GiveTransferService.donor.donorId,
-          GiveTransferService.email,
-          GiveTransferService.view,
-          GiveTransferService.anonymous,
-          GiveTransferService.tripDeposit).then(function(confirmation) {
-            GiveTransferService.amount = confirmation.amount;
-            GiveTransferService.program = program;
-            GiveTransferService.program_name = GiveTransferService.program.Name;
-            GiveTransferService.email = confirmation.email;
-            if (onSuccess !== undefined) {
-              onSuccess(confirmation);
-            }
-
-            $state.go(GiveFlow.thankYou);
-          }, function(error) {
-
-            GiveTransferService.processing = false;
-            PaymentService.stripeErrorHandler(error);
-            if (onSuccess !== undefined && onFailure !== undefined) {
-              onFailure(error);
-            }
-          });
+  createCard() {
+    try {
+// TODO get data from forms        
+      this.card = {
+        name: 'name here',
+        number: 42424242424242 ,
+        exp_month: 12,
+        exp_year: 18,
+        cvc: 123,
+        address_zip: 45202
+      };
+    } catch (err) {
+      throw new Error('Unable to create credit card');
     }
+  }
+
+  donate() {
+    previousSummaryService.postPayment(amount, paymentType, transactionType, invoiceId);
+  }
 
 }
