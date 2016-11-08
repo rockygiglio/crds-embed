@@ -13,6 +13,7 @@ import { routing, appRoutingProviders } from './app.routing';
 
 import { PrototypeModule } from './prototype/prototype.module';
 import { DemoModule } from './demo/demo.module';
+import { PreloaderModule } from './preloader/preloader.module';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
@@ -24,8 +25,6 @@ import { GiftService } from './services/gift.service';
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
-
-
 
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
@@ -49,6 +48,10 @@ let store: Store<GivingState> = createStore<GivingState>(
     routing,
     Angulartics2Module.forRoot(),
     PrototypeModule,
+    DemoModule,
+    ReactiveFormsModule,
+    AlertModule,
+    PreloaderModule,
     DemoModule
   ],
   declarations: [

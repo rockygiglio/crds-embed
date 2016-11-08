@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
@@ -10,7 +10,7 @@ import { ExistingPaymentInfoService } from '../../services/existing-payment-info
   templateUrl: './prototype-summary.component.html',
   styleUrls: ['./prototype-summary.component.scss']
 })
-export class PrototypeSummaryComponent {
+export class PrototypeSummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
 
   constructor(@Inject(PrototypeStore)
@@ -19,6 +19,7 @@ export class PrototypeSummaryComponent {
               private existingPaymentInfoService: ExistingPaymentInfoService) {}
 
   ngOnInit() {
+    this.gift.loading = false;
     this.lastFourOfAcctNumber = this.getLastFourOfAccountNumber();
   }
 
@@ -35,12 +36,18 @@ export class PrototypeSummaryComponent {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
+    }, 500);
     return false;
   }
 
   next() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
+    }, 500);
     return false;
   }
 
