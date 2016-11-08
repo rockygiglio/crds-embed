@@ -14,14 +14,14 @@
       <input type="password" class="form-control" placeholder="Password" [formControl]="form.get('password')"><br>
     </div>
 
-    <div class="row">
-      <div class="col-xs-6">
+    <div class="row form__helpers">
+      <div class="form__helpers--half">
         <label>
           <input type="checkbox" checked="checked"> Keep me logged in
         </label>
       </div>
 
-      <div class="col-xs-6">
+      <div class="form__helpers--half">
         <p class="pull-right text-left text-block">
           <a class="text-block__link--underline" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
           <a class="text-block__link--underline" href="#">Need help?</a>

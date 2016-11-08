@@ -8,7 +8,7 @@
 
 <div class="btn-group btn-group--flex btn-group--underline">
   <template ngFor let-amount [ngForOf]="predefinedAmounts" let-i="index">
-    <button class="btn btn-option" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
+    <button class="btn btn-option btn-option--no-outline" (click)="onSelectAmount($event, amount)" [ngClass]="{ active: (!customAmount && gift.amount == amount) }">${{amount}}</button>
   </template>
 </div>
 
