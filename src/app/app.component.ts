@@ -6,7 +6,6 @@ import { GivingState } from './giving-state/giving.interfaces';
 
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
-import { GiftService } from './services/gift.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +20,6 @@ export class AppComponent {
   constructor(@Inject(GivingStore) private store: any,
               private route: ActivatedRoute,
               private router: Router,
-              private gift: GiftService,
               private quickAmts: QuickDonationAmountsService,
               private prevAmt: PreviousGiftAmountService) {
     store.subscribe(() => this.readState());
