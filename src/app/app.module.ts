@@ -11,7 +11,6 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PrototypeModule } from './prototype/prototype.module';
 import { DemoModule } from './demo/demo.module';
 
-import { PreloaderComponent } from './preloader/preloader.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
@@ -23,7 +22,7 @@ import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
-
+import { PreloaderModule } from './preloader/preloader.module';
 
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
@@ -42,14 +41,14 @@ let store: Store<GivingState> = createStore<GivingState>(
     PrototypeModule,
     DemoModule,
     ReactiveFormsModule,
-    AlertModule
+    AlertModule,
+    PreloaderModule
   ],
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     PaymentComponent,
-    DonationComponent,
-    PreloaderComponent
+    DonationComponent
   ],
   providers: [
     appRoutingProviders,
