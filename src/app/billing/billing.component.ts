@@ -27,20 +27,18 @@ export class BillingComponent implements OnInit {
               private gift: GiftService,
               private fb: FormBuilder,
               private paymentService: ExistingPaymentInfoService) {
-    paymentService.getTestUser().subscribe((userInfo) => {
-      paymentService.getExistingPaymentInfo(userInfo['userToken']).subscribe((paymentInfo) => {
-        if (paymentInfo) {
-          gift.email = paymentInfo['email'];
-          if (typeof paymentInfo['default_source'] !== 'undefined') {
-            gift.routingNumber = paymentInfo['default_source'].bank_account.routing;
-            gift.accountName   = paymentInfo['default_source'].bank_account.accountHolderName;
-            gift.accountType   = paymentInfo['default_source'].bank_account.accountHolderType === 'individual' ?
-              'personal' : 'business';
+    paymentService.getExistingPaymentInfo().subscribe((paymentInfo) => {
+      if (paymentInfo) {
+        gift.email = paymentInfo['email'];
+        if (typeof paymentInfo['default_source'] !== 'undefined') {
+          gift.routingNumber = paymentInfo['default_source'].bank_account.routing;
+          gift.accountName   = paymentInfo['default_source'].bank_account.accountHolderName;
+          gift.accountType   = paymentInfo['default_source'].bank_account.accountHolderType === 'individual' ?
+            'personal' : 'business';
 
-            this.accountNumberPlaceholder = `XXXXXXXXX${paymentInfo['default_source'].bank_account.last4}`;
-          }
+          this.accountNumberPlaceholder = `XXXXXXXXX${paymentInfo['default_source'].bank_account.last4}`;
         }
-      });
+      }
     });
   }
 
