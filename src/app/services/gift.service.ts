@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 
+declare var _;
+
 @Injectable()
 export class GiftService {
 
@@ -18,11 +20,28 @@ export class GiftService {
 
   public errors: Array<string> = [];
 
+  // Payment Information
   public amount: number;
   public customAmount: number;
+  public paymentType: string;
+
+  // user info
+  public email: string;
+
+  // ACH Information
+  public accountType: string = 'personal';
+  public accountName: string;
+  public routingNumber: string;
+  public accountNumber: string;
+
+  // Credit Card information
+  public ccNumber: string;
+  public expDate: string;
+  public cvv: string;
+  public zipCode: string;
 
   constructor(private route: ActivatedRoute,
-              private hlpr: ParamValidationService) {
+              private helper: ParamValidationService) {
     this.processQueryParams();
   }
 
@@ -37,6 +56,22 @@ export class GiftService {
     return result;
   }
 
+  public resetPaymentDetails() {
+    _.each([
+      'paymentType',
+      'accountType',
+      'accountName',
+      'routingNumber',
+      'achNumber',
+      'ccNumber',
+      'expDate',
+      'cvv',
+      'zipCode'
+    ], (f) => {
+      delete(this[f]);
+    });
+  }
+
   /*******************
    * PRIVATE FUNCTIONS
    *******************/
@@ -44,8 +79,8 @@ export class GiftService {
   parseParamOrSetError(paramName, queryParams) {
 
     let isValid: boolean = queryParams[paramName] ?
-        this.hlpr.isValidParam(paramName, queryParams[paramName], queryParams) : null;
-    let isRequired: boolean =  this.hlpr.isParamRequired(paramName, queryParams[this.hlpr.embedParamNames.type]);
+        this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
+    let isRequired: boolean =  this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
 
     let parsedParam: any = undefined;
 
@@ -70,16 +105,16 @@ export class GiftService {
       this.setTheme('dark-theme');
     }
 
-    this.type = this.queryParams[this.hlpr.embedParamNames.type];
+    this.type = this.queryParams[this.helper.params.type];
 
-    if (this.type === this.hlpr.flowTypes.payment || this.type === this.hlpr.flowTypes.donation) {
-      this.invoiceId = this.parseParamOrSetError(this.hlpr.embedParamNames.invoice_id, this.queryParams);
-      this.totalCost = this.parseParamOrSetError(this.hlpr.embedParamNames.total_cost, this.queryParams);
-      this.minPayment = this.parseParamOrSetError(this.hlpr.embedParamNames.min_payment, this.queryParams);
+    if (this.type === this.helper.types.payment || this.type === this.helper.types.donation) {
+      this.invoiceId = this.parseParamOrSetError(this.helper.params.invoice_id, this.queryParams);
+      this.totalCost = this.parseParamOrSetError(this.helper.params.total_cost, this.queryParams);
+      this.minPayment = this.parseParamOrSetError(this.helper.params.min_payment, this.queryParams);
 
-      this.title = this.parseParamOrSetError(this.hlpr.embedParamNames.title, this.queryParams);
-      this.url = this.parseParamOrSetError(this.hlpr.embedParamNames.url, this.queryParams);
-      this.fundId = this.parseParamOrSetError(this.hlpr.embedParamNames.fund_id, this.queryParams);
+      this.title = this.parseParamOrSetError(this.helper.params.title, this.queryParams);
+      this.url = this.parseParamOrSetError(this.helper.params.url, this.queryParams);
+      this.fundId = this.parseParamOrSetError(this.helper.params.fund_id, this.queryParams);
     } else {
       this.errors.push('Invalid type');
     }

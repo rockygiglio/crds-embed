@@ -48,7 +48,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
-          this.getUserPaymentInfo(user.userToken);
+          this.getUserPaymentInfo();
           this.adv();
         },
         error => {
@@ -91,8 +91,8 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
   }
 
-  getUserPaymentInfo(userToken) {
-    this.existingPaymentInfoService.getExistingPaymentInfo(userToken)
+  getUserPaymentInfo() {
+    this.existingPaymentInfoService.getExistingPaymentInfo()
         .subscribe(
             pmtInfo => {
               this.userPmtInfo = pmtInfo;
