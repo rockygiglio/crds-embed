@@ -65,11 +65,11 @@ export class GiftService {
   private processQueryParams() {
     this.queryParams = this.route.snapshot.queryParams;
 
-    this.type = this.queryParams[this.hlpr.embedParamNames.type];
     if (this.queryParams['theme'] === 'dark') {
       this.setTheme('dark-theme');
     }
 
+    this.type = this.queryParams[this.hlpr.embedParamNames.type];
 
     if (this.type === this.hlpr.flowTypes.payment || this.type === this.hlpr.flowTypes.donation) {
       this.invoiceId = this.parseParamOrSetError(this.hlpr.embedParamNames.invoice_id, this.queryParams);
