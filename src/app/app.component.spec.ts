@@ -1,29 +1,52 @@
 /* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
+import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
+import { GivingStore } from './giving-state/giving.store';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpModule, JsonpModule } from '@angular/http';
+import { PreloaderModule } from './preloader/preloader.module';
+import { GiftService } from './services/gift.service';
+import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
+import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientService } from './services/http-client.service';
+import { UserSessionService } from './services/user-session.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
+import { ParamValidationService } from './services/param-validation.service';
+
+class MockGivingStore { public subscribe() {}; }
 
 describe('App: CrdsEmbed', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
-  let component: any;
-  let fixture: any;
-
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AppComponent ],
-      providers:    [
-        Angulartics2,
-        Angulartics2GoogleTagManager
-      ],
       imports: [
-        RouterTestingModule.withRoutes([])
+        PreloaderModule, RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
       ],
-    });
+      providers: [
+        { provide: GivingStore, useClass: MockGivingStore },
+        QuickDonationAmountsService,
+        HttpClientService,
+        PreviousGiftAmountService,
+        UserSessionService,
+        CookieService,
+        GiftService,
+        Angulartics2,
+        Angulartics2GoogleTagManager,
+        ParamValidationService
+      ]
+    })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create an instance', () => {

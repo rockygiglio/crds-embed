@@ -46,7 +46,10 @@ export class PrototypeGiftAmountComponent implements OnInit {
   next() {
     this.gift.init = false;
     if (this.gift.amount) {
-      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+      this.gift.loading = true;
+      setTimeout(() => {
+        this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+      }, 1000);
     }
     return false;
   }

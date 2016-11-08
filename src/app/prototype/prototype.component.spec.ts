@@ -10,23 +10,22 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
 import { HttpClientService } from '../services/http-client.service';
 import { UserSessionService } from '../services/user-session.service';
-
+import { PreloaderModule } from '../preloader/preloader.module';
 
 class MockPrototypeStore { public subscribe() {}; }
 class MockHttpClientService { public get() {}; }
 class MockUserSessionService { public getAccessToken() {}; }
-class MockRouter { public navigate() {}; }
 
 describe('Component: Prototype', () => {
 
-  let component: any;
-  let fixture: any;
+  let fixture,
+      component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ PrototypeComponent ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, PreloaderModule,
       ],
       providers:    [
         { provide: PrototypeStore, useClass: MockPrototypeStore },
