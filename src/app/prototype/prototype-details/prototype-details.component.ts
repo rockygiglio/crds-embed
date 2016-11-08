@@ -40,6 +40,7 @@ export class PrototypeDetailsComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    this.gift.loading = false;
     this.funds = this.route.snapshot.data['giveTo'];
     this.gift.fund = this.defaultFund.Name;
     this.setFrequencies();
@@ -51,12 +52,18 @@ export class PrototypeDetailsComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/amount'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/amount'));
+    }, 500);
     return false;
   }
 
   next() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/auth'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/auth'));
+    }, 500);
     return false;
   }
 

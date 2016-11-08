@@ -4,6 +4,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createStore, Store, StoreEnhancer } from 'redux';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { PreloaderModule } from '../preloader/preloader.module';
 
 import { PrototypeComponent } from './prototype.component';
 import { prototypeRouting } from './prototype.routing';
@@ -31,6 +32,7 @@ import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prot
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserSessionService } from '../services/user-session.service';
 import { HttpClientService } from '../services/http-client.service';
+import { ParamValidationService } from '../services/param-validation.service';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -54,7 +56,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     prototypeRouting,
     ReactiveFormsModule,
     TabsModule,
-    JsonpModule
+    JsonpModule,
+    PreloaderModule
   ],
   declarations: [
     PrototypeComponent,
@@ -80,6 +83,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     ExistingPaymentInfoService,
     UserSessionService,
     HttpClientService,
+    ParamValidationService,
     { provide: PrototypeStore, useValue: store }
   ]
 })

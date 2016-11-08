@@ -1,10 +1,10 @@
 /* tslint:disable:no-unused-variable */
-
 import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { GivingStore } from './giving-state/giving.store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { PreloaderModule } from './preloader/preloader.module';
 import { GiftService } from './services/gift.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientService } from './services/http-client.service';
 import { UserSessionService } from './services/user-session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
+import { ParamValidationService } from './services/param-validation.service';
 
 class MockGivingStore { public subscribe() {}; }
 
@@ -23,7 +25,7 @@ describe('App: CrdsEmbed', () => {
     TestBed.configureTestingModule({
       declarations: [ AppComponent ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
+        PreloaderModule, RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
       ],
       providers: [
         { provide: GivingStore, useClass: MockGivingStore },
@@ -32,7 +34,10 @@ describe('App: CrdsEmbed', () => {
         PreviousGiftAmountService,
         UserSessionService,
         CookieService,
-        GiftService
+        GiftService,
+        Angulartics2,
+        Angulartics2GoogleTagManager,
+        ParamValidationService
       ]
     })
       .compileComponents();

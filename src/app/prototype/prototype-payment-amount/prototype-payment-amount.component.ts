@@ -18,7 +18,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
 
   amount_due = [
     {
-      label: 'Minimum Due',
+      label: 'Min Due',
       amount: 100.00
     },
     {
@@ -34,6 +34,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.gift.loading = false;
 
     /*
     if (_.pluck(this.amount_due, 'amount').indexOf(this.gift.amount) === -1) {
@@ -49,7 +50,10 @@ export class PrototypePaymentAmountComponent implements OnInit {
   }
 
   next() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/auth'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/auth'));
+    }, 500);
     return false;
   }
 

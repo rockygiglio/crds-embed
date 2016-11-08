@@ -3,14 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { AlertModule, DatepickerModule, ButtonsModule, CollapseModule } from 'ng2-bootstrap';
 import { Store, StoreEnhancer, createStore } from 'redux';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
 import { PrototypeModule } from './prototype/prototype.module';
 import { DemoModule } from './demo/demo.module';
+import { PreloaderModule } from './preloader/preloader.module';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
@@ -25,7 +28,6 @@ import { givingReducer } from './giving-state/giving.reducer';
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { ExpirayFormatDirective } from './directives/expiry-format.directive';
 import { CvcFormatDirective } from './directives/cvc-format.directive';
-
 
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
@@ -47,7 +49,12 @@ let store: Store<GivingState> = createStore<GivingState>(
     DatepickerModule,
     ReactiveFormsModule,
     routing,
+    Angulartics2Module.forRoot(),
     PrototypeModule,
+    DemoModule,
+    ReactiveFormsModule,
+    AlertModule,
+    PreloaderModule,
     DemoModule
   ],
   declarations: [
@@ -63,7 +70,8 @@ let store: Store<GivingState> = createStore<GivingState>(
   providers:    [
     appRoutingProviders,
     GiftService,
-    { provide: GivingStore, useValue: store }
+    { provide: GivingStore, useValue: store },
+    Angulartics2GoogleTagManager
   ],
   bootstrap:    [AppComponent]
 })
