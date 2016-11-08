@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
+import { QuickDonationAmountsService } from './quick-donation-amounts.service';
+import { DonationFundService, Program } from './donation-fund.service';
+import { UserSessionService } from './user-session.service';
+import { PreviousGiftAmountService } from './previous-gift-amount.service';
+import { ExistingPaymentInfoService, PaymentInfo, PaymentSource, CreditCardInfo, BankAccountInfo } from './existing-payment-info.service';
 
 declare var _;
 
@@ -19,6 +24,10 @@ export class GiftService {
 
   public errors: Array<string> = [];
 
+  // Form options
+  public funds: Program[];
+  public amounts: number[];
+
   // Payment Information
   public amount: number;
   public customAmount: number;
@@ -26,6 +35,7 @@ export class GiftService {
 
   // user info
   public email: string;
+  public previousGiftAmount: string;
 
   // ACH Information
   public accountType: string = 'personal';
@@ -40,8 +50,58 @@ export class GiftService {
   public zipCode: string;
 
   constructor(private route: ActivatedRoute,
-              private helper: ParamValidationService) {
+              private helper: ParamValidationService,
+              private donationFundService: DonationFundService,
+              private quickDonationAmountService: QuickDonationAmountsService,
+              private userSessionService: UserSessionService,
+              private previousGiftAmountService: PreviousGiftAmountService,
+              private existingPaymentInfoService: ExistingPaymentInfoService) {
     this.processQueryParams();
+  }
+
+  public preloadData() {
+    if (this.userSessionService.isLoggedIn()) {
+      this.loadUserData();
+    } else {
+      this.loadFormData();
+    }
+  }
+
+  private loadUserData() {
+    this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
+      info => this.setBillingInfo(info)
+    );
+    if (this.type === 'donation') {
+      this.previousGiftAmountService.get().subscribe(
+        amount => this.previousGiftAmount = amount
+      );
+    }
+  }
+
+  private setBillingInfo(pmtInfo: PaymentInfo) {
+    if (pmtInfo.default_source.credit_card.last4 != null) {
+      this.paymentType = 'cc';
+      this.ccNumber = `XXXXXXXXX${pmtInfo.default_source.credit_card.last4}`;
+      this.expDate = pmtInfo.default_source.credit_card.exp_date;
+      this.zipCode = pmtInfo.default_source.credit_card.address_zip;
+    }
+    if (pmtInfo.default_source.bank_account.last4 != null) {
+      this.paymentType = 'ach';
+      this.accountName = pmtInfo.default_source.bank_account.accountHolderName;
+      this.routingNumber = pmtInfo.default_source.bank_account.routing;
+      this.accountNumber = `XXXXXXXXX${pmtInfo.default_source.bank_account.last4}`;
+      this.accountType = pmtInfo.default_source.bank_account.accountHolderType === 'individual' ?
+        'personal' : 'business';
+    }
+  }
+
+  private loadFormData() {
+    this.donationFundService.getFunds().subscribe(
+      funds => this.funds = funds
+    );
+    this.quickDonationAmountService.getQuickDonationAmounts().subscribe(
+      amounts => this.amounts = amounts
+    );
   }
 
   public validAmount() {

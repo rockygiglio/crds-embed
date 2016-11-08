@@ -6,6 +6,33 @@ import { HttpClientService } from './http-client.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+export interface PaymentInfo {
+  id: number;
+  Processor_ID: string;
+  default_source: PaymentSource;
+  Registered_User: boolean;
+  email: string;
+}
+
+export interface PaymentSource {
+  credit_card: CreditCardInfo;
+  bank_account: BankAccountInfo;
+}
+
+export interface CreditCardInfo {
+  last4: string;
+  brand: string;
+  address_zip: string;
+  exp_date: string;
+}
+
+export interface BankAccountInfo {
+  routing: string;
+  last4: string;
+  accountHolderName: string;
+  accountHolderType: string;
+}
+
 @Injectable()
 export class ExistingPaymentInfoService {
 
@@ -40,7 +67,7 @@ export class ExistingPaymentInfoService {
     return lastFour;
   };
 
-  getExistingPaymentInfo(): Observable<any[]> {
+  getExistingPaymentInfo(): Observable<any> {
     return this.http.get(this.getPreviousPmtUrl)
       .map(this.extractData)
       .catch(this.handleError);
