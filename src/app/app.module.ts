@@ -11,6 +11,7 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PrototypeModule } from './prototype/prototype.module';
 import { DemoModule } from './demo/demo.module';
 
+import { PreloaderComponent } from './preloader/preloader.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
@@ -47,7 +48,8 @@ let store: Store<GivingState> = createStore<GivingState>(
     AppComponent,
     PageNotFoundComponent,
     PaymentComponent,
-    DonationComponent
+    DonationComponent,
+    PreloaderComponent
   ],
   providers: [
     appRoutingProviders,
