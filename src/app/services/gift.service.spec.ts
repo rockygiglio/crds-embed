@@ -3,6 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { GiftService } from './gift.service';
 import { ActivatedRoute } from '@angular/router';
+import { ParamValidationService } from './param-validation.service';
 
 class MockActivatedRoute {
   public snapshot = {
@@ -14,7 +15,7 @@ describe('Service: Gift', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        GiftService,
+        GiftService, ParamValidationService,
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     });

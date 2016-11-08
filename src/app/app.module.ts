@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Store, StoreEnhancer, createStore } from 'redux';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -20,6 +22,8 @@ import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
 
+import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+
 
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
@@ -34,9 +38,11 @@ let store: Store<GivingState> = createStore<GivingState>(
   imports: [
     BrowserModule,
     routing,
+    Angulartics2Module.forRoot(),
     PrototypeModule,
     DemoModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlertModule
   ],
   declarations: [
     AppComponent,
@@ -48,7 +54,8 @@ let store: Store<GivingState> = createStore<GivingState>(
     appRoutingProviders,
     TransactionService,
     GiftService,
-    { provide: GivingStore, useValue: store }
+    { provide: GivingStore, useValue: store },
+    Angulartics2GoogleTagManager
   ],
   bootstrap: [ AppComponent ]
 })
