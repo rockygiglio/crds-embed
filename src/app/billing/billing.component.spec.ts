@@ -1,19 +1,27 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { BillingComponent } from './billing.component';
-import { GiftService } from "../services/gift.service";
-import { GivingStore } from "../giving-state/giving.store";
-import { RouterTestingModule } from "@angular/router/testing";
-import { HttpModule, JsonpModule } from "@angular/http";
-import { ReactiveFormsModule } from "@angular/forms";
+import { GiftService } from '../services/gift.service';
+import { GivingStore } from '../giving-state/giving.store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpModule, JsonpModule } from '@angular/http';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClientService } from '../services/http-client.service';
+import { UserSessionService } from '../services/user-session.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 class MockGivingStore { public subscribe() {}; }
-class MockRouter { public navigate() {}; }
+class MockActivatedRoute {
+  public snapshot = {
+    queryParams: []
+  };
+}
 
-describe('BillingComponent', () => {
+describe('Component: Billing', () => {
   let component: BillingComponent;
   let fixture: ComponentFixture<BillingComponent>;
 
@@ -21,23 +29,30 @@ describe('BillingComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ BillingComponent ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
+        AlertModule,
+        CollapseModule,
+        ReactiveFormsModule,
+        TabsModule,
+        ButtonsModule,
+        HttpModule
       ],
       providers: [
         { provide: GivingStore, useClass: MockGivingStore },
-        GiftService
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        GiftService,
+        ExistingPaymentInfoService,
+        FormBuilder,
+        HttpClientService,
+        UserSessionService,
+        CookieService
       ]
-    })
-    .compileComponents();
+    });
+    this.fixture = TestBed.createComponent(BillingComponent);
+    this.component = this.fixture.componentInstance;
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BillingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create an instance', () => {
+    expect(this.component).toBeTruthy();
   });
 });
