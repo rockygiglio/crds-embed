@@ -65,7 +65,13 @@
       justify-content: space-between;
 
       .btn-option {
-        border: none;
+        &--no-outline {
+          border: none;
+        }
+
+        &--flex-item {
+          flex: 1 1 50%;
+        }
       }
     }
 
