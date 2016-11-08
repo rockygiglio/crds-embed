@@ -1,11 +1,12 @@
-import { Inject, Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Inject, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { GiftService } from '../services/gift.service';
 import { GivingStore } from '../giving-state/giving.store';
+import * as GivingActions from '../giving-state/giving.action-creators';
 
 @Component({
   selector: 'app-payment',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'payment.component.html',
   styleUrls: ['payment.component.css']
 })
@@ -16,15 +17,13 @@ export class PaymentComponent implements OnInit {
   public amountDue: Array<Object>;
 
   constructor(@Inject(GivingStore) private store: any,
-              private location: Location,
               private gift: GiftService,
               private fb: FormBuilder) {
   }
 
-
   ngOnInit() {
     if (this.gift.type === 'donation') {
-      this.location.go('/donation');
+      this.store.dispatch(GivingActions.render('/donation'));
     }
 
     this.amountDue = [
@@ -46,7 +45,7 @@ export class PaymentComponent implements OnInit {
   }
 
   next() {
-    // this.store.dispatch(this.PrototypeActions.render('/auth'));
+    this.store.dispatch(GivingActions.render('/billing'));
     return false;
   }
 
