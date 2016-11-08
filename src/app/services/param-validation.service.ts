@@ -115,25 +115,17 @@ export class ParamValidationService {
 
         switch (paramName) {
             case this.embedParamNames.type:
-                castParam = paramValue;
+            case this.embedParamNames.title:
+            case this.embedParamNames.url:
+                castParam = paramValue || '';
                 break;
-            case this.embedParamNames.invoice_id :
+            case this.embedParamNames.invoice_id:
+            case this.embedParamNames.fund_id:
                 castParam = parseInt(paramValue, this.radix) || 0;
                 break;
             case this.embedParamNames.total_cost:
-                castParam = parseFloat(paramValue) || 0;
-                break;
             case this.embedParamNames.min_payment:
                 castParam = parseFloat(paramValue) || 0;
-                break;
-            case this.embedParamNames.title:
-                castParam = paramValue;
-                break;
-            case this.embedParamNames.url:
-                castParam = paramValue;
-                break;
-            case this.embedParamNames.fund_id:
-                castParam = parseInt(paramValue, this.radix) || 0;
                 break;
             default:
                 castParam = null;
