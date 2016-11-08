@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SummaryService implements Resolve<number> {
 
-    private transactionUrl = process.env.CRDS_API_ENDPOINT + 'api/donation/????';
+    private transactionUrl = process.env.CRDS_API_ENDPOINT + 'api/donation';
 
     constructor (private http: HttpClientService,
                  private userSessionService: UserSessionService) {}
@@ -20,18 +20,16 @@ export class SummaryService implements Resolve<number> {
          // return this.postPayment();
     }
 
-  postPayment(invoiceId: string
-               , contactId: number
-               , amount: number
-               , paymentTypeId: number
+  postPayment( amount: number
+               , paymentType: string
                , transactionType: string
+               , invoiceId: string
              ): Observable<any> {
     let body = {
-      'invoiceId': invoiceId,
-      'contactId': contactId,
       'amount': amount,
-      'paymentTypeId': paymentTypeId,  // cc or ach
-      'transactionType': transactionType  // donation or payment
+      'pymt_type': paymentType,  // bank or 
+      'transaction_type': transactionType,  // donation or payment
+      'invoice_id': invoiceId,
     };
 
     return this.http.post(this.transactionUrl, body)
