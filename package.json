@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "~2.1.2",    
     "@types/lodash": "^4.14.37",
     "angular2-cookie": "^1.2.5",
+    "angulartics2": "^1.4.0",
     "copyfiles": "^1.0.0",
     "core-js": "^2.4.1",
     "iframe-resizer": "^3.5.5",

@@ -18,7 +18,7 @@ export class PrototypePaymentAmountComponent implements OnInit {
 
   amount_due = [
     {
-      label: 'Minimum Due',
+      label: 'Min Due',
       amount: 100.00
     },
     {

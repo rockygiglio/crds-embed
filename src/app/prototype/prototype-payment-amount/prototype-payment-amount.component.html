@@ -2,16 +2,13 @@
   <h2>Amount:</h2>
 </div>
 
-<div class="btn-group">
-    <button *ngFor="let item of amount_due"
-            class="btn btn-option"
+<div class="btn-group btn-group--flex btn-group--underline">
+    <button *ngFor="let item of amount_due" class="btn btn-option btn-option--flex-item"
             (click)="onSelectAmount($event, item.amount)"
             [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
       {{ item.label }}: {{ item.amount| currency: "USD":true }}
     </button>
 </div>
-
-<hr>
 
 <form [formGroup]="form" (ngSubmit)="next()">
 
