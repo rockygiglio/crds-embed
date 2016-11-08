@@ -66,6 +66,10 @@ export class GiftService {
     this.queryParams = this.route.snapshot.queryParams;
 
     this.type = this.queryParams[this.hlpr.embedParamNames.type];
+    if (this.queryParams['theme'] === 'dark') {
+      this.setTheme('dark-theme');
+    }
+
 
     if (this.type === this.hlpr.flowTypes.payment || this.type === this.hlpr.flowTypes.donation) {
       this.invoiceId = this.parseParamOrSetError(this.hlpr.embedParamNames.invoice_id, this.queryParams);
@@ -90,5 +94,14 @@ export class GiftService {
 
   }
 
+  private setTheme(theme) {
+    document.body.classList.add(theme);
+  }
 
+  private validate(key: string, value: number) {
+    if (isNaN(value) && this.type === 'payment') {
+      this.errors.push(`${key} is missing or invalid`);
+    }
+    return value;
+  }
 }
