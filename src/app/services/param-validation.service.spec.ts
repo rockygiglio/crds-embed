@@ -42,7 +42,7 @@ describe('ParamValidationService', () => {
 
     it('should consider "donation" a valid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let paramString: string = 'donation';
+        let paramString = 'donation';
         let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(true);
 
@@ -50,14 +50,14 @@ describe('ParamValidationService', () => {
 
     it('should consider "payment" a valid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let paramString: string = 'payment';
+        let paramString = 'payment';
         let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(true);
     }));
 
     it('should consider NULL an invalid type', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let paramString: string = null;
+        let paramString = null;
         let isValid: boolean = srvc.isTypeParamValid(paramString);
         expect(isValid).toBe(false);
     }));
@@ -72,7 +72,7 @@ describe('ParamValidationService', () => {
 
     it('should consider "12345" a valid invoice id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let invoiceId: string = '12345';
+        let invoiceId = '12345';
         let isValid: boolean = srvc.isInvoiceIdValid(invoiceId);
         expect(isValid).toBe(true);
 
@@ -80,7 +80,7 @@ describe('ParamValidationService', () => {
 
     it('should consider "12.55" an invalid invoice id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let invoiceId: string = '12.55';
+        let invoiceId = '12.55';
         let isValid: boolean = srvc.isInvoiceIdValid(invoiceId);
         expect(isValid).toBe(false);
 
@@ -88,7 +88,7 @@ describe('ParamValidationService', () => {
 
     it('should consider "someString" an invalid invoice id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let invoiceId: string = 'someString';
+        let invoiceId = 'someString';
         let isValid: boolean = srvc.isInvoiceIdValid(invoiceId);
         expect(isValid).toBe(false);
 
@@ -96,7 +96,7 @@ describe('ParamValidationService', () => {
 
     it('should fail if totalCostParam is a not a decimal', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let totalCost: string = '123abc';
+        let totalCost = '123abc';
         let isValid: boolean = srvc.isInvoiceIdValid(totalCost);
         expect(isValid).toBe(false);
 
@@ -104,7 +104,7 @@ describe('ParamValidationService', () => {
 
     it('should succeed if totalCostParam is a decimal', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let totalCost: string = '12.55';
+        let totalCost = '12.55';
         let isValid: boolean = srvc.isTotalCostValid(totalCost);
         expect(isValid).toBe(true);
 
@@ -113,7 +113,7 @@ describe('ParamValidationService', () => {
     it('should succeed if totalCostParam is a decimal with leading 0',
         inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let totalCost: string = '0.55';
+        let totalCost = '0.55';
 
         let isValid: boolean = srvc.isTotalCostValid(totalCost);
 
@@ -123,7 +123,7 @@ describe('ParamValidationService', () => {
 
     it('should succeed if minPaymentParam is a decimal ',
         inject([ParamValidationService], (srvc: ParamValidationService) => {
-            let minPayment: string = '12.55';
+            let minPayment = '12.55';
             let totalCost = '500';
             let isValid: boolean = srvc.isMinPaymentValid(minPayment, totalCost);
             expect(isValid).toBe(true);
@@ -131,7 +131,7 @@ describe('ParamValidationService', () => {
 
     it('should fail if minPaymentParam is more than total cost ',
         inject([ParamValidationService], (srvc: ParamValidationService) => {
-            let minPayment: string = '555';
+            let minPayment = '555';
             let totalCost = '500';
             let isValid: boolean = srvc.isMinPaymentValid(minPayment, totalCost);
             expect(isValid).toBe(false);
@@ -139,14 +139,14 @@ describe('ParamValidationService', () => {
 
     it('should fail if title is empty string ',
         inject([ParamValidationService], (srvc: ParamValidationService) => {
-            let title: string = '';
+            let title = '';
             let isValid: boolean = srvc.isTitleValid(title);
             expect(isValid).toBe(false);
     }));
 
     it('should consider "12345" a valid fund id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let fundId: string = '12345';
+        let fundId = '12345';
         let isValid: boolean = srvc.isFundIdValid(fundId);
         expect(isValid).toBe(true);
 
@@ -154,7 +154,7 @@ describe('ParamValidationService', () => {
 
     it('should consider "5.05" an invalid fund id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let fundId: string = '5.05';
+        let fundId = '5.05';
         let isValid: boolean = srvc.isFundIdValid(fundId);
         expect(isValid).toBe(false);
 
@@ -162,7 +162,7 @@ describe('ParamValidationService', () => {
 
     it('should consider "someString" an invalid fund id', inject([ParamValidationService], (srvc: ParamValidationService) => {
 
-        let fundId: string = 'someString';
+        let fundId = 'someString';
         let isValid: boolean = srvc.isFundIdValid(fundId);
         expect(isValid).toBe(false);
 
