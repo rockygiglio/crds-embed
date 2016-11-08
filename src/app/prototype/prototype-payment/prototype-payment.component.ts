@@ -22,6 +22,8 @@ export class PrototypePaymentComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+    this.gift.loading = false;
+
     if (this.gift.payment_type) {
       this.gift.resetPaymentDetails();
     }
@@ -42,14 +44,20 @@ export class PrototypePaymentComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    }, 500);
     return false;
   }
 
   achNext() {
     if (this.achForm.valid) {
       this.gift.payment_type = 'ach';
-      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
+      this.gift.loading = true;
+      setTimeout(() => {
+        this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
+      }, 500);
     }
     return false;
   }
@@ -57,7 +65,10 @@ export class PrototypePaymentComponent implements OnInit {
   ccNext() {
     if (this.ccForm.valid) {
       this.gift.payment_type = 'cc';
-      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
+      this.gift.loading = true;
+      setTimeout(() => {
+        this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
+      }, 500);
     }
     return false;
   }

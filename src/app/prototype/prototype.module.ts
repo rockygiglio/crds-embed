@@ -4,6 +4,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createStore, Store, StoreEnhancer } from 'redux';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { PreloaderModule } from '../preloader/preloader.module';
 
 import { PrototypeComponent } from './prototype.component';
 import { prototypeRouting } from './prototype.routing';
@@ -55,7 +56,8 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     prototypeRouting,
     ReactiveFormsModule,
     TabsModule,
-    JsonpModule
+    JsonpModule,
+    PreloaderModule
   ],
   declarations: [
     PrototypeComponent,

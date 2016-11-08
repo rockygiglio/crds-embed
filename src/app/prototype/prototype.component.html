@@ -8,7 +8,10 @@
 </nav>
 <br><br><br>
 
-<div class="prototype-component container">
-  <router-outlet></router-outlet>
+<div class="prototype-component container" [ngClass]="{'loading': gift.loading}">
+  <preloader></preloader>
+  <div class="outlet-wrapper">
+    <router-outlet></router-outlet>
+  </div>
   <!--<br><br><pre>{{ gift | json }}</pre>-->
 </div>

@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 export class PrototypeGiftService {
+  loading: boolean = false;
   product_name: string = 'Summer Camp 2017';
   flow_type: string = 'gift';
   amount: number;
