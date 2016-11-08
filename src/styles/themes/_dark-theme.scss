@@ -2,10 +2,10 @@
 $dt-bg-color: #171717;
 $dt-primary-color: #1E94DC;
 $dt-secondary-color: #5CAFA8;
-$dt-accent-color: #A2A2A2;
+$dt-accent-color: #A2A2A2; 
 $dt-header-color: #969696;
 $dt-underline-color: #343434;
-$dt-text-color: #B4B4B4;
+$dt-text-color: #969696;
 $dt-input-text-color: #505050;
 $dt-input-bg-color: #B4B4B4;
 $dt-page-bg-color: #222222;
@@ -76,8 +76,24 @@ $dt-page-bg-color: #222222;
   }
 
   .table {
-    td:last-child {
-      color: darken($text-color, 30);
+    td:first-child {
+      font-family: inherit;
+      font-size: .9em;
+      font-weight: 500;
+      text-transform: uppercase;
+
+      a {
+        color: $text-color;
+      }
+    }
+
+    tbody {
+      > tr {
+        > td {
+          border-color: $underline-color;
+          color: $text-color;
+        }
+      }
     }
   }
 
