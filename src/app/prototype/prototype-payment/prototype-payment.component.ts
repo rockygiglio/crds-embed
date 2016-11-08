@@ -29,12 +29,12 @@ export class PrototypePaymentComponent implements OnInit {
     this.achForm = this._fb.group({
       account_holder_name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
-      ach_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      ach_account_number: ['', [<any>Validators.required]],
       account_type: ['personal', [<any>Validators.required]]
     });
 
     this.ccForm = this._fb.group({
-      cc_account_number: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      cc_account_number: ['', [<any>Validators.required]],
       exp_date: ['', [<any>Validators.required]],
       cvv: ['', [<any>Validators.required]],
       zip_code: ['', [<any>Validators.required]]

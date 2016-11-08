@@ -1,0 +1,117 @@
+// Dark theme colors
+$dt-bg-color: #171717;
+$dt-primary-color: #1E94DC;
+$dt-secondary-color: #5CAFA8;
+$dt-accent-color: #A2A2A2;
+$dt-header-color: #969696;
+$dt-underline-color: #343434;
+$dt-text-color: #B4B4B4;
+$dt-input-text-color: #505050;
+$dt-input-bg-color: #B4B4B4;
+$dt-page-bg-color: #222222;
+
+.inline-giving.dark-theme {
+  $bg-color: $dt-bg-color;
+  $primary-color: $dt-primary-color;
+  $secondary-color: $dt-secondary-color;
+  $accent-color: $dt-accent-color;
+  $header-color: $dt-header-color;
+  $underline-color: $dt-underline-color;
+  $text-color: $dt-text-color;
+  $input-text-color: $dt-input-text-color;
+  $input-bg-color: $dt-input-bg-color;
+  $page-bg-color: $dt-page-bg-color;
+
+  background-color: $bg-color;
+
+  .page-header {
+    &--border-btm {
+      border-bottom-color: $underline-color;
+    }
+  }
+
+  .page-footer {
+    &--border-top {
+      border-top-color: $underline-color;
+    }
+  }
+
+  hr {
+    border-top-color: $underline-color;
+  }
+
+  .btn-form {
+    &--border-btm {
+      border-bottom-color: $underline-color;
+    }
+
+    &__header {
+      color: $text-color;
+    }
+  }
+
+  .btn-group {
+    .btn-option {
+      background-color: transparent;
+
+      :hover,
+      :active {
+        background-color: $secondary-color;
+      }
+    }
+
+    .active {
+      background-color: $secondary-color;
+    }
+
+    &--underline {
+      border-bottom-color: $underline-color;
+    }
+  }
+
+  .table {
+    td:last-child {
+      color: darken($text-color, 30);
+    }
+  }
+
+  form {
+    .input-group-addon {
+      background-color: $input-bg-color;
+    }
+
+    .form-control {
+      background-color: $input-bg-color;
+
+      &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: lighten($input-text-color, 10);
+      }
+    }
+  }
+
+  .text-block {
+    .text-block__link--underline {
+      color: currentColor;
+
+      &:hover {
+        color: darken($text-color, 30);
+      }
+    }
+  }
+
+  .form-nav {
+    .btn-option {
+      border-color: $secondary-color;
+      color: $secondary-color;
+
+      &.active {
+        background-color: $secondary-color;
+        color: $cr-white;
+      }
+    }
+  }
+
+  .contrast-background {
+    background: $page-bg-color;
+  }
+}

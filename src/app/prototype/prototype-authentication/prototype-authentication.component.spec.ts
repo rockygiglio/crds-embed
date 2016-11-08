@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { PrototypeAuthenticationComponent } from './prototype-authentication.component';
 import { PrototypeStore } from '../prototype-state/prototype.store';
@@ -33,6 +33,7 @@ describe('Component: PrototypeAuthentication', () => {
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         TabsModule,
+        ButtonsModule,
         HttpModule
       ],
       providers:    [

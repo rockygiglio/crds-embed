@@ -14,12 +14,9 @@ You can also set the matching keyname values in your OS environment variables if
 
 Run the following commands for your environment. The build artifacts will be stored in the `dist/` directory.
 
-- Build Dev: `npm run build-dev`
+- Build Dev: `npm run build-dev` (locally build for compile testing)
 - Build for INT: `npm run build-int` (special NON-ugglified [but still cache busted] config for INT builds)
 - Build for PROD: `npm run build` (ugglified & cache busted)
-
-Currently `npm run build-dev` is a pseudonym for `npm run build` for TeamCity build step compatibility reasons.
-This is to be removed once TC configuration has been adjusted.
 
 ## Running unit tests
 
