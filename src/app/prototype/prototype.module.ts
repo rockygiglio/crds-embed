@@ -31,6 +31,7 @@ import { PrototypePaymentAmountComponent } from './prototype-payment-amount/prot
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserSessionService } from '../services/user-session.service';
 import { HttpClientService } from '../services/http-client.service';
+import { ParamValidationService } from '../services/param-validation.service';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -80,6 +81,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     ExistingPaymentInfoService,
     UserSessionService,
     HttpClientService,
+    ParamValidationService,
     { provide: PrototypeStore, useValue: store }
   ]
 })
