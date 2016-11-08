@@ -21,6 +21,8 @@ import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
 
+import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+
 
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
@@ -38,7 +40,8 @@ let store: Store<GivingState> = createStore<GivingState>(
     Angulartics2Module.forRoot(),
     PrototypeModule,
     DemoModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlertModule
   ],
   declarations: [
     AppComponent,
