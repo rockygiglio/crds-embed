@@ -11,16 +11,14 @@ import { CookieService } from 'angular2-cookie/core';
 import { HttpClientService } from '../services/http-client.service';
 import { UserSessionService } from '../services/user-session.service';
 
-
 class MockPrototypeStore { public subscribe() {}; }
 class MockHttpClientService { public get() {}; }
 class MockUserSessionService { public getAccessToken() {}; }
-class MockRouter { public navigate() {}; }
 
 describe('Component: Prototype', () => {
 
-  let component: any;
-  let fixture: any;
+  let fixture,
+      component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

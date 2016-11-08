@@ -47,7 +47,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
-          // this.getUserPaymentInfo(user.userToken);
+          this.getUserPaymentInfo();
           this.adv();
         },
         error => {
@@ -92,7 +92,19 @@ export class PrototypeAuthenticationComponent implements OnInit {
       this.gift.email = value.email;
     });
 
-    this.loading = false;
+  }
+
+  getUserPaymentInfo() {
+    this.existingPaymentInfoService.getExistingPaymentInfo()
+        .subscribe(
+            pmtInfo => {
+              this.userPmtInfo = pmtInfo;
+              this.existingPaymentInfoService.setUserPaymentInfo(pmtInfo);
+            },
+            error =>  {
+              this.userPmtInfo = null;
+              this.existingPaymentInfoService.setUserPaymentInfo(null);
+            });
   }
 
 }

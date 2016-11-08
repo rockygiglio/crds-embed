@@ -1,10 +1,14 @@
-
-import { Component, ViewEncapsulation, OnInit} from '@angular/core';
-import { TransactionService } from './services/transaction.service';
-import { UserSessionService } from './services/user-session.service';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
+
+import { GivingStore } from './giving-state/giving.store';
+import { GivingState } from './giving-state/giving.interfaces';
+
+import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
+import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +17,24 @@ import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
   encapsulation: ViewEncapsulation.None
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
+  action: string;
+  type: string;
 
-  constructor(angulartics2: Angulartics2,
-    angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-    userSessionService: UserSessionService,
-    transactionService: TransactionService) { }
+  constructor(@Inject(GivingStore) private store: any,
+              private route: ActivatedRoute,
+              private router: Router,
+              private angulartics2: Angulartics2,
+              private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
+              private quickAmts: QuickDonationAmountsService,
+              private prevAmt: PreviousGiftAmountService) {
+    store.subscribe(() => this.readState());
+  }
 
-  ngOnInit() {
-
+  readState() {
+    let state: GivingState = this.store.getState() as GivingState;
+    this.action = state.action;
+    this.router.navigate([this.action], { relativeTo: this.route });
   }
 
 }

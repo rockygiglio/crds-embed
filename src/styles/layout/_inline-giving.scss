@@ -65,7 +65,13 @@
       justify-content: space-between;
 
       .btn-option {
-        border: none;
+        &--no-outline {
+          border: none;
+        }
+
+        &--flex-item {
+          flex: 1 1 50%;
+        }
       }
     }
 
@@ -111,6 +117,22 @@
 
     label {
       font-weight: normal;
+    }
+  }
+
+  .inline-form {
+    &__input {
+      &--half {
+        @include make-xs-column(6);
+      }
+    }
+  }
+
+  .form {
+    &__helpers {
+      &--half {
+        @include make-xs-column(6);
+      }
     }
   }
 
