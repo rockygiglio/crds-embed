@@ -30,12 +30,12 @@ describe('Component: Prototype', () => {
         PrototypeGiftService, QuickDonationAmountsService, PreviousGiftAmountService, CookieService
       ]
     });
-    this.fixture = TestBed.createComponent(PrototypeComponent);
-    this.component = this.fixture.componentInstance;
+    fixture = TestBed.createComponent(PrototypeComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create an instance', () => {
-    expect(this.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
 });

@@ -1,6 +1,9 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { Angulartics2 } from 'angulartics2';
+import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
+
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 
@@ -20,6 +23,8 @@ export class AppComponent {
   constructor(@Inject(GivingStore) private store: any,
               private route: ActivatedRoute,
               private router: Router,
+              private angulartics2: Angulartics2,
+              private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
               private quickAmts: QuickDonationAmountsService,
               private prevAmt: PreviousGiftAmountService) {
     store.subscribe(() => this.readState());

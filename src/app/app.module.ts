@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { AlertModule, DatepickerModule, ButtonsModule, CollapseModule } from 'ng2-bootstrap';
 import { Store, StoreEnhancer, createStore } from 'redux';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -22,6 +24,7 @@ import { GiftService } from './services/gift.service';
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
+
 
 
 let devtools: StoreEnhancer<GivingState> =
@@ -44,6 +47,7 @@ let store: Store<GivingState> = createStore<GivingState>(
     DatepickerModule,
     ReactiveFormsModule,
     routing,
+    Angulartics2Module.forRoot(),
     PrototypeModule,
     DemoModule
   ],
@@ -57,7 +61,8 @@ let store: Store<GivingState> = createStore<GivingState>(
   providers:    [
     appRoutingProviders,
     GiftService,
-    { provide: GivingStore, useValue: store }
+    { provide: GivingStore, useValue: store },
+    Angulartics2GoogleTagManager
   ],
   bootstrap:    [AppComponent]
 })
