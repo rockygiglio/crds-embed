@@ -30,6 +30,20 @@ export class ParamValidationService {
         ];
     }
 
+    isInt(n) {
+        return n % 1 === 0;
+    }
+
+    isIntGreaterThanZero(x){
+        let isANumber: boolean = !isNaN(x);
+        let isGreaterThanZero: boolean = x > 0;
+        let isInteger = isANumber ? this.isInt(x) : false;
+
+        let isIntGreaterThanZero: boolean = isANumber && isGreaterThanZero && isInteger;
+
+        return isIntGreaterThanZero;
+    }
+
     isParamRequired(paramName, flowType) {
         if(flowType === this.flowTypes.donation) {
             return false;
@@ -46,13 +60,7 @@ export class ParamValidationService {
     }
 
     isInvoiceIdValid(invoiceIdParam: any) {
-
-        let isANumber: boolean = !isNaN(invoiceIdParam);
-        let isGreaterThanZero: boolean = invoiceIdParam > 0;
-
-        let isValid: boolean = isANumber && isGreaterThanZero;
-
-        return isValid;
+        return this.isIntGreaterThanZero(invoiceIdParam);
     }
 
     isTotalCostValid(totalCostParam: any) {
@@ -95,12 +103,7 @@ export class ParamValidationService {
     }
 
     isFundIdValid(fundIdParam: any) {
-
-        let isANumber: boolean = !isNaN(fundIdParam);
-
-        let isValid: boolean = isANumber;
-
-        return isValid;
+        return this.isIntGreaterThanZero(fundIdParam);
     }
 
     castParamToProperType(paramName, paramValue){
