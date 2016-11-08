@@ -102,6 +102,7 @@
     .form-control {
       background-color: $input-bg-color;
       border: none;
+      border-radius: 0;
       box-shadow: none;
 
       &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -115,13 +116,16 @@
   }
 
   .text-block {
-    .text-block__link--underline {
+    &__link {
       color: currentColor;
-      text-decoration: underline;
 
       &:hover {
         color: darken($text-color, 30);
       }
+    }
+
+    &--underline {
+      text-decoration: underline;
     }
 
     &--lg-font {
