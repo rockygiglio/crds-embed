@@ -98,10 +98,4 @@ export class GiftService {
     document.body.classList.add(theme);
   }
 
-  private validate(key: string, value: number) {
-    if (isNaN(value) && this.type === 'payment') {
-      this.errors.push(`${key} is missing or invalid`);
-    }
-    return value;
-  }
 }
