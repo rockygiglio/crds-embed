@@ -6,6 +6,7 @@ export class UserSessionService {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
+  private readonly userEmail: string = 'userEmail';
   private cookieOptions: CookieOptionsArgs;
 
   constructor(private cookieService: CookieService) {
@@ -37,5 +38,13 @@ export class UserSessionService {
 
   setRefreshToken(value: string): void {
     this.cookieService.put(this.refreshToken, value, this.cookieOptions);
+  }
+
+  getUserEmail(): string {
+    return this.cookieService.get(this.userEmail);
+  }
+
+  setUserEmail(value: string): void {
+    this.cookieService.put(this.userEmail, value);
   }
 }

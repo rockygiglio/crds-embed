@@ -32,8 +32,7 @@ const prototypeRoutes: Routes = [
             component: PrototypeGiftAmountComponent,
             resolve: {
               quickDonationAmounts: QuickDonationAmountsService,
-              previousGiftAmount: PreviousGiftAmountService,
-              existingPaymentInfo: ExistingPaymentInfoService
+              previousGiftAmount: PreviousGiftAmountService
             }
           },
           { path: 'details',
@@ -43,7 +42,11 @@ const prototypeRoutes: Routes = [
             }
           },
           { path: 'auth', component: PrototypeAuthenticationComponent },
-          { path: 'payment', component: PrototypePaymentComponent },
+          { path: 'payment', component: PrototypePaymentComponent,
+            resolve: {
+              existingPaymentInfo: ExistingPaymentInfoService
+            }
+          },
           { path: 'summary', component: PrototypeSummaryComponent },
           { path: 'confirmation', component: PrototypeConfirmationComponent },
           { path: 'registration', component: PrototypeRegistrationComponent },

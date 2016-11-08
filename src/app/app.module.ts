@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
 
+import { TransactionService } from './services/transaction.service';
 import { GiftService } from './services/gift.service';
 
 import { GivingStore } from './giving-state/giving.store';
@@ -45,6 +46,7 @@ let store: Store<GivingState> = createStore<GivingState>(
   ],
   providers: [
     appRoutingProviders,
+    TransactionService,
     GiftService,
     { provide: GivingStore, useValue: store }
   ],

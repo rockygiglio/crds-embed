@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-export class PrototypeGiftService {
+export class TransactionService {
   product_name: string = 'Summer Camp 2017';
   flow_type: string = 'gift';
   amount: number;

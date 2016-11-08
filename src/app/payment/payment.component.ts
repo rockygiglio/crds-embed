@@ -47,6 +47,7 @@ export class PaymentComponent implements OnInit {
 
   next() {
     // this.store.dispatch(this.PrototypeActions.render('/auth'));
+    this.location.go('/auth');
     return false;
   }
 

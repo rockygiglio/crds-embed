@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit} from '@angular/core';
+import { TransactionService } from './services/transaction.service';
+import { UserSessionService } from './services/user-session.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['../styles/application.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  constructor(userSessionService: UserSessionService, transactionService: TransactionService) { }
+
+  ngOnInit() {
+
+  }
 }

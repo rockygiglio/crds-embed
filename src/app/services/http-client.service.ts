@@ -30,6 +30,9 @@ export class HttpClientService {
     if (body != null && body.refreshToken) {
       this.userSession.setRefreshToken(body.refreshToken);
     }
+    if (body != null && body.refreshToken) {
+      this.userSession.setUserEmail(body.userEmail);
+    }
     return body || {};
   }
 

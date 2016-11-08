@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
@@ -10,7 +10,7 @@ import { ExistingPaymentInfoService } from '../../services/existing-payment-info
   templateUrl: './prototype-summary.component.html',
   styleUrls: ['./prototype-summary.component.scss']
 })
-export class PrototypeSummaryComponent {
+export class PrototypeSummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
 
   constructor(@Inject(PrototypeStore)
@@ -23,15 +23,7 @@ export class PrototypeSummaryComponent {
   }
 
   getLastFourOfAccountNumber() {
-
-    let lastFourOfPrevPmtInfo = this.existingPaymentInfoService.getLastFourOfBankOrCcAcctNum();
-
-    let lastFourOfNewPmtInfo = this.gift.accountNumber() ?
-                               this.gift.accountNumber().substr(this.gift.accountNumber().length - 4) : null;
-
-    let lastFour: any = lastFourOfPrevPmtInfo || lastFourOfNewPmtInfo;
-
-    return lastFour;
+    return this.gift.accountNumber().substr(this.gift.accountNumber().length - 4);;
   }
 
   back() {

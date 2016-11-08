@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
-import { UserSessionService } from './user-session.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -15,25 +14,23 @@ export class ExistingPaymentInfoService {
     private userPaymentInfo = null;
 
 
-    constructor (private http: Http,
-                 private httpClientService: HttpClientService,
-                 private userSessionService: UserSessionService) {}
+    constructor (private http: HttpClientService) {}
 
     resolve() {
-        let userToken = this.userSessionService.getAccessToken();
-        return this.getExistingPaymentInfo(userToken);
+        if (this.userPaymentInfo) {
+            return this.userPaymentInfo;
+        } else {
+            return this.getExistingPaymentInfo();
+        }
     }
-
 
     setUserPaymentInfo(userPaymentInfo) {
         this.userPaymentInfo = userPaymentInfo;
     }
 
-
     getUserPaymentInfo() {
         return this.userPaymentInfo;
     }
-
 
     getLastFourOfBankOrCcAcctNum() {
 
@@ -51,18 +48,15 @@ export class ExistingPaymentInfoService {
     };
 
 
-    getExistingPaymentInfo (userToken: string): Observable<any[]> {
-
-        let requestOptions: any = this.httpClientService.getRequestOption();
-
-        return this.http.get(this.getPreviousPmtUrl, requestOptions)
+    getExistingPaymentInfo (): Observable<any[]> {
+        return this.http.get(this.getPreviousPmtUrl)
                         .map(this.extractData)
                         .catch(this.handleError);
     }
 
 
     private extractData(res: Response) {
-        let body = res.json();
+        let body = res;
         this.userPaymentInfo = body || { };
 
         console.log('Got previous pmt info for user: ');

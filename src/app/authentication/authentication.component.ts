@@ -1,13 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { PrototypeStore } from '../prototype-state/prototype.store';
-import * as PrototypeActions from '../prototype-state/prototype.action-creators';
-import { PrototypeGiftService } from '../prototype-gift.service';
-import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
-import { LoginService } from '../../services/login.service';
-import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
-import { UserSessionService } from '../../services/user-session.service';
+import * as GivingActions from '../giving-state/giving.action-creators';
+import { GivingStore } from '../giving-state/giving.store';
+import { GiftService } from '../services/gift.service';
+import { CheckGuestEmailService } from '../services/check-guest-email.service';
+import { LoginService } from '../services/login.service';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { UserSessionService } from '../services/user-session.service';
 
 @Component({
   selector: 'app-prototype-authentication',
@@ -15,31 +15,30 @@ import { UserSessionService } from '../../services/user-session.service';
   styleUrls: ['./prototype-authentication.component.css'],
   providers: [CheckGuestEmailService]
 })
-export class PrototypeAuthenticationComponent implements OnInit {
+export class AuthenticationComponent implements OnInit {
   public signinOption: string = 'Sign In';
 
   form: FormGroup;
   email: string;
   guestEmail: boolean;
   userPmtInfo: any;
-  loading: boolean = true;
 
-  constructor(@Inject(PrototypeStore) private store: any,
-              private gift: PrototypeGiftService,
-              private _fb: FormBuilder,
-              private checkGuestEmailService: CheckGuestEmailService,
-              private loginService: LoginService,
-              private existingPaymentInfoService: ExistingPaymentInfoService,
-              private userSessionService: UserSessionService
-              ) {}
+  constructor( @Inject(GivingStore) private store: any,
+    private gift: GiftService,
+    private _fb: FormBuilder,
+    private checkGuestEmailService: CheckGuestEmailService,
+    private loginService: LoginService,
+    private existingPaymentInfoService: ExistingPaymentInfoService,
+    private userSessionService: UserSessionService
+  ) { }
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    this.store.dispatch(GivingActions.render(this.gift.type + '/details'));
     return false;
   }
 
   adv() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
+    this.store.dispatch(GivingActions.render(this.gift.type + '/payment'));
   }
 
   next() {
