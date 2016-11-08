@@ -114,6 +114,22 @@
     }
   }
 
+  .inline-form {
+    &__input {
+      &--half {
+        @include make-xs-column(6);
+      }
+    }
+  }
+
+  .form {
+    &__helpers {
+      &--half {
+        @include make-xs-column(6);
+      }
+    }
+  }
+
   .text-block {
     .text-block__link--underline {
       color: currentColor;
