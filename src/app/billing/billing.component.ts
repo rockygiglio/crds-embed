@@ -44,7 +44,7 @@ export class BillingComponent implements OnInit {
 
   ngOnInit() {
     if (!this.gift.type) {
-      // this.store.dispatch(GivingActions.render('/payment'));
+      this.store.dispatch(GivingActions.render('/payment'));
     }
     if (this.gift.paymentType) {
       this.gift.resetPaymentDetails();

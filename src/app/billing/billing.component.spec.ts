@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClientService } from '../services/http-client.service';
 import { UserSessionService } from '../services/user-session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { ParamValidationService } from '../services/param-validation.service';
 
 class MockGivingStore { public subscribe() {}; }
 class MockActivatedRoute {
@@ -44,7 +45,8 @@ describe('Component: Billing', () => {
         FormBuilder,
         HttpClientService,
         UserSessionService,
-        CookieService
+        CookieService,
+        ParamValidationService
       ]
     });
     this.fixture = TestBed.createComponent(BillingComponent);

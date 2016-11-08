@@ -17,6 +17,9 @@ class MockUserSessionService { public getAccessToken() {}; }
 
 describe('Component: Prototype', () => {
 
+  let fixture,
+      component;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ PrototypeComponent ],
