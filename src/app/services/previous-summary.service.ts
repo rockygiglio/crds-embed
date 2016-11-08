@@ -27,7 +27,7 @@ export class SummaryService implements Resolve<number> {
              ): Observable<any> {
     let body = {
       'amount': amount,
-      'pymt_type': paymentType,  // bank or 
+      'pymt_type': paymentType,  // bank or cc
       'transaction_type': transactionType,  // donation or payment
       'invoice_id': invoiceId,
     };

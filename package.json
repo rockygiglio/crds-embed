@@ -17,6 +17,7 @@
   ],
   "private": true,
   "dependencies": {
+    "angular-stripe": "^4.2.12",
     "@angular/common": "~2.1.2",
     "@angular/compiler": "~2.1.2",
     "@angular/core": "~2.1.2",
@@ -24,7 +25,7 @@
     "@angular/http": "~2.1.2",
     "@angular/platform-browser": "~2.1.2",
     "@angular/router": "~3.1.2",
-    "@angular/platform-browser-dynamic": "~2.1.2",
+    "@angular/platform-browser-dynamic": "~2.1.2",    
     "@types/lodash": "^4.14.37",
     "angular2-cookie": "^1.2.5",
     "copyfiles": "^1.0.0",
