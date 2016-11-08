@@ -1,0 +1,187 @@
+.inline-giving {
+  background-color: $bg-color;
+
+  .page-header {
+    @include header-font($fontface-header, 1.25em);
+
+    border: none;
+
+    &--border-btm {
+      border-bottom: 1px solid $underline-color;
+    }
+
+    &--mb-0 {
+      margin-bottom: 0;
+    }
+
+    &--pb-0 {
+      padding-bottom: 0;
+    }
+
+    &--no-btm-space {
+      @extend .page-header--mb-0;
+      @extend .page-header--pb-0;
+    }
+  }
+
+  .page-footer {
+    &--pt-1 {
+      padding-top: 1em;
+    }
+  }
+
+  .btn-form {
+    &--border-btm {
+      border-bottom: 1px solid $underline-color;
+
+      margin-bottom: 1em;
+      padding-bottom: 1.5em;
+    }
+
+    &__header {
+      color: $text-color;
+      font-size: .9em;
+      text-transform: uppercase;
+    }
+  }
+
+  .btn-group {
+    .btn-option {
+      background-color: transparent;
+
+      :hover,
+      :active {
+        background-color: $secondary-color;
+      }
+    }
+
+    .active {
+      background-color: $secondary-color;
+    }
+
+    &--flex {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+
+      .btn-option {
+        border: none;
+      }
+    }
+
+    &--underline {
+      border-bottom: 1px solid $underline-color;
+
+      margin-bottom: 1em;
+      padding-bottom: 1em;
+    }
+  }
+
+  .table {
+    .confirm-amount {
+      font-size: 30px;
+    }
+
+    td:first-child {
+      text-transform: uppercase;
+    }
+
+    td:last-child {
+      color: darken($text-color, 30);
+    }
+  }
+
+  form {
+    .input-group-addon {
+      background-color: $input-bg-color;
+      border: none;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .form-control {
+      background-color: $input-bg-color;
+      border: none;
+      box-shadow: none;
+
+      &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: lighten($input-text-color, 10);
+      }
+    }
+
+    label {
+      font-weight: normal;
+    }
+  }
+
+  .text-block {
+    .text-block__link--underline {
+      color: currentColor;
+      text-decoration: underline;
+
+      &:hover {
+        color: darken($text-color, 30);
+      }
+    }
+
+    &--lg-font {
+      font-size: 1.75em;
+      font-weight: 300;
+
+      padding-top: 1em;
+    }
+
+    &--pb-2 {
+      padding-bottom: 2em;
+    }
+  }
+
+  .form-nav {
+    padding: 1em 0 2em;
+    width: 100%;
+
+    .btn {
+      width: 50%;
+    }
+
+    .btn-option {
+      border-color: $secondary-color;
+      color: $secondary-color;
+
+      &.active {
+        background-color: $secondary-color;
+        color: $cr-white;
+      }
+    }
+
+    .btn:first-child:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+
+      margin-right: 0;
+    }
+
+    .btn:last-child:not(:first-child) {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+  }
+
+  .radio-group {
+    padding: 1em 0 2em;
+  }
+
+  .contrast-background {
+    background: $page-bg-color;
+    
+    padding: 1.25em 1.25em 2em 1.25em;
+
+    p:last-of-type {
+      padding-top: .5em;
+    }
+  }
+}

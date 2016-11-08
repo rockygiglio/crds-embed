@@ -49,8 +49,16 @@ export class GiftService {
 
       this.title = this.queryParams['title'] || '';
       this.url = this.queryParams['url'] || '';
+
+      console.log('invoice_id', this.invoiceId);
+      console.log('total_cost', this.totalCost);
+      console.log('min_payment', this.minPayment);
+      console.log('title', this.title);
+      console.log('url', this.url);
     } else {
       this.errors.push('Invalid type');
+
+      console.error('Type is required');
     }
   }
 
