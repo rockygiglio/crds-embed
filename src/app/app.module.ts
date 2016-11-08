@@ -22,6 +22,9 @@ import { GiftService } from './services/gift.service';
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
+import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
+import { ExpirayFormatDirective } from './directives/expiry-format.directive';
+import { CvcFormatDirective } from './directives/cvc-format.directive';
 
 
 let devtools: StoreEnhancer<GivingState> =
@@ -52,7 +55,10 @@ let store: Store<GivingState> = createStore<GivingState>(
     PageNotFoundComponent,
     PaymentComponent,
     DonationComponent,
-    BillingComponent
+    BillingComponent,
+    CreditCardFormatDirective,
+    ExpirayFormatDirective,
+    CvcFormatDirective
   ],
   providers:    [
     appRoutingProviders,
