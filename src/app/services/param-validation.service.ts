@@ -6,6 +6,7 @@ export class ParamValidationService {
     public flowTypes: any;
     public embedParamNames: any;
     public requiredPmtParams: any[];
+    public radix: number;
 
     constructor () {
         this.flowTypes = {
@@ -28,13 +29,15 @@ export class ParamValidationService {
             this.embedParamNames.total_cost,
             this.embedParamNames.min_payment
         ];
+
+        this.radix = 10;
     }
 
     isInt(n) {
         return n % 1 === 0;
     }
 
-    isIntGreaterThanZero(x){
+    isIntGreaterThanZero(x) {
         let isANumber: boolean = !isNaN(x);
         let isGreaterThanZero: boolean = x > 0;
         let isInteger = isANumber ? this.isInt(x) : false;
@@ -45,7 +48,7 @@ export class ParamValidationService {
     }
 
     isParamRequired(paramName, flowType) {
-        if(flowType === this.flowTypes.donation) {
+        if (flowType === this.flowTypes.donation) {
             return false;
         } else if (flowType === this.flowTypes.payment) {
             return  _.includes(this.requiredPmtParams, paramName);
@@ -77,7 +80,7 @@ export class ParamValidationService {
 
         let isGreaterThanZero: boolean = totalCostParam > 0;
         let isDecimal: boolean = minPaymentParam.match( /^(\d+\.?\d{0,9}|\.\d{1,9})$/ );
-        let isLessThanOrEqualToTotalCost = parseInt(minPaymentParam) <=  parseInt(totalCostParam);
+        let isLessThanOrEqualToTotalCost = parseInt(minPaymentParam, this.radix) <= parseInt(totalCostParam, this.radix);
 
         let isValid: boolean = isDecimal && isGreaterThanZero && isLessThanOrEqualToTotalCost;
 
@@ -94,8 +97,8 @@ export class ParamValidationService {
 
     isUrlValid(urlParam: any) {
 
-        var urlRegEx: any = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-        var isUrlValid: boolean = urlParam.match(urlRegEx);
+        let urlRegEx: any = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+        let isUrlValid: boolean = urlParam.match(urlRegEx);
 
         let isValid: boolean = isUrlValid;
 
@@ -106,16 +109,16 @@ export class ParamValidationService {
         return this.isIntGreaterThanZero(fundIdParam);
     }
 
-    castParamToProperType(paramName, paramValue){
+    castParamToProperType(paramName, paramValue) {
 
         let castParam = undefined;
 
-        switch(paramName) {
+        switch (paramName) {
             case this.embedParamNames.type:
                 castParam = paramValue;
                 break;
             case this.embedParamNames.invoice_id :
-                castParam = parseInt(paramValue) || 0;
+                castParam = parseInt(paramValue, this.radix) || 0;
                 break;
             case this.embedParamNames.total_cost:
                 castParam = parseFloat(paramValue) || 0;
@@ -130,7 +133,7 @@ export class ParamValidationService {
                 castParam = paramValue;
                 break;
             case this.embedParamNames.fund_id:
-                castParam = parseInt(paramValue) || 0;
+                castParam = parseInt(paramValue, this.radix) || 0;
                 break;
             default:
                 castParam = null;
@@ -139,9 +142,9 @@ export class ParamValidationService {
         return castParam;
     }
 
-     isValidParam(paramName, param, queryParams){
+     isValidParam(paramName, param, queryParams) {
         let isValid = undefined;
-        switch(paramName) {
+        switch (paramName) {
             case this.embedParamNames.type:
                 isValid = this.isTypeParamValid(param);
                 break;

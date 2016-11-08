@@ -40,14 +40,15 @@ export class GiftService {
    * PRIVATE FUNCTIONS
    *******************/
 
-  parseParamOrSetError(paramName, queryParams){
+  parseParamOrSetError(paramName, queryParams) {
 
-    let isValid: boolean = queryParams[paramName] ? this.hlpr.isValidParam(paramName, queryParams[paramName], queryParams) : null;
+    let isValid: boolean = queryParams[paramName] ?
+        this.hlpr.isValidParam(paramName, queryParams[paramName], queryParams) : null;
     let isRequired: boolean =  this.hlpr.isParamRequired(paramName, queryParams[this.hlpr.embedParamNames.type]);
 
     let parsedParam: any = undefined;
 
-    if(isValid && isRequired){
+    if (isValid && isRequired) {
       parsedParam = queryParams[paramName];
     } else if (!isValid && isRequired) {
       parsedParam = null;
@@ -78,7 +79,7 @@ export class GiftService {
       this.errors.push('Invalid type');
     }
 
-    //Do not remove these logs - they were requested for testing
+    // Do not remove these logs - they were requested for testing
     console.log('type ' + this.type);
     console.log('invoice_id', this.invoiceId);
     console.log('total_cost', this.totalCost);
