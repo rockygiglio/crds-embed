@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { Store, StoreEnhancer, createStore } from 'redux';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -21,6 +21,7 @@ import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
 
 import { GiftService } from './services/gift.service';
+import { LoadingService } from './services/loading.service';
 
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
@@ -69,6 +70,7 @@ let store: Store<GivingState> = createStore<GivingState>(
   ],
   providers:    [
     appRoutingProviders,
+    LoadingService,
     GiftService,
     { provide: GivingStore, useValue: store },
     Angulartics2GoogleTagManager

@@ -9,7 +9,6 @@ export class GiftService {
 
   private queryParams: Object;
 
-  public loading: boolean = false;
   public type: string = '';
   public invoiceId: number = 0;
   public totalCost: number = 0;
