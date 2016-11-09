@@ -33,12 +33,12 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   back() {
-    this.store.dispatch(GivingActions.render(this.gift.type + '/details'));
+    this.store.dispatch(GivingActions.render(this.gift.getPrevPageToShow(this.gift.authenticationIndex)));
     return false;
   }
 
   adv() {
-    this.store.dispatch(GivingActions.render('/billing'));
+    this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.authenticationIndex)));
   }
 
   next() {
@@ -46,7 +46,9 @@ export class AuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
+          this.userSessionService.setUserEmail(user.userEmail);
           this.gift.loadUserData();
+          this.gift.paymentState[this.gift.authenticationIndex].show = false;
           this.adv();
         },
         error => {
@@ -72,15 +74,6 @@ export class AuthenticationComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    if ( this.userSessionService.isLoggedIn()) {
-      this.gift.email = this.userSessionService.getUserEmail();
-      this.adv();
-    }
-
-    if (this.gift.email) {
-      this.adv();
-    }
 
     this.form = this._fb.group({
       email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],

@@ -9,6 +9,11 @@ import { ExistingPaymentInfoService, PaymentInfo, PaymentSource, CreditCardInfo,
 
 declare var _;
 
+export interface PageState {
+  path: string;
+  show: boolean;
+}
+
 @Injectable()
 export class GiftService {
 
@@ -32,6 +37,7 @@ export class GiftService {
   public amount: number;
   public customAmount: number;
   public paymentType: string;
+  public accountLast4: string;
 
   // user info
   public email: string;
@@ -50,6 +56,21 @@ export class GiftService {
   public cvv: string;
   public zipCode: string;
 
+  // State Management
+  public paymentIndex: number = 0;
+  public authenticationIndex: number = 1;
+  public billingIndex: number = 2;
+  public summaryIndex: number = 3;
+  public confirmationIndex: number = 4;
+
+  public paymentState: PageState[] = [
+    { path: '/payment', show: true },
+    { path: '/auth', show: true },
+    { path: '/billing', show: true },
+    { path: '/summary', show: true },
+    { path: '/confirmation', show: true}
+  ];
+
   constructor(private route: ActivatedRoute,
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,
@@ -63,6 +84,7 @@ export class GiftService {
 
   public preloadData() {
     if (this.userSessionService.isLoggedIn()) {
+      this.paymentState[this.authenticationIndex].show = false;
       this.loadUserData();
     } else {
       this.loadFormData();
@@ -70,8 +92,12 @@ export class GiftService {
   }
 
   public loadUserData() {
+    this.email = this.userSessionService.getUserEmail();
     this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
-      info => this.setBillingInfo(info)
+      info => {
+        this.setBillingInfo(info);
+        this.paymentState[this.billingIndex].show = false;
+      }
     );
     if (this.type === 'donation') {
       this.previousGiftAmountService.get().subscribe(
@@ -82,18 +108,10 @@ export class GiftService {
 
   private setBillingInfo(pmtInfo: PaymentInfo) {
     if (pmtInfo.default_source.credit_card.last4 != null) {
-      this.paymentType = 'cc';
-      this.ccNumber = `XXXXXXXXX${pmtInfo.default_source.credit_card.last4}`;
-      this.expDate = pmtInfo.default_source.credit_card.exp_date;
-      this.zipCode = pmtInfo.default_source.credit_card.address_zip;
+      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
     }
     if (pmtInfo.default_source.bank_account.last4 != null) {
-      this.paymentType = 'ach';
-      this.accountName = pmtInfo.default_source.bank_account.accountHolderName;
-      this.routingNumber = pmtInfo.default_source.bank_account.routing;
-      this.accountNumber = `XXXXXXXXX${pmtInfo.default_source.bank_account.last4}`;
-      this.accountType = pmtInfo.default_source.bank_account.accountHolderType === 'individual' ?
-        'personal' : 'business';
+      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
     }
   }
 
@@ -132,6 +150,28 @@ export class GiftService {
       delete(this[f]);
     });
   }
+
+  /*******************
+   * State Management 
+   *******************/
+
+  public getNextPageToShow(currentPage: number): string {
+    let nextPage = currentPage + 1;
+    while (!this.paymentState[nextPage].show && nextPage !== this.confirmationIndex) {
+      nextPage++;
+    }
+    return this.paymentState[nextPage].path;
+  }
+
+  public getPrevPageToShow(currentPage: number): string {
+    let prevPage = currentPage - 1;
+    while (!this.paymentState[prevPage].show && prevPage !== this.paymentIndex) {
+      prevPage--;
+    }
+    return this.paymentState[prevPage].path;
+  }
+
+  public get
 
   /*******************
    * PRIVATE FUNCTIONS

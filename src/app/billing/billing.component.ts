@@ -19,7 +19,6 @@ export class BillingComponent implements OnInit {
   achForm: FormGroup;
   ccForm: FormGroup;
   hideCheck: boolean = true;
-  achSubmitted = false;
   userToken = null;
   accountNumberPlaceholder = 'Account Number';
 
@@ -47,44 +46,37 @@ export class BillingComponent implements OnInit {
       zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
     });
 
-    if (this.gift.paymentType === 'ach') {
-      this.achNext();
-    } else if (this.gift.paymentType === 'cc') {
-      this.ccNext();
+    if ( this.gift.accountLast4) {
+      // this user has a previous payment method 
+      this.adv();
     } else {
       this.gift.resetPaymentDetails();
     }
   }
 
   back() {
-    this.store.dispatch(GivingActions.render('/payment'));
+    this.store.dispatch(GivingActions.render(this.gift.getPrevPageToShow(this.gift.billingIndex)));
     return false;
   }
 
   achNext() {
-    this.achSubmitted = true;
-    this.achForm.controls['accountName'].setValue(this.gift.accountName);
-    this.achForm.controls['routingNumber'].setValue(this.gift.routingNumber);
-    this.achForm.controls['accountNumber'].setValue(this.gift.accountNumber);
-    this.achForm.controls['accountType'].setValue(this.gift.accountType);
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
-      // console.log(this.gift);
-      this.store.dispatch(GivingActions.render('summary'));
+      this.adv();
     }
     return false;
   }
 
   ccNext() {
-    Object.keys(this.ccForm.controls).forEach(key => {
-      this.achForm.controls[key].updateValueAndValidity();
-    });
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
-      console.log(this.gift);
-      this.store.dispatch(GivingActions.render('summary'));
+      this.adv();
     }
     return false;
+  }
+
+  adv() {
+    this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.billingIndex)));
   }
 
 }

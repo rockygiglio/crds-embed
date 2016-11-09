@@ -11,7 +11,7 @@
     <tr>
       <td><a routerLink="/{{ gift.type}}/details"><strong>To:</strong></a></td>
       <td *ngIf="gift.type == 'gift'" class="text-right">{{ gift.fund }}</td>
-      <td *ngIf="gift.type == 'payment'" class="text-right">{{ gift.product_name }}</td>
+      <td *ngIf="gift.type == 'payment'" class="text-right">{{ gift.title }}</td>
     </tr>
     <tr>
       <td><a routerLink="/{{ gift.type}}/email"><strong>From:</strong></a></td>
@@ -31,7 +31,7 @@
       <td><a routerLink="/{{ gift.type}}/payment"><strong>Payment:</strong></a></td>
       <td class="text-right">
         Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
-        <small><a routerLink="/{{ gift.type}}/payment">change</a></small>
+        <small><a (click)="changePayment()">change</a></small>
       </td>
     </tr>
   </table>

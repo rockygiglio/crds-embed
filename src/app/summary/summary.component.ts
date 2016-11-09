@@ -19,7 +19,7 @@ export class SummaryComponent implements OnInit {
               private existingPaymentInfoService: ExistingPaymentInfoService) {}
 
   ngOnInit() {
-    this.lastFourOfAcctNumber = this.getLastFourOfAccountNumber();
+    this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
   }
 
   getLastFourOfAccountNumber() {
@@ -32,12 +32,16 @@ export class SummaryComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(GivingActions.render(this.gift.type + '/payment'));
+    this.store.dispatch(GivingActions.render(this.gift.getPrevPageToShow(this.gift.summaryIndex)));
     return false;
   }
 
   next() {
-    this.store.dispatch(GivingActions.render(this.gift.type + '/confirmation'));
+    if (this.gift.url) {
+      window.location.href = this.gift.url;
+    } else {
+      this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.summaryIndex)));
+    }
     return false;
   }
 
@@ -45,4 +49,8 @@ export class SummaryComponent implements OnInit {
     return this.gift.isGuest;
   }
 
+  changePayment() {
+    this.gift.accountLast4 = null;
+    this.store.dispatch(GivingActions.render(this.gift.paymentState[this.gift.billingIndex].path));
+  }
 }

@@ -45,7 +45,7 @@ export class PaymentComponent implements OnInit {
   }
 
   next() {
-    this.store.dispatch(GivingActions.render('/auth'));
+    this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.paymentIndex)));
     return false;
   }
 
