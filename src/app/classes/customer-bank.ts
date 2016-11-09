@@ -1,5 +1,6 @@
 
 export class CustomerBank {
+
   country: string;
   currency: string;
   routing_number: number;

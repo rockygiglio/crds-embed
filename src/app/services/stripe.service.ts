@@ -48,11 +48,13 @@ import { CustomerCard} from '../classes/customer-card';
 
 private stripeService: StripeService, //in constructor args
 
+this.test(); //run test function on init
+
 test() {
     console.log('Test function called');
 
     //Test vars
-    let card: CustomerCard = new CustomerCard(4242424242424242, 12, 17, 123);
+    let card: CustomerCard = new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
     let bank: CustomerBank = new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
 
     this.stripeService.getCardInfoToken(card).subscribe(
