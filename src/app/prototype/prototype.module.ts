@@ -33,6 +33,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UserSessionService } from '../services/user-session.service';
 import { HttpClientService } from '../services/http-client.service';
 import { ParamValidationService } from '../services/param-validation.service';
+import { StripeService } from '../services/stripe.service';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -84,6 +85,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     UserSessionService,
     HttpClientService,
     ParamValidationService,
+    StripeService,
     { provide: PrototypeStore, useValue: store }
   ]
 })
