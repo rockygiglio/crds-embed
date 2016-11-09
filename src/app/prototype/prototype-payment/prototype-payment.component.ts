@@ -52,6 +52,9 @@ export class PrototypePaymentComponent implements OnInit {
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+
+    this.gift.loading = false;
+
     this.achForm = this._fb.group({
       account_holder_name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
@@ -80,23 +83,32 @@ export class PrototypePaymentComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    }, 500);
     return false;
   }
 
   achNext() {
     // if (this.achForm.valid) {
-      this.gift.payment_type = 'ach';
+    this.gift.payment_type = 'ach';
+
+    this.gift.loading = true;
+    setTimeout(() => {
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
-    // }
+    }, 500);
     return false;
   }
 
   ccNext() {
     // if (this.ccForm.valid) {
-      this.gift.payment_type = 'cc';
+    this.gift.payment_type = 'cc';
+
+    this.gift.loading = true;
+    setTimeout(() => {
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
-    // }
+    }, 500);
     return false;
   }
 

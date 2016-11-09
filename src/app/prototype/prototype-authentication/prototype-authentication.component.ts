@@ -34,7 +34,10 @@ export class PrototypeAuthenticationComponent implements OnInit {
               ) {}
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/details'));
+    }, 500);
     return false;
   }
 
@@ -44,6 +47,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
   next() {
     if (this.form.valid) {
+      this.gift.loading = true;
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
@@ -73,6 +77,7 @@ export class PrototypeAuthenticationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.gift.loading = false;
 
     if ( this.userSessionService.isLoggedIn()) {
       this.gift.email = this.userSessionService.getUserEmail();

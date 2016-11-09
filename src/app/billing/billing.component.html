@@ -55,16 +55,16 @@
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
-    <input type="number" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" pattern="[0-9]*" autocomplete="cc-number"><br>
+    <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" pattern="[0-9]*" autocomplete="cc-number"><br>
     <div class="row inline-form">
       <div class="col-xs-4 inline-form__input">
-        <input type="number" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" autocomplete="cc-exp"><br>
+        <input type="tel" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" autocomplete="cc-exp"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="number" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*" autocomplete="off"><br>
+        <input type="tel" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*" autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="number" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*" autocomplete="zip-code">
+        <input type="tel" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*" autocomplete="zip-code">
       </div>
     </div>
 

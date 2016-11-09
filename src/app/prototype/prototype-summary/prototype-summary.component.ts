@@ -19,6 +19,7 @@ export class PrototypeSummaryComponent implements OnInit {
               private existingPaymentInfoService: ExistingPaymentInfoService) {}
 
   ngOnInit() {
+    this.gift.loading = false;
     this.lastFourOfAcctNumber = this.getLastFourOfAccountNumber();
   }
 
@@ -27,12 +28,18 @@ export class PrototypeSummaryComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/payment'));
+    }, 500);
     return false;
   }
 
   next() {
-    this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
+    this.gift.loading = true;
+    setTimeout(() => {
+      this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
+    }, 500);
     return false;
   }
 
