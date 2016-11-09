@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { Store, StoreEnhancer, createStore } from 'redux';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
