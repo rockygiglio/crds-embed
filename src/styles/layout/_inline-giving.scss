@@ -149,6 +149,9 @@
 
   .form {
     &__helpers {
+      color: $text-color;
+      font-size: 14px; 
+
       &--half {
         @include make-xs-column(6);
       }
@@ -156,11 +159,21 @@
   }
 
   .text-block {
-    &__link {
-      color: currentColor;
+    font-size: 14px;
+
+   &__link {
+      color: $text-color;
 
       &:hover {
         color: darken($text-color, 30);
+      }
+    }
+
+    &__inline-link {
+      color: $text-color-link;
+
+      &:hover {
+        color: darken($text-color-link, 20);
       }
     }
 

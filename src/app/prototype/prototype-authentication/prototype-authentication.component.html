@@ -31,7 +31,7 @@
 
     <hr>
 
-    <p class="text-block text-block--pb-2">Or <a routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
+    <p class="text-block">Or <a class="text-block__inline-link" routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
     <footer class="page-footer">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
       <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
