@@ -9,10 +9,17 @@ import { GivingState } from './giving-state/giving.interfaces';
 
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
+import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
-  template: '<div class="prototype-component container"><router-outlet></router-outlet></div>',
+  template: `
+    <div class="prototype-component container" [ngClass]="{'loading': loading.is_loading}">
+      <preloader></preloader>
+      <div class="outlet-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </div>`,
   styleUrls: ['../styles/application.scss'],
   encapsulation: ViewEncapsulation.None
 })
@@ -26,7 +33,8 @@ export class AppComponent {
               private angulartics2: Angulartics2,
               private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
               private quickAmts: QuickDonationAmountsService,
-              private prevAmt: PreviousGiftAmountService) {
+              private prevAmt: PreviousGiftAmountService,
+              private loading: LoadingService) {
     store.subscribe(() => this.readState());
   }
 
@@ -35,4 +43,5 @@ export class AppComponent {
     this.action = state.action;
     this.router.navigate([this.action], { relativeTo: this.route });
   }
+
 }
