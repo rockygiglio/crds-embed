@@ -1,11 +1,11 @@
 <div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.flow_type == 'gift'">
-  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">Sign In</label>
-  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as Guest</label>
+  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
+  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
 </div>
 
 <div *ngIf="signinOption == 'Sign In'" heading="Sign In">
-  <header class="page-header">
-    <h2>I Have An Account</h2>
+  <header class="page-header page-header--border-btm">
+    <h2>Sign In</h2>
   </header>
 
   <form [formGroup]="form" (ngSubmit)="next()">
@@ -23,8 +23,8 @@
 
       <div class="form__helpers--half">
         <p class="pull-right text-left text-block">
-          <a class="text-block__link--underline" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
-          <a class="text-block__link--underline" href="#">Need help?</a>
+          <a class="text-block__link" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
+          <a class="text-block__link" href="#">Need help?</a>
         </p>
       </div>
     </div>
