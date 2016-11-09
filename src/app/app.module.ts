@@ -18,8 +18,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
+import { SummaryComponent } from './summary/summary.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
-import { TransactionService } from './services/transaction.service';
 import { GiftService } from './services/gift.service';
 
 import { GivingStore } from './giving-state/giving.store';
@@ -57,11 +58,12 @@ let store: Store<GivingState> = createStore<GivingState>(
     PageNotFoundComponent,
     PaymentComponent,
     DonationComponent,
-    BillingComponent
+    BillingComponent,
+    SummaryComponent,
+    AuthenticationComponent
   ],
   providers:    [
     appRoutingProviders,
-    TransactionService,
     GiftService,
     { provide: GivingStore, useValue: store },
     Angulartics2GoogleTagManager

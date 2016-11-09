@@ -10,9 +10,9 @@ import { ExistingPaymentInfoService } from '../services/existing-payment-info.se
 import { UserSessionService } from '../services/user-session.service';
 
 @Component({
-  selector: 'app-prototype-authentication',
-  templateUrl: './prototype-authentication.component.html',
-  styleUrls: ['./prototype-authentication.component.css'],
+  selector: 'app-authentication',
+  templateUrl: './authentication.component.html',
+  styleUrls: ['./authentication.component.css'],
   providers: [CheckGuestEmailService]
 })
 export class AuthenticationComponent implements OnInit {
@@ -38,7 +38,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   adv() {
-    this.store.dispatch(GivingActions.render(this.gift.type + '/payment'));
+    this.store.dispatch(GivingActions.render('/billing'));
   }
 
   next() {
@@ -46,7 +46,7 @@ export class AuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
-          // this.getUserPaymentInfo(user.userToken);
+          this.gift.loadUserData();
           this.adv();
         },
         error => {
@@ -59,7 +59,7 @@ export class AuthenticationComponent implements OnInit {
 
   guest() {
     if (this.form.valid) {
-      this.gift.is_guest = true;
+      this.gift.isGuest = true;
       this.adv();
     }
     return false;
@@ -91,7 +91,6 @@ export class AuthenticationComponent implements OnInit {
       this.gift.email = value.email;
     });
 
-    this.loading = false;
   }
 
 }

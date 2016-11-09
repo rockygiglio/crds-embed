@@ -1,0 +1,44 @@
+<div class="contrast-background">
+  <header class="page-header page-header--border-btm page-header--mb-0">
+    <h2>Confirm:</h2>
+  </header>
+
+  <table class="table">
+    <tr>
+      <td><a routerLink="/{{ gift.type}}/amount"><strong>Amount:</strong></a></td>
+      <td class="text-right confirm-amount">{{ gift.amount | currency:'USD':true }}</td>
+    </tr>
+    <tr>
+      <td><a routerLink="/{{ gift.type}}/details"><strong>To:</strong></a></td>
+      <td *ngIf="gift.type == 'gift'" class="text-right">{{ gift.fund }}</td>
+      <td *ngIf="gift.type == 'payment'" class="text-right">{{ gift.product_name }}</td>
+    </tr>
+    <tr>
+      <td><a routerLink="/{{ gift.type}}/email"><strong>From:</strong></a></td>
+      <td class="text-right">
+        {{ gift.email }}<br>
+        <small *ngIf="isGuest()"><a routerLink="/{{ gift.type}}/email">change</a></small>
+      </td>
+    </tr>
+    <tr *ngIf="gift.type != 'payment'">
+      <td><a routerLink="/{{ gift.type}}/details"><strong>Frequency:</strong></a></td>
+      <td class="text-right">
+        {{ gift.frequency }}<br>
+        <small *ngIf="gift.frequency != 'One Time'">Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}</small>
+      </td>
+    </tr>
+    <tr>
+      <td><a routerLink="/{{ gift.type}}/payment"><strong>Payment:</strong></a></td>
+      <td class="text-right">
+        Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
+        <small><a routerLink="/{{ gift.type}}/payment">change</a></small>
+      </td>
+    </tr>
+  </table>
+
+  <footer class="page-footer page-footer--pt-1">
+    <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+    <a *ngIf="gift.type == 'gift'" href="#" class="btn btn-next pull-right" (click)="next()">Give {{ gift.amount | currency:'USD':true }}</a>
+    <a *ngIf="gift.type == 'payment'" href="#" class="btn btn-next pull-right" (click)="next()">Pay {{ gift.amount | currency:'USD':true }}</a>
+  </footer>
+<div>

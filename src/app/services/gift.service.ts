@@ -36,6 +36,7 @@ export class GiftService {
   // user info
   public email: string;
   public previousGiftAmount: string;
+  public isGuest: boolean;
 
   // ACH Information
   public accountType: string = 'personal';
@@ -57,6 +58,7 @@ export class GiftService {
               private previousGiftAmountService: PreviousGiftAmountService,
               private existingPaymentInfoService: ExistingPaymentInfoService) {
     this.processQueryParams();
+    this.preloadData();
   }
 
   public preloadData() {
@@ -67,7 +69,7 @@ export class GiftService {
     }
   }
 
-  private loadUserData() {
+  public loadUserData() {
     this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
       info => this.setBillingInfo(info)
     );

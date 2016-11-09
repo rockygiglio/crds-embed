@@ -26,23 +26,7 @@ export class BillingComponent implements OnInit {
   constructor( @Inject(GivingStore) private store: any,
     private gift: GiftService,
     private fb: FormBuilder,
-    private paymentService: ExistingPaymentInfoService) {
-
-
-    // paymentService.getExistingPaymentInfo().subscribe((paymentInfo) => {
-    //   if (paymentInfo) {
-    //     gift.email = paymentInfo['email'];
-    //     if (typeof paymentInfo['default_source'] !== 'undefined') {
-    //       gift.routingNumber = paymentInfo['default_source'].bank_account.routing;
-    //       gift.accountName = paymentInfo['default_source'].bank_account.accountHolderName;
-    //       gift.accountType = paymentInfo['default_source'].bank_account.accountHolderType === 'individual' ?
-    //         'personal' : 'business';
-
-    //       this.accountNumberPlaceholder = `XXXXXXXXX${paymentInfo['default_source'].bank_account.last4}`;
-    //     }
-    //   }
-    // });
-  }
+    private paymentService: ExistingPaymentInfoService) { }
 
   ngOnInit() {
     if (!this.gift.type) {
@@ -79,19 +63,26 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
+    this.achForm.controls['accountName'].setValue(this.gift.accountName);
+    this.achForm.controls['routingNumber'].setValue(this.gift.routingNumber);
+    this.achForm.controls['accountNumber'].setValue(this.gift.accountNumber);
+    this.achForm.controls['accountType'].setValue(this.gift.accountType);
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
-      console.log(this.gift);
-      // this.store.dispatch(GivingActions.render('summary'));
+      // console.log(this.gift);
+      this.store.dispatch(GivingActions.render('summary'));
     }
     return false;
   }
 
   ccNext() {
+    Object.keys(this.ccForm.controls).forEach(key => {
+      this.achForm.controls[key].updateValueAndValidity();
+    });
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
       console.log(this.gift);
-      // this.store.dispatch(GivingActions.render('summary'));
+      this.store.dispatch(GivingActions.render('summary'));
     }
     return false;
   }
