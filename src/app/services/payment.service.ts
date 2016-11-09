@@ -13,8 +13,8 @@ export class PaymentService {
 
     private transactionUrl = process.env.CRDS_API_ENDPOINT;
 
-    // TODO set stripe KEY
-    // stripe.setPublishableKey(__STRIPE_PUBKEY__);
+    // TODO set stripe KEY - teamcity needs var
+    // stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
 
     constructor(private http: HttpClientService,
         private userSessionService: UserSessionService) { }

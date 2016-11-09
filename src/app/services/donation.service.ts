@@ -122,6 +122,7 @@ export class DonationService implements Resolve<number> {
     this.postPayment();
   }
 
+// TODO need to reset/clear out sensitive data after process transaction
   postPayment(): Observable<any> {
     let body = {
       'amount': this.giftService.amount,
