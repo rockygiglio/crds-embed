@@ -1,5 +1,6 @@
 .inline-giving {
   background-color: $bg-color;
+  font-size: 16px;
 
   .page-header {
     @include header-font($fontface-header, 1.25em);
@@ -25,22 +26,20 @@
   }
 
   .page-footer {
-    &--pt-1 {
-      padding-top: 1em;
-    }
+    padding-top: 1em;
   }
 
   .btn-form {
     &--border-btm {
       border-bottom: 1px solid $underline-color;
 
-      margin-bottom: 1em;
-      padding-bottom: 1.5em;
+      margin-bottom: 1em; // 16px
+      padding-bottom: 1.125em; // 18px
     }
 
     &__header {
       color: $text-color;
-      font-size: .9em;
+      font-size: .75em; // 12px
       text-transform: uppercase;
     }
   }
@@ -87,8 +86,7 @@
     tbody {
       > tr {
         > td {
-          /*border-color: $underline-color;*/
-          padding: 18px 0;
+          padding: 14px 0;
           vertical-align: top;
         }
       }
@@ -105,12 +103,20 @@
 
     td:first-child {
       font-family: inherit;
-      font-size: .9em;
+      font-size: 12px;
       font-weight: 500;
       text-transform: uppercase;
 
       a {
-        color: $text-color;
+        color: $text-color-link;
+      }
+    }
+
+    td:last-child {
+      font-size: 14px;
+
+      a {
+        color: $text-color-link;
       }
     }
   }
@@ -119,8 +125,7 @@
     .input-group-addon {
       background-color: $input-bg-color;
       border: none;
-      font-size: 1.5em;
-      font-weight: bold;
+      font-size: 1.125em;
     }
 
     .form-control {
@@ -128,9 +133,11 @@
       border: none;
       border-radius: 0;
       box-shadow: none;
+      height: 2em;
+      padding: 20px 10px;
 
       &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-        color: lighten($input-text-color, 10);
+        color: lighten($input-text-color, 35);
       }
     }
 
