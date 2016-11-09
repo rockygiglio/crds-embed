@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap';
+import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientService } from '../services/http-client.service';
 import { UserSessionService } from '../services/user-session.service';
