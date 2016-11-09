@@ -14,3 +14,4 @@ import 'rxjs';
 
 import * as _ from 'lodash';
 import 'intl';
+import 'intl/locale-data/jsonp/en';
