@@ -9,6 +9,11 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class StripeService {
 
+    public methodNames = {
+        card: 'getCardInfoToken',
+        bankAccount: 'getBankInfoToken'
+    };
+
     constructor () {}
 
     public getCardInfoToken(customerCard: CustomerCard) {

@@ -131,7 +131,7 @@ export class DonationService implements Resolve<number> {
       'invoice_id': this.giftService.invoiceId,
     };
 
-    return this.http.post(this.transactionUrl, body)
+    return this.http.post(this.transactionUrl + 'api/donations', body) //exists, but won't do a pmt
       .catch(this.handleError);
   }
 

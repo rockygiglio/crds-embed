@@ -34,6 +34,7 @@ import { UserSessionService } from '../services/user-session.service';
 import { HttpClientService } from '../services/http-client.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { StripeService } from '../services/stripe.service';
+import { PaymentService } from '../services/payment.service';
 
 
 let devtools: StoreEnhancer<PrototypeState> =
@@ -86,6 +87,7 @@ let store: Store<PrototypeState> = createStore<PrototypeState>(
     HttpClientService,
     ParamValidationService,
     StripeService,
+    PaymentService,
     { provide: PrototypeStore, useValue: store }
   ]
 })
