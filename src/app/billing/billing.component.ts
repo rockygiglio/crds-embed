@@ -14,6 +14,10 @@ import { CustomerCard} from '../classes/customer-card';
 
 import { StripeService } from '../services/stripe.service';
 
+import { UserSessionService } from '../services/user-session.service';
+
+import { PaymentService } from '../services/payment.service';
+
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -33,6 +37,8 @@ export class BillingComponent implements OnInit {
     private gift: GiftService,
     private fb: FormBuilder,
     private paymentService: ExistingPaymentInfoService,
+    private pmtService: PaymentService,
+    private userSessionService: UserSessionService,
     private stripeService: StripeService) { }
 
   ngOnInit() {
@@ -44,7 +50,7 @@ export class BillingComponent implements OnInit {
       accountName: ['', [<any>Validators.required]],
       routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9)]],
       accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      accountType:   ['personal', [<any>Validators.required]]
+      accountType:   ['individual', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
@@ -68,29 +74,67 @@ export class BillingComponent implements OnInit {
   }
 
   achNext() {
+    console.log('next pressed');
     this.achSubmitted = true;
     if (this.achForm.valid) {
 
-      let userBank = new CustomerBank('US', 'USD', this.achForm.routingNumber, this.achForm.accountNumber,
-                                       this.achForm.accountName, this.achForm.accountType);
+      console.log('ach form valid, executing');
+      let email = this.userSessionService.getUserEmail();
+
+      let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
+                                       this.achForm.value.accountName, this.achForm.value.accountType);
 
       console.log('User bank');
       console.log(JSON.stringify(userBank));
 
-      this.gift.paymentType = 'ach';
-      this.adv();
+      let firstName = 'placeholder'; //not used by API, except for guest donations
+      let lastName = 'placeholder';  //not used by API, except for guest donations
+
+      this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
+          value => {
+            console.log('GOT OBSERVABLE BANK RESULT: ');
+            console.log(value);
+            this.gift.paymentType = 'ach';
+            this.adv();
+          },
+          error => {
+            console.log('Failed to get stripe token');
+          }
+      );
+
     }
     return false;
   }
 
   ccNext() {
     this.ccSubmitted = true;
+
     if (this.ccForm.valid) {
 
+      console.log('cc valid');
 
+      let expMonth = 12;//this.ccForm.value.expDate(0,2);
+      let expYear = 17;// this.ccForm.value.expDate(2, this.ccForm.value.expDate.length - 1);
+      let email = this.userSessionService.getUserEmail();
+      let userCard: CustomerCard = new CustomerCard('mpcrds+20@gmail.com'/*email*/, this.ccForm.value.ccNumber, expMonth, expYear, this.ccForm.value.cvc, this.ccForm.value.zipCode);
+      //let userCard: CustomerCard = new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
+      console.log(userCard);
 
-      this.gift.paymentType = 'cc';
-      this.adv();
+      let firstName = 'placeholder'; //not used by API, except for guest donations
+      let lastName = 'placeholder';  //not used by API, except for guest donations
+
+      this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
+          value => {
+            console.log('GOT OBSERVABLE CARD RESULT: ');
+            console.log(value);
+            this.gift.paymentType = 'cc';
+            this.adv();
+          },
+          error => {
+            console.log('Failed to get stripe token');
+          }
+      );
+
     }
     return false;
   }

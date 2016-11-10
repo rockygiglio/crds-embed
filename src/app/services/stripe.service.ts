@@ -18,6 +18,7 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
+                console.log('Got stripe token');
                 observer.next(response);
             };
 
@@ -32,6 +33,7 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
+                console.log('Got stripe token');
                 observer.next(response);
             };
 
