@@ -14,6 +14,7 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { UserSessionService } from '../services/user-session.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { StateManagerService } from '../services/state-manager.service';
 
 class MockDonationFundService { }
 class MockQuickDonationAmountsService { }
@@ -44,7 +45,8 @@ describe('Component: Payment', () => {
         { provide: QuickDonationAmountsService, useClass: MockQuickDonationAmountsService },
         { provide: DonationFundService, useClass: MockDonationFundService },
         { provide: GiftService, useClass: MockGiftService },
-        ParamValidationService
+        ParamValidationService,
+        StateManagerService
       ]
     });
     this.fixture = TestBed.createComponent(PaymentComponent);
