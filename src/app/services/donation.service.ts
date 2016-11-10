@@ -136,22 +136,12 @@ export class DonationService implements Resolve<number> {
   // }
 
   // TODO needs to be called from summary submit button (Pay button)
-  donate() {
-    this.postPayment();
-  }
+  // donate() {
+  //   this.postPayment();
+  // }
 
 // TODO need to reset/clear out sensitive data after process transaction
-  postPayment(): Observable<any> {
-    let body = {
-      'amount': this.giftService.amount,
-      'pymt_type': this.giftService.paymentType,  // bank or cc
-      'transaction_type': 'PAYMENT',  // DONATION or PAYMENT
-      'invoice_id': this.giftService.invoiceId,
-    };
 
-    return this.http.post(this.transactionUrl + 'api/donations', body) //exists, but won't do a pmt
-      .catch(this.handleError);
-  }
 
   private extractData(res: Response) {
     console.log('Call success');

@@ -5,6 +5,7 @@ import { HttpClientService } from './http-client.service';
 import { StripeService } from './stripe.service';
 import { CustomerBank } from '../classes/customer-bank';
 import { CustomerCard} from '../classes/customer-card';
+import { PaymentCallBody } from '../classes/payment-call-body';
 import { CrdsDonorWithoutId } from '../classes/crds-donor-without-id';
 
 import 'rxjs/add/operator/catch';
@@ -127,6 +128,16 @@ export class PaymentService {
                 .map(this.extractData)
                 .catch(this.handleError);
         }
+    }
+
+    postPayment(paymentInformation: PaymentCallBody): Observable<any> {
+
+        let url: string = this.testApiEndpoint + 'api/donations';
+
+        return this.http.post(url, PaymentCallBody)
+            .map(this.extractData)
+            .catch(this.handleError);
+
     }
 
 
