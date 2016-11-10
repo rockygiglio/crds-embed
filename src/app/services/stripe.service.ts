@@ -6,7 +6,6 @@ import { CustomerCard} from '../classes/customer-card';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-@Injectable()
 export class StripeService {
 
     public methodNames = {
@@ -45,38 +44,9 @@ export class StripeService {
     }
 }
 
-/* Test code, use during implementation:
 
-import { StripeService } from '../services/stripe.service';
-import { CustomerBank } from '../classes/customer-bank';
-import { CustomerCard} from '../classes/customer-card';
-
-private stripeService: StripeService, //in constructor args
-
-this.test(); //run test function on init
-
-test() {
-    console.log('Test function called');
-
-    //Test vars
-    let card: CustomerCard = new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
-    let bank: CustomerBank = new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
-
-    this.stripeService.getCardInfoToken(card).subscribe(
-        value => {
-            console.log('GOT OBSERVABLE CARD RESULT: ');
-            console.log(value);
-        },
-        error => 'Observable failed',
-        () => console.log('Done')
-    );
-
-    this.stripeService.getBankInfoToken(bank).subscribe(
-        value => {
-            console.log('GOT OBSERVABLE BANK RESULT: ');
-            console.log(value);
-        },
-        error => 'Observable failed',
-        () => console.log('Done')
-    );
-} */
+//TODO Remove testing data
+/*
+ let card: CustomerCard = new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
+ let bank: CustomerBank = new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
+*/
