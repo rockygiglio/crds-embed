@@ -24,15 +24,7 @@ export class PrototypeSummaryComponent implements OnInit {
   }
 
   getLastFourOfAccountNumber() {
-
-    let lastFourOfPrevPmtInfo = this.existingPaymentInfoService.getLastFourOfBankOrCcAcctNum();
-
-    let lastFourOfNewPmtInfo = this.gift.accountNumber() ?
-                               this.gift.accountNumber().substr(this.gift.accountNumber().length - 4) : null;
-
-    let lastFour: any = lastFourOfPrevPmtInfo || lastFourOfNewPmtInfo;
-
-    return lastFour;
+    return this.gift.accountNumber().substr(this.gift.accountNumber().length - 4);;
   }
 
   back() {

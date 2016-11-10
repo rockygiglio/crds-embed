@@ -7,6 +7,7 @@ import { PrototypeGiftService } from '../prototype-gift.service';
 import { CheckGuestEmailService } from '../../../app/services/check-guest-email.service';
 import { LoginService } from '../../services/login.service';
 import { ExistingPaymentInfoService } from '../../services/existing-payment-info.service';
+import { UserSessionService } from '../../services/user-session.service';
 
 @Component({
   selector: 'app-prototype-authentication',
@@ -21,13 +22,15 @@ export class PrototypeAuthenticationComponent implements OnInit {
   email: string;
   guestEmail: boolean;
   userPmtInfo: any;
+  loading: boolean = true;
 
   constructor(@Inject(PrototypeStore) private store: any,
               private gift: PrototypeGiftService,
               private _fb: FormBuilder,
               private checkGuestEmailService: CheckGuestEmailService,
               private loginService: LoginService,
-              private existingPaymentInfoService: ExistingPaymentInfoService
+              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private userSessionService: UserSessionService
               ) {}
 
   back() {
@@ -75,6 +78,11 @@ export class PrototypeAuthenticationComponent implements OnInit {
 
   ngOnInit() {
     this.gift.loading = false;
+
+    if ( this.userSessionService.isLoggedIn()) {
+      this.gift.email = this.userSessionService.getUserEmail();
+      this.adv();
+    }
 
     if (this.gift.email) {
       this.adv();

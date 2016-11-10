@@ -19,6 +19,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
+import { SummaryComponent } from './summary/summary.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 import { GiftService } from './services/gift.service';
 import { LoadingService } from './services/loading.service';
@@ -64,6 +66,8 @@ let store: Store<GivingState> = createStore<GivingState>(
     PaymentComponent,
     DonationComponent,
     BillingComponent,
+    SummaryComponent,
+    AuthenticationComponent,
     CreditCardFormatDirective,
     ExpirayFormatDirective,
     CvcFormatDirective

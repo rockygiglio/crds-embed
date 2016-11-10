@@ -3,6 +3,13 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
 
+export interface Program {
+  Name: string;
+  ProgramId: number;
+  ProgramType: number;
+  AllowRecurringGiving: boolean;
+}
+
 @Injectable()
 export class DonationFundService implements Resolve<any> {
 

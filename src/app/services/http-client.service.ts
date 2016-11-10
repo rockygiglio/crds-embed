@@ -23,6 +23,14 @@ export class HttpClientService {
   }
 
   private extractAuthToken = (res: Response) => {
+
+    if (res.headers.get('Authorization')) {
+      this.userSession.setAccessToken(res.headers.get('Authorization'));
+    };
+    if (res.headers.get('RefreshToken')) {
+      this.userSession.setRefreshToken(res.headers.get('RefreshToken'));
+    }
+
     let body = res.json();
     if (body != null && body.userToken) {
       this.userSession.setAccessToken(body.userToken);
@@ -30,6 +38,7 @@ export class HttpClientService {
     if (body != null && body.refreshToken) {
       this.userSession.setRefreshToken(body.refreshToken);
     }
+
     return body || {};
   }
 
