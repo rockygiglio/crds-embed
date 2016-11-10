@@ -11,7 +11,7 @@
 
   <div class="btn-group">
     <button *ngFor="let item of amountDue"
-            class="btn btn-option"
+            class="btn btn-option btn-option--flex-item"
             (click)="onSelectAmount($event, item.amount)"
             [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
       {{ item.label }}: {{ item.amount| currency: "USD": true }}
