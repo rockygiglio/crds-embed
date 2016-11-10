@@ -107,10 +107,10 @@ export class GiftService {
   }
 
   private setBillingInfo(pmtInfo: PaymentInfo) {
-    if (pmtInfo.default_source.credit_card.last4 != null) {
+    if (pmtInfo.default_source != null && pmtInfo.default_source.credit_card.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.credit_card.last4;
     }
-    if (pmtInfo.default_source.bank_account.last4 != null) {
+    if (pmtInfo.default_source != null && pmtInfo.default_source.bank_account.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.bank_account.last4;
     }
   }
