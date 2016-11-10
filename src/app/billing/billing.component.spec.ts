@@ -18,6 +18,8 @@ import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { StateManagerService } from '../services/state-manager.service';
+import { PaymentService } from '../services/payment.service'
+import { StripeService } from '../services/stripe.service'
 
 class MockDonationFundService { }
 class MockQuickDonationAboutsService { }
@@ -57,6 +59,8 @@ describe('Component: Billing', () => {
         UserSessionService,
         CookieService,
         ParamValidationService,
+        PaymentService,
+        StripeService,
         StateManagerService
       ]
     });

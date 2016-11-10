@@ -27,10 +27,11 @@ export class PaymentService {
             post:  'POST',
             put: 'PUT'
         };
-
-        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
     }
 
+    ngOnInit() {
+        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
+    }
 
     //Get Crds Donor by email
     getDonor(email): Observable<any> {
