@@ -24,7 +24,7 @@
 
     <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" [(ngModel)]="gift.accountName" pattern=".*"><br>
     <input type="tel" class="form-control" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
-    <input type="tel" class="form-control" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="[0-9]*">
+    <input type="tel" class="form-control" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern=".*">
 
     <div class="sample-check">
       <small>
@@ -55,22 +55,29 @@
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
-    <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" pattern="[0-9]*" autocomplete="cc-number"><br>
+    <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
     <div class="row inline-form">
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" autocomplete="cc-exp"><br>
+        <input type="tel" class="form-control" placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" pattern="[0-9]*" autocomplete="off"><br>
+        <input type="tel" class="form-control" placeholder="CVC" formControlName="cvc" [(ngModel)]="gift.cvc" ccCVC autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*" autocomplete="zip-code">
+        <input type="tel" class="form-control" placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9]*" autocomplete="zip-code" maxlength="5">
       </div>
+    </div>
+
+    <div class="errors" *ngIf="ccSubmitted">
+      <div *ngIf="!ccForm.controls.ccNumber.valid" class="alert alert-danger">Credit Card is invalid</div>
+      <div *ngIf="!ccForm.controls.expDate.valid" class="alert alert-danger">Expiration Date is required</div>
+      <div *ngIf="!ccForm.controls.cvc.valid" class="alert alert-danger">CVC is required</div>
+      <div *ngIf="!ccForm.controls.zipCode.valid" class="alert alert-danger">Zipcode is invalid</div>
     </div>
 
     <footer class="page-footer">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
-      <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" [ngClass]="{ disabled: !ccForm.valid }" value="Next">
+      <input type="submit" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
     </footer>
   </form>
 </div>

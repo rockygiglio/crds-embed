@@ -19,6 +19,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
+import { SummaryComponent } from './summary/summary.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 import { GiftService } from './services/gift.service';
 import { LoadingService } from './services/loading.service';
@@ -26,6 +28,9 @@ import { LoadingService } from './services/loading.service';
 import { GivingStore } from './giving-state/giving.store';
 import { GivingState } from './giving-state/giving.interfaces';
 import { givingReducer } from './giving-state/giving.reducer';
+import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
+import { ExpirayFormatDirective } from './directives/expiry-format.directive';
+import { CvcFormatDirective } from './directives/cvc-format.directive';
 
 let devtools: StoreEnhancer<GivingState> =
       window['devToolsExtension'] ?
@@ -60,7 +65,12 @@ let store: Store<GivingState> = createStore<GivingState>(
     PageNotFoundComponent,
     PaymentComponent,
     DonationComponent,
-    BillingComponent
+    BillingComponent,
+    SummaryComponent,
+    AuthenticationComponent,
+    CreditCardFormatDirective,
+    ExpirayFormatDirective,
+    CvcFormatDirective
   ],
   providers:    [
     appRoutingProviders,

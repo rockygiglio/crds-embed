@@ -53,12 +53,10 @@ export class PaymentService {
         return this.apiDonor(card, email, firstName, lastName, this.stripeService.methodNames.card, this.restMethodNames.post);
     }
 
-    //TODO: Find out why this passed donorId
     updateDonorWithBankAcct(donorId, bankAcct, email) {
         return this.apiDonor(bankAcct, email, null, null, this.stripeService.methodNames.bankAccount, this.restMethodNames.put);
     }
 
-    //TODO: Find out why this passed donorId
     updateDonorWithCard(donorId, card, email) {
         return this.apiDonor(card, email, null, null, this.stripeService.methodNames.card, this.restMethodNames.put);
     }

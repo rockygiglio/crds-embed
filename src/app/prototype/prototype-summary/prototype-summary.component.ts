@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-
 import { PrototypeStore } from '../prototype-state/prototype.store';
 import * as PrototypeActions from '../prototype-state/prototype.action-creators';
 import { PrototypeGiftService } from '../prototype-gift.service';
@@ -24,15 +23,7 @@ export class PrototypeSummaryComponent implements OnInit {
   }
 
   getLastFourOfAccountNumber() {
-
-    let lastFourOfPrevPmtInfo = this.existingPaymentInfoService.getLastFourOfBankOrCcAcctNum();
-
-    let lastFourOfNewPmtInfo = this.gift.accountNumber() ?
-                               this.gift.accountNumber().substr(this.gift.accountNumber().length - 4) : null;
-
-    let lastFour: any = lastFourOfPrevPmtInfo || lastFourOfNewPmtInfo;
-
-    return lastFour;
+    return this.gift.accountNumber().substr(this.gift.accountNumber().length - 4);;
   }
 
   back() {
@@ -45,10 +36,16 @@ export class PrototypeSummaryComponent implements OnInit {
 
   next() {
     this.gift.loading = true;
+
+    //make payment, then navigate to confirmation
+
     setTimeout(() => {
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
     }, 500);
+
+
     return false;
+
   }
 
   isGuest() {
