@@ -19,6 +19,7 @@ import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 import { GiftService } from './services/gift.service';
 import { StateManagerService } from './services/state-manager.service';
@@ -63,6 +64,7 @@ import { CvcFormatDirective } from './directives/cvc-format.directive';
     BillingComponent,
     SummaryComponent,
     AuthenticationComponent,
+    ConfirmationComponent,
     CreditCardFormatDirective,
     ExpirayFormatDirective,
     CvcFormatDirective
