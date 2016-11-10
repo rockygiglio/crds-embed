@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-summary',
@@ -50,7 +51,7 @@ export class SummaryComponent implements OnInit {
   }
 
   changePayment() {
-    this.gift.accountLast4 = null;
+    this.gift.resetExistingPaymentInfo();
     this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 }

@@ -25,11 +25,11 @@ export class StateManagerService {
   ];
 
   public hidePage(pageIndex: number) {
-      this.paymentState[this.authenticationIndex].show = false;
+      this.paymentState[pageIndex].show = false;
   }
 
   public unhidePage(pageIndex: number) {
-      this.paymentState[this.authenticationIndex].show = true;
+      this.paymentState[pageIndex].show = true;
   }
 
   public getNextPageToShow(currentPage: number): string {
