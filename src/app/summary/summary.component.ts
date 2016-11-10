@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
-import { GivingStore } from '../giving-state/giving.store';
-import * as GivingActions from '../giving-state/giving.action-creators';
+import { StateManagerService } from '../services/state-manager.service';
+import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 
@@ -13,8 +13,8 @@ import { ExistingPaymentInfoService } from '../services/existing-payment-info.se
 export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
 
-  constructor(@Inject(GivingStore)
-              private store: any,
+  constructor(private router: Router,
+              private stateManagerService: StateManagerService,
               private gift: GiftService,
               private existingPaymentInfoService: ExistingPaymentInfoService) {}
 
@@ -32,7 +32,7 @@ export class SummaryComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(GivingActions.render(this.gift.getPrevPageToShow(this.gift.summaryIndex)));
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.summaryIndex));
     return false;
   }
 
@@ -40,7 +40,7 @@ export class SummaryComponent implements OnInit {
     if (this.gift.url) {
       window.location.href = this.gift.url;
     } else {
-      this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.summaryIndex)));
+      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
     }
     return false;
   }
@@ -51,6 +51,6 @@ export class SummaryComponent implements OnInit {
 
   changePayment() {
     this.gift.accountLast4 = null;
-    this.store.dispatch(GivingActions.render(this.gift.paymentState[this.gift.billingIndex].path));
+    this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 }

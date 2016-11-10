@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { Store, StoreEnhancer, createStore } from 'redux';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -11,7 +10,6 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
-import { PrototypeModule } from './prototype/prototype.module';
 import { DemoModule } from './demo/demo.module';
 import { PreloaderModule } from './preloader/preloader.module';
 
@@ -23,23 +21,21 @@ import { SummaryComponent } from './summary/summary.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 
 import { GiftService } from './services/gift.service';
+import { StateManagerService } from './services/state-manager.service';
 import { LoadingService } from './services/loading.service';
+import { ParamValidationService } from './services/param-validation.service';
+import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
+import { DonationFundService } from './services/donation-fund.service';
+import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
+import { LoginService } from './services/login.service';
+import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { UserSessionService } from './services/user-session.service';
+import { HttpClientService } from './services/http-client.service';
 
-import { GivingStore } from './giving-state/giving.store';
-import { GivingState } from './giving-state/giving.interfaces';
-import { givingReducer } from './giving-state/giving.reducer';
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { ExpirayFormatDirective } from './directives/expiry-format.directive';
 import { CvcFormatDirective } from './directives/cvc-format.directive';
-
-let devtools: StoreEnhancer<GivingState> =
-      window['devToolsExtension'] ?
-        window['devToolsExtension']() : f => f;
-
-let store: Store<GivingState> = createStore<GivingState>(
-  givingReducer,
-  devtools
-);
 
 @NgModule({
   imports:      [
@@ -53,7 +49,6 @@ let store: Store<GivingState> = createStore<GivingState>(
     ReactiveFormsModule,
     routing,
     Angulartics2Module.forRoot(),
-    PrototypeModule,
     DemoModule,
     ReactiveFormsModule,
     AlertModule,
@@ -74,9 +69,19 @@ let store: Store<GivingState> = createStore<GivingState>(
   ],
   providers:    [
     appRoutingProviders,
+    QuickDonationAmountsService,
+    DonationFundService,
+    PreviousGiftAmountService,
+    LoginService,
+    CookieService,
+    ExistingPaymentInfoService,
+    UserSessionService,
+    HttpClientService,
+    ParamValidationService,
+    StateManagerService,
     LoadingService,
     GiftService,
-    { provide: GivingStore, useValue: store },
+    ParamValidationService,
     Angulartics2GoogleTagManager
   ],
   bootstrap:    [AppComponent]

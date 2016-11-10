@@ -1,11 +1,8 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
-
-import { GivingStore } from './giving-state/giving.store';
-import { GivingState } from './giving-state/giving.interfaces';
 
 import { LoadingService } from './services/loading.service';
 
@@ -27,19 +24,10 @@ export class AppComponent {
   type: string;
   params: any;
 
-  constructor(@Inject(GivingStore) private store: any,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private router: Router,
               private angulartics2: Angulartics2,
               private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-              private loading: LoadingService) {
-    store.subscribe(() => this.readState());
-  }
-
-  readState() {
-    let state: GivingState = this.store.getState() as GivingState;
-    this.action = state.action;
-    this.router.navigate([this.action], { relativeTo: this.route });
-  }
+              private loading: LoadingService) { }
 
 }

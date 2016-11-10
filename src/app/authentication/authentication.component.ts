@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import * as GivingActions from '../giving-state/giving.action-creators';
-import { GivingStore } from '../giving-state/giving.store';
+import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
+import { Router } from '@angular/router';
 import { CheckGuestEmailService } from '../services/check-guest-email.service';
 import { LoginService } from '../services/login.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
@@ -23,7 +23,8 @@ export class AuthenticationComponent implements OnInit {
   guestEmail: boolean;
   userPmtInfo: any;
 
-  constructor( @Inject(GivingStore) private store: any,
+  constructor( private router: Router,
+    private stateManagerService: StateManagerService,
     private gift: GiftService,
     private _fb: FormBuilder,
     private checkGuestEmailService: CheckGuestEmailService,
@@ -33,12 +34,12 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   back() {
-    this.store.dispatch(GivingActions.render(this.gift.getPrevPageToShow(this.gift.authenticationIndex)));
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
     return false;
   }
 
   adv() {
-    this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.authenticationIndex)));
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
   }
 
   next() {
@@ -48,7 +49,7 @@ export class AuthenticationComponent implements OnInit {
         user => {
           this.userSessionService.setUserEmail(user.userEmail);
           this.gift.loadUserData();
-          this.gift.paymentState[this.gift.authenticationIndex].show = false;
+          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
           this.adv();
         },
         error => {

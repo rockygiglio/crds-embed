@@ -5,14 +5,10 @@ import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { DonationFundService, Program } from './donation-fund.service';
 import { UserSessionService } from './user-session.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
-import { ExistingPaymentInfoService, PaymentInfo, PaymentSource, CreditCardInfo, BankAccountInfo } from './existing-payment-info.service';
+import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { StateManagerService } from './state-manager.service';
 
 declare var _;
-
-export interface PageState {
-  path: string;
-  show: boolean;
-}
 
 @Injectable()
 export class GiftService {
@@ -57,35 +53,21 @@ export class GiftService {
   public cvc: string;
   public zipCode: string;
 
-  // State Management
-  public paymentIndex: number = 0;
-  public authenticationIndex: number = 1;
-  public billingIndex: number = 2;
-  public summaryIndex: number = 3;
-  public confirmationIndex: number = 4;
-
-  public paymentState: PageState[] = [
-    { path: '/payment', show: true },
-    { path: '/auth', show: true },
-    { path: '/billing', show: true },
-    { path: '/summary', show: true },
-    { path: '/confirmation', show: true}
-  ];
-
   constructor(private route: ActivatedRoute,
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,
               private quickDonationAmountService: QuickDonationAmountsService,
               private userSessionService: UserSessionService,
               private previousGiftAmountService: PreviousGiftAmountService,
-              private existingPaymentInfoService: ExistingPaymentInfoService) {
+              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private stateManagerService: StateManagerService) {
     this.processQueryParams();
     this.preloadData();
   }
 
   public preloadData() {
     if (this.userSessionService.isLoggedIn()) {
-      this.paymentState[this.authenticationIndex].show = false;
+      this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
     } else {
       this.loadFormData();
@@ -97,7 +79,7 @@ export class GiftService {
     this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
       info => {
         this.setBillingInfo(info);
-        this.paymentState[this.billingIndex].show = false;
+        this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
       }
     );
     if (this.type === 'donation') {
@@ -154,27 +136,6 @@ export class GiftService {
     });
   }
 
-  /*******************
-   * State Management 
-   *******************/
-
-  public getNextPageToShow(currentPage: number): string {
-    let nextPage = currentPage + 1;
-    while (!this.paymentState[nextPage].show && nextPage !== this.confirmationIndex) {
-      nextPage++;
-    }
-    return this.paymentState[nextPage].path;
-  }
-
-  public getPrevPageToShow(currentPage: number): string {
-    let prevPage = currentPage - 1;
-    while (!this.paymentState[prevPage].show && prevPage !== this.paymentIndex) {
-      prevPage--;
-    }
-    return this.paymentState[prevPage].path;
-  }
-
-  public get
 
   /*******************
    * PRIVATE FUNCTIONS

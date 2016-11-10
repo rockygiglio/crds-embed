@@ -23,11 +23,10 @@ export class HttpClientService {
   }
 
   private extractAuthToken = (res: Response) => {
-
-    if (res.headers.get('Authorization')) {
+    if (res.headers != null && res.headers.get('Authorization')) {
       this.userSession.setAccessToken(res.headers.get('Authorization'));
     };
-    if (res.headers.get('RefreshToken')) {
+    if (res.headers != null && res.headers.get('RefreshToken')) {
       this.userSession.setRefreshToken(res.headers.get('RefreshToken'));
     }
 
