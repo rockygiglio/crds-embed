@@ -9,6 +9,11 @@ import * as GivingActions from '../giving-state/giving.action-creators';
 
 import { CreditCardValidator } from '../validators/credit-card.validator';
 
+import { CustomerBank } from '../classes/customer-bank';
+import { CustomerCard} from '../classes/customer-card';
+
+import { StripeService } from '../services/stripe.service';
+
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -27,7 +32,8 @@ export class BillingComponent implements OnInit {
   constructor( @Inject(GivingStore) private store: any,
     private gift: GiftService,
     private fb: FormBuilder,
-    private paymentService: ExistingPaymentInfoService) { }
+    private paymentService: ExistingPaymentInfoService,
+    private stripeService: StripeService) { }
 
   ngOnInit() {
     if (!this.gift.type) {
@@ -64,6 +70,13 @@ export class BillingComponent implements OnInit {
   achNext() {
     this.achSubmitted = true;
     if (this.achForm.valid) {
+
+      let userBank = new CustomerBank('US', 'USD', this.achForm.routingNumber, this.achForm.accountNumber,
+                                       this.achForm.accountName, this.achForm.accountType);
+
+      console.log('User bank');
+      console.log(JSON.stringify(userBank));
+
       this.gift.paymentType = 'ach';
       this.adv();
     }
@@ -73,6 +86,9 @@ export class BillingComponent implements OnInit {
   ccNext() {
     this.ccSubmitted = true;
     if (this.ccForm.valid) {
+
+
+
       this.gift.paymentType = 'cc';
       this.adv();
     }

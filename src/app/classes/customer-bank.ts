@@ -15,6 +15,6 @@ export class CustomerBank {
     this.routing_number = routing_number;
     this.account_number = account_number;
     this.account_holder_name = account_holder_name;
-    this.account_holder_type = account_holder_type;
+    this.account_holder_type = account_holder_type; //'personal' or 'business'
   }
 }
