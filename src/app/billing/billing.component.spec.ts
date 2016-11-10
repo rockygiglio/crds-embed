@@ -14,8 +14,16 @@ import { HttpClientService } from '../services/http-client.service';
 import { UserSessionService } from '../services/user-session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ParamValidationService } from '../services/param-validation.service';
+import { DonationFundService } from '../services/donation-fund.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { GiftService } from '../services/gift.service';
 
 class MockGivingStore { public subscribe() {}; }
+class MockDonationFundService { }
+class MockQuickDonationAboutsService { }
+class MockPreviousGiftAmountService { }
+class MockGiftService { }
 class MockActivatedRoute {
   public snapshot = {
     queryParams: []
@@ -40,7 +48,10 @@ describe('Component: Billing', () => {
       providers: [
         { provide: GivingStore, useClass: MockGivingStore },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        GiftService,
+        { provide: DonationFundService, useClass: MockDonationFundService },
+        { provide: QuickDonationAmountsService, useClass: MockQuickDonationAboutsService },
+        { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
+        { provide: GiftService, useClass: MockGiftService },
         ExistingPaymentInfoService,
         FormBuilder,
         HttpClientService,
