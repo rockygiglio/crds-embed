@@ -2,6 +2,7 @@ const helpers = require('./helpers');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+var Dotenv = require('dotenv-webpack');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
 module.exports = function(options) {
@@ -76,14 +77,11 @@ module.exports = function(options) {
     },
 
     plugins: [
+      new Dotenv({
+        systemvars: true
+      }),
       new DefinePlugin({
-        'ENV': JSON.stringify(ENV),
-        'HMR': false,
-        'process.env': {
-          'ENV': JSON.stringify(ENV),
-          'NODE_ENV': JSON.stringify(ENV),
-          'HMR': false,
-        }
+        'ENV': JSON.stringify(ENV)
       }),
     ],
 
