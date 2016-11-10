@@ -17,8 +17,8 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { StateManagerService } from '../services/state-manager.service';
 
-class MockGivingStore { public subscribe() {}; }
 class MockDonationFundService { }
 class MockQuickDonationAboutsService { }
 class MockPreviousGiftAmountService { }
@@ -42,10 +42,10 @@ describe('Component: Billing', () => {
         ReactiveFormsModule,
         TabsModule,
         ButtonsModule,
-        HttpModule
+        HttpModule,
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
-        { provide: GivingStore, useClass: MockGivingStore },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: DonationFundService, useClass: MockDonationFundService },
         { provide: QuickDonationAmountsService, useClass: MockQuickDonationAboutsService },
@@ -56,7 +56,8 @@ describe('Component: Billing', () => {
         HttpClientService,
         UserSessionService,
         CookieService,
-        ParamValidationService
+        ParamValidationService,
+        StateManagerService
       ]
     });
     this.fixture = TestBed.createComponent(BillingComponent);

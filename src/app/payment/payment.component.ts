@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Inject, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
