@@ -76,6 +76,9 @@ export class ExistingPaymentInfoService {
   private extractData(res: Response) {
     let body = res;
     this.userPaymentInfo = body || { };
+    console.log('Previous pmt information: ');
+    console.log(body);
+    console.log(JSON.stringify(body));
     return this.userPaymentInfo;
   }
 

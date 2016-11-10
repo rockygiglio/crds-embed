@@ -19,9 +19,6 @@ export class PaymentService {
 
     // TODO Remove testing console logs
 
-    // TODO set stripe KEY - teamcity needs var
-    // stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
-
     constructor(private http: Http,
                 private httpClientService: HttpClientService,
                 private stripeService: StripeService) {
@@ -30,6 +27,8 @@ export class PaymentService {
             post:  'POST',
             put: 'PUT'
         };
+
+        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
     }
 
 
@@ -119,7 +118,7 @@ export class PaymentService {
         let donorUrl = this.testApiEndpoint + 'donor/';
         let requestOptions: any = this.httpClientService.getRequestOption();
 
-        if(restMethod === this.restMethodNames.post){
+        if (restMethod === this.restMethodNames.post) {
             return this.http.post(donorUrl, crdsDonor, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
