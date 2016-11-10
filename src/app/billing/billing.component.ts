@@ -7,7 +7,7 @@ import { ExistingPaymentInfoService } from '../services/existing-payment-info.se
 import { GivingStore } from '../giving-state/giving.store';
 import * as GivingActions from '../giving-state/giving.action-creators';
 
-import { CustomValidators } from '../validators/custom-validators';
+import { CreditCardValidator } from '../validators/credit-card.validator';
 
 @Component({
   selector: 'app-billing',
@@ -19,6 +19,8 @@ export class BillingComponent implements OnInit {
   achForm: FormGroup;
   ccForm: FormGroup;
   hideCheck: boolean = true;
+  achSubmitted = false;
+  ccSubmitted  = false;
   userToken = null;
   accountNumberPlaceholder = 'Account Number';
 
@@ -29,7 +31,7 @@ export class BillingComponent implements OnInit {
 
   ngOnInit() {
     if (!this.gift.type) {
-      this.store.dispatch(GivingActions.render('/payment'));
+      // this.store.dispatch(GivingActions.render('/payment'));
     }
 
     this.achForm = this.fb.group({
@@ -40,9 +42,9 @@ export class BillingComponent implements OnInit {
     });
 
     this.ccForm = this.fb.group({
-      ccNumber: ['', [<any>Validators.required, <any>CustomValidators.creditCard]],
-      expDate:  ['', [<any>Validators.required, <any>CustomValidators.expirationDate]],
-      cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+      ccNumber: ['', [<any>CreditCardValidator.validateCCNumber]],
+      expDate:  ['', [<any>CreditCardValidator.validateExpDate]],
+      cvc:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
       zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
     });
 
@@ -60,6 +62,7 @@ export class BillingComponent implements OnInit {
   }
 
   achNext() {
+    this.achSubmitted = true;
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.adv();
@@ -68,6 +71,7 @@ export class BillingComponent implements OnInit {
   }
 
   ccNext() {
+    this.ccSubmitted = true;
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
       this.adv();

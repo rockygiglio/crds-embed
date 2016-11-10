@@ -53,7 +53,7 @@ export class GiftService {
   // Credit Card information
   public ccNumber: string;
   public expDate: string;
-  public cvv: string;
+  public cvc: string;
   public zipCode: string;
 
   // State Management
