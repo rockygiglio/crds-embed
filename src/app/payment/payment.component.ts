@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Inject, Component, OnInit } from '@angular/cor
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -16,7 +16,7 @@ export class PaymentComponent implements OnInit {
   public selectedAmount: string;
   public amountDue: Array<Object>;
 
-  constructor(private location: Location,
+  constructor(private router: Router,
               private stateManagerService: StateManagerService,
               private gift: GiftService,
               private fb: FormBuilder) {
@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     if (this.gift.type === 'donation') {
-      this.location.go('/domation');
+      this.router.navigateByUrl('/donation');
     }
 
     this.amountDue = [
@@ -46,7 +46,7 @@ export class PaymentComponent implements OnInit {
   }
 
   next() {
-    this.location.go(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
     return false;
   }
 

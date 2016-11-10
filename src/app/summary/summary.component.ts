@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
 import { StateManagerService } from '../services/state-manager.service';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 
@@ -13,7 +13,7 @@ import { ExistingPaymentInfoService } from '../services/existing-payment-info.se
 export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
 
-  constructor(private location: Location,
+  constructor(private router: Router,
               private stateManagerService: StateManagerService,
               private gift: GiftService,
               private existingPaymentInfoService: ExistingPaymentInfoService) {}
@@ -32,7 +32,7 @@ export class SummaryComponent implements OnInit {
   }
 
   back() {
-    this.location.go(this.stateManagerService.getPrevPageToShow(this.stateManagerService.summaryIndex));
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.summaryIndex));
     return false;
   }
 
@@ -40,7 +40,7 @@ export class SummaryComponent implements OnInit {
     if (this.gift.url) {
       window.location.href = this.gift.url;
     } else {
-      this.location.go(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
+      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
     }
     return false;
   }
@@ -51,6 +51,6 @@ export class SummaryComponent implements OnInit {
 
   changePayment() {
     this.gift.accountLast4 = null;
-    this.location.go(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
+    this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 }

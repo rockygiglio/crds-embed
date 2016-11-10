@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { CheckGuestEmailService } from '../services/check-guest-email.service';
 import { LoginService } from '../services/login.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
@@ -23,7 +23,7 @@ export class AuthenticationComponent implements OnInit {
   guestEmail: boolean;
   userPmtInfo: any;
 
-  constructor( private location: Location,
+  constructor( private router: Router,
     private stateManagerService: StateManagerService,
     private gift: GiftService,
     private _fb: FormBuilder,
@@ -34,12 +34,12 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   back() {
-    this.location.go(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
     return false;
   }
 
   adv() {
-    this.location.go(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
   }
 
   next() {
