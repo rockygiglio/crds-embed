@@ -111,13 +111,13 @@ export class BillingComponent implements OnInit {
 
     if (this.ccForm.valid) {
 
-      console.log('cc valid');
+      let expMonth = this.ccForm.value.expDate.split(' / ')[0];
+      let expYear = this.ccForm.value.expDate.split(' / ')[1];
 
-      let expMonth = 12;//this.ccForm.value.expDate(0,2);
-      let expYear = 17;// this.ccForm.value.expDate(2, this.ccForm.value.expDate.length - 1);
       let email = this.userSessionService.getUserEmail();
+
+      //TODO Add actual user email as customer card param below
       let userCard: CustomerCard = new CustomerCard('mpcrds+20@gmail.com'/*email*/, this.ccForm.value.ccNumber, expMonth, expYear, this.ccForm.value.cvc, this.ccForm.value.zipCode);
-      //let userCard: CustomerCard = new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
       console.log(userCard);
 
       let firstName = 'placeholder'; //not used by API, except for guest donations
@@ -142,5 +142,6 @@ export class BillingComponent implements OnInit {
   adv() {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
   }
+
 
 }

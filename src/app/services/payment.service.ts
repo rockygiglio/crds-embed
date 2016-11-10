@@ -70,7 +70,7 @@ export class PaymentService {
      * @param {Number} email
      * @param {Number} firstName
      * @param {Number} lastName
-     * @param {Number} stripeFunction - name of function to call on stripe API - either 'bankAccount' or 'card'
+     * @param {Number} stripeFunction - name of function to call on stripe API helper - either 'getBankInfoToken' or 'getCardInfoToken'
      * @param {Number} restMethod - the REST API method to call on Crossroads Gatewat - PUT or POST
      * @return {Number} ??? user infomation
      */
