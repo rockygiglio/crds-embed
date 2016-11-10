@@ -95,9 +95,13 @@ export class PrototypePaymentComponent implements OnInit {
     this.gift.payment_type = 'ach';
 
     this.gift.loading = true;
+
+    //get stripe token, save it to gift service, go to next step
+
     setTimeout(() => {
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
     }, 500);
+
     return false;
   }
 
@@ -106,9 +110,13 @@ export class PrototypePaymentComponent implements OnInit {
     this.gift.payment_type = 'cc';
 
     this.gift.loading = true;
+
+    //get stripe token, save it to gift service, go to next step
+
     setTimeout(() => {
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/summary'));
     }, 500);
+
     return false;
   }
 
