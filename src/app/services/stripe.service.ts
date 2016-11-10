@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { CustomerBank } from '../classes/customer-bank';
 import { CustomerCard} from '../classes/customer-card';
