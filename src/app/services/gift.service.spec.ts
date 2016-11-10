@@ -4,6 +4,17 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { GiftService } from './gift.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
+import { DonationFundService, Program } from './donation-fund.service';
+import { UserSessionService } from './user-session.service';
+import { PreviousGiftAmountService } from './previous-gift-amount.service';
+import { QuickDonationAmountsService } from './quick-donation-amounts.service';
+import { HttpClientService } from './http-client.service';
+import { StateManagerService } from './state-manager.service';
+import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { CookieService } from 'angular2-cookie/core';
+
 
 class MockActivatedRoute {
   public snapshot = {
@@ -15,7 +26,23 @@ describe('Service: Gift', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        GiftService, ParamValidationService,
+        GiftService,
+        ParamValidationService,
+        DonationFundService,
+        UserSessionService,
+        PreviousGiftAmountService,
+        ExistingPaymentInfoService,
+        QuickDonationAmountsService,
+        HttpClientService,
+        StateManagerService,
+        CookieService,
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Http,
+          useFactory: (backend, options) => new Http(backend, options),
+          deps: [MockBackend, BaseRequestOptions]
+        },
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     });

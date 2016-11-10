@@ -9,7 +9,19 @@ import { PaymentComponent } from './payment.component';
 import { GivingStore } from '../giving-state/giving.store';
 import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service';
+import { DonationFundService } from '../services/donation-fund.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { UserSessionService } from '../services/user-session.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { StateManagerService } from '../services/state-manager.service';
 
+class MockDonationFundService { }
+class MockQuickDonationAmountsService { }
+class MockUserSessionService { }
+class MockPreviousGiftAmountService { }
+class MockExistingPaymentInfoService { }
+class MockGiftService { }
 class MockGivingStore { public subscribe() {}; }
 class MockRouter { public navigate() {}; }
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -27,7 +39,14 @@ describe('Component: Payment', () => {
       ],
       providers: [
         { provide: GivingStore, useClass: MockGivingStore },
-        GiftService, ParamValidationService
+        { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
+        { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
+        { provide: UserSessionService, useClass: MockUserSessionService },
+        { provide: QuickDonationAmountsService, useClass: MockQuickDonationAmountsService },
+        { provide: DonationFundService, useClass: MockDonationFundService },
+        { provide: GiftService, useClass: MockGiftService },
+        ParamValidationService,
+        StateManagerService
       ]
     });
     this.fixture = TestBed.createComponent(PaymentComponent);

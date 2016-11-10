@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
+import { QuickDonationAmountsService } from './quick-donation-amounts.service';
+import { DonationFundService, Program } from './donation-fund.service';
+import { UserSessionService } from './user-session.service';
+import { PreviousGiftAmountService } from './previous-gift-amount.service';
+import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { StateManagerService } from './state-manager.service';
 
 declare var _;
 
@@ -19,13 +25,20 @@ export class GiftService {
 
   public errors: Array<string> = [];
 
+  // Form options
+  public funds: Program[];
+  public amounts: number[];
+
   // Payment Information
   public amount: number;
   public customAmount: number;
   public paymentType: string;
+  public accountLast4: string;
 
   // user info
   public email: string;
+  public previousGiftAmount: string;
+  public isGuest: boolean;
 
   // ACH Information
   public accountType: string = 'personal';
@@ -40,8 +53,57 @@ export class GiftService {
   public zipCode: string;
 
   constructor(private route: ActivatedRoute,
-              private helper: ParamValidationService) {
+              private helper: ParamValidationService,
+              private donationFundService: DonationFundService,
+              private quickDonationAmountService: QuickDonationAmountsService,
+              private userSessionService: UserSessionService,
+              private previousGiftAmountService: PreviousGiftAmountService,
+              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private stateManagerService: StateManagerService) {
     this.processQueryParams();
+    this.preloadData();
+  }
+
+  public preloadData() {
+    if (this.userSessionService.isLoggedIn()) {
+      this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+      this.loadUserData();
+    } else {
+      this.loadFormData();
+    }
+  }
+
+  public loadUserData() {
+    this.email = this.userSessionService.getUserEmail();
+    this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
+      info => {
+        this.setBillingInfo(info);
+        this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+      }
+    );
+    if (this.type === 'donation') {
+      this.previousGiftAmountService.get().subscribe(
+        amount => this.previousGiftAmount = amount
+      );
+    }
+  }
+
+  private setBillingInfo(pmtInfo: PaymentInfo) {
+    if (pmtInfo.default_source.credit_card.last4 != null) {
+      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
+    }
+    if (pmtInfo.default_source.bank_account.last4 != null) {
+      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
+    }
+  }
+
+  private loadFormData() {
+    this.donationFundService.getFunds().subscribe(
+      funds => this.funds = funds
+    );
+    this.quickDonationAmountService.getQuickDonationAmounts().subscribe(
+      amounts => this.amounts = amounts
+    );
   }
 
   public validAmount() {
@@ -70,6 +132,7 @@ export class GiftService {
       delete(this[f]);
     });
   }
+
 
   /*******************
    * PRIVATE FUNCTIONS

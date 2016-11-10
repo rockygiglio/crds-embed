@@ -11,7 +11,7 @@ export class PrototypeGiftService {
   frequency: string = 'One Time';
   payment_type: string;
   account_type: string = 'personal';
-  account_name: string;
+  account_holder_name: string;
   routing_number: string;
   ach_account_number: string;
   cc_account_number: string;
@@ -43,7 +43,7 @@ export class PrototypeGiftService {
     _.each([
       'payment_type',
       'account_type',
-      'account_name',
+      'account_holder_name',
       'routing_number',
       'ach_account_number',
       'cc_account_number',

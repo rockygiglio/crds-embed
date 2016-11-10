@@ -3,7 +3,6 @@ import { Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolve } from '@angular/router';
 import { HttpClientService } from './http-client.service';
-import { UserSessionService } from './user-session.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -13,8 +12,7 @@ export class PreviousGiftAmountService implements Resolve<number> {
 
     private url = process.env.CRDS_API_ENDPOINT + 'api/donations';
 
-    constructor (private http: HttpClientService,
-                 private userSessionService: UserSessionService) {}
+    constructor (private http: HttpClientService) {}
 
     resolve() {
          return this.get();
