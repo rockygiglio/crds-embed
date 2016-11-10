@@ -6,7 +6,6 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PaymentComponent } from './payment.component';
-import { GivingStore } from '../giving-state/giving.store';
 import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
@@ -38,7 +37,6 @@ describe('Component: Payment', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
-        { provide: GivingStore, useClass: MockGivingStore },
         { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
         { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
         { provide: UserSessionService, useClass: MockUserSessionService },
