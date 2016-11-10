@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Inject, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
-import { GivingStore } from '../giving-state/giving.store';
-import * as GivingActions from '../giving-state/giving.action-creators';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-payment',
@@ -16,14 +16,15 @@ export class PaymentComponent implements OnInit {
   public selectedAmount: string;
   public amountDue: Array<Object>;
 
-  constructor(@Inject(GivingStore) private store: any,
+  constructor(private location: Location,
+              private stateManagerService: StateManagerService,
               private gift: GiftService,
               private fb: FormBuilder) {
   }
 
   ngOnInit() {
     if (this.gift.type === 'donation') {
-      this.store.dispatch(GivingActions.render('/donation'));
+      this.location.go('/domation');
     }
 
     this.amountDue = [
@@ -45,7 +46,7 @@ export class PaymentComponent implements OnInit {
   }
 
   next() {
-    this.store.dispatch(GivingActions.render(this.gift.getNextPageToShow(this.gift.paymentIndex)));
+    this.location.go(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
     return false;
   }
 
