@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { StateManagerService } from '../services/state-manager.service';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { CreditCardValidator } from '../validators/credit-card.validator';
 
@@ -23,7 +23,7 @@ export class BillingComponent implements OnInit {
   userToken = null;
   accountNumberPlaceholder = 'Account Number';
 
-  constructor( private location: Location,
+  constructor( private router: Router,
     private stateManagerService: StateManagerService,
     private gift: GiftService,
     private fb: FormBuilder,
@@ -57,7 +57,7 @@ export class BillingComponent implements OnInit {
   }
 
   back() {
-    this.location.go(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
     return false;
   }
 
@@ -80,7 +80,7 @@ export class BillingComponent implements OnInit {
   }
 
   adv() {
-    this.location.go(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
   }
 
 }
