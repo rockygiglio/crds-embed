@@ -19,6 +19,7 @@ import { FormBuilder } from '@angular/forms';
 import { UserSessionService } from '../services/user-session.service';
 import { HttpClientService } from '../services/http-client.service';
 import { CookieService } from 'angular2-cookie/core';
+import { StateManagerService } from '../services/state-manager.service';
 
 class MockStore { public subscribe() {}; }
 class MockLoginService { public login() {}; }
@@ -45,7 +46,7 @@ describe('Component: Authentication', () => {
         { provide: GiftService, useClass: MockGiftService},
         FormBuilder, CheckGuestEmailService,
         ExistingPaymentInfoService, HttpClientService, UserSessionService,
-        CookieService
+        CookieService, StateManagerService
       ]
     });
     this.fixture = TestBed.createComponent(AuthenticationComponent);

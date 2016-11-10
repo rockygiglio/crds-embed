@@ -17,7 +17,6 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { GiftService } from '../services/gift.service';
 
 class MockGivingStore { public subscribe() {}; }
 class MockDonationFundService { }
