@@ -25,6 +25,7 @@ export class GiftService {
   public minPayment: number = 0;
   public title: string = '';
   public url: string = '';
+  public paymentId: number = 0;
   public fundId: number = 0;
 
   public errors: Array<string> = [];
@@ -109,9 +110,11 @@ export class GiftService {
   private setBillingInfo(pmtInfo: PaymentInfo) {
     if (pmtInfo.default_source != null && pmtInfo.default_source.credit_card.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.credit_card.last4;
+      this.paymentType = 'cc';
     }
     if (pmtInfo.default_source != null && pmtInfo.default_source.bank_account.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.bank_account.last4;
+      this.paymentType = 'bank';
     }
   }
 
