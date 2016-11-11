@@ -34,7 +34,7 @@ import { HttpClientService } from './services/http-client.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { ExpirayFormatDirective } from './directives/expiry-format.directive';
-import { CvcFormatDirective } from './directives/cvc-format.directive';
+import { CvvFormatDirective } from './directives/cvv-format.directive';
 
 @NgModule({
   imports:      [
@@ -65,7 +65,7 @@ import { CvcFormatDirective } from './directives/cvc-format.directive';
     ConfirmationComponent,
     CreditCardFormatDirective,
     ExpirayFormatDirective,
-    CvcFormatDirective
+    CvvFormatDirective
   ],
   providers:    [
     appRoutingProviders,

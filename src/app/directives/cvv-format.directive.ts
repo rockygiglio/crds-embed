@@ -2,10 +2,10 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { CreditCard } from '../shared/credit-card';
 
 @Directive({
-  selector: '[ccCVC]'
+  selector: '[ccCVV]'
 })
 
-export class CvcFormatDirective {
+export class CvvFormatDirective {
 
   public target;
 
@@ -14,22 +14,22 @@ export class CvcFormatDirective {
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {
-    if (!CreditCard.restrictNumeric(e) && !CreditCard.restrictCvc(e.which, this.target)) {
+    if (!CreditCard.restrictNumeric(e) && !CreditCard.restrictCvv(e.which, this.target)) {
       e.preventDefault();
     }
   }
   @HostListener('paste', ['$event']) onPaste(e) {
-    this.reformatCvc(e)
+    this.reformatCvv(e)
   }
   @HostListener('change', ['$event']) onChange(e) {
-    this.reformatCvc(e)
+    this.reformatCvv(e)
   }
   @HostListener('input', ['$event']) onInput(e) {
-    this.reformatCvc(e)
+    this.reformatCvv(e)
   }
 
 
-  private reformatCvc(e) {
+  private reformatCvv(e) {
     setTimeout(() => {
       let val = CreditCard.replaceFullWidthChars(this.target.value);
       val = val.replace(/\D/g, '').slice(0, 4);

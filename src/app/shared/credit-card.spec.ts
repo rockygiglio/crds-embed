@@ -13,7 +13,7 @@ describe('Shared: Credit Card', () => {
       patterns: [4],
       format: /(\d{1,4})/g,
       length: [13, 16],
-      cvcLength: [3],
+      cvvLength: [3],
       luhn: true
     });
   });
@@ -128,20 +128,20 @@ describe('Shared: Credit Card', () => {
     expect(CreditCard.formatExpiry('123456')).toBe('12 / 3456');
   });
 
-  it('should restrict CVC', () => {
+  it('should restrict CVV', () => {
     let key = 1;
     let target = {
       selectionStart: null,
       value: '123'
     };
 
-    expect(CreditCard.restrictCvc(key, target)).toBe(false);
+    expect(CreditCard.restrictCvv(key, target)).toBe(false);
 
     key = 49;
-    expect(CreditCard.restrictCvc(key, target)).toBe(true);
+    expect(CreditCard.restrictCvv(key, target)).toBe(true);
 
     target.value = '1234';
-    expect(CreditCard.restrictCvc(key, target)).toBe(false);
+    expect(CreditCard.restrictCvv(key, target)).toBe(false);
 
   });
 
