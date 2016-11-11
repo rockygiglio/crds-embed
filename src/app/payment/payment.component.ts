@@ -27,6 +27,8 @@ export class PaymentComponent implements OnInit {
       this.router.navigateByUrl('/donation');
     }
 
+    this.stateManagerService.is_loading = false;
+
     this.amountDue = [
       {
         label: 'Minimum Due',

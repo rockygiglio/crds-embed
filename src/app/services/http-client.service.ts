@@ -54,8 +54,8 @@ export class HttpClientService {
   }
 
   clearTokens(): void {
-    this.cookieService.remove(this.accessToken);
-    this.cookieService.remove(this.refreshToken);
+    this.cookieService.remove(this.accessToken, this.cookieOptions);
+    this.cookieService.remove(this.refreshToken, this.cookieOptions);
   }
 
   getAccessToken(): string {

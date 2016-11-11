@@ -30,6 +30,7 @@ export class GiftService {
   public funds: Program[];
   public amounts: number[];
   public existingPaymentInfo: Observable<any>;
+  public paymentMethod: string = 'Bank Account';
 
   // Payment Information
   public amount: number;
@@ -76,11 +77,13 @@ export class GiftService {
   }
 
   public loadUserData() {
+      this.loadExistingPaymentData();
       this.loginService.authenticate().subscribe(
         (info) => {
           if ( info !== null ) {
             this.email = info.userEmail;
-            this.loadExistingPaymentData();
+          } else {
+            this.loginService.logOut();
           }
         }
       );
@@ -141,14 +144,18 @@ export class GiftService {
       'paymentType',
       'accountType',
       'accountName',
-      'routingNumber',
       'accountNumber',
+      'routingNumber',
       'ccNumber',
       'expDate',
       'cvv',
       'zipCode'
     ], (f) => {
-      delete(this[f]);
+      if (f === 'accountType') {
+        this[f] = 'personal';
+      } else {
+        delete(this[f]);
+      }
     });
   }
 
