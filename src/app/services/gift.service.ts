@@ -87,14 +87,7 @@ export class GiftService {
   }
 
   public loadExistingPaymentData() {
-    this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
-      info => {
-        if ( info !== null ) {
-          this.setBillingInfo(info);
-          this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
-        }
-      }
-    );
+    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     if (this.type === 'donation') {
       this.previousGiftAmountService.get().subscribe(
         amount => this.previousGiftAmount = amount
