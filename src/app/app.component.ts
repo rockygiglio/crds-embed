@@ -23,7 +23,7 @@ export class AppComponent {
   action: string;
   type: string;
   params: any;
-  iFrameResizerCW:any;
+  iFrameResizerCW: any;
 
   constructor(
     private route: ActivatedRoute,

@@ -77,11 +77,11 @@ export class GiftService {
   }
 
   public loadUserData() {
+      this.loadExistingPaymentData();
       this.loginService.authenticate().subscribe(
         (info) => {
           if ( info !== null ) {
             this.email = info.userEmail;
-            this.loadExistingPaymentData();
           } else {
             this.loginService.logOut();
           }
