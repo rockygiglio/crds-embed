@@ -60,15 +60,13 @@ export class BillingComponent implements OnInit {
     this.ccForm = this.fb.group({
       ccNumber: ['', [<any>CreditCardValidator.validateCCNumber]],
       expDate:  ['', [<any>CreditCardValidator.validateExpDate]],
-      cvc:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+      cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
       zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
     });
 
     if ( this.gift.accountLast4) {
       // this user has a previous payment method 
       this.adv();
-    } else {
-      this.gift.resetPaymentDetails();
     }
   }
 
