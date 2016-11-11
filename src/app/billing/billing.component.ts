@@ -14,7 +14,6 @@ import { CreditCardValidator } from '../validators/credit-card.validator';
   styleUrls: ['./billing.component.scss']
 })
 export class BillingComponent implements OnInit {
-  public paymentMethod: string = 'Bank Account';
   achForm: FormGroup;
   ccForm: FormGroup;
   hideCheck: boolean = true;
@@ -32,44 +31,48 @@ export class BillingComponent implements OnInit {
   ngOnInit() {
     this.stateManagerService.is_loading = true;
 
-    this.gift.existingPaymentInfo.subscribe(
-      info => {
-        this.stateManagerService.is_loading = false;
-        this.gift.setBillingInfo(info);
-        if (this.gift.accountLast4) {
-          this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
-          this.adv();
+    if ( this.gift.existingPaymentInfo ) {
+        this.gift.existingPaymentInfo.subscribe(
+        info => {
+          this.stateManagerService.is_loading = false;
+          if ( info !== null ) {
+            this.gift.setBillingInfo(info);
+            if (this.gift.accountLast4) {
+              this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+              this.adv();
+            }
+          }
+        },
+        error => {
+          this.stateManagerService.is_loading = false;
         }
-      },
-      error => {
-        this.stateManagerService.is_loading = false;
-      }
-    );
-
-    if (!this.gift.type) {
-      // this.store.dispatch(GivingActions.render('/payment'));
+      );
+    } else {
+      this.stateManagerService.is_loading = true;
     }
 
     this.achForm = this.fb.group({
-      accountName: ['', [<any>Validators.required]],
-      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9)]],
-      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      accountType:   ['personal', [<any>Validators.required]]
+      accountName: [this.gift.accountName, [<any>Validators.required]],
+      routingNumber: [this.gift.routingNumber, [<any>Validators.required, <any>Validators.minLength(9)]],
+      accountNumber: [this.gift.accountNumber, [<any>Validators.required, <any>Validators.minLength(4)]],
+      accountType:   [this.gift.accountType, [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
-      ccNumber: ['', [<any>CreditCardValidator.validateCCNumber]],
-      expDate:  ['', [<any>CreditCardValidator.validateExpDate]],
-      cvc:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
-      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
+      ccNumber: [this.gift.ccNumber, [<any>CreditCardValidator.validateCCNumber]],
+      expDate:  [this.gift.expDate, [<any>CreditCardValidator.validateExpDate]],
+      cvc:      [this.gift.cvc, [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+      zipCode:  [this.gift.zipCode, [<any>Validators.required, <any>Validators.minLength(5)]]
     });
 
     if ( this.gift.accountLast4) {
-      // this user has a previous payment method 
       this.adv();
-    } else {
-      this.gift.resetPaymentDetails();
     }
+
+    if (!this.gift.type) {
+      this.router.navigateByUrl('/payment');
+    }
+
   }
 
   back() {
