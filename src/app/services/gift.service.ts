@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { DonationFundService, Program } from './donation-fund.service';
+import { UserAuthenticationService } from './user-authentication.service';
 import { CrdsCookieService } from './crds-cookie.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
@@ -57,6 +58,7 @@ export class GiftService {
               private donationFundService: DonationFundService,
               private quickDonationAmountService: QuickDonationAmountsService,
               private crdsCookieService: CrdsCookieService,
+              private userAuthenticationService: UserAuthenticationService,
               private previousGiftAmountService: PreviousGiftAmountService,
               private existingPaymentInfoService: ExistingPaymentInfoService,
               private stateManagerService: StateManagerService) {
