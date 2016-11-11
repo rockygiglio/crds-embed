@@ -62,6 +62,7 @@ export class SummaryComponent implements OnInit {
 
   changePayment() {
     this.gift.resetExistingPaymentInfo();
+    this.gift.resetPaymentDetails();
     this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 }

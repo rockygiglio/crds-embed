@@ -30,6 +30,7 @@ export class GiftService {
   public funds: Program[];
   public amounts: number[];
   public existingPaymentInfo: Observable<any>;
+  public paymentMethod: string = 'Bank Account';
 
   // Payment Information
   public amount: number;
@@ -51,7 +52,7 @@ export class GiftService {
   // Credit Card information
   public ccNumber: string;
   public expDate: string;
-  public cvc: string;
+  public cvv: string;
   public zipCode: string;
 
   constructor(private route: ActivatedRoute,
@@ -76,11 +77,13 @@ export class GiftService {
   }
 
   public loadUserData() {
+      this.loadExistingPaymentData();
       this.loginService.authenticate().subscribe(
         (info) => {
           if ( info !== null ) {
             this.email = info.userEmail;
-            this.loadExistingPaymentData();
+          } else {
+            this.loginService.logOut();
           }
         }
       );
@@ -97,6 +100,7 @@ export class GiftService {
 
   public resetExistingPaymentInfo() {
     this.accountLast4 = null;
+
     let emptyPaymentInfo: any = {
       default_source: {
         credit_card: { last4: null},
@@ -142,14 +146,18 @@ export class GiftService {
       'paymentType',
       'accountType',
       'accountName',
+      'accountNumber',
       'routingNumber',
-      'achNumber',
       'ccNumber',
       'expDate',
       'cvv',
       'zipCode'
     ], (f) => {
-      delete(this[f]);
+      if (f === 'accountType') {
+        this[f] = 'personal';
+      } else {
+        delete(this[f]);
+      }
     });
   }
 

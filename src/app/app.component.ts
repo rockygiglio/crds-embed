@@ -23,11 +23,19 @@ export class AppComponent {
   action: string;
   type: string;
   params: any;
+  iFrameResizerCW: any;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private angulartics2: Angulartics2,
-              private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-              private state: StateManagerService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private angulartics2: Angulartics2,
+    private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
+    private state: StateManagerService) {
+
+    if ( this.iFrameResizerCW === undefined ) {
+      this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.min.js');
+    }
+
+  }
 
 }

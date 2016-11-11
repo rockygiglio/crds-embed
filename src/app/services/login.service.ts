@@ -24,6 +24,11 @@ export class LoginService {
     return this.http.hasToken();
   }
 
+  logOut(): void {
+    this.http.clearTokens();
+    return;
+  }
+
   authenticate(): Observable<any> {
     return this.http.get(process.env.CRDS_API_ENDPOINT + 'api/v1.0.0/authenticated')
       .map((res: Response) => {
