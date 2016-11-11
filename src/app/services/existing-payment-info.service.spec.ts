@@ -5,11 +5,10 @@ import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { ExistingPaymentInfoService } from './existing-payment-info.service';
 import { HttpClientService } from './http-client.service';
-import { UserSessionService } from './user-session.service';
 import { CookieService } from 'angular2-cookie/core';
 
 
-describe('Existing Payment Info Service', () => {
+describe('Service: Existing Payment Info', () => {
 
   let mockBackend: MockBackend;
 
@@ -20,7 +19,6 @@ describe('Existing Payment Info Service', () => {
         MockBackend,
         BaseRequestOptions,
         HttpClientService,
-        UserSessionService,
         CookieService,
         {
           provide:    Http,
@@ -48,7 +46,7 @@ describe('Existing Payment Info Service', () => {
 
       existingPaymentInfoService.getExistingPaymentInfo().subscribe(
         (data) => {
-          expect(data).toBe(undefined);
+          expect(data).toBe(null);
         });
     }))
   );

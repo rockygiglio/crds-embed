@@ -10,14 +10,12 @@ import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
-import { UserSessionService } from '../services/user-session.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { StateManagerService } from '../services/state-manager.service';
 
 class MockDonationFundService { }
 class MockQuickDonationAmountsService { }
-class MockUserSessionService { }
 class MockPreviousGiftAmountService { }
 class MockExistingPaymentInfoService { }
 class MockGiftService { }
@@ -39,7 +37,6 @@ describe('Component: Payment', () => {
       providers: [
         { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
         { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
-        { provide: UserSessionService, useClass: MockUserSessionService },
         { provide: QuickDonationAmountsService, useClass: MockQuickDonationAmountsService },
         { provide: DonationFundService, useClass: MockDonationFundService },
         { provide: GiftService, useClass: MockGiftService },

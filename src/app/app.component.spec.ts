@@ -9,7 +9,6 @@ import { QuickDonationAmountsService } from './services/quick-donation-amounts.s
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientService } from './services/http-client.service';
-import { UserSessionService } from './services/user-session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ParamValidationService } from './services/param-validation.service';
@@ -30,7 +29,6 @@ describe('App: CrdsEmbed', () => {
         QuickDonationAmountsService,
         HttpClientService,
         PreviousGiftAmountService,
-        UserSessionService,
         CookieService,
         StateManagerService,
         Angulartics2,

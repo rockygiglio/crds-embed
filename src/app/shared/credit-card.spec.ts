@@ -1,6 +1,6 @@
 import { CreditCard } from './credit-card';
 
-describe('Credit Card', () => {
+describe('Shared: Credit Card', () => {
 
   beforeEach(() => {
   });
