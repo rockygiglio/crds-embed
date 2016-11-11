@@ -66,7 +66,7 @@ describe('Service: HttpClient', () => {
 
   it('should attach auth token to get request', inject(
     [HttpClientService, CrdsCookieService, MockBackend],
-    (service, userService, mockBackend) => {
+    (service, crdsCookieService, mockBackend) => {
       let url = 'api/url';
 
       spyOn(service.http, 'get').and.callThrough();
@@ -86,7 +86,7 @@ describe('Service: HttpClient', () => {
 
   it('should refresh auth tokens from response', async(inject(
     [HttpClientService, CrdsCookieService, MockBackend],
-    (service, userService, mockBackend) => {
+    (service, crdsCookieService, mockBackend) => {
       let url = 'api/url';
 
       mockBackend.connections.subscribe(conn => {
@@ -95,7 +95,7 @@ describe('Service: HttpClient', () => {
 
       const result = service.get(url);
       result.subscribe(res => {
-        expect(service.userSession.getAccessToken()).toBe(mockResponse.userToken);
+        expect(service.crdsCookies.getAccessToken()).toBe(mockResponse.userToken);
       });
   })));
 

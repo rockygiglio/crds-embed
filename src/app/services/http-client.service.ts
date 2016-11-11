@@ -5,7 +5,7 @@ import { CrdsCookieService } from './crds-cookie.service';
 @Injectable()
 export class HttpClientService {
 
-  constructor(private http: Http, private userSession: CrdsCookieService) { }
+  constructor(private http: Http, private crdsCookies: CrdsCookieService) { }
 
   get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
@@ -24,18 +24,18 @@ export class HttpClientService {
 
   private extractAuthToken = (res: Response) => {
     if (res.headers != null && res.headers.get('Authorization')) {
-      this.userSession.setAccessToken(res.headers.get('Authorization'));
+      this.crdsCookies.setAccessToken(res.headers.get('Authorization'));
     };
     if (res.headers != null && res.headers.get('RefreshToken')) {
-      this.userSession.setRefreshToken(res.headers.get('RefreshToken'));
+      this.crdsCookies.setRefreshToken(res.headers.get('RefreshToken'));
     }
 
     let body = res.json();
     if (body != null && body.userToken) {
-      this.userSession.setAccessToken(body.userToken);
+      this.crdsCookies.setAccessToken(body.userToken);
     }
     if (body != null && body.refreshToken) {
-      this.userSession.setRefreshToken(body.refreshToken);
+      this.crdsCookies.setRefreshToken(body.refreshToken);
     }
 
     return body || {};
@@ -49,7 +49,7 @@ export class HttpClientService {
 
   private createAuthorizationHeader(headers?: Headers) {
     let reqHeaders =  headers || new Headers();
-    reqHeaders.set('Authorization', this.userSession.getAccessToken());
+    reqHeaders.set('Authorization', this.crdsCookies.getAccessToken());
     reqHeaders.set('Content-Type', 'application/json');
     reqHeaders.set('Accept', 'application/json, text/plain, */*');
     return reqHeaders;
