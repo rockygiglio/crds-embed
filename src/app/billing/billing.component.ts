@@ -30,6 +30,22 @@ export class BillingComponent implements OnInit {
     private paymentService: ExistingPaymentInfoService) { }
 
   ngOnInit() {
+    this.stateManagerService.is_loading = true;
+
+    this.gift.existingPaymentInfo.subscribe(
+      info => {
+        this.stateManagerService.is_loading = false;
+        this.gift.setBillingInfo(info);
+        if (this.gift.accountLast4) {
+          this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+          this.adv();
+        }
+      },
+      error => {
+        this.stateManagerService.is_loading = false;
+      }
+    );
+
     if (!this.gift.type) {
       // this.store.dispatch(GivingActions.render('/payment'));
     }
