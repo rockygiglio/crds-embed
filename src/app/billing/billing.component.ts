@@ -67,8 +67,6 @@ export class BillingComponent implements OnInit {
     if ( this.gift.accountLast4) {
       // this user has a previous payment method 
       this.adv();
-    } else {
-      this.gift.resetPaymentDetails();
     }
   }
 
