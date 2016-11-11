@@ -4,7 +4,6 @@ import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-summary',
