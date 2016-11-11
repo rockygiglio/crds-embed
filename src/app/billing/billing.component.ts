@@ -52,10 +52,10 @@ export class BillingComponent implements OnInit {
     }
 
     this.achForm = this.fb.group({
-      accountName: [this.gift.accountName, [<any>Validators.required]],
-      routingNumber: [this.gift.routingNumber, [<any>Validators.required, <any>Validators.minLength(9)]],
-      accountNumber: [this.gift.accountNumber, [<any>Validators.required, <any>Validators.minLength(4)]],
-      accountType:   [this.gift.accountType, [<any>Validators.required]]
+      accountName: ['', [<any>Validators.required]],
+      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9)]],
+      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
+      accountType:   ['personal', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({

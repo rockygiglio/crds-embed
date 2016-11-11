@@ -146,7 +146,6 @@ export class GiftService {
       'accountName',
       'accountNumber',
       'routingNumber',
-      'accountNumber',
       'ccNumber',
       'expDate',
       'cvv',
