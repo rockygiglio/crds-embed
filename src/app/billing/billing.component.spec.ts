@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BillingComponent } from './billing.component';
 import { GiftService } from '../services/gift.service';
-import { GivingStore } from '../giving-state/giving.store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';

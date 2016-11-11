@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SummaryComponent } from './summary.component';
-import { GivingStore } from '../giving-state/giving.store';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { HttpModule } from '@angular/http';
@@ -33,8 +32,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        { provide: GivingStore, useClass: MockStore },
-        GiftService, ExistingPaymentInfoService,
+        GiftService, ExistingPaymentInfoService, UserSessionService,
         HttpClientService, CookieService, StateManagerService,
         ParamValidationService, DonationFundService, LoginService,
         QuickDonationAmountsService, PreviousGiftAmountService

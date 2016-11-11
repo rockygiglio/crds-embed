@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { GivingStore } from './giving-state/giving.store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
@@ -27,7 +26,6 @@ describe('App: CrdsEmbed', () => {
         PreloaderModule, RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
       ],
       providers: [
-        { provide: GivingStore, useClass: MockGivingStore },
         QuickDonationAmountsService,
         HttpClientService,
         PreviousGiftAmountService,
