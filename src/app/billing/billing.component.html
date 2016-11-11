@@ -24,7 +24,7 @@
 
     <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" [(ngModel)]="gift.accountName" pattern=".*"><br>
     <input type="tel" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
-    <input type="tel" class="form-control" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="[0-9]*">
+    <input type="tel" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="[0-9]*">
 
     <div class="sample-check">
       <small>

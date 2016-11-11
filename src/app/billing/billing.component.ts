@@ -48,21 +48,21 @@ export class BillingComponent implements OnInit {
         }
       );
     } else {
-      this.stateManagerService.is_loading = true;
+      this.stateManagerService.is_loading = false;
     }
 
     this.achForm = this.fb.group({
       accountName: ['', [<any>Validators.required]],
-      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9)]],
-      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4)]],
-      accountType:   ['personal', [<any>Validators.required]]
+      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
+      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4), <any>Validators.maxLength(30)]],
+      accountType:   ['this.gift.accountType', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
       ccNumber: ['', [<any>CreditCardValidator.validateCCNumber]],
       expDate:  ['', [<any>CreditCardValidator.validateExpDate]],
       cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
-      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
+      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(10)]]
     });
 
     if ( this.gift.accountLast4) {
