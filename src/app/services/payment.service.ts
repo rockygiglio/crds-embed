@@ -130,11 +130,11 @@ export class PaymentService {
         }
     }
 
-    postPayment(paymentInformation: PaymentCallBody): Observable<any> {
+    postPayment(paymentInfo: PaymentCallBody): Observable<any> {
 
-        let url: string = this.baseUrl + 'api/donations';
+        let url: string = this.baseUrl + 'api/donation';
 
-        return this.httpClient.post(url, PaymentCallBody)
+        return this.httpClient.post(url, paymentInfo)
             .map(this.extractData)
             .catch(this.handleError);
 
