@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 @Injectable()
-export class UserSessionService {
+export class CrdsCookieService {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';

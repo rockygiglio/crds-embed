@@ -36,7 +36,7 @@ export interface BankAccountInfo {
 @Injectable()
 export class ExistingPaymentInfoService {
 
-  private getPreviousPmtUrl = process.env.CRDS_API_ENDPOINT + 'api/donor/?email=';
+  private getPreviousPmtUrl = process.env.CRDS_API_ENDPOINT + 'api/donor?email=';
   private userPaymentInfo = null;
 
   constructor(private http: HttpClientService) { }
@@ -74,12 +74,12 @@ export class ExistingPaymentInfoService {
 
   private extractData(res: Response) {
     let body = res;
-    this.userPaymentInfo = body || undefined;
+    this.userPaymentInfo = body || null;
     return this.userPaymentInfo;
   }
 
   private handleError (res: Response | any) {
     this.userPaymentInfo = null;
-    return [undefined];
+    return [null];
   }
 }

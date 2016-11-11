@@ -5,7 +5,7 @@ import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { ExistingPaymentInfoService } from './existing-payment-info.service';
 import { HttpClientService } from './http-client.service';
-import { UserSessionService } from './user-session.service';
+import { CrdsCookieService } from './crds-cookie.service';
 import { CookieService } from 'angular2-cookie/core';
 
 
@@ -20,7 +20,7 @@ describe('Existing Payment Info Service', () => {
         MockBackend,
         BaseRequestOptions,
         HttpClientService,
-        UserSessionService,
+        CrdsCookieService,
         CookieService,
         {
           provide:    Http,

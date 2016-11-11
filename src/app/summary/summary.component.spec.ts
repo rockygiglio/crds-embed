@@ -9,7 +9,7 @@ import { GivingStore } from '../giving-state/giving.store';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { HttpModule } from '@angular/http';
-import { UserSessionService } from '../services/user-session.service';
+import { CrdsCookieService } from '../services/crds-cookie.service';
 import { HttpClientService } from '../services/http-client.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateManagerService } from '../services/state-manager.service';
@@ -34,7 +34,7 @@ describe('Component: Summary', () => {
       ],
       providers:    [
         { provide: GivingStore, useClass: MockStore },
-        GiftService, ExistingPaymentInfoService, UserSessionService,
+        GiftService, ExistingPaymentInfoService, CrdsCookieService,
         HttpClientService, CookieService, StateManagerService,
         ParamValidationService, DonationFundService,
         QuickDonationAmountsService, PreviousGiftAmountService

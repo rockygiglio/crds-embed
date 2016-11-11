@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { UserSessionService } from './user-session.service';
+import { CrdsCookieService } from './crds-cookie.service';
 
 @Injectable()
 export class HttpClientService {
 
-  constructor(private http: Http, private userSession: UserSessionService) { }
+  constructor(private http: Http, private userSession: CrdsCookieService) { }
 
   get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { DonationFundService, Program } from './donation-fund.service';
-import { UserSessionService } from './user-session.service';
+import { CrdsCookieService } from './crds-cookie.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
@@ -56,7 +56,7 @@ export class GiftService {
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,
               private quickDonationAmountService: QuickDonationAmountsService,
-              private userSessionService: UserSessionService,
+              private crdsCookieService: CrdsCookieService,
               private previousGiftAmountService: PreviousGiftAmountService,
               private existingPaymentInfoService: ExistingPaymentInfoService,
               private stateManagerService: StateManagerService) {
@@ -65,7 +65,7 @@ export class GiftService {
   }
 
   public preloadData() {
-    if (this.userSessionService.isLoggedIn()) {
+    if (this.crdsCookieService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
     } else {
@@ -74,7 +74,7 @@ export class GiftService {
   }
 
   public loadUserData() {
-    this.email = this.userSessionService.getUserEmail();
+    this.email = this.crdsCookieService.getUserEmail();
     this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
       info => {
         this.setBillingInfo(info);

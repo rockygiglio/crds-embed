@@ -5,7 +5,7 @@ import { GiftService } from './gift.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { DonationFundService, Program } from './donation-fund.service';
-import { UserSessionService } from './user-session.service';
+import { CrdsCookieService } from './crds-cookie.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { HttpClientService } from './http-client.service';
@@ -29,7 +29,7 @@ describe('Service: Gift', () => {
         GiftService,
         ParamValidationService,
         DonationFundService,
-        UserSessionService,
+        CrdsCookieService,
         PreviousGiftAmountService,
         ExistingPaymentInfoService,
         QuickDonationAmountsService,

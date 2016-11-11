@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpClientService } from './http-client.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { UserSessionService } from './user-session.service';
+import { CrdsCookieService } from './crds-cookie.service';
 
 describe('Service: HttpClient', () => {
 
@@ -37,7 +37,7 @@ describe('Service: HttpClient', () => {
     'userPhone': '123-456-7890'
   };
 
-  class MockUserSessionService {
+  class MockCrdsCookieService {
     public setAccessToken(value: string): void {};
     public setRefreshToken(value: string): void {};
     public getAccessToken() {
@@ -50,7 +50,7 @@ describe('Service: HttpClient', () => {
       providers: [
         HttpClientService,
         MockBackend,
-        { provide: UserSessionService, useClass: MockUserSessionService},
+        { provide: CrdsCookieService, useClass: MockCrdsCookieService},
         BaseRequestOptions,
         {
           provide: Http,
@@ -65,7 +65,7 @@ describe('Service: HttpClient', () => {
   }));
 
   it('should attach auth token to get request', inject(
-    [HttpClientService, UserSessionService, MockBackend],
+    [HttpClientService, CrdsCookieService, MockBackend],
     (service, userService, mockBackend) => {
       let url = 'api/url';
 
@@ -85,7 +85,7 @@ describe('Service: HttpClient', () => {
   }));
 
   it('should refresh auth tokens from response', async(inject(
-    [HttpClientService, UserSessionService, MockBackend],
+    [HttpClientService, CrdsCookieService, MockBackend],
     (service, userService, mockBackend) => {
       let url = 'api/url';
 
