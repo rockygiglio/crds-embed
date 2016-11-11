@@ -4,12 +4,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
 
-import { LoadingService } from './services/loading.service';
+import { StateManagerService } from './services/state-manager.service';
 
 @Component({
   selector: 'app-root',
   template: `
-    <div class="prototype-component container" [ngClass]="{'loading': loading.is_loading}">
+    <div class="prototype-component container" [ngClass]="{'loading': state.is_loading}">
       <preloader></preloader>
       <div class="outlet-wrapper">
         <router-outlet></router-outlet>
@@ -28,6 +28,6 @@ export class AppComponent {
               private router: Router,
               private angulartics2: Angulartics2,
               private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-              private loading: LoadingService) { }
+              private state: StateManagerService) { }
 
 }

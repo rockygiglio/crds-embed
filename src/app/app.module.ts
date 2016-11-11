@@ -23,7 +23,6 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 import { GiftService } from './services/gift.service';
 import { StateManagerService } from './services/state-manager.service';
-import { LoadingService } from './services/loading.service';
 import { ParamValidationService } from './services/param-validation.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { DonationFundService } from './services/donation-fund.service';
@@ -81,7 +80,6 @@ import { CvcFormatDirective } from './directives/cvc-format.directive';
     HttpClientService,
     ParamValidationService,
     StateManagerService,
-    LoadingService,
     GiftService,
     ParamValidationService,
     Angulartics2GoogleTagManager

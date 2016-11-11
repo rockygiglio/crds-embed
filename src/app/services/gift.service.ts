@@ -7,6 +7,7 @@ import { UserSessionService } from './user-session.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
+import { Observable } from 'rxjs/Observable';
 
 declare var _;
 
@@ -28,6 +29,7 @@ export class GiftService {
   // Form options
   public funds: Program[];
   public amounts: number[];
+  public existingPaymentInfo: Observable<any>;
 
   // Payment Information
   public amount: number;
@@ -75,12 +77,7 @@ export class GiftService {
 
   public loadUserData() {
     this.email = this.userSessionService.getUserEmail();
-    this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
-      info => {
-        this.setBillingInfo(info);
-        this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
-      }
-    );
+    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     if (this.type === 'donation') {
       this.previousGiftAmountService.get().subscribe(
         amount => this.previousGiftAmount = amount
@@ -88,7 +85,18 @@ export class GiftService {
     }
   }
 
-  private setBillingInfo(pmtInfo: PaymentInfo) {
+  public resetExistingPaymentInfo() {
+    this.accountLast4 = null;
+    let emptyPaymentInfo: any = {
+      default_source: {
+        credit_card: { last4: null},
+        bank_account: { last4: null}
+      }
+    };
+    this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
+  };
+
+  public setBillingInfo(pmtInfo: PaymentInfo) {
     if (pmtInfo.default_source.credit_card.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.credit_card.last4;
     }

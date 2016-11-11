@@ -50,7 +50,7 @@ export class SummaryComponent implements OnInit {
   }
 
   changePayment() {
-    this.gift.accountLast4 = null;
+    this.gift.resetExistingPaymentInfo();
     this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 }
