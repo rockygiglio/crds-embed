@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { DonationFundService, Program } from './donation-fund.service';
-import { UserSessionService } from './user-session.service';
+import { LoginService } from './login.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
@@ -58,7 +58,7 @@ export class GiftService {
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,
               private quickDonationAmountService: QuickDonationAmountsService,
-              private userSessionService: UserSessionService,
+              private loginService: LoginService,
               private previousGiftAmountService: PreviousGiftAmountService,
               private existingPaymentInfoService: ExistingPaymentInfoService,
               private stateManagerService: StateManagerService) {
@@ -67,7 +67,7 @@ export class GiftService {
   }
 
   public preloadData() {
-    if (this.userSessionService.isLoggedIn()) {
+    if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
     } else {
@@ -76,8 +76,25 @@ export class GiftService {
   }
 
   public loadUserData() {
-    this.email = this.userSessionService.getUserEmail();
-    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
+      this.loginService.authenticate().subscribe(
+        (info) => {
+          if ( info !== null ) {
+            this.email = info.userEmail;
+            this.loadExistingPaymentData();
+          }
+        }
+      );
+  }
+
+  public loadExistingPaymentData() {
+    this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
+      info => {
+        if ( info !== null ) {
+          this.setBillingInfo(info);
+          this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+        }
+      }
+    );
     if (this.type === 'donation') {
       this.previousGiftAmountService.get().subscribe(
         amount => this.previousGiftAmount = amount
