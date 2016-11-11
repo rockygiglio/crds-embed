@@ -17,6 +17,8 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { PaymentService } from '../services/payment.service';
+import { StripeService } from '../services/stripe.service';
 
 class MockStore { public subscribe() {}; }
 
@@ -36,8 +38,8 @@ describe('Component: Summary', () => {
         { provide: GivingStore, useClass: MockStore },
         GiftService, ExistingPaymentInfoService, UserSessionService,
         HttpClientService, CookieService, StateManagerService,
-        ParamValidationService, DonationFundService,
-        QuickDonationAmountsService, PreviousGiftAmountService
+        ParamValidationService, DonationFundService, PaymentService,
+        QuickDonationAmountsService, PreviousGiftAmountService, StripeService
       ]
     });
     this.fixture = TestBed.createComponent(SummaryComponent);

@@ -48,9 +48,19 @@ export class AuthenticationComponent implements OnInit {
       .subscribe(
         user => {
           this.userSessionService.setUserEmail(user.userEmail);
-          this.gift.loadUserData();
-          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-          this.adv();
+
+          this.gift.loadUserData().subscribe(
+              prevPmtInfo => {
+                console.log('Got previous payment info');
+                this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+                this.adv();
+              },
+              error => {
+                console.log('Failed to get previous payment info');
+                this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+                this.adv();
+              }
+          );
         },
         error => {
           this.adv();
