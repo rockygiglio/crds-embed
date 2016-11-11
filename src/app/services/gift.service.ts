@@ -87,6 +87,14 @@ export class GiftService {
 
   public resetExistingPaymentInfo() {
     this.accountLast4 = null;
+    this.accountName = null;
+    this.routingNumber = null;
+    this.accountNumber = null;
+    this.ccNumber = null;
+    this.expDate = null;
+    this.cvv = null;
+    this.zipCode = null;
+
     let emptyPaymentInfo: any = {
       default_source: {
         credit_card: { last4: null},
