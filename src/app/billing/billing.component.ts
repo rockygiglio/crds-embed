@@ -55,7 +55,7 @@ export class BillingComponent implements OnInit {
       accountName: ['', [<any>Validators.required]],
       routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
       accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4), <any>Validators.maxLength(30)]],
-      accountType:   ['this.gift.accountType', [<any>Validators.required]]
+      accountType:   ['', [<any>Validators.required]]
     });
 
     this.ccForm = this.fb.group({
