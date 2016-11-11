@@ -1,6 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
-declare var iFrameResize:any;
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'content-demo',
@@ -8,17 +6,17 @@ declare var iFrameResize:any;
   styleUrls: ['../demo.component.css']
 })
 
-export class ContentComponent {
+export class ContentComponent implements AfterViewInit, OnDestroy {
 
   // object storage
-  iFrameResizer:any;
-  iFrames:any;
+  iFrameResizer: any;
+  iFrames: any;
 
   // turn on logging
-  debug:boolean = false;
+  debug: boolean = false;
 
   // set the css selector used in markup on our resizeable iframes
-  iframeSelector:string = ".hasResize";
+  iframeSelector: string = '.hasResize';
 
   /*-------------------------
   Since our script isn't 
@@ -37,7 +35,7 @@ export class ContentComponent {
   rendered by the dom.
   Ergo; OnInit
   ----------------------*/
-  ngOnInit() {
+  ngAfterViewInit() {
     this.iFrames = this.iFrameResizer({
         heightCalculationMethod: 'bodyScroll',
         log: this.debug
@@ -55,7 +53,7 @@ export class ContentComponent {
   }
 
   closeIframes() {
-    for ( var i=0; i<this.iFrames.length; i++) {
+    for (let i = 0; i < this.iFrames.length; i++) {
       if ( this.iFrames[i].iFrameResizer !== undefined ) {
         this.iFrames[i].iFrameResizer.close();
       }

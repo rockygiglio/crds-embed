@@ -35,6 +35,10 @@ iframe {
   border: 1px solid #00f;
 }
 
+.container {
+  max-width:  100% !important;
+}
+
 @media (min-width: 480px) {
   .column-eighth {
   width: 50%;
