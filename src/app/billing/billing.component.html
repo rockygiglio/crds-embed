@@ -61,7 +61,7 @@
         <input type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" pattern="[0-9]*" ccExp autocomplete="cc-exp"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
+        <input type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
         <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9\-]*" autocomplete="zip-code">

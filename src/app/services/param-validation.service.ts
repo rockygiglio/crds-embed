@@ -21,7 +21,8 @@ export class ParamValidationService {
       min_payment: 'min_payment',
       title:       'title',
       url:         'url',
-      fund_id:     'fund_id'
+      fund_id:     'fund_id',
+      override_parent: 'override_parent'
     };
 
     this.requiredPmtParams = [
@@ -97,7 +98,7 @@ export class ParamValidationService {
 
   isUrlValid(urlParam: any) {
 
-    let urlRegEx: any       = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    let urlRegEx: any       = /^http(s|)\:\/\/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
     let isUrlValid: boolean = urlParam.match(urlRegEx);
 
     let isValid: boolean = isUrlValid;

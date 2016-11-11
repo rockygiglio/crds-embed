@@ -5,13 +5,16 @@
     </div>
     <div class="row">
         <div class="column column-half">&nbsp;</div>
-        <div class="column column-half">&nbsp;</div>
+        <div class="column column-half">            
+            <h3 style="color:#090;">Resize Enabled (no parent override)</h3>
+            <iframe class="hasResize" src="/payment?type=payment&invoice_id=1234&min_payment=1&total_cost=400&override_parent=false&url=https://www.google.com" frameborder="0"></iframe>
+        </div>
     </div>
     <div class="row">
         <div class="column column-fourth">&nbsp;</div>
         <div class="column column-fourth">
-            <h3 style="color:#090;">Resize Enabled</h3>
-            <iframe class="hasResize" src="/payment?type=payment&invoice_id=1234&min_payment=1&total_cost=400" frameborder="0"></iframe>    
+            <h3 style="color:#090;">Resize Enabled (parent override)</h3>
+            <iframe class="hasResize" src="/payment?type=payment&invoice_id=1234&min_payment=1&total_cost=400&url=https://www.google.com" frameborder="0"></iframe>    
         </div>
         <div class="column column-fourth">&nbsp;</div>
         <div class="column column-fourth">&nbsp;</div>
