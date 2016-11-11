@@ -32,7 +32,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        GiftService, ExistingPaymentInfoService, UserSessionService,
+        GiftService, ExistingPaymentInfoService,
         HttpClientService, CookieService, StateManagerService,
         ParamValidationService, DonationFundService, LoginService,
         QuickDonationAmountsService, PreviousGiftAmountService
