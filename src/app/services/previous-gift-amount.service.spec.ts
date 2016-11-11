@@ -5,11 +5,10 @@ import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { HttpClientService } from './http-client.service';
-import { CrdsCookieService } from './crds-cookie.service';
 import { CookieService } from 'angular2-cookie/core';
 
 
-describe('Previous Gift Amount Service', () => {
+describe('Service: Previous Gift Amount', () => {
 
   let mockBackend: MockBackend;
 
@@ -19,7 +18,6 @@ describe('Previous Gift Amount Service', () => {
         PreviousGiftAmountService,
         MockBackend,
         HttpClientService,
-        CrdsCookieService,
         BaseRequestOptions,
         {
           provide: Http,

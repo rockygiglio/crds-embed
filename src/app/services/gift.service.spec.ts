@@ -5,11 +5,10 @@ import { GiftService } from './gift.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { DonationFundService, Program } from './donation-fund.service';
-import { CrdsCookieService } from './crds-cookie.service';
-import { UserAuthenticationService } from './user-authentication.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { HttpClientService } from './http-client.service';
+import { LoginService } from './login.service';
 import { StateManagerService } from './state-manager.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
@@ -30,12 +29,11 @@ describe('Service: Gift', () => {
         GiftService,
         ParamValidationService,
         DonationFundService,
-        CrdsCookieService,
-        UserAuthenticationService,
         PreviousGiftAmountService,
         ExistingPaymentInfoService,
         QuickDonationAmountsService,
         HttpClientService,
+        LoginService,
         StateManagerService,
         CookieService,
         MockBackend,

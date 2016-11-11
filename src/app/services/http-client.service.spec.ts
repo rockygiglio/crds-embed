@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpClientService } from './http-client.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { CrdsCookieService } from './crds-cookie.service';
+import { CookieService } from 'angular2-cookie/core';
 
 describe('Service: HttpClient', () => {
 
@@ -37,21 +37,13 @@ describe('Service: HttpClient', () => {
     'userPhone': '123-456-7890'
   };
 
-  class MockCrdsCookieService {
-    public setAccessToken(value: string): void {};
-    public setRefreshToken(value: string): void {};
-    public getAccessToken() {
-      return mockResponse.userToken;
-    };
-  }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         HttpClientService,
         MockBackend,
-        { provide: CrdsCookieService, useClass: MockCrdsCookieService},
         BaseRequestOptions,
+        CookieService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
@@ -65,14 +57,16 @@ describe('Service: HttpClient', () => {
   }));
 
   it('should attach auth token to get request', inject(
-    [HttpClientService, CrdsCookieService, MockBackend],
-    (service, crdsCookieService, mockBackend) => {
+    [HttpClientService, MockBackend],
+    (service, mockBackend) => {
       let url = 'api/url';
 
       spyOn(service.http, 'get').and.callThrough();
       mockBackend.connections.subscribe(conn => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
+
+      spyOn(service.cookieService, 'get').and.returnValue(mockResponse.userToken);
 
       const result = service.get(url);
       let expectedReqOpts = new RequestOptions();
@@ -85,18 +79,67 @@ describe('Service: HttpClient', () => {
   }));
 
   it('should refresh auth tokens from response', async(inject(
-    [HttpClientService, CrdsCookieService, MockBackend],
-    (service, crdsCookieService, mockBackend) => {
+    [HttpClientService, MockBackend],
+    (service, mockBackend) => {
       let url = 'api/url';
 
       mockBackend.connections.subscribe(conn => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
 
+      spyOn(service.cookieService, 'get').and.returnValue(mockResponse.userToken);
+
       const result = service.get(url);
       result.subscribe(res => {
-        expect(service.crdsCookies.getAccessToken()).toBe(mockResponse.userToken);
+        expect(service.getAccessToken()).toBe(mockResponse.userToken);
       });
   })));
+
+
+  it('should set access token', inject([HttpClientService], (service: any) => {
+    let accessToken = 'qwertyuio1234567890';
+    spyOn(service.cookieService, 'put');
+    service.setAccessToken(accessToken);
+    expect(service.cookieService.put).toHaveBeenCalledWith(service.accessToken, accessToken, service.cookieOptions);
+  }));
+
+  it('should set refresh token', inject([HttpClientService], (service: any) => {
+    let refreshToken = 'zxcvbnm97654123';
+    spyOn(service.cookieService, 'put');
+    service.setRefreshToken(refreshToken);
+    expect(service.cookieService.put).toHaveBeenCalledWith(service.refreshToken, refreshToken, service.cookieOptions);
+  }));
+
+  it('should get access token', inject([HttpClientService], (service: any) => {
+    let accessToken = 'qwertyuio1234567890';
+    spyOn(service.cookieService, 'get');
+    service.getAccessToken(accessToken);
+    expect(service.cookieService.get).toHaveBeenCalledWith(service.accessToken);
+  }));
+
+  it('should get refresh token', inject([HttpClientService], (service: any) => {
+    let refreshToken = 'zxcvbnm97654123';
+    spyOn(service.cookieService, 'get');
+    service.getRefreshToken(refreshToken);
+    expect(service.cookieService.get).toHaveBeenCalledWith(service.refreshToken);
+  }));
+
+  it('should check if user is logged in', inject([HttpClientService], (service: any) => {
+    let accessToken = 'qwertyuio1234567890';
+    spyOn(service.cookieService, 'get').and.returnValue(accessToken);
+    expect(service.isLoggedIn()).toBeTruthy();
+  }));
+
+  it('should check if user is not logged in', inject([HttpClientService], (service: any) => {
+    spyOn(service.cookieService, 'get').and.returnValue(undefined);
+    expect(service.isLoggedIn()).toBeFalsy();
+  }));
+
+  it('should log a user out', inject([HttpClientService], (service: any) => {
+    let accessToken = 'qwertyuio1234567890';
+    service.setAccessToken(accessToken);
+    service.logOut();
+    expect(service.isLoggedIn()).toBeFalsy();
+  }));
 
 });

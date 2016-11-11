@@ -16,7 +16,6 @@ import { CheckGuestEmailService } from '../../app/services/check-guest-email.ser
 import { LoginService } from '../services/login.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FormBuilder } from '@angular/forms';
-import { CrdsCookieService } from '../services/crds-cookie.service';
 import { HttpClientService } from '../services/http-client.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateManagerService } from '../services/state-manager.service';
@@ -45,7 +44,7 @@ describe('Component: Authentication', () => {
         { provide: LoginService, useClass: MockLoginService},
         { provide: GiftService, useClass: MockGiftService},
         FormBuilder, CheckGuestEmailService,
-        ExistingPaymentInfoService, HttpClientService, CrdsCookieService,
+        ExistingPaymentInfoService, HttpClientService,
         CookieService, StateManagerService
       ]
     });

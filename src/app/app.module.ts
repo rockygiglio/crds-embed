@@ -30,8 +30,6 @@ import { PreviousGiftAmountService } from './services/previous-gift-amount.servi
 import { LoginService } from './services/login.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { CrdsCookieService } from './services/crds-cookie.service';
-import { UserAuthenticationService } from './services/user-authentication.service';
 import { HttpClientService } from './services/http-client.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
@@ -76,8 +74,6 @@ import { CvcFormatDirective } from './directives/cvc-format.directive';
     LoginService,
     CookieService,
     ExistingPaymentInfoService,
-    CrdsCookieService,
-    UserAuthenticationService,
     HttpClientService,
     ParamValidationService,
     StateManagerService,
