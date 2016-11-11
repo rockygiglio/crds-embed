@@ -59,10 +59,10 @@ export class BillingComponent implements OnInit {
     });
 
     this.ccForm = this.fb.group({
-      ccNumber: [this.gift.ccNumber, [<any>CreditCardValidator.validateCCNumber]],
-      expDate:  [this.gift.expDate, [<any>CreditCardValidator.validateExpDate]],
-      cvc:      [this.gift.cvc, [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
-      zipCode:  [this.gift.zipCode, [<any>Validators.required, <any>Validators.minLength(5)]]
+      ccNumber: ['', [<any>CreditCardValidator.validateCCNumber]],
+      expDate:  ['', [<any>CreditCardValidator.validateExpDate]],
+      cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5)]]
     });
 
     if ( this.gift.accountLast4) {

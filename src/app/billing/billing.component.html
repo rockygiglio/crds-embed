@@ -61,7 +61,7 @@
         <input type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" pattern="[0-9]*" ccExp autocomplete="cc-exp"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='6' placeholder="CVC" formControlName="cvc" [(ngModel)]="gift.cvc" pattern="[0-9]*" ccCVC autocomplete="off"><br>
+        <input type="tel" class="form-control" placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
         <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="[0-9\-]*" autocomplete="zip-code">
@@ -71,7 +71,7 @@
     <div class="errors" *ngIf="ccSubmitted">
       <div *ngIf="!ccForm.controls.ccNumber.valid" class="alert alert-danger">Credit Card is invalid</div>
       <div *ngIf="!ccForm.controls.expDate.valid" class="alert alert-danger">Expiration Date is required</div>
-      <div *ngIf="!ccForm.controls.cvc.valid" class="alert alert-danger">CVC is required</div>
+      <div *ngIf="!ccForm.controls.cvv.valid" class="alert alert-danger">CVV is required</div>
       <div *ngIf="!ccForm.controls.zipCode.valid" class="alert alert-danger">Zipcode is invalid</div>
     </div>
 

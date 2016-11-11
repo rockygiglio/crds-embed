@@ -52,7 +52,7 @@ export class GiftService {
   // Credit Card information
   public ccNumber: string;
   public expDate: string;
-  public cvc: string;
+  public cvv: string;
   public zipCode: string;
 
   constructor(private route: ActivatedRoute,
@@ -100,6 +100,7 @@ export class GiftService {
 
   public resetExistingPaymentInfo() {
     this.accountLast4 = null;
+
     let emptyPaymentInfo: any = {
       default_source: {
         credit_card: { last4: null},
@@ -145,7 +146,7 @@ export class GiftService {
       'accountName',
       'accountNumber',
       'routingNumber',
-      'achNumber',
+      'accountNumber',
       'ccNumber',
       'expDate',
       'cvv',
