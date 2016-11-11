@@ -82,6 +82,7 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
+    this.gift.accountNumber = this.gift.accountNumber.trim();
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.adv();
