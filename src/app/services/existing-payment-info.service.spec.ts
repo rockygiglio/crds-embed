@@ -48,7 +48,7 @@ describe('Existing Payment Info Service', () => {
 
       existingPaymentInfoService.getExistingPaymentInfo().subscribe(
         (data) => {
-          expect(data).toBe(undefined);
+          expect(data).toBe(null);
         });
     }))
   );
