@@ -144,9 +144,6 @@ export class PaymentService {
     private extractData(res: Response) {
         console.log('Call success');
         let body = res.json();
-        // TODO set paymentId value in giftservice
-        // giftService.paymentId = 
-        // and url = url + '?invoiceId=' + giftService.invoiceId + '&paymentId='  + giftService.paymentId        
         return body;
     }
 

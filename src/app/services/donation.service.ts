@@ -135,13 +135,6 @@ export class DonationService implements Resolve<number> {
   //   }
   // }
 
-  // TODO needs to be called from summary submit button (Pay button)
-  // donate() {
-  //   this.postPayment();
-  // }
-
-// TODO need to reset/clear out sensitive data after process transaction
-
 
   private extractData(res: Response) {
     console.log('Call success');
