@@ -47,7 +47,6 @@ export class AuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
-          this.httpClientService.setUserEmail(user.userEmail);
           this.gift.loadUserData();
           this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
           this.adv();

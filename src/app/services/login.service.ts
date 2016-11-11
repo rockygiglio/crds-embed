@@ -20,8 +20,11 @@ export class LoginService {
       .catch(this.handleError);
   }
 
-  authenticated(): Observable<any> {
+  isLoggedIn(): boolean {
+    return this.http.hasToken();
+  }
 
+  authenticate(): Observable<any> {
     return this.http.get(process.env.CRDS_API_ENDPOINT + 'api/v1.0.0/authenticated')
       .map((res: Response) => {
         return res || null;
@@ -29,7 +32,6 @@ export class LoginService {
       .catch((res: Response) => {
         return [null];
       });
-
   }
 
   private handleError(res: Response | any) {

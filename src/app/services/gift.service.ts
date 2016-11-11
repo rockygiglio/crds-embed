@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { DonationFundService, Program } from './donation-fund.service';
-import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
@@ -57,7 +56,6 @@ export class GiftService {
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,
               private quickDonationAmountService: QuickDonationAmountsService,
-              private httpClientService: HttpClientService,
               private loginService: LoginService,
               private previousGiftAmountService: PreviousGiftAmountService,
               private existingPaymentInfoService: ExistingPaymentInfoService,
@@ -67,7 +65,7 @@ export class GiftService {
   }
 
   public preloadData() {
-    if (this.httpClientService.isLoggedIn()) {
+    if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
     } else {
@@ -76,17 +74,14 @@ export class GiftService {
   }
 
   public loadUserData() {
-
-    this.loginService.authenticated().subscribe(
-      (info) => {
-
-        if ( info !== null ) {
-          this.email = info.userEmail;
-          this.loadExistingPaymentData();
+      this.loginService.authenticate().subscribe(
+        (info) => {
+          if ( info !== null ) {
+            this.email = info.userEmail;
+            this.loadExistingPaymentData();
+          }
         }
-
-      }
-    );
+      );
   }
 
   public loadExistingPaymentData() {

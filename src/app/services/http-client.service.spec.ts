@@ -127,19 +127,19 @@ describe('Service: HttpClient', () => {
   it('should check if user is logged in', inject([HttpClientService], (service: any) => {
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'get').and.returnValue(accessToken);
-    expect(service.isLoggedIn()).toBeTruthy();
+    expect(service.hasToken()).toBeTruthy();
   }));
 
   it('should check if user is not logged in', inject([HttpClientService], (service: any) => {
     spyOn(service.cookieService, 'get').and.returnValue(undefined);
-    expect(service.isLoggedIn()).toBeFalsy();
+    expect(service.hasToken()).toBeFalsy();
   }));
 
   it('should log a user out', inject([HttpClientService], (service: any) => {
     let accessToken = 'qwertyuio1234567890';
     service.setAccessToken(accessToken);
-    service.logOut();
-    expect(service.isLoggedIn()).toBeFalsy();
+    service.clearTokens();
+    expect(service.hasToken()).toBeFalsy();
   }));
 
 });

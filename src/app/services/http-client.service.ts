@@ -7,7 +7,6 @@ export class HttpClientService {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
-  private readonly userEmail: string = 'userEmail';
   private cookieOptions: CookieOptionsArgs;
 
   constructor(private http: Http, private cookieService: CookieService) {
@@ -50,11 +49,11 @@ export class HttpClientService {
     return body || {};
   }
 
-  isLoggedIn(): boolean {
+  hasToken(): boolean {
     return !!this.cookieService.get(this.accessToken);
   }
 
-  logOut(): void {
+  clearTokens(): void {
     this.cookieService.remove(this.accessToken);
     this.cookieService.remove(this.refreshToken);
   }
@@ -73,14 +72,6 @@ export class HttpClientService {
 
   setRefreshToken(value: string): void {
     this.cookieService.put(this.refreshToken, value, this.cookieOptions);
-  }
-
-  getUserEmail(): string {
-    return this.cookieService.get(this.userEmail);
-  }
-
-  setUserEmail(value: string): void {
-    this.cookieService.put(this.userEmail, value);
   }
 
   getRequestOption(options?: RequestOptions):  RequestOptions {
