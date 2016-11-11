@@ -28,7 +28,7 @@
       </td>
     </tr>
     <tr>
-      <td><a routerLink="/billing" (click)="changePayment()"><strong>Payment:</strong></a></td>
+      <td><a (click)="changePayment()"><strong>Payment:</strong></a></td>
       <td class="text-right">
         Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
         <small><a (click)="changePayment()">change</a></small>
