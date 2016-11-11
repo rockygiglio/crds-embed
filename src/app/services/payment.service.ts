@@ -14,13 +14,13 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class PaymentService {
 
-    private testApiEndpoint = 'https://gatewayint.crossroads.net/gateway/api/';
     private restMethodNames: any;
+    private baseUrl = process.env.CRDS_API_ENDPOINT;
 
     // TODO Remove testing console logs
 
     constructor(private http: Http,
-                private httpClientService: HttpClientService,
+                private httpClient: HttpClientService,
                 private stripeService: StripeService) {
 
         this.restMethodNames = {
@@ -38,8 +38,8 @@ export class PaymentService {
 
         let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
 
-        let donorUrl = this.testApiEndpoint + 'donor/?email=' + encodedEmail;
-        let requestOptions: any = this.httpClientService.getRequestOption();
+        let donorUrl = this.baseUrl + 'donor/?email=' + encodedEmail;
+        let requestOptions: any = this.httpClient.getRequestOption();
 
         return this.http.get(donorUrl, requestOptions)
             .map(this.extractData)
@@ -116,8 +116,8 @@ export class PaymentService {
 
         let crdsDonor = new CrdsDonorWithoutId(donorInfo.id, email, firstName, lastName);
 
-        let donorUrl = this.testApiEndpoint + 'donor/';
-        let requestOptions: any = this.httpClientService.getRequestOption();
+        let donorUrl = this.baseUrl + 'donor/';
+        let requestOptions: any = this.httpClient.getRequestOption();
 
         if (restMethod === this.restMethodNames.post) {
             return this.http.post(donorUrl, crdsDonor, requestOptions)
@@ -132,9 +132,9 @@ export class PaymentService {
 
     postPayment(paymentInformation: PaymentCallBody): Observable<any> {
 
-        let url: string = this.testApiEndpoint + 'api/donations';
+        let url: string = this.baseUrl + 'api/donations';
 
-        return this.http.post(url, PaymentCallBody)
+        return this.httpClient.post(url, PaymentCallBody)
             .map(this.extractData)
             .catch(this.handleError);
 

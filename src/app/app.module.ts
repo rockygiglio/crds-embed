@@ -19,10 +19,10 @@ import { DonationComponent } from './donation/donation.component';
 import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 import { GiftService } from './services/gift.service';
 import { StateManagerService } from './services/state-manager.service';
-import { LoadingService } from './services/loading.service';
 import { ParamValidationService } from './services/param-validation.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { DonationFundService } from './services/donation-fund.service';
@@ -30,7 +30,6 @@ import { PreviousGiftAmountService } from './services/previous-gift-amount.servi
 import { LoginService } from './services/login.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { UserSessionService } from './services/user-session.service';
 import { HttpClientService } from './services/http-client.service';
 import { PaymentService } from './services/payment.service';
 import { StripeService } from './services/stripe.service';
@@ -65,6 +64,7 @@ import { CvcFormatDirective } from './directives/cvc-format.directive';
     BillingComponent,
     SummaryComponent,
     AuthenticationComponent,
+    ConfirmationComponent,
     CreditCardFormatDirective,
     ExpirayFormatDirective,
     CvcFormatDirective
@@ -77,11 +77,9 @@ import { CvcFormatDirective } from './directives/cvc-format.directive';
     LoginService,
     CookieService,
     ExistingPaymentInfoService,
-    UserSessionService,
     HttpClientService,
     ParamValidationService,
     StateManagerService,
-    LoadingService,
     GiftService,
     PaymentService,
     ParamValidationService,

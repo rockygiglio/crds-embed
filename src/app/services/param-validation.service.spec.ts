@@ -4,12 +4,11 @@ import { BaseRequestOptions, HttpModule, Http, XHRBackend } from '@angular/http'
 import { MockBackend } from '@angular/http/testing';
 import { ExistingPaymentInfoService } from './existing-payment-info.service';
 import { HttpClientService } from './http-client.service';
-import { UserSessionService } from './user-session.service';
 import { CookieService } from 'angular2-cookie/core';
 import { ParamValidationService } from './param-validation.service';
 
 
-describe('ParamValidationService', () => {
+describe('Service: Param Validation', () => {
 
   let mockBackend: MockBackend;
 
@@ -20,7 +19,6 @@ describe('ParamValidationService', () => {
         MockBackend,
         BaseRequestOptions,
         HttpClientService,
-        UserSessionService,
         CookieService,
         ParamValidationService,
         {

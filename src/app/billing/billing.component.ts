@@ -13,8 +13,6 @@ import { CustomerCard} from '../classes/customer-card';
 
 import { StripeService } from '../services/stripe.service';
 
-import { UserSessionService } from '../services/user-session.service';
-
 import { PaymentService } from '../services/payment.service';
 
 @Component({
@@ -38,10 +36,25 @@ export class BillingComponent implements OnInit {
     private fb: FormBuilder,
     private paymentService: ExistingPaymentInfoService,
     private pmtService: PaymentService,
-    private userSessionService: UserSessionService,
     private stripeService: StripeService) { }
 
   ngOnInit() {
+    this.stateManagerService.is_loading = true;
+
+    this.gift.existingPaymentInfo.subscribe(
+      info => {
+        this.stateManagerService.is_loading = false;
+        this.gift.setBillingInfo(info);
+        if (this.gift.accountLast4) {
+          this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+          this.adv();
+        }
+      },
+      error => {
+        this.stateManagerService.is_loading = false;
+      }
+    );
+
     if (!this.gift.type) {
       // this.store.dispatch(GivingActions.render('/payment'));
     }
@@ -79,7 +92,7 @@ export class BillingComponent implements OnInit {
     if (this.achForm.valid) {
 
       console.log('ach form valid, executing');
-      let email = this.userSessionService.getUserEmail();
+      let email = this.gift.email;
 
       let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
                                        this.achForm.value.accountName, this.achForm.value.accountType);
@@ -114,7 +127,7 @@ export class BillingComponent implements OnInit {
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
       let expYear = this.ccForm.value.expDate.split(' / ')[1];
 
-      let email = this.userSessionService.getUserEmail();
+      let email = this.gift.email;
 
       //TODO Add actual user email as customer card param below
       let userCard: CustomerCard = new CustomerCard('mpcrds+20@gmail.com'/*email*/, this.ccForm.value.ccNumber, expMonth, expYear, this.ccForm.value.cvc, this.ccForm.value.zipCode);

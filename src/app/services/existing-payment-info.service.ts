@@ -36,7 +36,7 @@ export interface BankAccountInfo {
 @Injectable()
 export class ExistingPaymentInfoService {
 
-  private getPreviousPmtUrl = process.env.CRDS_API_ENDPOINT + 'api/donor/?email=';
+  private getPreviousPmtUrl = process.env.CRDS_API_ENDPOINT + 'api/donor?email=';
   private userPaymentInfo = null;
 
   constructor(private http: HttpClientService) { }

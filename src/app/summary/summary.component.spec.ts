@@ -5,12 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SummaryComponent } from './summary.component';
-import { GivingStore } from '../giving-state/giving.store';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { HttpModule } from '@angular/http';
-import { UserSessionService } from '../services/user-session.service';
 import { HttpClientService } from '../services/http-client.service';
+import { LoginService } from '../services/login.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateManagerService } from '../services/state-manager.service';
 import { ParamValidationService } from '../services/param-validation.service';
@@ -35,11 +34,11 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        { provide: GivingStore, useClass: MockStore },
-        GiftService, ExistingPaymentInfoService, UserSessionService,
+        GiftService, ExistingPaymentInfoService,
         HttpClientService, CookieService, StateManagerService,
-        ParamValidationService, DonationFundService, PaymentService,
-        QuickDonationAmountsService, PreviousGiftAmountService, StripeService
+        ParamValidationService, DonationFundService, LoginService,
+        QuickDonationAmountsService, PreviousGiftAmountService,
+        PaymentService, StripeService
       ]
     });
     this.fixture = TestBed.createComponent(SummaryComponent);

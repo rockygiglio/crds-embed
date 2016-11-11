@@ -6,8 +6,8 @@ import { GiftService } from '../services/gift.service';
 import { Router } from '@angular/router';
 import { CheckGuestEmailService } from '../services/check-guest-email.service';
 import { LoginService } from '../services/login.service';
+import { HttpClientService } from '../services/http-client.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { UserSessionService } from '../services/user-session.service';
 
 @Component({
   selector: 'app-authentication',
@@ -29,8 +29,8 @@ export class AuthenticationComponent implements OnInit {
     private _fb: FormBuilder,
     private checkGuestEmailService: CheckGuestEmailService,
     private loginService: LoginService,
+    private httpClientService: HttpClientService,
     private existingPaymentInfoService: ExistingPaymentInfoService,
-    private userSessionService: UserSessionService
   ) { }
 
   back() {
@@ -47,20 +47,9 @@ export class AuthenticationComponent implements OnInit {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
-          this.userSessionService.setUserEmail(user.userEmail);
-
-          this.gift.loadUserData().subscribe(
-              prevPmtInfo => {
-                console.log('Got previous payment info');
-                this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-                this.adv();
-              },
-              error => {
-                console.log('Failed to get previous payment info');
-                this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-                this.adv();
-              }
-          );
+          this.gift.loadUserData();
+          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+          this.adv();
         },
         error => {
           this.adv();
@@ -87,7 +76,7 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit() {
 
     this.form = this._fb.group({
-      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
+      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
       password: ['']
     });
 

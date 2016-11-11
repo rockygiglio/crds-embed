@@ -5,6 +5,7 @@ import { DonationComponent } from './donation/donation.component';
 import { PaymentComponent } from './payment/payment.component';
 import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 
 const appRoutes: Routes = [
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
   { path: 'auth', component: AuthenticationComponent },
   { path: 'billing', component: BillingComponent },
   { path: 'summary', component: SummaryComponent },
+  { path: 'confirmation', component: ConfirmationComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

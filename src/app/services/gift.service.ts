@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { DonationFundService, Program } from './donation-fund.service';
-import { UserSessionService } from './user-session.service';
+import { LoginService } from './login.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
@@ -22,7 +22,6 @@ export class GiftService {
   public minPayment: number = 0;
   public title: string = '';
   public url: string = '';
-  public paymentId: number = 0;
   public fundId: number = 0;
 
   public errors: Array<string> = [];
@@ -30,6 +29,7 @@ export class GiftService {
   // Form options
   public funds: Program[];
   public amounts: number[];
+  public existingPaymentInfo: Observable<any>;
 
   // Payment Information
   public amount: number;
@@ -58,7 +58,7 @@ export class GiftService {
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,
               private quickDonationAmountService: QuickDonationAmountsService,
-              private userSessionService: UserSessionService,
+              private loginService: LoginService,
               private previousGiftAmountService: PreviousGiftAmountService,
               private existingPaymentInfoService: ExistingPaymentInfoService,
               private stateManagerService: StateManagerService) {
@@ -67,7 +67,7 @@ export class GiftService {
   }
 
   public preloadData() {
-    if (this.userSessionService.isLoggedIn()) {
+    if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
     } else {
@@ -76,32 +76,44 @@ export class GiftService {
   }
 
   public loadUserData() {
-
-    let observable  = new Observable(observer => {
-
-      this.email = this.userSessionService.getUserEmail();
-
-      this.existingPaymentInfoService.getExistingPaymentInfo().subscribe(
-          info => {
-            this.setBillingInfo(info);
-            this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
-            observer.next(info);
+      this.loginService.authenticate().subscribe(
+        (info) => {
+          if ( info !== null ) {
+            this.email = info.userEmail;
+            this.loadExistingPaymentData();
           }
+        }
       );
-    });
-
-    return observable;
-
   }
 
-  private setBillingInfo(pmtInfo: PaymentInfo) {
-    if (pmtInfo.default_source != null && pmtInfo.default_source.credit_card.last4 != null) {
+  public loadExistingPaymentData() {
+    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
+    if (this.type === 'donation') {
+      this.previousGiftAmountService.get().subscribe(
+        amount => this.previousGiftAmount = amount
+      );
+    }
+  }
+
+  public resetExistingPaymentInfo() {
+    this.accountLast4 = null;
+    let emptyPaymentInfo: any = {
+      default_source: {
+        credit_card: { last4: null},
+        bank_account: { last4: null}
+      }
+    };
+    this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
+  };
+
+  public setBillingInfo(pmtInfo: PaymentInfo) {
+    if (pmtInfo.default_source.credit_card.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.credit_card.last4;
       this.paymentType = 'cc';
     }
-    if (pmtInfo.default_source != null && pmtInfo.default_source.bank_account.last4 != null) {
+    if (pmtInfo.default_source.bank_account.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.bank_account.last4;
-      this.paymentType = 'bank';
+      this.paymentType = 'ach';
     }
   }
 

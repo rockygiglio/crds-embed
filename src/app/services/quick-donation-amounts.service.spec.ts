@@ -6,7 +6,7 @@ import {MockBackend, MockConnection} from '@angular/http/testing';
 import {QuickDonationAmountsService} from './quick-donation-amounts.service';
 
 
-describe('Quick Donation Amounts Service', () => {
+describe('Service: Quick Donation Amounts', () => {
 
     let mockBackend: MockBackend;
 

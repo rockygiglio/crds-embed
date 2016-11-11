@@ -40,20 +40,19 @@ export class SummaryComponent implements OnInit {
   }
 
   next() {
-    let paymentDetail = new PaymentCallBody(this.gift.amount, this.gift.paymentType,
-                                            'PAYMENT', this.gift.invoiceId );
+    let paymentDetail = new PaymentCallBody(this.gift.amount, this.gift.paymentType, 'PAYMENT', this.gift.invoiceId );
+
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
-         this.gift.paymentId = info.payment_id;
-         this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + this.gift.paymentId;  
-         
          if (this.gift.url) {
-           window.location.href = this.gift.url;
+           console.log('payment service call succeeded');
+           this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
          } else {
            this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
          }     
       }      
     );
+
     return false;
   }
 
@@ -62,7 +61,7 @@ export class SummaryComponent implements OnInit {
   }
 
   changePayment() {
-    this.gift.accountLast4 = null;
+    this.gift.resetExistingPaymentInfo();
     this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 }

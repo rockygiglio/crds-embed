@@ -53,6 +53,24 @@
       :active {
         background-color: $secondary-color;
       }
+
+      &--no-outline {
+        border: none;
+      }
+
+      &--flex-item {
+        flex: 1 1 50%;
+
+        &:not(:last-child):not(.dropdown-toggle) {
+          margin-right: 0;
+          margin-bottom: .5em;
+
+          @media (min-width: 320px) {
+            margin-right: .5em;
+            margin-bottom: 0;
+          }
+        }
+      }
     }
 
     .active {
@@ -61,17 +79,11 @@
 
     &--flex {
       display: flex;
-      flex-flow: row nowrap;
+      flex-flow: column nowrap;
       justify-content: space-between;
 
-      .btn-option {
-        &--no-outline {
-          border: none;
-        }
-
-        &--flex-item {
-          flex: 1 1 50%;
-        }
+      @media (min-width: 320px) {
+        flex-direction: row;
       }
     }
 
