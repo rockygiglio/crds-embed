@@ -37,8 +37,6 @@ export class PrototypeSummaryComponent implements OnInit {
   next() {
     this.gift.loading = true;
 
-    //make payment, then navigate to confirmation
-
     setTimeout(() => {
       this.store.dispatch(PrototypeActions.render(this.gift.flow_type + '/confirmation'));
     }, 500);

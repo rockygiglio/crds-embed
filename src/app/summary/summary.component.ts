@@ -48,6 +48,8 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
+        console.log('got info');
+        console.log(info);
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
            if (this.gift.overrideParent === true && window.top !== undefined ) {

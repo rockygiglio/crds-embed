@@ -26,14 +26,11 @@ export class DonationService implements Resolve<number> {
     private giftService: GiftService) { }
 
 
-  // TODO needs to be called after input cc or bank details
-  // TODO - where do these .then success and failure calls go?  To this.paymentService.getDonor()
-
   submitTransactionInfo(giveForm) {
 
     let observable  = new Observable(observer => {
 
-      this.paymentService.getDonor('sara.seissiger@ingagepartners.com'/*this.giftService.email*/)
+      this.paymentService.getDonor(this.giftService.email)
         .subscribe(
           donor => {
             this.updateDonorAndDonate(donor.id);
@@ -76,8 +73,8 @@ export class DonationService implements Resolve<number> {
 
     if (this.giftService.paymentType === 'cc') {
 
-      //this.createCard();
-      this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345); //test data
+      //TODO: Donation test code - will be implemented during donatation flow work.
+      this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
       this.paymentService.createDonorWithCard(this.card, this.giftService.email, 'TODO donorFirstName', 'TODO donorLastName')
         .subscribe(
           result => {
@@ -90,7 +87,7 @@ export class DonationService implements Resolve<number> {
 
     } else if (this.giftService.paymentType === 'bank') {
 
-      //this.createBank();
+      //TODO: Donation test code - will be implemented during donatation flow work.
       this.bank = CustomerBank = new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
       this.paymentService.createDonorWithBankAcct(this.bank, this.giftService.email, 'TODO donorFirstName', 'TODO donorLastName')
         .subscribe(
@@ -103,38 +100,6 @@ export class DonationService implements Resolve<number> {
         )
     }
   }
-
-  // createBank() {
-  //   try {
-  //     this.bank = {
-  //       country: 'US',
-  //       currency: 'USD',
-  //       routing_number: this.giftService.routingNumber,
-  //       account_number: this.giftService.accountNumber,
-  //       account_holder_name: this.giftService.accountName,
-  //       account_holder_type: this.giftService.accountType
-  //     };
-  //   } catch (err) {
-  //     throw new Error('Unable to create bank account');
-  //   }
-  //
-  // }
-  //
-  // createCard() {
-  //   try {
-  //     this.card = {
-  //       name: 'TODO Name for credit card',
-  //       number: this.giftService.ccNumber,
-  //       exp_month: this.giftService.expDate.substr(0, 2),
-  //       exp_year: this.giftService.expDate.substr(2, 2),
-  //       cvc: this.giftService.cvv,
-  //       address_zip: this.giftService.zipCode
-  //     };
-  //   } catch (err) {
-  //     throw new Error('Unable to create credit card');
-  //   }
-  // }
-
 
   private extractData(res: Response) {
     let body = res.json();

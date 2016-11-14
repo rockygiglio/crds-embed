@@ -127,11 +127,14 @@ export class PaymentService {
         let url: string = this.baseUrl + 'api/donation';
 
         return this.httpClient.post(url, paymentInfo)
-            .map(this.extractData)
+            .map(this.extractPostPmtData)
             .catch(this.handleError);
 
     }
 
+    private extractPostPmtData(res: Response) {
+        return res;
+    }
 
     private extractData(res: Response) {
         let body = res.json();
