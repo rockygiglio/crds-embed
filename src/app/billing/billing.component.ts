@@ -91,6 +91,7 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
+    this.gift.accountNumber = this.gift.accountNumber.trim();
     if (this.achForm.valid) {
 
       let email = this.gift.email;

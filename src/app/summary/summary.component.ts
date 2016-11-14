@@ -23,6 +23,10 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
+
+    if (!this.gift.type) {
+      this.router.navigateByUrl('/payment');
+    }
   }
 
   getLastFourOfAccountNumber() {
@@ -46,10 +50,15 @@ export class SummaryComponent implements OnInit {
       info => {
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
+           if (this.gift.overrideParent === true && window.top !== undefined ) {
+             window.top.location.href = this.gift.url;
+           } else {
+             window.location.href = this.gift.url;
+           }
          } else {
            this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
-         }     
-      }      
+         }
+      }
     );
 
     return false;

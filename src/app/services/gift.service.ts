@@ -23,6 +23,7 @@ export class GiftService {
   public title: string = '';
   public url: string = '';
   public fundId: number = 0;
+  public overrideParent: boolean = true;
 
   public errors: Array<string> = [];
 
@@ -195,6 +196,11 @@ export class GiftService {
       this.setTheme('dark-theme');
     }
 
+    if ( this.queryParams[this.helper.params.override_parent] === 'false' ) {
+      this.overrideParent = false;
+      console.log('override parent!');
+    }
+
     this.type = this.queryParams[this.helper.params.type];
 
     if (this.type === this.helper.types.payment || this.type === this.helper.types.donation) {
@@ -217,6 +223,7 @@ export class GiftService {
     console.log('title', this.title);
     console.log('url', this.url);
     console.log('fund_id', this.fundId);
+    console.log('override_parent', this.overrideParent);
 
   }
 
