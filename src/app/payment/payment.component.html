@@ -20,7 +20,7 @@
 
   <hr>
 
-  <form [formGroup]="form" (ngSubmit)="next()">
+  <form [formGroup]="form" [class.submitted]="ccSubmitted" (ngSubmit)="next()">
 
     <div class="form-group">
       <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
@@ -37,7 +37,7 @@
     </div>
 
     <footer class="page-footer">
-      <input type="submit"
+      <input type="button"
              class="btn btn-next pull-right"
              (click)="next()"
              value="Next"
