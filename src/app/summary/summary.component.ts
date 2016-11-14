@@ -20,6 +20,10 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
+
+    if (!this.gift.type) {
+      this.router.navigateByUrl('/payment');
+    }
   }
 
   getLastFourOfAccountNumber() {
@@ -38,7 +42,11 @@ export class SummaryComponent implements OnInit {
 
   next() {
     if (this.gift.url) {
-      window.location.href = this.gift.url;
+      if (this.gift.overrideParent === true && window.top !== undefined ) {
+        window.top.location.href = this.gift.url;
+      } else {
+        window.location.href = this.gift.url;
+      }
     } else {
       this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
     }
