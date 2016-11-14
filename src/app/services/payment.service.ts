@@ -27,10 +27,6 @@ export class PaymentService {
         };
     }
 
-    ngOnInit() {
-        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
-    }
-
     //Get Crds Donor by email
     getDonor(email): Observable<any> {
 
