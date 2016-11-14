@@ -36,8 +36,8 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(achSubmitted && !achForm.controls.valid)">
-      <div *ngIf="!achForm.controls.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
+    <div class="errors" *ngIf="(achSubmitted && !achForm.valid)">
+      <div *ngIf="!achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
     </div>
 
     <footer class="page-footer">
@@ -66,8 +66,8 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(ccSubmitted && !ccForm.controls.valid)">
-      <div *ngIf="!ccForm.controls.valid" class="alert alert-danger" [innerHTML]="errorMessageCC"></div>
+    <div class="errors" *ngIf="(ccSubmitted && !ccForm.valid)">
+      <div *ngIf="!ccForm.valid" class="alert alert-danger" [innerHTML]="errorMessageCC"></div>
     </div>
 
     <footer class="page-footer">

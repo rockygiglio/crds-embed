@@ -22,7 +22,7 @@ export class BillingComponent implements OnInit {
   userToken = null;
   accountNumberPlaceholder = 'Account Number';
 
-  errorMessage: string = 'Please fix the following errors:';
+  errorMessage: string = 'The following fields are in error:';
   errorMessageACH: string = '';
   errorMessageCC: string = '';
 
@@ -94,7 +94,6 @@ export class BillingComponent implements OnInit {
 
   displayErrorsACH() {
     if ( !this.achForm.valid ) {
-      console.log(this.achForm);
       let thisMessage = '<p>' + this.errorMessage + '</p>';
       thisMessage += '<ul>';
       if ( !this.achForm.controls['accountName'].valid ) {
