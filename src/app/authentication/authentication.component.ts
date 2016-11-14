@@ -84,6 +84,10 @@ export class AuthenticationComponent implements OnInit {
       this.gift.email = value.email;
     });
 
+    if (!this.gift.type) {
+      this.stateManagerService.is_loading = true;
+      this.router.navigateByUrl('/payment');
+    }
   }
 
 }

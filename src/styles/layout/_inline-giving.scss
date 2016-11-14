@@ -107,6 +107,12 @@
     td:last-child {
       color: darken($text-color, 30);
     }
+
+    small {
+      a {
+        cursor: pointer;
+      }
+    }
   }
 
   form {
@@ -211,7 +217,7 @@
 
   .contrast-background {
     background: $page-bg-color;
-    
+
     padding: 1.25em 1.25em 2em 1.25em;
 
     p:last-of-type {

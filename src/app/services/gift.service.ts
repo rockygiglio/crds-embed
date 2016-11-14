@@ -36,25 +36,25 @@ export class GiftService {
   // Payment Information
   public amount: number;
   public customAmount: number;
-  public paymentType: string;
-  public accountLast4: string;
+  public paymentType: string = '';
+  public accountLast4: string = '';
 
   // user info
-  public email: string;
-  public previousGiftAmount: string;
+  public email: string = '';
+  public previousGiftAmount: string = '';
   public isGuest: boolean;
 
   // ACH Information
   public accountType: string = 'personal';
-  public accountName: string;
-  public routingNumber: string;
-  public accountNumber: string;
+  public accountName: string = '';
+  public routingNumber: string = '';
+  public accountNumber: string = '';
 
   // Credit Card information
-  public ccNumber: string;
-  public expDate: string;
-  public cvv: string;
-  public zipCode: string;
+  public ccNumber: string = '';
+  public expDate: string = '';
+  public cvv: string = '';
+  public zipCode: string = '';
 
   constructor(private route: ActivatedRoute,
               private helper: ParamValidationService,
