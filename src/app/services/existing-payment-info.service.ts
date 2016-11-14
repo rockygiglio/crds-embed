@@ -1,52 +1,85 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { HttpClientService } from './http-client.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+export interface PaymentInfo {
+  id: number;
+  Processor_ID: string;
+  default_source: PaymentSource;
+  Registered_User: boolean;
+  email: string;
+}
+
+export interface PaymentSource {
+  credit_card: CreditCardInfo;
+  bank_account: BankAccountInfo;
+}
+
+export interface CreditCardInfo {
+  last4: string;
+  brand: string;
+  address_zip: string;
+  exp_date: string;
+}
+
+export interface BankAccountInfo {
+  routing: string;
+  last4: string;
+  accountHolderName: string;
+  accountHolderType: string;
+}
+
 @Injectable()
 export class ExistingPaymentInfoService {
 
-    private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-    private loginUrl = this.baseUrl + 'login';
-    private getPreviousPmtUrl = this.baseUrl + 'donor/?email=';
+  private getPreviousPmtUrl = process.env.CRDS_API_ENDPOINT + 'api/donor?email=';
+  private userPaymentInfo = null;
 
-    private testUserAcct = {
-        username: 'scrudgemcduckcrds@mailinator.com',
-        password: 'madmoneyyall'
-    };
+  constructor(private http: HttpClientService) { }
 
-
-    constructor (private http: Http) {}
-
-
-    getTestUser (): Observable<any[]> {
-        return this.http.post(this.loginUrl, this.testUserAcct)
-            .map(this.extractData)
-            .catch(this.handleError);
+  resolve() {
+    if (this.userPaymentInfo) {
+      return this.userPaymentInfo;
+    } else {
+      return this.getExistingPaymentInfo();
     }
+  }
 
-    getExistingPaymentInfo (userToken: string): Observable<any[]> {
+  setUserPaymentInfo(userPaymentInfo) {
+    this.userPaymentInfo = userPaymentInfo;
+  }
 
-        let headers = new Headers({ 'Accept': 'application/json' });
-        headers.append('Authorization', `${userToken}`);
+  getUserPaymentInfo() {
+    return this.userPaymentInfo;
+  }
 
-
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.get(this.getPreviousPmtUrl, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
-
+  getLastFourOfBankOrCcAcctNum() {
+    let lastFour: any = null;
+    if (this.userPaymentInfo && this.userPaymentInfo.length > 0) {
+      lastFour = this.userPaymentInfo.default_source.credit_card.last4 ||
+        this.userPaymentInfo.default_source.bank_account.last4;
     }
+    return lastFour;
+  };
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
+  getExistingPaymentInfo(): Observable<any> {
+    return this.http.get(this.getPreviousPmtUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
-    private handleError (res: Response | any) {
-        return [[]];
-    }
+  private extractData(res: Response) {
+    let body = res;
+    this.userPaymentInfo = body || null;
+    return this.userPaymentInfo;
+  }
+
+  private handleError (res: Response | any) {
+    this.userPaymentInfo = null;
+    return [null];
+  }
 }

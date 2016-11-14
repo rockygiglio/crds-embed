@@ -1,0 +1,83 @@
+<header class="page-header page-header--no-btm-space">
+  <h2>Payment Type:</h2>
+</header>
+
+<div class="btn-group form-nav">
+  <label class="btn btn-option" [(ngModel)]="gift.paymentMethod" btnRadio="Bank Account">Bank Account</label>
+  <label class="btn btn-option" [(ngModel)]="gift.paymentMethod" btnRadio="Credit Card">Credit Card</label>
+</div>
+
+<div *ngIf="gift.paymentMethod == 'Bank Account'" heading="Bank Account">
+  <header class="page-header page-header--no-btm-space">
+    <h2>Account Type:</h2>
+  </header>
+
+  <form [formGroup]="achForm" (ngSubmit)="achNext()">
+    <div class="radio-group">
+      <label>
+        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="personal" checked> Personal
+      </label>&nbsp;&nbsp;
+      <label>
+        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="business"> Business
+      </label>
+    </div>
+
+    <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" [(ngModel)]="gift.accountName" pattern=".*"><br>
+    <input type="tel" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
+    <input type="tel" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="\s*[0-9]*\s*">
+
+    <div class="sample-check">
+      <small>
+        <a (click)="hideCheck = false;" *ngIf="hideCheck">Where can I find this information?</a>
+        <a (click)="hideCheck = true;" *ngIf="!hideCheck">Hide sample check</a>
+      </small>
+      <div [collapse]="hideCheck">
+        <img src="/assets/check.svg" alt="" class="img-responsive">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="achSubmitted">
+      <div *ngIf="!achForm.controls.accountName.valid" class="alert alert-danger">Account Holder Name is required</div>
+      <div *ngIf="!achForm.controls.routingNumber.valid" class="alert alert-danger">Routing Number is required</div>
+      <div *ngIf="!achForm.controls.accountNumber.valid" class="alert alert-danger">Account Number is required</div>
+    </div>
+
+    <footer class="page-footer">
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <input type="button" class="btn btn-next pull-right" (click)="achNext()" value="Next">
+    </footer>
+  </form>
+</div>
+
+<div *ngIf="gift.paymentMethod == 'Credit Card'" heading="Credit Card">
+  <!-- <br> -->
+  <alert *ngIf="gift.type == 'donation'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+  <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
+
+  <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
+    <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
+    <div class="row inline-form">
+      <div class="col-xs-4 inline-form__input">
+        <input type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp"><br>
+      </div>
+      <div class="col-xs-4 inline-form__input">
+        <input type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
+      </div>
+      <div class="col-xs-4 inline-form__input">
+        <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^\d{5}$)|(^\d{5}-\d{4}$" autocomplete="zip-code">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="ccSubmitted">
+      <div *ngIf="!ccForm.controls.ccNumber.valid" class="alert alert-danger">Credit Card is invalid</div>
+      <div *ngIf="!ccForm.controls.expDate.valid" class="alert alert-danger">Expiration Date is required</div>
+      <div *ngIf="!ccForm.controls.cvv.valid" class="alert alert-danger">CVV is required</div>
+      <div *ngIf="!ccForm.controls.zipCode.valid" class="alert alert-danger">Zipcode is invalid</div>
+    </div>
+
+    <footer class="page-footer">
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <input type="button" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
+    </footer>
+  </form>
+</div>

@@ -3,11 +3,17 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
 
+export interface Program {
+  Name: string;
+  ProgramId: number;
+  ProgramType: number;
+  AllowRecurringGiving: boolean;
+}
+
 @Injectable()
 export class DonationFundService implements Resolve<any> {
 
-  private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-  private fundsUrl = this.baseUrl + 'programs/1';
+  private fundsUrl = process.env.CRDS_API_ENDPOINT + 'api/programs/1';
 
   constructor(private http: Http) { }
 

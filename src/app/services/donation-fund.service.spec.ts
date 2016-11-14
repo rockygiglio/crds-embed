@@ -7,7 +7,7 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 
 describe('Service: DonationFund', () => {
 
-  const mockResponse =
+  const mockResponse: Array<any> =
     [
       {
         'ProgramId': 3,

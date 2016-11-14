@@ -1,54 +1,102 @@
-import {TestBed, getTestBed, async, inject} from '@angular/core/testing';
-import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
+import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
+import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
 
-import {ResponseOptions} from '@angular/http';
-import {MockBackend, MockConnection} from '@angular/http/testing';
-import {PreviousGiftAmountService} from './previous-gift-amount.service';
+import { ResponseOptions } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { PreviousGiftAmountService } from './previous-gift-amount.service';
+import { HttpClientService } from './http-client.service';
+import { CookieService } from 'angular2-cookie/core';
 
 
-describe('Existing Payment Info Service', () => {
+describe('Service: Previous Gift Amount', () => {
 
-    let mockBackend: MockBackend;
+  let mockBackend: MockBackend;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                PreviousGiftAmountService,
-                MockBackend,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
-                    }
-                }
-            ],
-            imports: [
-                HttpModule
-            ]
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        PreviousGiftAmountService,
+        MockBackend,
+        HttpClientService,
+        BaseRequestOptions,
+        {
+          provide: Http,
+          deps: [MockBackend, BaseRequestOptions],
+          useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
+            return new Http(backend, defaultOptions);
+          }
+        },
+        CookieService
+
+      ],
+      imports: [
+        HttpModule
+      ]
+    });
+
+    mockBackend = getTestBed().get(MockBackend);
+    TestBed.compileComponents();
+  }));
+
+
+  it('it should provide the last amount when there are previous gifts',
+    async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
+      mockBackend.connections.subscribe(
+        (connection: MockConnection) => {
+          connection.mockRespond(new Response(
+            new ResponseOptions({
+              body: {
+                donations: [
+                  {
+                    amount: '4000'
+                  }
+                ]
+              }
+            }
+            )));
         });
 
-        mockBackend = getTestBed().get(MockBackend);
-        TestBed.compileComponents();
-    }));
+      previousGiftAmountService.get().subscribe(
+        (data) => {
+          expect(data).toBe('40.00');
+        });
+    }))
+  );
 
-    it('it should provide a previous gift amount',
-        async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
-            mockBackend.connections.subscribe(
-                (connection: MockConnection) => {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                                body: 40
-                            }
-                        )));
-                });
 
-            previousGiftAmountService.get().subscribe(
-                (data) => {
-                    expect(data).toBe(40);
-                });
-        }))
-    );
+  it('it should provide an amount of 0.00 when there are NO previous gift amounts',
+    async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
+      mockBackend.connections.subscribe(
+        (connection: MockConnection) => {
+          connection.mockRespond(new Response(
+            new ResponseOptions({
+              body: {
+                donations: []
+              }
+            }
+            )));
+        });
+
+      previousGiftAmountService.get().subscribe(
+        (data) => {
+          expect(data).toBe('0.00');
+        });
+    }))
+  );
+
+
+  it('it should provide an amount of 0.00 when there there is an ERROR from MP',
+    async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
+      mockBackend.connections.subscribe(
+        (connection: MockConnection) => {
+          connection.mockError(new Error('Some error'));
+        });
+
+      previousGiftAmountService.get().subscribe(
+        (data) => {
+          expect(data).toBe('0.00');
+        });
+    }))
+  );
 
 });

@@ -2,8 +2,10 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { LoginService } from './login.service';
+import { HttpClientService } from './http-client.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { CookieService } from 'angular2-cookie/core';
 
 describe('Service: Login', () => {
 
@@ -41,6 +43,8 @@ describe('Service: Login', () => {
     TestBed.configureTestingModule({
       providers: [
         LoginService,
+        HttpClientService,
+        CookieService,
         MockBackend,
         BaseRequestOptions,
         {

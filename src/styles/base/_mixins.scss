@@ -1,0 +1,8 @@
+@mixin header-font($fontface, $fontsize) {
+  color: $header-color;
+  font-family: $fontface;
+  font-size: $fontsize;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+}

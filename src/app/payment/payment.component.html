@@ -1,0 +1,52 @@
+<div *ngIf="gift.errors.length > 0" id="error">
+  <div class="page-header">
+    <h2>Errors:</h2>
+  </div>
+  <alert *ngFor="let error of gift.errors">{{ error }}</alert>
+</div>
+<div *ngIf="gift.errors.length <= 0">
+  <div class="page-header">
+    <h2>Amount:</h2>
+  </div>
+
+  <div class="btn-group">
+    <button *ngFor="let item of amountDue"
+            class="btn btn-option btn-option--flex-item"
+            (click)="onSelectAmount($event, item.amount)"
+            [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
+      {{ item.label }}: {{ item.amount | currency: "USD": true }}
+    </button>
+  </div>
+
+  <hr>
+
+  <form [formGroup]="form" (ngSubmit)="next()">
+
+    <div class="form-group">
+      <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+      <div class="input-group">
+        <div class="input-group-addon">$</div>
+        <input type="text"
+               class="form-control"
+               placeholder="Or Enter Amount"
+               id="custom-amount"
+               [formControl]="form.get('customAmount')"
+               [(ngModel)]="customAmount"
+               (ngModelChange)="onCustomAmount($event)">
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <input type="submit"
+             class="btn btn-next pull-right"
+             (click)="next()"
+             value="Next"
+             [disabled]="!isValid()"
+      >
+    </footer>
+
+  </form>
+</div>
+
+
+

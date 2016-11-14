@@ -1,31 +1,40 @@
 # CrdsEmbed
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14.
-
 ## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+Run `npm run start` (`npm start` or `npm run serve`) for a dev server. The app will automatically reload if you change any of the source files.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
+## Environment Variables
+
+Copy the `.env.example` file to `.env` and adjust the environment variables to suit your environment.
+
+You can also set the matching keyname values in your OS environment variables if you prefer.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run the following commands for your environment. The build artifacts will be stored in the `dist/` directory.
+
+- Build Dev: `npm run build-dev` (locally build for compile testing)
+- Build for INT: `npm run build-int` (special NON-ugglified [but still cache busted] config for INT builds)
+- Build for PROD: `npm run build` (ugglified & cache busted)
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Parameters
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
-Before running the tests make sure you are serving the app via `ng serve`.
+Query parameters are used to define the several initial values.  
+* `type` - string - REQUIRED - only accepted are [payment, donation]
+* `invoice_id` - numeric - REQUIRED if type=payment
+* `total_cost` - numeric - REQUIRED if type=payment
+* `min_payment` - numeric - REQUIRED if type=payment
+* `title` - string - optional
+* `url` - string - optional
+* `theme` - string - optional [light, dark] Will load the specified theme. If none specified, light theme is automatically used.
 
-## Deploying to Github Pages
+An example `http://localhost:8080?type=payment&min_payment=123&invoice_id=1234&total_cost=1234`
 
-Run `ng github-pages:deploy` to deploy to Github Pages.
+## Apache configuration
 
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+For additional apache configurations, please modify the `apache_site.conf` file in the root of this repository.

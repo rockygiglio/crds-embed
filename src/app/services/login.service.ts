@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { HttpClientService } from './http-client.service';
 
 @Injectable()
 export class LoginService {
 
-  private baseUrl = 'https://gatewayint.crossroads.net:443/gateway/api/';
-  private loginUrl = this.baseUrl + 'Login';
+  private loginUrl = process.env.CRDS_API_ENDPOINT + 'api/login';
 
-  constructor(private http: Http ) { }
+  constructor( private http: HttpClientService ) { }
 
   login(email: string, password: string): Observable<any> {
     let body = {
@@ -16,17 +16,27 @@ export class LoginService {
       'password': password
     };
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.loginUrl, body, options)
-                    .map(this.extractData)
-                    .catch(this.handleError);
+    return this.http.post(this.loginUrl, body)
+      .catch(this.handleError);
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
+  isLoggedIn(): boolean {
+    return this.http.hasToken();
+  }
+
+  logOut(): void {
+    this.http.clearTokens();
+    return;
+  }
+
+  authenticate(): Observable<any> {
+    return this.http.get(process.env.CRDS_API_ENDPOINT + 'api/v1.0.0/authenticated')
+      .map((res: Response) => {
+        return res || null;
+      })
+      .catch((res: Response) => {
+        return [null];
+      });
   }
 
   private handleError(res: Response | any) {
