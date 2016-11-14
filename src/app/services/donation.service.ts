@@ -49,7 +49,6 @@ export class DonationService implements Resolve<number> {
 
     if (this.giftService.paymentType === 'cc') {
 
-      //this.createCard();
       this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345); //test data
       this.paymentService.updateDonorWithCard(donorId, this.card, this.giftService.email)
         .then(function (donor) {
@@ -58,7 +57,6 @@ export class DonationService implements Resolve<number> {
 
     } else if (this.giftService.paymentType === 'bank') {
 
-      //this.createBank();
       this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345); //test data+
       this.paymentService.updateDonorWithBankAcct(donorId, this.bank, this.giftService.email)
         .then(function (donor) {
