@@ -45,7 +45,6 @@ export class SummaryComponent implements OnInit {
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
          if (this.gift.url) {
-           console.log('payment service call succeeded');
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
          } else {
            this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));

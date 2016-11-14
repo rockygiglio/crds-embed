@@ -17,8 +17,6 @@ export class PaymentService {
     private restMethodNames: any;
     private baseUrl = process.env.CRDS_API_ENDPOINT;
 
-    // TODO Remove testing console logs
-
     constructor(private http: Http,
                 private httpClient: HttpClientService,
                 private stripeService: StripeService) {
@@ -85,25 +83,19 @@ export class PaymentService {
 
             this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
                 stripeEncryptedPmtInfo => {
-                    console.log('Got stripe token: ');
-                    console.log(stripeEncryptedPmtInfo);
 
                     let crdsDonor = new CrdsDonorWithoutId(stripeEncryptedPmtInfo.id, email, firstName, lastName);
 
                     this.makeApiDonorCall(crdsDonor, email, firstName, lastName, restMethod).subscribe(
                         value => {
-                            console.log('Made API donor call');
-                            console.log(value);
                             observer.next(value);
                         },
                         error => {
-                            console.log('Failed to make API Donor call');
                             observer.error(error);
                         }
                     );
                 },
                 error => {
-                    console.log('Observable call failed');
                 }
             );
 
@@ -142,13 +134,11 @@ export class PaymentService {
 
 
     private extractData(res: Response) {
-        console.log('Call success');
         let body = res.json();
         return body;
     }
 
     private handleError (res: Response | any) {
-        console.log('Call failure');
         return [[]];
     }
 

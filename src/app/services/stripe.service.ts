@@ -18,7 +18,6 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
-                console.log('Got stripe token');
                 observer.next(response);
             };
 
@@ -33,7 +32,6 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
-                console.log('Got stripe token');
                 observer.next(response);
             };
 
@@ -46,8 +44,3 @@ export class StripeService {
 }
 
 
-//TODO Remove testing data
-/*
- let card: CustomerCard = new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
- let bank: CustomerBank = new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
-*/

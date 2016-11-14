@@ -137,13 +137,11 @@ export class DonationService implements Resolve<number> {
 
 
   private extractData(res: Response) {
-    console.log('Call success');
     let body = res.json();
     return body;
   }
 
   private handleError (res: Response | any) {
-    console.log('Call failure');
     return [[]];
   }
 

@@ -93,27 +93,21 @@ export class BillingComponent implements OnInit {
     this.achSubmitted = true;
     if (this.achForm.valid) {
 
-      console.log('ach form valid, executing');
       let email = this.gift.email;
 
       let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
                                        this.achForm.value.accountName, this.achForm.value.accountType);
 
-      console.log('User bank');
-      console.log(JSON.stringify(userBank));
 
       let firstName = 'placeholder'; //not used by API, except for guest donations
       let lastName = 'placeholder';  //not used by API, except for guest donations
 
       this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
           value => {
-            console.log('GOT OBSERVABLE BANK RESULT: ');
-            console.log(value);
             this.gift.paymentType = 'ach';
             this.adv();
           },
           error => {
-            console.log('Failed to get stripe token');
           }
       );
 
@@ -133,20 +127,16 @@ export class BillingComponent implements OnInit {
 
       //TODO Add actual user email as customer card param below
       let userCard: CustomerCard = new CustomerCard('mpcrds+20@gmail.com'/*email*/, this.ccForm.value.ccNumber, expMonth, expYear, this.ccForm.value.cvc, this.ccForm.value.zipCode);
-      console.log(userCard);
 
       let firstName = 'placeholder'; //not used by API, except for guest donations
       let lastName = 'placeholder';  //not used by API, except for guest donations
 
       this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
           value => {
-            console.log('GOT OBSERVABLE CARD RESULT: ');
-            console.log(value);
             this.gift.paymentType = 'cc';
             this.adv();
           },
           error => {
-            console.log('Failed to get stripe token');
           }
       );
 
