@@ -27,10 +27,6 @@ export class PaymentService {
         };
     }
 
-    ngOnInit() {
-        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
-    }
-
     //Get Crds Donor by email
     getDonor(email: string): Observable<any> {
 
@@ -124,11 +120,14 @@ debugger;
         let url: string = this.baseUrl + 'api/donation';
 
         return this.httpClient.post(url, paymentInfo)
-            .map(this.extractData)
+            .map(this.extractPostPmtData)
             .catch(this.handleError);
 
     }
 
+    private extractPostPmtData(res: Response) {
+        return res;
+    }
 
     private extractData(res: Response) {
         let body = res.json();
