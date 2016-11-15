@@ -45,7 +45,7 @@ export class GiftService {
   public isGuest: boolean;
 
   // ACH Information
-  public accountType: string = 'personal';
+  public accountType: string = 'individual';
   public accountName: string;
   public routingNumber: string;
   public accountNumber: string;
@@ -155,7 +155,7 @@ export class GiftService {
       'zipCode'
     ], (f) => {
       if (f === 'accountType') {
-        this[f] = 'personal';
+        this[f] = 'individual';
       } else {
         delete(this[f]);
       }

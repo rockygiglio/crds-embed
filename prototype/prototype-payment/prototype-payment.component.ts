@@ -59,7 +59,7 @@ export class PrototypePaymentComponent implements OnInit {
       account_holder_name: ['', [<any>Validators.required]],
       routing_number: ['', [<any>Validators.required]],
       ach_account_number: ['', [<any>Validators.required]],
-      account_type: ['personal', [<any>Validators.required]]
+      account_type: ['individual', [<any>Validators.required]]
     });
 
     this.ccForm = this._fb.group({
@@ -133,7 +133,7 @@ export class PrototypePaymentComponent implements OnInit {
       this.gift.account_holder_name = pmtInfo.default_source.bank_account.accountHolderName;
       this.gift.routing_number = pmtInfo.default_source.bank_account.routing;
       this.gift.ach_account_number = pmtInfo.default_source.bank_account.last4;
-      this.gift.account_type = 'personal';
+      this.gift.account_type = 'individual';
     }
   }
 

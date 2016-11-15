@@ -15,7 +15,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DonationService implements Resolve<number> {
 
-  private transactionUrl = process.env.CRDS_API_ENDPOINT;
+  private transactionUrl: string = process.env.CRDS_API_ENDPOINT;
 
   private bank: any;
   private card: any;

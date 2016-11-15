@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { GiftService } from '../services/gift.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
-
 import { CreditCardValidator } from '../validators/credit-card.validator';
-
 import { CustomerBank } from '../classes/customer-bank';
 import { CustomerCard} from '../classes/customer-card';
-
+import { GiftService } from '../services/gift.service';
 import { StripeService } from '../services/stripe.service';
-
 import { PaymentService } from '../services/payment.service';
+import { StateManagerService } from '../services/state-manager.service';
 
 @Component({
   selector: 'app-billing',
@@ -33,7 +27,6 @@ export class BillingComponent implements OnInit {
     private stateManagerService: StateManagerService,
     private gift: GiftService,
     private fb: FormBuilder,
-    private paymentService: ExistingPaymentInfoService,
     private pmtService: PaymentService,
     private stripeService: StripeService) { }
 
@@ -148,6 +141,5 @@ export class BillingComponent implements OnInit {
   adv() {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
   }
-
-
+  
 }

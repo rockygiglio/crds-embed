@@ -32,11 +32,11 @@ export class PaymentService {
     }
 
     //Get Crds Donor by email
-    getDonor(email): Observable<any> {
+    getDonor(email: string): Observable<any> {
 
         let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
-
-        let donorUrl = this.baseUrl + 'donor/?email=' + encodedEmail;
+        let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;
+debugger;        
         let requestOptions: any = this.httpClient.getRequestOption();
 
         return this.http.get(donorUrl, requestOptions)
@@ -45,19 +45,19 @@ export class PaymentService {
     }
 
 
-    createDonorWithBankAcct(bankAcct, email, firstName, lastName) {
+    createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string) {
         return this.apiDonor(bankAcct, email, firstName, lastName, this.stripeService.methodNames.bankAccount, this.restMethodNames.post);
     }
 
-    createDonorWithCard(card, email, firstName, lastName) {
+    createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string) {
         return this.apiDonor(card, email, firstName, lastName, this.stripeService.methodNames.card, this.restMethodNames.post);
     }
 
-    updateDonorWithBankAcct(donorId, bankAcct, email) {
+    updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string) {
         return this.apiDonor(bankAcct, email, null, null, this.stripeService.methodNames.bankAccount, this.restMethodNames.put);
     }
 
-    updateDonorWithCard(donorId, card, email) {
+    updateDonorWithCard(donorId: number, card: CustomerCard, email: string) {
         return this.apiDonor(card, email, null, null, this.stripeService.methodNames.card, this.restMethodNames.put);
     }
 
@@ -104,19 +104,16 @@ export class PaymentService {
         return observable;
     }
 
-    makeApiDonorCall(donorInfo, email, firstName, lastName, restMethod): Observable<any> {
-
-        let crdsDonor = new CrdsDonorWithoutId(donorInfo.id, email, firstName, lastName);
-
+    makeApiDonorCall(donorInfo: crds-donor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
         let donorUrl = this.baseUrl + 'donor/';
         let requestOptions: any = this.httpClient.getRequestOption();
 
         if (restMethod === this.restMethodNames.post) {
-            return this.http.post(donorUrl, crdsDonor, requestOptions)
+            return this.http.post(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
         } else if (restMethod === this.restMethodNames.put){
-            return this.http.put(donorUrl, crdsDonor, requestOptions)
+            return this.http.put(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
         }
