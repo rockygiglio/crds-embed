@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { PaymentService } from '../services/payment.service';
-import { PaymentCallBody } from '../classes/payment-call-body';
+import { PaymentCallBody } from '../models/payment-call-body';
 
 @Component({
   selector: 'app-summary',

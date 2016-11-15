@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
-import { CustomerBank } from '../classes/customer-bank';
-import { CustomerCard} from '../classes/customer-card';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -12,7 +12,9 @@ export class StripeService {
         bankAccount: 'getBankInfoToken'
     };
 
-    constructor () {}
+    constructor () {
+        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
+    }
 
     public getCardInfoToken(customerCard: CustomerCard) {
         let observable  = new Observable(observer => {

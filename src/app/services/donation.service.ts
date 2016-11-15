@@ -6,8 +6,8 @@ import { HttpClientService } from './http-client.service';
 import { UserSessionService } from './user-session.service';
 import { PaymentService } from './payment.service';
 import { GiftService } from './gift.service';
-import { CustomerBank } from '../classes/customer-bank';
-import { CustomerCard} from '../classes/customer-card';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';

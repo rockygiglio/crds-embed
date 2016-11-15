@@ -3,10 +3,10 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
 import { StripeService } from './stripe.service';
-import { CustomerBank } from '../classes/customer-bank';
-import { CustomerCard} from '../classes/customer-card';
-import { PaymentCallBody } from '../classes/payment-call-body';
-import { CrdsDonorWithoutId } from '../classes/crds-donor-without-id';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
+import { PaymentCallBody } from '../models/payment-call-body';
+import { CrdsDonorWithoutId } from '../models/crds-donor-without-id';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -31,8 +31,7 @@ export class PaymentService {
     getDonor(email: string): Observable<any> {
 
         let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
-        let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;
-debugger;        
+        let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;   
         let requestOptions: any = this.httpClient.getRequestOption();
 
         return this.http.get(donorUrl, requestOptions)
@@ -100,7 +99,7 @@ debugger;
         return observable;
     }
 
-    makeApiDonorCall(donorInfo: crds-donor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
+    makeApiDonorCall(donorInfo: CrdsDonorWithoutId, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
         let donorUrl = this.baseUrl + 'donor/';
         let requestOptions: any = this.httpClient.getRequestOption();
 
