@@ -10,6 +10,8 @@ export class DonationComponent implements OnInit {
 
   constructor(public gift: GiftService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
+  }
 
 }

@@ -4,6 +4,8 @@ import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { PaymentService } from '../services/payment.service';
+import { PaymentCallBody } from '../models/payment-call-body';
 
 @Component({
   selector: 'app-summary',
@@ -16,7 +18,8 @@ export class SummaryComponent implements OnInit {
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
               private gift: GiftService,
-              private existingPaymentInfoService: ExistingPaymentInfoService) {}
+              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private paymentService: PaymentService) {}
 
   ngOnInit() {
     this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
@@ -41,15 +44,23 @@ export class SummaryComponent implements OnInit {
   }
 
   next() {
-    if (this.gift.url) {
-      if (this.gift.overrideParent === true && window.top !== undefined ) {
-        window.top.location.href = this.gift.url;
-      } else {
-        window.location.href = this.gift.url;
+    let paymentDetail = new PaymentCallBody(this.gift.amount, this.gift.paymentType, 'PAYMENT', this.gift.invoiceId );
+
+    this.paymentService.postPayment(paymentDetail).subscribe(
+      info => {
+         if (this.gift.url) {
+           this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
+           if (this.gift.overrideParent === true && window.top !== undefined ) {
+             window.top.location.href = this.gift.url;
+           } else {
+             window.location.href = this.gift.url;
+           }
+         } else {
+           this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
+         }
       }
-    } else {
-      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
-    }
+    );
+
     return false;
   }
 

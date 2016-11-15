@@ -31,6 +31,8 @@ import { LoginService } from './services/login.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HttpClientService } from './services/http-client.service';
+import { PaymentService } from './services/payment.service';
+import { StripeService } from './services/stripe.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { ExpirayFormatDirective } from './directives/expiry-format.directive';
@@ -79,7 +81,9 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
     ParamValidationService,
     StateManagerService,
     GiftService,
+    PaymentService,
     ParamValidationService,
+    StripeService,
     Angulartics2GoogleTagManager
   ],
   bootstrap:    [AppComponent]

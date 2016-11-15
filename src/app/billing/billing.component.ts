@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { GiftService } from '../services/gift.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
-
 import { CreditCardValidator } from '../validators/credit-card.validator';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
+import { GiftService } from '../services/gift.service';
+import { StripeService } from '../services/stripe.service';
+import { PaymentService } from '../services/payment.service';
+import { StateManagerService } from '../services/state-manager.service';
 
 @Component({
   selector: 'app-billing',
@@ -30,7 +31,8 @@ export class BillingComponent implements OnInit {
     private stateManagerService: StateManagerService,
     private gift: GiftService,
     private fb: FormBuilder,
-    private paymentService: ExistingPaymentInfoService) { }
+    private pmtService: PaymentService,
+    private stripeService: StripeService) { }
 
   ngOnInit() {
     this.stateManagerService.is_loading = true;
@@ -140,8 +142,22 @@ export class BillingComponent implements OnInit {
     this.achSubmitted = true;
     this.gift.accountNumber = this.gift.accountNumber.toString().trim();
     if (this.achForm.valid) {
-      this.gift.paymentType = 'ach';
-      this.adv();
+      let email = this.gift.email;
+
+      let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
+                                       this.achForm.value.accountName, this.achForm.value.accountType);
+
+      let firstName = ''; // not used by API, except for guest donations
+      let lastName = '';  // not used by API, except for guest donations
+
+      this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
+          value => {
+            this.gift.paymentType = 'ach';
+            this.adv();
+          },
+          error => {
+          }
+      );
     } else {
       this.displayErrorsACH();
     }
@@ -151,8 +167,25 @@ export class BillingComponent implements OnInit {
   ccNext() {
     this.ccSubmitted = true;
     if (this.ccForm.valid) {
-      this.gift.paymentType = 'cc';
-      this.adv();
+      let expMonth = this.ccForm.value.expDate.split(' / ')[0];
+      let expYear = this.ccForm.value.expDate.split(' / ')[1];
+
+      let email = this.gift.email;
+
+      let userCard: CustomerCard = new CustomerCard(this.gift.email, this.ccForm.value.ccNumber, expMonth, expYear,
+                                                    this.ccForm.value.cvc, this.ccForm.value.zipCode);
+
+      let firstName = 'placeholder'; // not used by API, except for guest donations
+      let lastName = 'placeholder';  // not used by API, except for guest donations
+
+      this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
+          value => {
+            this.gift.paymentType = 'cc';
+            this.adv();
+          },
+          error => {
+          }
+      );
     } else {
       this.displayErrorsCC();
     }
