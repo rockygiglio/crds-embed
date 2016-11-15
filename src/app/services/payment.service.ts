@@ -31,9 +31,8 @@ export class PaymentService {
 
         let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
         let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;
-        let requestOptions: any = this.httpClient.getRequestOption();
 
-        return this.http.get(donorUrl, requestOptions)
+        return this.httpClient.get(donorUrl)
             .map(this.extractData)
             .catch(this.handleError);
     }
