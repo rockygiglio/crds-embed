@@ -93,8 +93,8 @@ export class BillingComponent implements OnInit {
                                        this.achForm.value.accountName, this.achForm.value.accountType);
 
 
-      let firstName = ''; //not used by API, except for guest donations
-      let lastName = '';  //not used by API, except for guest donations
+      let firstName = ''; // not used by API, except for guest donations
+      let lastName = '';  // not used by API, except for guest donations
 
       this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
           value => {
@@ -119,10 +119,11 @@ export class BillingComponent implements OnInit {
 
       let email = this.gift.email;
 
-      let userCard: CustomerCard = new CustomerCard(this.gift.email, this.ccForm.value.ccNumber, expMonth, expYear, this.ccForm.value.cvc, this.ccForm.value.zipCode);
+      let userCard: CustomerCard = new CustomerCard(this.gift.email, this.ccForm.value.ccNumber, expMonth, expYear,
+                                                    this.ccForm.value.cvc, this.ccForm.value.zipCode);
 
-      let firstName = 'placeholder'; //not used by API, except for guest donations
-      let lastName = 'placeholder';  //not used by API, except for guest donations
+      let firstName = 'placeholder'; // not used by API, except for guest donations
+      let lastName = 'placeholder';  // not used by API, except for guest donations
 
       this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
           value => {
@@ -140,5 +141,5 @@ export class BillingComponent implements OnInit {
   adv() {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
   }
-  
+
 }

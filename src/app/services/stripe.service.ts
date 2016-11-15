@@ -12,7 +12,7 @@ export class StripeService {
         bankAccount: 'getBankInfoToken'
     };
 
-    constructor () {        
+    constructor () {
     }
 
     public getCardInfoToken(customerCard: CustomerCard) {

@@ -22,9 +22,9 @@ export class PaymentComponent implements OnInit {
               private fb: FormBuilder) {
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
-            
+
     if (this.gift.type === 'donation') {
       this.router.navigateByUrl('/donation');
     }

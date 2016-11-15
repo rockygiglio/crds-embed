@@ -27,11 +27,10 @@ export class PaymentService {
         };
     }
 
-    //Get Crds Donor by email
     getDonor(email: string): Observable<any> {
 
         let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
-        let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;   
+        let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;
         let requestOptions: any = this.httpClient.getRequestOption();
 
         return this.http.get(donorUrl, requestOptions)
@@ -107,7 +106,7 @@ export class PaymentService {
             return this.http.post(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
-        } else if (restMethod === this.restMethodNames.put){
+        } else if (restMethod === this.restMethodNames.put) {
             return this.http.put(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
