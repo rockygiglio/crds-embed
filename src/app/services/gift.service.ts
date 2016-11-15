@@ -45,10 +45,10 @@ export class GiftService {
   public isGuest: boolean;
 
   // ACH Information
-  public accountType: string = 'personal';
-  public accountName: string = '';
-  public routingNumber: string = '';
-  public accountNumber: string = '';
+  public accountType: string = 'individual';
+  public accountName: string;
+  public routingNumber: string;
+  public accountNumber: string;
 
   // Credit Card information
   public ccNumber: string = '';
@@ -114,9 +114,11 @@ export class GiftService {
   public setBillingInfo(pmtInfo: PaymentInfo) {
     if (pmtInfo.default_source.credit_card.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.credit_card.last4;
+      this.paymentType = 'cc';
     }
     if (pmtInfo.default_source.bank_account.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.bank_account.last4;
+      this.paymentType = 'ach';
     }
   }
 
@@ -153,7 +155,7 @@ export class GiftService {
       'zipCode'
     ], (f) => {
       if (f === 'accountType') {
-        this[f] = 'personal';
+        this[f] = 'individual';
       } else {
         delete(this[f]);
       }
