@@ -12,8 +12,7 @@ export class StripeService {
         bankAccount: 'getBankInfoToken'
     };
 
-    constructor () {
-        (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
+    constructor () {        
     }
 
     public getCardInfoToken(customerCard: CustomerCard) {
