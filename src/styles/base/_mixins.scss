@@ -6,3 +6,14 @@
   font-weight: 400;
   text-transform: uppercase;
 }
+
+@mixin calendar-date($background, $border, $text) {
+  background-color: $background;
+  border: 1px solid $border;
+  box-shadow: none;
+  color: $text;
+
+  .text-info {
+      color: $text;
+  }
+}

@@ -15,6 +15,7 @@ export class PaymentComponent implements OnInit {
   public customAmount: number;
   public selectedAmount: string;
   public amountDue: Array<Object>;
+  public submitted: boolean = false;
 
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
@@ -23,7 +24,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
+    (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
 
     if (this.gift.type === 'donation') {
       this.router.navigateByUrl('/donation');
@@ -50,6 +51,7 @@ export class PaymentComponent implements OnInit {
   }
 
   next() {
+    this.submitted = true;
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
     return false;
   }
