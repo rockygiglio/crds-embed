@@ -23,6 +23,10 @@ export class BillingComponent implements OnInit {
   userToken = null;
   accountNumberPlaceholder = 'Account Number';
 
+  errorMessage: string = 'The following fields are in error:';
+  errorMessageACH: string = '';
+  errorMessageCC: string = '';
+
   constructor( private router: Router,
     private stateManagerService: StateManagerService,
     private gift: GiftService,
@@ -61,10 +65,10 @@ export class BillingComponent implements OnInit {
     });
 
     this.ccForm = this.fb.group({
-      ccNumber: ['', [<any>CreditCardValidator.validateCCNumber]],
-      expDate:  ['', [<any>CreditCardValidator.validateExpDate]],
+      ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
+      expDate:  ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
       cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
-      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(10)]]
+      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
     });
 
     if ( this.gift.accountLast4) {
@@ -82,16 +86,65 @@ export class BillingComponent implements OnInit {
     return false;
   }
 
+  switchMessage(errors: any): string {
+    let ret = `is <em>invalid</em>`;
+    if ( errors.required !==  undefined ) {
+      ret = `is <u>required</u>`;
+    }
+    return ret;
+  }
+
+  displayErrorsACH() {
+    if ( !this.achForm.valid ) {
+      let thisMessage = `<p>${this.errorMessage}</p>`;
+      thisMessage += `<ul>`;
+      if ( !this.achForm.controls['accountName'].valid ) {
+        thisMessage += `<li>Account name ${this.switchMessage(this.achForm.controls['accountName'].errors)}</li>`;
+      }
+      if ( !this.achForm.controls['accountNumber'].valid ) {
+        thisMessage += `<li>Account number ${this.switchMessage(this.achForm.controls['accountNumber'].errors)}</li>`;
+      }
+      if ( !this.achForm.controls['routingNumber'].valid ) {
+        thisMessage += `<li>Routing number ${this.switchMessage(this.achForm.controls['routingNumber'].errors)}</li>`;
+      }
+      thisMessage += '</ul>';
+      this.errorMessageACH = thisMessage;
+    } else {
+      this.errorMessageACH = '';
+    }
+  }
+
+  displayErrorsCC() {
+    if ( !this.ccForm.valid ) {
+      let thisMessage = `<p>${this.errorMessage}</p>`;
+      thisMessage += `<ul>`;
+      if ( !this.ccForm.controls['ccNumber'].valid ) {
+        thisMessage += `<li>Card number ${this.switchMessage(this.ccForm.controls['ccNumber'].errors)}</li>`;
+      }
+      if ( !this.ccForm.controls['expDate'].valid ) {
+        thisMessage += `<li>Expiration date ${this.switchMessage(this.ccForm.controls['expDate'].errors)}</li>`;
+      }
+      if ( !this.ccForm.controls['cvv'].valid ) {
+        thisMessage += `<li>CVV ${this.switchMessage(this.ccForm.controls['cvv'].errors)}</li>`;
+      }
+      if ( !this.ccForm.controls['zipCode'].valid ) {
+        thisMessage += `<li>Zip code ${this.switchMessage(this.ccForm.controls['zipCode'].errors)}</li>`;
+      }
+      thisMessage += `</ul>`;
+      this.errorMessageCC = thisMessage;
+    } else {
+      this.errorMessageCC = '';
+    }
+  }
+
   achNext() {
     this.achSubmitted = true;
-    this.gift.accountNumber = this.gift.accountNumber.toString().trim();
     if (this.achForm.valid) {
-
+      this.gift.accountNumber = this.gift.accountNumber.trim();
       let email = this.gift.email;
 
       let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
                                        this.achForm.value.accountName, this.achForm.value.accountType);
-
 
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
@@ -104,16 +157,15 @@ export class BillingComponent implements OnInit {
           error => {
           }
       );
-
+    } else {
+      this.displayErrorsACH();
     }
     return false;
   }
 
   ccNext() {
     this.ccSubmitted = true;
-
     if (this.ccForm.valid) {
-
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
       let expYear = this.ccForm.value.expDate.split(' / ')[1];
 
@@ -133,7 +185,8 @@ export class BillingComponent implements OnInit {
           error => {
           }
       );
-
+    } else {
+      this.displayErrorsCC();
     }
     return false;
   }

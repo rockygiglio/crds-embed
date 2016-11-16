@@ -1,6 +1,16 @@
 .inline-giving {
   background-color: $bg-color;
 
+  .alert {
+    p {
+      margin: 0 0 0.5em 0;
+      font-weight: bold;
+    }
+    ul {
+      padding-left: 1.5em;
+    }
+  }
+
   .page-header {
     @include header-font($fontface-header, 1.25em);
 
@@ -121,6 +131,14 @@
       border: none;
       font-size: 1.5em;
       font-weight: bold;
+    }
+
+    &.submitted {
+      .form-control { 
+        &.ng-invalid {
+          border: 1px solid #ebccd1;
+        }
+      }
     }
 
     .form-control {
