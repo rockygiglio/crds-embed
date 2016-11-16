@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    (<any>window).Stripe.setPublishableKey(process.env.STRIPE_PUBKEY);
+    (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
 
     if (this.gift.type === 'donation') {
       this.router.navigateByUrl('/donation');
