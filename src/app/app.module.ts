@@ -16,6 +16,7 @@ import { PreloaderModule } from './preloader/preloader.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
+import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
@@ -61,6 +62,7 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
     PageNotFoundComponent,
     PaymentComponent,
     DonationComponent,
+    FundAndFrequencyComponent,
     BillingComponent,
     SummaryComponent,
     AuthenticationComponent,
