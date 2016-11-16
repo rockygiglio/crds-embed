@@ -2,7 +2,7 @@
 $dt-bg-color: #171717;
 $dt-primary-color: #1E94DC;
 $dt-secondary-color: #5CAFA8;
-$dt-accent-color: #A2A2A2; 
+$dt-accent-color: #A2A2A2;
 $dt-header-color: #969696;
 $dt-underline-color: #343434;
 $dt-text-color: #969696;
@@ -76,12 +76,9 @@ $dt-page-bg-color: #222222;
   }
 
   .table {
-    td:first-child {
-      font-family: inherit;
-      font-size: .9em;
-      font-weight: 500;
-      text-transform: uppercase;
+    border-bottom-color: $underline-color;
 
+    td:first-child {
       a {
         color: $text-color;
       }
@@ -165,7 +162,7 @@ $dt-page-bg-color: #222222;
         @include calendar-date($calendar-hover-bg, $calendar-hover-border, $calendar-hover-text);
       }
     }
-    
+
     th {
       .btn-default {
         &.btn-secondary {
