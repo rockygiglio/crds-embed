@@ -35,24 +35,23 @@ export class PaymentService {
         return this.httpClient.get(donorUrl)
             .map(this.extractData)
             .catch(this.handleError);
-    }
-
+    };
 
     createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string) {
         return this.apiDonor(bankAcct, email, firstName, lastName, this.stripeService.methodNames.bankAccount, this.restMethodNames.post);
-    }
+    };
 
     createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string) {
         return this.apiDonor(card, email, firstName, lastName, this.stripeService.methodNames.card, this.restMethodNames.post);
-    }
+    };
 
     updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string) {
         return this.apiDonor(bankAcct, email, null, null, this.stripeService.methodNames.bankAccount, this.restMethodNames.put);
-    }
+    };
 
     updateDonorWithCard(donorId: number, card: CustomerCard, email: string) {
         return this.apiDonor(card, email, null, null, this.stripeService.methodNames.card, this.restMethodNames.put);
-    }
+    };
 
     /**
      * Send the donor's information to stripe to receive a donor Id, then make a call to the Crossroad Gateway API's
@@ -95,7 +94,7 @@ export class PaymentService {
         });
 
         return observable;
-    }
+    };
 
     makeApiDonorCall(donorInfo: CrdsDonor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
         let donorUrl = this.baseUrl + 'donor/';
@@ -110,29 +109,24 @@ export class PaymentService {
                 .map(this.extractData)
                 .catch(this.handleError);
         }
-    }
+    };
 
     postPayment(paymentInfo: PaymentCallBody): Observable<any> {
 
         let url: string = this.baseUrl + 'api/donation';
 
         return this.httpClient.post(url, paymentInfo)
-            .map(this.extractPostPmtData)
+            .map(this.extractData)
             .catch(this.handleError);
 
-    }
-
-    private extractPostPmtData(res: Response) {
-        return res;
-    }
+    };
 
     private extractData(res: Response) {
-        let body = res.json();
-        return body;
-    }
+        return res;
+    };
 
     private handleError (res: Response | any) {
         return [[]];
-    }
+    };
 
 }
