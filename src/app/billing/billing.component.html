@@ -8,9 +8,7 @@
 </div>
 
 <div *ngIf="gift.paymentMethod == 'Bank Account'" heading="Bank Account">
-  <header class="page-header page-header--no-btm-space">
-    <h2>Account Type:</h2>
-  </header>
+  <h3 class="radio-form__header">Account Type:</h3>
 
   <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achNext()">
     <div class="radio-group">

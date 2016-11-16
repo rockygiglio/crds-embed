@@ -54,6 +54,15 @@
     }
   }
 
+  .radio-form {
+    &__header {
+      color: $text-color;
+      font-size: .75em; // 12px
+      margin: 0;
+      text-transform: uppercase;
+    }
+  }
+
   .btn-group {
     .btn-option {
       background-color: transparent;
