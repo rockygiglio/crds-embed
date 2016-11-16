@@ -64,7 +64,7 @@
           margin-right: 0;
           margin-bottom: .5em;
 
-          @media (min-width: 320px) {
+          @media (min-width: $screen-xs) {
             margin-right: .5em;
             margin-bottom: 0;
           }
@@ -81,7 +81,7 @@
       flex-flow: column nowrap;
       justify-content: space-between;
 
-      @media (min-width: 320px) {
+      @media (min-width: $screen-xs) {
         flex-direction: row;
       }
     }
@@ -93,7 +93,7 @@
       padding-bottom: 1em;
     }
   }
-  
+
   .table {
     tbody {
       > tr {
@@ -175,7 +175,7 @@
   .form {
     &__helpers {
       color: $text-color;
-      font-size: 14px; 
+      font-size: 14px;
 
       &--half {
         @include make-xs-column(6);
@@ -269,7 +269,7 @@
 
   datepicker {
     th {
-      .btn-default {            
+      .btn-default {
         &.btn-secondary {
           &.btn-sm {
             border: 0;

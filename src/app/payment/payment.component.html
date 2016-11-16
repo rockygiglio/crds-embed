@@ -9,7 +9,7 @@
     <h2>Amount:</h2>
   </div>
 
-  <div class="btn-group">
+  <div class="btn-group btn-group--flex btn-group--underline">
     <button *ngFor="let item of amountDue"
             class="btn btn-option btn-option--flex-item"
             (click)="onSelectAmount($event, item.amount)"
@@ -17,8 +17,6 @@
       {{ item.label }}: {{ item.amount | currency: "USD": true }}
     </button>
   </div>
-
-  <hr>
 
   <form [formGroup]="form" (ngSubmit)="next()">
 
@@ -38,7 +36,7 @@
 
     <footer class="page-footer">
       <input type="submit"
-             class="btn btn-next pull-right"
+             class="btn btn-next btn-block"
              (click)="next()"
              value="Next"
              [disabled]="!isValid()"
