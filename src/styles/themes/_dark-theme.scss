@@ -109,7 +109,11 @@ $dt-page-bg-color: #222222;
   }
 
   .text-block {
-    .text-block__link--underline {
+    &--lg-font {
+      color: lighten(saturate(adjust-hue($text-color, 0.0000), 0.0000), 14.5098);
+    }
+
+    &__link--underline {
       color: currentColor;
 
       &:hover {
