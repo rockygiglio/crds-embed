@@ -29,7 +29,7 @@ class MockActivatedRoute {
   };
 }
 
-describe('Component: Billing', () => {
+fdescribe('Component: Billing', () => {
   let component: BillingComponent;
   let fixture: ComponentFixture<BillingComponent>;
 
@@ -68,5 +68,32 @@ describe('Component: Billing', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should validate required ACH parameters', () => {
+    this.component.achForm = {
+      valid: false,
+      controls: {
+        accountName: { valid: false, errors: { required: true } },
+        accountNumber: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
+        routingNumber: { valid: true, errors: null }
+      }
+    };
+    this.component.displayErrorsACH();
+    expect(this.component.errorMessageACH).toBe(`<p>${this.component.errorMessage}</p><ul><li>Account name is <u>required</u></li><li>Account number is <em>invalid</em></li></ul>`);
+  });
+
+  it('should validate required CC parameters', () => {
+    this.component.ccForm = {
+      valid: false,
+      controls: {
+        ccNumber: { valid: false, errors: { required: true } },
+        expDate: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
+        cvv: { valid: true, errors: null },
+        zipCode: { valid: true, errors: null }
+      }
+    };
+    this.component.displayErrorsCC();
+    expect(this.component.errorMessageCC).toBe(`<p>${this.component.errorMessage}</p><ul><li>Card number is <u>required</u></li><li>Expiration date is <em>invalid</em></li></ul>`);
   });
 });

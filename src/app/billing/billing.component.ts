@@ -87,26 +87,25 @@ export class BillingComponent implements OnInit {
   }
 
   switchMessage(errors: any): string {
-    let ret = ' is <em>invalid</em>';
+    let ret = `is <em>invalid</em>`;
     if ( errors.required !==  undefined ) {
-      ret = ' is <u>required</u>';
+      ret = `is <u>required</u>`;
     }
     return ret;
   }
 
   displayErrorsACH() {
     if ( !this.achForm.valid ) {
-      let thisMessage = '<p>' + this.errorMessage + '</p>';
-      thisMessage += '<ul>';
+      let thisMessage = `<p>${this.errorMessage}</p>`;
+      thisMessage += `<ul>`;
       if ( !this.achForm.controls['accountName'].valid ) {
-
-        thisMessage += '<li>Account name ' + this.switchMessage(this.achForm.controls['accountName'].errors) + '</li>';
+        thisMessage += `<li>Account name ${this.switchMessage(this.achForm.controls['accountName'].errors)}</li>`;
       }
       if ( !this.achForm.controls['accountNumber'].valid ) {
-        thisMessage += '<li>Account number ' + this.switchMessage(this.achForm.controls['accountNumber'].errors) + '</li>';
+        thisMessage += `<li>Account number ${this.switchMessage(this.achForm.controls['accountNumber'].errors)}</li>`;
       }
       if ( !this.achForm.controls['routingNumber'].valid ) {
-        thisMessage += '<li>Routing number ' + this.switchMessage(this.achForm.controls['routingNumber'].errors) + '</li>';
+        thisMessage += `<li>Routing number ${this.switchMessage(this.achForm.controls['routingNumber'].errors)}</li>`;
       }
       thisMessage += '</ul>';
       this.errorMessageACH = thisMessage;
@@ -117,21 +116,21 @@ export class BillingComponent implements OnInit {
 
   displayErrorsCC() {
     if ( !this.ccForm.valid ) {
-      let thisMessage = '<p>' + this.errorMessage + '</p>';
-      thisMessage += '<ul>';
+      let thisMessage = `<p>${this.errorMessage}</p>`;
+      thisMessage += `<ul>`;
       if ( !this.ccForm.controls['ccNumber'].valid ) {
-        thisMessage += '<li>Card number ' + this.switchMessage(this.ccForm.controls['ccNumber'].errors) + '</li>';
+        thisMessage += `<li>Card number ${this.switchMessage(this.ccForm.controls['ccNumber'].errors)}</li>`;
       }
       if ( !this.ccForm.controls['expDate'].valid ) {
-        thisMessage += '<li>Expiration date ' + this.switchMessage(this.ccForm.controls['expDate'].errors) + '</li>';
+        thisMessage += `<li>Expiration date ${this.switchMessage(this.ccForm.controls['expDate'].errors)}</li>`;
       }
       if ( !this.ccForm.controls['cvv'].valid ) {
-        thisMessage += '<li>CVV ' + this.switchMessage(this.ccForm.controls['cvv'].errors) + '</li>';
+        thisMessage += `<li>CVV ${this.switchMessage(this.ccForm.controls['cvv'].errors)}</li>`;
       }
       if ( !this.ccForm.controls['zipCode'].valid ) {
-        thisMessage += '<li>Zip code ' + this.switchMessage(this.ccForm.controls['zipCode'].errors) + '</li>';
+        thisMessage += `<li>Zip code ${this.switchMessage(this.ccForm.controls['zipCode'].errors)}</li>`;
       }
-      thisMessage += '</ul>';
+      thisMessage += `</ul>`;
       this.errorMessageCC = thisMessage;
     } else {
       this.errorMessageCC = '';
@@ -140,8 +139,8 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
-    this.gift.accountNumber = this.gift.accountNumber.toString().trim();
     if (this.achForm.valid) {
+      this.gift.accountNumber = this.gift.accountNumber.trim();
       let email = this.gift.email;
 
       let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
