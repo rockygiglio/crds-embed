@@ -69,6 +69,7 @@
 
       &--flex-item {
         flex: 1 1 50%;
+        min-height: 37px;
 
         &:not(:last-child):not(.dropdown-toggle) {
           margin-right: 0;
@@ -90,6 +91,7 @@
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
+      /*min-height: 100px;*/
 
       @media (min-width: $screen-xs) {
         flex-direction: row;
@@ -157,7 +159,7 @@
     }
 
     &.submitted {
-      .form-control { 
+      .form-control {
         &.ng-invalid {
           border: 1px solid #ebccd1;
         }
