@@ -15,6 +15,7 @@ export class PaymentComponent implements OnInit {
   public customAmount: number;
   public selectedAmount: string;
   public amountDue: Array<Object>;
+  public submitted: boolean = false;
 
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
@@ -50,6 +51,7 @@ export class PaymentComponent implements OnInit {
   }
 
   next() {
+    this.submitted = true;
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
     return false;
   }
