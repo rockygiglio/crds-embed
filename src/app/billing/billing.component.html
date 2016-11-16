@@ -12,7 +12,7 @@
     <h2>Account Type:</h2>
   </header>
 
-  <form [formGroup]="achForm" (ngSubmit)="achNext()">
+  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achNext()">
     <div class="radio-group">
       <label>
         <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="individual" checked> Personal
@@ -36,10 +36,8 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="achSubmitted">
-      <div *ngIf="!achForm.controls.accountName.valid" class="alert alert-danger">Account Holder Name is required</div>
-      <div *ngIf="!achForm.controls.routingNumber.valid" class="alert alert-danger">Routing Number is required</div>
-      <div *ngIf="!achForm.controls.accountNumber.valid" class="alert alert-danger">Account Number is required</div>
+    <div class="errors" *ngIf="(achSubmitted && !achForm.valid)">
+      <div *ngIf="!achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
     </div>
 
     <footer class="page-footer">
@@ -54,7 +52,7 @@
   <alert *ngIf="gift.type == 'donation'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
-  <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
+  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
     <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
     <div class="row inline-form">
       <div class="col-xs-4 inline-form__input">
@@ -64,15 +62,12 @@
         <input type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^\d{5}$)|(^\d{5}-\d{4}$" autocomplete="zip-code">
+        <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
       </div>
     </div>
 
-    <div class="errors" *ngIf="ccSubmitted">
-      <div *ngIf="!ccForm.controls.ccNumber.valid" class="alert alert-danger">Credit Card is invalid</div>
-      <div *ngIf="!ccForm.controls.expDate.valid" class="alert alert-danger">Expiration Date is required</div>
-      <div *ngIf="!ccForm.controls.cvv.valid" class="alert alert-danger">CVV is required</div>
-      <div *ngIf="!ccForm.controls.zipCode.valid" class="alert alert-danger">Zipcode is invalid</div>
+    <div class="errors" *ngIf="(ccSubmitted && !ccForm.valid)">
+      <div *ngIf="!ccForm.valid" class="alert alert-danger" [innerHTML]="errorMessageCC"></div>
     </div>
 
     <footer class="page-footer">
