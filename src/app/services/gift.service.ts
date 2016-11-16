@@ -28,10 +28,11 @@ export class GiftService {
   public errors: Array<string> = [];
 
   // Form options
-  public funds: Program[];
-  public amounts: number[];
+  public funds: Observable<Program[]>;
+  public predefinedAmounts: Observable<number[]>;
   public existingPaymentInfo: Observable<any>;
   public paymentMethod: string = 'Bank Account';
+  public rick: any;
 
   // Payment Information
   public amount: number;
@@ -72,8 +73,9 @@ export class GiftService {
     if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
-    } else {
-      this.loadFormData();
+    }
+    if (this.type === 'donation') {
+      this.loadDonationFormData();
     }
   }
 
@@ -122,13 +124,9 @@ export class GiftService {
     }
   }
 
-  private loadFormData() {
-    this.donationFundService.getFunds().subscribe(
-      funds => this.funds = funds
-    );
-    this.quickDonationAmountService.getQuickDonationAmounts().subscribe(
-      amounts => this.amounts = amounts
-    );
+  private loadDonationFormData() {
+    this.funds = this.donationFundService.getFunds();
+    this.predefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
   }
 
   public validAmount() {
@@ -213,6 +211,10 @@ export class GiftService {
       this.fundId = this.parseParamOrSetError(this.helper.params.fund_id, this.queryParams);
     } else {
       this.errors.push('Invalid type');
+    }
+
+    if (this.type === this.helper.types.donation) {
+      this.stateManagerService.unhidePage(this.stateManagerService.detailsIndex);
     }
 
     // Do not remove these logs - they were requested for testing

@@ -37,7 +37,10 @@ module.exports = function(config) {
      *
      * we are building the test environment in ./spec-bundle.js
      */
-    files: [ { pattern: './config/spec-bundle.js', watched: false } ],
+    files: [ 
+      { pattern: './config/spec-bundle.js', watched: false },
+      { pattern: 'https://js.stripe.com/v2/', include: true }
+    ],
 
     /*
      * preprocess matching files before serving them to the browser

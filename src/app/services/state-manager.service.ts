@@ -11,13 +11,15 @@ export class StateManagerService {
   public is_loading: boolean = false;
 
   public paymentIndex: number = 0;
-  public authenticationIndex: number = 1;
-  public billingIndex: number = 2;
-  public summaryIndex: number = 3;
-  public confirmationIndex: number = 4;
+  public detailsIndex: number = 1;
+  public authenticationIndex: number = 2;
+  public billingIndex: number = 3;
+  public summaryIndex: number = 4;
+  public confirmationIndex: number = 5;
 
   public paymentState: PageState[] = [
     { path: '/payment', show: true },
+    { path: '/details', show: false },
     { path: '/auth', show: true },
     { path: '/billing', show: true },
     { path: '/summary', show: true },

@@ -36,6 +36,7 @@ export class AppComponent {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.min.js');
     }
 
+    (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
   }
 
 }
