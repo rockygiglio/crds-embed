@@ -29,7 +29,7 @@ class MockActivatedRoute {
   };
 }
 
-fdescribe('Component: Billing', () => {
+describe('Component: Billing', () => {
   let component: BillingComponent;
   let fixture: ComponentFixture<BillingComponent>;
 
