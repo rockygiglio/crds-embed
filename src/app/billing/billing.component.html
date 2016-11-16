@@ -40,7 +40,7 @@
       <div *ngIf="!achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
     </div>
 
-    <footer class="page-footer">
+    <footer class="page-footer page-footer--border-top">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
       <input type="button" class="btn btn-next pull-right" (click)="achNext()" value="Next">
     </footer>
@@ -48,7 +48,7 @@
 </div>
 
 <div *ngIf="gift.paymentMethod == 'Credit Card'" heading="Credit Card">
-  <!-- <br> -->
+
   <alert *ngIf="gift.type == 'donation'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
@@ -70,7 +70,7 @@
       <div *ngIf="!ccForm.valid" class="alert alert-danger" [innerHTML]="errorMessageCC"></div>
     </div>
 
-    <footer class="page-footer">
+    <footer class="page-footer page-footer--border-top">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
       <input type="button" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
     </footer>
