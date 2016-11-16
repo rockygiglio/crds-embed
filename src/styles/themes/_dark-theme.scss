@@ -2,12 +2,12 @@
 $dt-bg-color: #171717;
 $dt-primary-color: #1E94DC;
 $dt-secondary-color: #5CAFA8;
-$dt-accent-color: #A2A2A2;
+$dt-accent-color: #A2A2A2; 
 $dt-header-color: #969696;
 $dt-underline-color: #343434;
-$dt-text-color: #B4B4B4;
+$dt-text-color: #969696;
 $dt-input-text-color: #505050;
-$dt-input-bg-color: #B4B4B4;
+$dt-input-bg-color: #C2C2C2; // #B4B4B4
 $dt-page-bg-color: #222222;
 
 .inline-giving.dark-theme {
@@ -21,6 +21,12 @@ $dt-page-bg-color: #222222;
   $input-text-color: $dt-input-text-color;
   $input-bg-color: $dt-input-bg-color;
   $page-bg-color: $dt-page-bg-color;
+  $calendar-today-bg: $bg-color;
+  $calendar-today-text: $cr-white;
+  $calendar-today-border: $cr-white;
+  $calendar-hover-bg: $secondary-color;
+  $calendar-hover-text: $cr-white;
+  $calendar-hover-border: $secondary-color;
 
   background-color: $bg-color;
 
@@ -70,8 +76,24 @@ $dt-page-bg-color: #222222;
   }
 
   .table {
-    td:last-child {
-      color: darken($text-color, 30);
+    td:first-child {
+      font-family: inherit;
+      font-size: .9em;
+      font-weight: 500;
+      text-transform: uppercase;
+
+      a {
+        color: $text-color;
+      }
+    }
+
+    tbody {
+      > tr {
+        > td {
+          border-color: $underline-color;
+          color: $text-color;
+        }
+      }
     }
   }
 
@@ -114,4 +136,46 @@ $dt-page-bg-color: #222222;
   .contrast-background {
     background: $page-bg-color;
   }
+
+  datepicker {
+    .well {
+      background: $bg-color;
+      border: 0;
+      border-bottom: 1px solid $underline-color;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      padding-bottom: 1em;
+    }
+
+    .btn-default {
+      background: $bg-color;
+      border-color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+      color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+
+      &.active {
+          @include calendar-date($calendar-today-bg, $calendar-today-border, $calendar-today-text);
+      }
+
+      .text-muted {
+        color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 43.5294);
+      }
+
+      &:hover {
+        @include calendar-date($calendar-hover-bg, $calendar-hover-border, $calendar-hover-text);
+      }
+    }
+    
+    th {
+      .btn-default {
+        &.btn-secondary {
+          &.btn-sm {
+            background: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 43.5294);
+            color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+          }
+        }
+      }
+    }
+  }
 }
+

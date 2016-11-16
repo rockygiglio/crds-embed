@@ -20,8 +20,11 @@
   </div>
 </form>
 
-<br>
-<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date"><datepicker [(ngModel)]="startDate" [minDate]="minDate" [showWeeks]="false" (ngModelChange)="onClickDate($event)"></datepicker></div>
+<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date">
+  <h3 class="btn-form__header">Recurs On:</h3>
+  <datepicker [(ngModel)]="startDate" [minDate]="minDate" [showWeeks]="false" (ngModelChange)="onClickDate($event)"></datepicker>
+</div>
+
 <div class="alert alert-warning" *ngIf="gift.start_date">
   Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}. <button (click)="resetDate()">Change</button>
 </div>
