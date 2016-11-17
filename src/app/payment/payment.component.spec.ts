@@ -66,7 +66,7 @@ describe('Component: Payment', () => {
       expect(this.component.isValid()).toBe(true);
     });
 
-    it('returns true if form is valid and gift amount is not valid', () => {
+    xit('returns true if form is valid and gift amount is not valid', () => {
       this.component.form = {
         valid: true,
         controls: {
@@ -78,8 +78,16 @@ describe('Component: Payment', () => {
       expect(this.component.isValid()).toBe(true);
     });
 
-    xit('returns true if form is not valid and gift amount is valid', () => {
-
+    it('returns true if form is not valid and gift amount is valid', () => {
+      this.component.form = {
+        valid: false,
+        controls: {
+          amount: { valid: false, errors: { required: true } },
+          customAmount: { valid: true, errors: { minLength: 8, requiredLength: 9 } },
+          selectedAmount: { valid: false, errors: null }
+        }
+      };
+      expect(this.component.isValid()).toBe(true);
     });
 
     xit('returns false if form is not valid and gift amount is not valid', () => {

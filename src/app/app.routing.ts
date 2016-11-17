@@ -12,7 +12,6 @@ import { DonationFundService } from './services/donation-fund.service';
 const appRoutes: Routes = [
   { path: '', redirectTo: '/payment', pathMatch: 'full' },
   { path: 'payment', component: PaymentComponent },
-  { path: 'donation', component: DonationComponent },
   { path: 'fund',
     component: FundAndFrequencyComponent,
     resolve: {
