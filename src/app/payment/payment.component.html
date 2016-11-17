@@ -10,12 +10,10 @@
   </div>
 
   <div *ngIf="gift.type === 'donation'">
-    <!--<div class="alert alert-warning" *ngIf="gift.isInitialized && gift.previousGiftAmount">
-      <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=gift.previousGiftAmount; next();">${{gift.previousGiftAmount}} donation</a>?
-    </div>-->
-    prev amt: {{previousAmount}}
-    <div class="alert alert-warning" *ngIf="previousAmount">
-      <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
+    <div class="donation-previous-amount">
+      <div class="alert alert-warning" *ngIf="previousAmount">
+        <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
+      </div>
     </div>
     <div class="btn-group btn-group--flex btn-group--underline">
       <button *ngFor="let amount of gift.predefinedAmounts | async"
