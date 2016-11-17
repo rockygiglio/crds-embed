@@ -133,7 +133,7 @@ export class GiftService {
   }
 
   public validAmount() {
-    let result = true;
+    let result = false;
     if (this.type === 'payment') {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
