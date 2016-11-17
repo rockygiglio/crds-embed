@@ -1,17 +1,16 @@
 /* tslint:disable:no-unused-variable */
-
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { PaymentComponent } from './payment.component';
+import { DonationFundService } from '../services/donation-fund.service';
+import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service';
-import { DonationFundService } from '../services/donation-fund.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { PaymentComponent } from './payment.component';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { StateManagerService } from '../services/state-manager.service';
 
 class MockDonationFundService { }
@@ -50,6 +49,52 @@ describe('Component: Payment', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  xdescribe('isValid()', () => {
+    it('returns true if form is valid and gift amount is valid', () => {
+      
+    });
+
+    it('returns true if form is valid and gift amount is not valid', () => {
+      
+    });
+
+    it('returns true if form is not valid and gift amount is valid', () => {
+      
+    });
+
+    it('returns false if form is not valid and gift amount is not valid', () => {
+      
+    });
+  });
+
+  xdescribe('next()', => {
+    it('registers that the form was submitted', () => {
+    
+    });
+
+    it('advances the state manager', () => {
+    
+    });
+  });
+
+  xdescribe('onCustomAmount(value)', => {
+    it('sets the custom amount', () => {
+    
+    });
+  });
+
+  xdescribe('onSelectAmount(event, value)', => {
+    it('sets the selected amount', () => {
+    
+    });
+  });
+
+  xdescribe('setAmount(value)', => {
+    it('', () => {
+    
+    });
   });
 
 });
