@@ -38,6 +38,7 @@ import { CreditCardFormatDirective } from './directives/credit-card-format.direc
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { MoneyOnlyDirective } from './directives/money-only.directive';
 
 @NgModule({
   imports:      [
@@ -69,7 +70,8 @@ import { NumbersOnlyDirective } from './directives/numbers-only.directive';
     CreditCardFormatDirective,
     ExpiryFormatDirective,
     CvvFormatDirective,
-    NumbersOnlyDirective
+    NumbersOnlyDirective,
+    MoneyOnlyDirective
   ],
   providers:    [
     appRoutingProviders,

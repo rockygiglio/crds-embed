@@ -29,7 +29,8 @@
                placeholder="Or Enter Amount"
                id="custom-amount"
                maxlength="9"
-               formControlName="customAmount" 
+               formControlName="customAmount"
+               moneyOnly
                [(ngModel)]="customAmount"
                (ngModelChange)="onCustomAmount($event)">
       </div>

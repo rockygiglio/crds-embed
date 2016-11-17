@@ -151,7 +151,7 @@ export class GiftService {
 
   public validDollarAmount(amount: any): boolean {
     let str = String(amount);
-    let pattern = new RegExp('^[0-9]{1,6}(|\.[0-9]{2})$');
+    let pattern = new RegExp('^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{2})$');
     if ( pattern.test(str) ) {
       return true;
     }
