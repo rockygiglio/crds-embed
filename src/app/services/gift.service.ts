@@ -14,68 +14,71 @@ declare var _;
 @Injectable()
 export class GiftService {
 
+  public errors: Array<string> = [];
+  public fundId: number = 0;
+  public invoiceId: number = 0;
+  public minPayment: number = 0;
+  public overrideParent: boolean = true;
+  public title: string = '';
+  public totalCost: number = 0;
+  public type: string = '';
+  public url: string = '';
+
   private queryParams: Object;
 
-  public type: string = '';
-  public invoiceId: number = 0;
-  public totalCost: number = 0;
-  public minPayment: number = 0;
-  public title: string = '';
-  public url: string = '';
-  public fundId: number = 0;
-  public overrideParent: boolean = true;
-
-  public errors: Array<string> = [];
-
   // Form options
-  public funds: Observable<Program[]>;
-  public predefinedAmounts: Observable<number[]>;
   public existingPaymentInfo: Observable<any>;
+  public funds: Observable<Program[]>;
   public paymentMethod: string = 'Bank Account';
+  public predefinedAmounts: Observable<number[]>;
   public rick: any;
 
   // Payment Information
+  public accountLast4: string = '';
   public amount: number;
   public customAmount: number;
   public paymentType: string = '';
-  public accountLast4: string = '';
 
   // user info
   public email: string = '';
-  public previousGiftAmount: string = '';
   public isGuest: boolean;
+  public previousGiftAmount: string = '';
 
   // ACH Information
-  public accountType: string = 'individual';
   public accountName: string;
-  public routingNumber: string;
   public accountNumber: string;
+  public accountType: string = 'individual';
+  public routingNumber: string;
 
   // Credit Card information
   public ccNumber: string = '';
-  public expDate: string = '';
   public cvv: string = '';
+  public expDate: string = '';
   public zipCode: string = '';
 
-  constructor(private route: ActivatedRoute,
+  constructor(private donationFundService: DonationFundService,
+              private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
-              private donationFundService: DonationFundService,
-              private quickDonationAmountService: QuickDonationAmountsService,
               private loginService: LoginService,
               private previousGiftAmountService: PreviousGiftAmountService,
-              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private quickDonationAmountService: QuickDonationAmountsService,
+              private route: ActivatedRoute,
               private stateManagerService: StateManagerService) {
     this.processQueryParams();
     this.preloadData();
   }
 
-  public preloadData() {
-    if (this.loginService.isLoggedIn()) {
-      this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-      this.loadUserData();
-    }
+  private loadDonationFormData() {
+    this.funds = this.donationFundService.getFunds();
+    this.predefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
+  }
+
+  public loadExistingPaymentData() {
+    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     if (this.type === 'donation') {
-      this.loadDonationFormData();
+      this.previousGiftAmountService.get().subscribe(
+        amount => this.previousGiftAmount = amount
+      );
     }
   }
 
@@ -92,12 +95,13 @@ export class GiftService {
       );
   }
 
-  public loadExistingPaymentData() {
-    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
+  public preloadData() {
+    if (this.loginService.isLoggedIn()) {
+      this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+      this.loadUserData();
+    }
     if (this.type === 'donation') {
-      this.previousGiftAmountService.get().subscribe(
-        amount => this.previousGiftAmount = amount
-      );
+      this.loadDonationFormData();
     }
   }
 
@@ -112,33 +116,6 @@ export class GiftService {
     };
     this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
   };
-
-  public setBillingInfo(pmtInfo: PaymentInfo) {
-    if (pmtInfo.default_source.credit_card.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
-      this.paymentType = 'cc';
-    }
-    if (pmtInfo.default_source.bank_account.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
-      this.paymentType = 'ach';
-    }
-  }
-
-  private loadDonationFormData() {
-    this.funds = this.donationFundService.getFunds();
-    this.predefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
-  }
-
-  public validAmount() {
-    let result = true;
-    if (this.type === 'payment') {
-      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
-    } else if (this.type === 'donation') {
-      result = this.amount > 0;
-    }
-
-    return result;
-  }
 
   public resetPaymentDetails() {
     _.each([
@@ -160,17 +137,36 @@ export class GiftService {
     });
   }
 
+  public setBillingInfo(pmtInfo: PaymentInfo) {
+    if (pmtInfo.default_source.credit_card.last4 != null) {
+      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
+      this.paymentType = 'cc';
+    }
+    if (pmtInfo.default_source.bank_account.last4 != null) {
+      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
+      this.paymentType = 'ach';
+    }
+  }
+
+  public validAmount() {
+    let result = true;
+    if (this.type === 'payment') {
+      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
+    } else if (this.type === 'donation') {
+      result = this.amount > 0;
+    }
+
+    return result;
+  }
 
   /*******************
    * PRIVATE FUNCTIONS
    *******************/
 
-  parseParamOrSetError(paramName, queryParams) {
-
+  private parseParamOrSetError(paramName, queryParams) {
     let isValid: boolean = queryParams[paramName] ?
         this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
     let isRequired: boolean =  this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
-
     let parsedParam: any = undefined;
 
     if (isValid && isRequired) {

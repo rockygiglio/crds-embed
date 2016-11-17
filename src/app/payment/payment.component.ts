@@ -11,16 +11,16 @@ import { Router } from '@angular/router';
   styleUrls: ['payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-  public form: FormGroup;
-  public customAmount: number;
-  public selectedAmount: string;
   public amountDue: Array<Object>;
+  public customAmount: number;
+  public form: FormGroup;
+  public selectedAmount: string;
   public submitted: boolean = false;
 
-  constructor(private router: Router,
-              private stateManagerService: StateManagerService,
+  constructor(private fb: FormBuilder,
               private gift: GiftService,
-              private fb: FormBuilder) {
+              private router: Router,
+              private stateManagerService: StateManagerService) {
   }
 
   ngOnInit() {
@@ -44,6 +44,10 @@ export class PaymentComponent implements OnInit {
     });
   }
 
+  isValid() {
+    return this.form.valid || this.gift.validAmount();
+  }
+
   next() {
     this.submitted = true;
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
@@ -65,10 +69,6 @@ export class PaymentComponent implements OnInit {
   setAmount(value) {
     (<FormControl>this.form.controls['amount']).setValue(value, { onlySelf: true });
     this.gift.amount = parseFloat(value);
-  }
-
-  isValid() {
-    return this.form.valid || this.gift.validAmount();
   }
 
   private validateAmount(control) {
