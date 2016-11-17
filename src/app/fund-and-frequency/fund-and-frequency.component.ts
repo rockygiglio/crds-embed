@@ -1,17 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { GiftService } from '../services/gift.service';
-import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
-interface Program {
-  Name: string;
-  ProgramId: number;
-  ProgramType: number;
-  AllowRecurringGiving: boolean;
-}
+import { FundsService } from '../services/funds/funds.service';
+import { GiftService } from '../services/gift.service';
+import { Program } from '../interfaces/program';
+
 
 @Component({
   selector: 'app-prototype-details',
@@ -26,6 +22,7 @@ export class FundAndFrequencyComponent implements OnInit {
   form: FormGroup;
   startDate: any;
   fundIdParam: number;
+  isFundSelectionHidden : boolean = undefined;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -35,27 +32,21 @@ export class FundAndFrequencyComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private fundsHlpr: FundsService,
               private gift: GiftService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
+
     this.funds = this.route.snapshot.data['giveTo'];
     this.fundIdParam = this.gift.fundId;
-    this.gift.fund = this.defaultFund.Name;
+    this.gift.fund = this.fundsHlpr.getFundNameOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     this.setFrequencies();
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
-  }
-
-  getFundNameOrDefault(paramFundId: number, funds: Array<Program>): string {
-
-    let urlParamFund: any = _.find(funds, {paramFundId});
-    let urlParamFundName: any = urlParamFund ? urlParamFund.Name : undefined;
-    let fundName: string = urlParamFundName ? urlParamFundName : this.defaultFund.Name;
-    return fundName;
 
   }
 
