@@ -5,7 +5,7 @@ import { CreditCard } from '../shared/credit-card';
   selector: '[ccExp]'
 })
 
-export class ExpirayFormatDirective {
+export class ExpiryFormatDirective {
 
   public target;
 
