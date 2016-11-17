@@ -18,29 +18,29 @@
     </button>
   </div>
 
-  <form [formGroup]="form" [class.submitted]="ccSubmitted" (ngSubmit)="next()">
+  <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
 
     <div class="form-group">
       <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <input type="text"
+        <input type="tel"
                class="form-control"
                placeholder="Or Enter Amount"
                id="custom-amount"
-               [formControl]="form.get('customAmount')"
+               maxlength="9"
+               formControlName="customAmount" 
                [(ngModel)]="customAmount"
                (ngModelChange)="onCustomAmount($event)">
       </div>
     </div>
 
+    <div class="errors" *ngIf="( !isValid() && submitted )">
+      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+    </div>
+
     <footer class="page-footer">
-      <input type="button"
-             class="btn btn-next btn-block"
-             (click)="next()"
-             value="Next"
-             [disabled]="!isValid()"
-      >
+      <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
     </footer>
 
   </form>

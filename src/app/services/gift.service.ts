@@ -35,6 +35,7 @@ export class GiftService {
 
   // Payment Information
   public amount: number;
+  public selectedAmount: number;
   public customAmount: number;
   public paymentType: string = '';
   public accountLast4: string = '';
@@ -134,12 +135,27 @@ export class GiftService {
   public validAmount() {
     let result = true;
     if (this.type === 'payment') {
-      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
+      result = !isNaN(this.amount)
+        && this.validDollarAmount(this.amount)
+        && Number(this.amount) >= this.minPayment
+        && Number(this.amount) <= this.totalCost;
     } else if (this.type === 'donation') {
-      result = this.amount > 0;
-    }
+      result = !isNaN(this.amount)
+        && this.validDollarAmount(this.amount)
+        && Number(this.amount) > 0
+        && Number(this.amount) < 1000000;
 
+    }
     return result;
+  }
+
+  public validDollarAmount(amount: any): boolean {
+    let str = String(amount);
+    let pattern = new RegExp('^[0-9]{1,6}(|\.[0-9]{2})$');
+    if ( pattern.test(str) ) {
+      return true;
+    }
+    return false;
   }
 
   public resetPaymentDetails() {
