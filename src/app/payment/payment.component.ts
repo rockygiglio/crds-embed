@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
 import { Router } from '@angular/router';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 
 @Component({
   selector: 'app-payment',
@@ -16,9 +17,12 @@ export class PaymentComponent implements OnInit {
   public form: FormGroup;
   public selectedAmount: string;
   public submitted: boolean = false;
+  public previousAmount: string;
+  public errorMessage: string;
 
   constructor(private fb: FormBuilder,
               private gift: GiftService,
+              private previousGiftService: PreviousGiftAmountService,
               private router: Router,
               private stateManagerService: StateManagerService) {
   }
@@ -42,6 +46,14 @@ export class PaymentComponent implements OnInit {
       customAmount: [this.gift.amount, [<any>Validators.required, this.validateAmount.bind(this)]],
       selectedAmount: [this.gift.amount]
     });
+
+    this.getPreviousGiftAmount();
+  }
+
+  getPreviousGiftAmount() {
+    this.previousGiftService.get().subscribe(
+      amount => this.previousAmount = amount,
+      error =>  this.errorMessage = <any>error);
   }
 
   isValid() {
@@ -72,9 +84,13 @@ export class PaymentComponent implements OnInit {
   }
 
   private validateAmount(control) {
-    return this.gift.validAmount() ? null : {
-      validateAmount: true
-    };
+    if (this.gift.validAmount()) {
+      return null;
+    } else {
+      return {
+        validateAmount: false
+      };
+    }
   }
 
 }

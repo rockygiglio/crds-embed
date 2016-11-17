@@ -26,12 +26,13 @@ export class GiftService {
 
   private queryParams: Object;
 
+  public isInitialized: boolean = false;
+
   // Form options
   public existingPaymentInfo: Observable<any>;
   public funds: Observable<Program[]>;
   public paymentMethod: string = 'Bank Account';
   public predefinedAmounts: Observable<number[]>;
-  public rick: any;
 
   // Payment Information
   public accountLast4: string = '';
@@ -66,23 +67,26 @@ export class GiftService {
               private stateManagerService: StateManagerService) {
     this.processQueryParams();
     this.preloadData();
+    this.isInitialized = true;
   }
 
-  private loadDonationFormData() {
+  private loadDonationFormData(): void {
     this.funds = this.donationFundService.getFunds();
     this.predefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
   }
 
-  public loadExistingPaymentData() {
+  public loadExistingPaymentData(): void {
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     if (this.type === 'donation') {
       this.previousGiftAmountService.get().subscribe(
-        amount => this.previousGiftAmount = amount
+        amount => {
+          this.previousGiftAmount = amount;
+        }
       );
     }
   }
 
-  public loadUserData() {
+  public loadUserData(): void {
     this.loadExistingPaymentData();
     this.loginService.authenticate().subscribe(
       (info) => {
@@ -95,7 +99,7 @@ export class GiftService {
     );
   }
 
-  public preloadData() {
+  public preloadData(): void {
     if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
@@ -105,7 +109,7 @@ export class GiftService {
     }
   }
 
-  public resetExistingPaymentInfo() {
+  public resetExistingPaymentInfo(): void {
     this.accountLast4 = null;
 
     let emptyPaymentInfo: any = {
@@ -117,7 +121,7 @@ export class GiftService {
     this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
   };
 
-  public resetPaymentDetails() {
+  public resetPaymentDetails(): void {
     _.each([
       'paymentType',
       'accountType',
@@ -137,7 +141,7 @@ export class GiftService {
     });
   }
 
-  public setBillingInfo(pmtInfo: PaymentInfo) {
+  public setBillingInfo(pmtInfo: PaymentInfo): void {
     if (pmtInfo.default_source.credit_card.last4 != null) {
       this.accountLast4 = pmtInfo.default_source.credit_card.last4;
       this.paymentType = 'cc';
@@ -148,7 +152,7 @@ export class GiftService {
     }
   }
 
-  public validAmount() {
+  public validAmount(): boolean {
     let result = true;
     if (this.type === 'payment') {
       result = this.amount >= this.minPayment && this.amount <= this.totalCost;
@@ -163,7 +167,7 @@ export class GiftService {
    * PRIVATE FUNCTIONS
    *******************/
 
-  private parseParamOrSetError(paramName, queryParams) {
+  private parseParamOrSetError(paramName, queryParams): any {
     let isValid: boolean = queryParams[paramName] ?
         this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
     let isRequired: boolean =  this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
@@ -183,7 +187,7 @@ export class GiftService {
     return parsedParam;
   }
 
-  private processQueryParams() {
+  private processQueryParams(): void {
     this.queryParams = this.route.snapshot.queryParams;
 
     if (this.queryParams['theme'] === 'dark') {
@@ -213,7 +217,10 @@ export class GiftService {
       this.stateManagerService.unhidePage(this.stateManagerService.detailsIndex);
     }
 
-    // Do not remove these logs - they were requested for testing
+    //this.logInputParams();
+  }
+
+  private logInputParams(): void {
     console.log('type ' + this.type);
     console.log('invoice_id', this.invoiceId);
     console.log('total_cost', this.totalCost);
@@ -222,10 +229,9 @@ export class GiftService {
     console.log('url', this.url);
     console.log('fund_id', this.fundId);
     console.log('override_parent', this.overrideParent);
-
   }
 
-  private setTheme(theme) {
+  private setTheme(theme): void {
     document.body.classList.add(theme);
   }
 
