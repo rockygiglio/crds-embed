@@ -30,7 +30,7 @@ export class PaymentService {
     getDonor(email: string): Observable<any> {
 
         let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
-        let donorUrl = this.baseUrl + 'donor/email=' + encodedEmail;
+        let donorUrl = this.baseUrl + 'api/donor/email=' + encodedEmail;
 
         return this.httpClient.get(donorUrl)
             .map(this.extractData)
@@ -96,15 +96,15 @@ export class PaymentService {
         return observable;
     };
 
-    makeApiDonorCall(donorInfo: CrdsDonor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
-        let donorUrl = this.baseUrl + 'donor/';
+    makeApiDonorCall(donorInfo: CrdsDonor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {     
+        let donorUrl = this.baseUrl + 'api/donor';
         let requestOptions: any = this.httpClient.getRequestOption();
 
-        if (restMethod === this.restMethodNames.post) {
+        if (restMethod === this.restMethodNames.post) {  // create new cc or ach info            
             return this.http.post(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
-        } else if (restMethod === this.restMethodNames.put) {
+        } else if (restMethod === this.restMethodNames.put) { // update cc or ach info
             return this.http.put(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
