@@ -58,6 +58,11 @@ export class GiftService {
   public expDate: string = '';
   public zipCode: string = '';
 
+  //Fund and frequency information
+  public fund: any = '';
+  public start_date: any = '';
+  public frequency: any = '';
+
   constructor(private donationFundService: DonationFundService,
               private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
