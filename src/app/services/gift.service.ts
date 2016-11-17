@@ -32,7 +32,8 @@ export class GiftService {
   public existingPaymentInfo: Observable<any>;
   public funds: Observable<Program[]>;
   public paymentMethod: string = 'Bank Account';
-  public predefinedAmounts: Observable<number[]>;
+  public getPredefinedAmounts: Observable<number[]>;
+  public predefinedAmounts: number[];
 
   // Payment Information
   public accountLast4: string = '';
@@ -72,7 +73,10 @@ export class GiftService {
 
   private loadDonationFormData(): void {
     this.funds = this.donationFundService.getFunds();
-    this.predefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
+    this.getPredefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
+    this.getPredefinedAmounts.subscribe(
+      amounts => this.predefinedAmounts = amounts
+    );
   }
 
   public loadExistingPaymentData(): void {

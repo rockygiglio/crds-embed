@@ -3,7 +3,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
 import { Router } from '@angular/router';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 
 @Component({
   selector: 'app-payment',
@@ -21,7 +20,6 @@ export class PaymentComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private gift: GiftService,
-              private previousGiftService: PreviousGiftAmountService,
               private router: Router,
               private stateManagerService: StateManagerService) {
   }
@@ -46,11 +44,11 @@ export class PaymentComponent implements OnInit {
       selectedAmount: [this.gift.amount]
     });
 
-    this.getPreviousGiftAmount();
+    // this.getPreviousGiftAmount();
   }
 
   getPreviousGiftAmount() {
-   this.previousGiftService.get().subscribe(
+   this.gift.getPreviousAmounts.subscribe(
      amount => {
        this.previousAmount = amount; 
      },
