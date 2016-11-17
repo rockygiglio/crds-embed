@@ -16,7 +16,7 @@ export class CreditCardFormatDirective {
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {
-    let process = CreditCard.restrictNumeric(e) && CreditCard.restrictCardNumber(e.which, this.target);
+    let process = CreditCard.restrictNumeric(e) && CreditCard.isCardNumber(e.which, this.target);
 
     if (process) {
       this.formatCardNumber(e);
@@ -72,7 +72,7 @@ export class CreditCardFormatDirective {
     }
 
     if ((this.target.selectionStart != null) && this.target.selectionStart !== value.length) {
-      return;
+      // return;
     }
 
     if (card && card.type === 'amex') {
@@ -102,7 +102,7 @@ export class CreditCardFormatDirective {
     }
 
     if ((this.target.selectionStart != null) && this.target.selectionStart !== value.length) {
-      return;
+      // return;
     }
 
     if (/\d\s$/.test(value)) {
