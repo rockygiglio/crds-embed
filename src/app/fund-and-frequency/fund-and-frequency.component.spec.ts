@@ -61,7 +61,7 @@ describe('Component: FundAndFrequency', () => {
     this.component = this.fixture.componentInstance;
   });
 
-  fit('should create an instance', () => {
+  it('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
 

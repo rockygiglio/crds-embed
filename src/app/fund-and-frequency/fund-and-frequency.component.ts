@@ -25,6 +25,7 @@ export class FundAndFrequencyComponent implements OnInit {
   availableFrequencies: Array<string> = this.defaultFrequencies;
   form: FormGroup;
   startDate: any;
+  fundIdParam: number;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -39,6 +40,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
   ngOnInit() {
     this.funds = this.route.snapshot.data['giveTo'];
+    this.fundIdParam = this.gift.fundId;
     this.gift.fund = this.defaultFund.Name;
     this.setFrequencies();
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
@@ -46,6 +48,15 @@ export class FundAndFrequencyComponent implements OnInit {
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
+  }
+
+  getFundNameOrDefault(paramFundId: number, funds: Array<Program>): string {
+
+    let urlParamFund: any = _.find(funds, {paramFundId});
+    let urlParamFundName: any = urlParamFund ? urlParamFund.Name : undefined;
+    let fundName: string = urlParamFundName ? urlParamFundName : this.defaultFund.Name;
+    return fundName;
+
   }
 
   back() {
