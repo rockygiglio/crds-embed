@@ -25,7 +25,7 @@
 
   <div *ngIf="gift.type === 'payment'">
     <div class="btn-group btn-group--flex btn-group--underline">
-      <button *ngFor="let item of amountOptions"
+      <button *ngFor="let item of amountDue"
               class="btn btn-option btn-option--flex-item"
               (click)="onSelectAmount($event, item.amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">

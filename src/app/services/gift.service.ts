@@ -83,16 +83,16 @@ export class GiftService {
   }
 
   public loadUserData() {
-      this.loadExistingPaymentData();
-      this.loginService.authenticate().subscribe(
-        (info) => {
-          if ( info !== null ) {
-            this.email = info.userEmail;
-          } else {
-            this.loginService.logOut();
-          }
+    this.loadExistingPaymentData();
+    this.loginService.authenticate().subscribe(
+      (info) => {
+        if ( info !== null ) {
+          this.email = info.userEmail;
+        } else {
+          this.loginService.logOut();
         }
-      );
+      }
+    );
   }
 
   public preloadData() {
