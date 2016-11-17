@@ -8,14 +8,14 @@ import { Program } from '../interfaces/program';
 
 describe('Service: DonationFund', () => {
 
-  const mockDefaultFund: Program = {
-    "ProgramId": 3,
-    "Name": "General Giving",
-    "ProgramType": 1,
-    "AllowRecurringGiving": true
+    const mockDefaultFund: Program = {
+    'ProgramId': 3,
+    'Name': 'General Giving',
+    'ProgramType': 1,
+    'AllowRecurringGiving': true
   };
-    
-  const mockFunds: Array<any> =
+
+    const mockFunds: Array<Program> =
     [
       {
         'ProgramId': 3,
@@ -61,31 +61,23 @@ describe('Service: DonationFund', () => {
     });
   });
 
-  // fit('should return default fund name when fund is not in list of funds',
-  //   inject([DonationFundService], (srvc: DonationFundService) => {
-  //
-  //     let fundId: number = 2;
-  //
-  //     let fundName = srvc.getFundNameOrDefault(fundId, this.mockFunds, this.mockDefaultFund);
-  //
-  //     console.log('Fund name is: ' + fundName );
-  //
-  //     expect(fundName).toBe(this.mockDefaultFund.Name);
-  //
-  // }));
-  //
-  // fit('should return the name of the fund whose id was passed in',
-  //   inject([DonationFundService], (srvc: DonationFundService) => {
-  //
-  //     let fundId: number = 146;
-  //
-  //     let fundName = srvc.getFundNameOrDefault(fundId, this.mockFunds, this.mockDefaultFund);
-  //
-  //     console.log('Fund name is: ' + fundName );
-  //
-  //     expect(fundName).toBe('I\'m In');
-  //
-  // }));
+  it('should return default fund name when fund is not in list of funds',
+    inject([DonationFundService], (srvc: DonationFundService) => {
+
+      let fundId = 2;
+      let fundName = srvc.getFundNameOrDefault(fundId, mockFunds, mockDefaultFund);
+      expect(fundName).toBe(mockDefaultFund.Name);
+
+  }));
+
+  it('should return the name of the fund whose id was passed in',
+    inject([DonationFundService], (srvc: DonationFundService) => {
+
+      let fundId = 146;
+      let fundName = srvc.getFundNameOrDefault(fundId, mockFunds, mockDefaultFund);
+      expect(fundName).toBe('I\'m In');
+
+  }));
 
   it('should create an instance', async(inject([DonationFundService, MockBackend], (service, mockBackend) => {
     expect(service).toBeDefined();
