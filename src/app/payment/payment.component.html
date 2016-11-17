@@ -14,7 +14,7 @@
       <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=gift.previousGiftAmount; next();">${{gift.previousGiftAmount}} donation</a>?
     </div>-->
     prev amt: {{previousAmount}}
-    <div class="alert alert-warning" *ngIf="previousAmount | async">
+    <div class="alert alert-warning" *ngIf="previousAmount">
       <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
     </div>
     <div class="btn-group btn-group--flex btn-group--underline">

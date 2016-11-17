@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { StateManagerService } from '../services/state-manager.service';
 import { GiftService } from '../services/gift.service';
@@ -7,18 +7,17 @@ import { PreviousGiftAmountService } from '../services/previous-gift-amount.serv
 
 @Component({
   selector: 'app-payment',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'payment.component.html',
   styleUrls: ['payment.component.css']
 })
 export class PaymentComponent implements OnInit {
   public amountDue: Array<Object>;
   public customAmount: number;
+  public errorMessage: string;
   public form: FormGroup;
+  public previousAmount: string;
   public selectedAmount: string;
   public submitted: boolean = false;
-  public previousAmount: string;
-  public errorMessage: string;
 
   constructor(private fb: FormBuilder,
               private gift: GiftService,
@@ -51,9 +50,11 @@ export class PaymentComponent implements OnInit {
   }
 
   getPreviousGiftAmount() {
-    this.previousGiftService.get().subscribe(
-      amount => this.previousAmount = amount,
-      error =>  this.errorMessage = <any>error);
+   this.previousGiftService.get().subscribe(
+     amount => {
+       this.previousAmount = amount; 
+     },
+     error =>  this.errorMessage = <any>error);
   }
 
   isValid() {
