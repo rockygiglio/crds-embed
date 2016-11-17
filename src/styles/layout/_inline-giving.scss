@@ -69,6 +69,7 @@
 
       &--flex-item {
         flex: 1 1 50%;
+        min-height: 37px;
 
         &:not(:last-child):not(.dropdown-toggle) {
           margin-right: 0;
@@ -157,7 +158,7 @@
     }
 
     &.submitted {
-      .form-control { 
+      .form-control {
         &.ng-invalid {
           border: 1px solid #ebccd1;
         }
