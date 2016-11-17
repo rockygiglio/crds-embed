@@ -27,10 +27,11 @@ export class PaymentService {
         };
     }
 
+// TODO remove email parameter
     getDonor(email: string): Observable<any> {
 
-        let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
-        let donorUrl = this.baseUrl + 'api/donor/email=' + encodedEmail;
+        // let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
+        let donorUrl = this.baseUrl + 'api/donor';
 
         return this.httpClient.get(donorUrl)
             .map(this.extractData)
@@ -100,11 +101,11 @@ export class PaymentService {
         let donorUrl = this.baseUrl + 'api/donor';
         let requestOptions: any = this.httpClient.getRequestOption();
 
-        if (restMethod === this.restMethodNames.post) {  // create new cc or ach info            
+        if (restMethod === this.restMethodNames.post) {
             return this.http.post(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
-        } else if (restMethod === this.restMethodNames.put) { // update cc or ach info
+        } else if (restMethod === this.restMethodNames.put) {
             return this.http.put(donorUrl, donorInfo, requestOptions)
                 .map(this.extractData)
                 .catch(this.handleError);
@@ -126,6 +127,8 @@ export class PaymentService {
     };
 
     private handleError (res: Response | any) {
+console.log('ERROR - handle error');
+console.log(res);
         return [[]];
     };
 

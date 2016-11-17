@@ -140,6 +140,7 @@ export class BillingComponent implements OnInit {
   achNext() {
     this.achSubmitted = true;
     if (this.achForm.valid) {
+      this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
       let email = this.gift.email;
 
@@ -149,12 +150,24 @@ export class BillingComponent implements OnInit {
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
-      this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
-          value => {
-            this.gift.paymentType = 'ach';
-            this.adv();
+      this.pmtService.getDonor(email).subscribe(
+          donor => {
+            this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
+               value => {
+                 this.adv();
+              },
+            error => {
+            }
+            );
           },
           error => {
+            this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
+               value => {
+                 this.adv();
+              },
+              error => {
+              }
+            );
           }
       );
     } else {
@@ -165,7 +178,10 @@ export class BillingComponent implements OnInit {
 
   ccNext() {
     this.ccSubmitted = true;
+
     if (this.ccForm.valid) {
+      this.gift.paymentType = 'cc';
+
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
       let expYear = this.ccForm.value.expDate.split(' / ')[1];
 
@@ -175,17 +191,30 @@ export class BillingComponent implements OnInit {
                                                     this.ccForm.value.cvc, this.ccForm.value.zipCode);
 
       let firstName = 'placeholder'; // not used by API, except for guest donations
-      let lastName = 'placeholder';  // not used by API, except for guest donations
+      let lastName = 'placeholder';  // not used by API, except for guest donations      
 
-      this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
-          value => {
-            this.gift.paymentType = 'cc';
-            this.adv();
+      this.pmtService.getDonor(email).subscribe(
+          donor => {
+            // PUT??
+            this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
+               value => {
+                 this.adv();
+              },
+            error => {
+            }
+            );
           },
           error => {
+            this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
+               value => {
+                 this.adv();
+              },
+              error => {
+              }
+            );
           }
       );
-    } else {
+   } else {
       this.displayErrorsCC();
     }
     return false;
