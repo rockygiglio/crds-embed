@@ -69,6 +69,7 @@
 
       &--flex-item {
         flex: 1 1 50%;
+        min-height: 37px;
 
         &:not(:last-child):not(.dropdown-toggle) {
           margin-right: 0;
@@ -157,7 +158,7 @@
     }
 
     &.submitted {
-      .form-control { 
+      .form-control {
         &.ng-invalid {
           border: 1px solid #ebccd1;
         }
@@ -180,6 +181,15 @@
     label {
       font-weight: normal;
     }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      height: 42px;
+      padding: 0 20px;
+    }
+
   }
 
   .inline-form {

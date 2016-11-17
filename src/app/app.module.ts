@@ -34,8 +34,9 @@ import { PaymentService } from './services/payment.service';
 import { StripeService } from './services/stripe.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
-import { ExpirayFormatDirective } from './directives/expiry-format.directive';
+import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 
 @NgModule({
   imports:      [
@@ -64,8 +65,9 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
     AuthenticationComponent,
     ConfirmationComponent,
     CreditCardFormatDirective,
-    ExpirayFormatDirective,
-    CvvFormatDirective
+    ExpiryFormatDirective,
+    CvvFormatDirective,
+    NumbersOnlyDirective
   ],
   providers:    [
     appRoutingProviders,
