@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
+import { Program } from '../interfaces/program';
 
 export interface Program {
   Name: string;
@@ -39,6 +40,15 @@ export class DonationFundService implements Resolve<any> {
       'ProgramType': 1,
       'AllowRecurringGiving': true
     }]];
+  }
+
+  getFundNameOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): string {
+
+    let urlParamFund: any = funds.find(fund => fund.ProgramId == paramFundId);
+    let urlParamFundName: any = urlParamFund ? urlParamFund.Name : undefined;
+    let fundName: string = urlParamFundName ? urlParamFundName : defaultFund.Name;
+    return fundName;
+
   }
 
 }

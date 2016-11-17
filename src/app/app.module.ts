@@ -22,7 +22,6 @@ import { SummaryComponent } from './summary/summary.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 
-import { FundsService } from './services/funds/funds.service';
 import { GiftService } from './services/gift.service';
 import { StateManagerService } from './services/state-manager.service';
 import { ParamValidationService } from './services/param-validation.service';
@@ -80,7 +79,6 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
     LoginService,
     CookieService,
     ExistingPaymentInfoService,
-    FundsService,
     HttpClientService,
     ParamValidationService,
     StateManagerService,

@@ -7,7 +7,6 @@ import { DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
-import { FundsService } from '../services/funds/funds.service';
 import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service.ts';
 import { DonationFundService } from '../services/donation-fund.service';
@@ -47,12 +46,14 @@ describe('Component: FundAndFrequency', () => {
       ],
       providers:    [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        GiftService, ParamValidationService, DonationFundService, QuickDonationAmountsService,
+        GiftService,
+        ParamValidationService,
+        DonationFundService,
+        QuickDonationAmountsService,
         PreviousGiftAmountService,
         LoginService,
         CookieService,
         ExistingPaymentInfoService,
-        FundsService,
         HttpClientService,
         StateManagerService,
         PaymentService,

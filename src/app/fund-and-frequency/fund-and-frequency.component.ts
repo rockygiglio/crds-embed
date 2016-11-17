@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
-import { FundsService } from '../services/funds/funds.service';
+import { DonationFundService } from '../services/donation-fund.service';
 import { GiftService } from '../services/gift.service';
 import { Program } from '../interfaces/program';
 
@@ -22,7 +22,7 @@ export class FundAndFrequencyComponent implements OnInit {
   form: FormGroup;
   startDate: any;
   fundIdParam: number;
-  isFundSelectionHidden : boolean = undefined;
+  isFundSelectionHidden: boolean = undefined;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -32,7 +32,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private fundsHlpr: FundsService,
+              private fundsHlpr: DonationFundService,
               private gift: GiftService,
               private _fb: FormBuilder) {}
 
@@ -60,7 +60,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
   resetDate() {
     this.startDate = undefined;
-    //this.gift.resetDate();
+    // this.gift.resetDate();
   }
 
   setFrequencies() {

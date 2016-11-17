@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
-import { DonationFundService, Program } from './donation-fund.service';
+import { DonationFundService } from './donation-fund.service';
 import { LoginService } from './login.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
 import { Observable } from 'rxjs/Observable';
+import { Program } from '../interfaces/program';
 
 declare var _;
 
@@ -56,7 +57,7 @@ export class GiftService {
   public cvv: string = '';
   public zipCode: string = '';
 
-  //Fund and frequency information
+  // Fund and frequency information
   public fund: any = '';
   public start_date: any = '';
   public frequency: any = '';
