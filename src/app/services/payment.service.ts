@@ -94,7 +94,7 @@ export class PaymentService {
         return observable;
     };
 
-    makeApiDonorCall(donorInfo: CrdsDonor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {     
+    makeApiDonorCall(donorInfo: CrdsDonor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
         let donorUrl = this.baseUrl + 'api/donor';
         let requestOptions: any = this.httpClient.getRequestOption();
 

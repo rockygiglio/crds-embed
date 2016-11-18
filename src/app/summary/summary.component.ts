@@ -27,6 +27,8 @@ export class SummaryComponent implements OnInit {
     if (!this.gift.type) {
       this.router.navigateByUrl('/payment');
     }
+
+    this.stateManagerService.is_loading = false;
   }
 
   getLastFourOfAccountNumber() {
@@ -48,11 +50,12 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
-        if (this.isArrayOfLength(info, 0)) {
-          this.gift.stripeException = true;
-          this.changePayment();
+         if (this.isArrayOfLength(info, 0)) {
+           this.gift.stripeException = true;
+           this.changePayment();
           return false;
-        }
+         }
+         this.gift.stripeException = false;
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
            if (this.gift.overrideParent === true && window.top !== undefined ) {

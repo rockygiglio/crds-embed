@@ -95,7 +95,7 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
-    if (this.achForm.valid && !this.gift.stripeException) {
+    if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
       let email = this.gift.email;
@@ -129,7 +129,7 @@ export class BillingComponent implements OnInit {
   ccNext() {
     this.ccSubmitted = true;
 
-    if (this.ccForm.valid && !this.gift.stripeException) {
+    if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
 
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];

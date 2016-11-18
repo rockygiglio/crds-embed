@@ -163,14 +163,6 @@
       font-size: 1.125em;
     }
 
-    &.submitted {
-      .form-control {
-        &.ng-invalid {
-          border: 1px solid $error-border;
-        }
-      }
-    }
-
     .form-control {
       background-color: $input-bg-color;
       border: none;
@@ -330,6 +322,22 @@
   }
 
   // Validation styles
+  .form {
+    &.submitted.ng-invalid {
+      .form-control {
+        &.ng-invalid {
+          border: 1px solid $error-border;
+        }
+          border: 1px solid $error-border;
+      }
+      .input-group-addon {
+        border: 1px solid $error-border;
+        background-color: $error-bg;
+        color: $error-text;
+      }
+    }
+  }
+
   .ng-touched {
     .ng-valid {
       border: 1px solid $success;
