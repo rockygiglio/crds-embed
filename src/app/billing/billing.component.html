@@ -62,7 +62,7 @@
         <input tabindex="3" type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input tabindex="4" type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
+        <input tabindex="4" onlyTheseKeys='[0-9\-]' type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
       </div>
     </div>
 
