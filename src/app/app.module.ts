@@ -16,11 +16,13 @@ import { PreloaderModule } from './preloader/preloader.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
 import { DonationComponent } from './donation/donation.component';
+import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 
+import { FundsService } from './services/funds/funds.service';
 import { GiftService } from './services/gift.service';
 import { StateManagerService } from './services/state-manager.service';
 import { ParamValidationService } from './services/param-validation.service';
@@ -35,8 +37,9 @@ import { PaymentService } from './services/payment.service';
 import { StripeService } from './services/stripe.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
-import { ExpirayFormatDirective } from './directives/expiry-format.directive';
+import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 
 @NgModule({
   imports:      [
@@ -61,13 +64,15 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
     PageNotFoundComponent,
     PaymentComponent,
     DonationComponent,
+    FundAndFrequencyComponent,
     BillingComponent,
     SummaryComponent,
     AuthenticationComponent,
     ConfirmationComponent,
     CreditCardFormatDirective,
-    ExpirayFormatDirective,
-    CvvFormatDirective
+    ExpiryFormatDirective,
+    CvvFormatDirective,
+    NumbersOnlyDirective
   ],
   providers:    [
     appRoutingProviders,
@@ -77,6 +82,7 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
     LoginService,
     CookieService,
     ExistingPaymentInfoService,
+    FundsService,
     HttpClientService,
     ParamValidationService,
     StateManagerService,
