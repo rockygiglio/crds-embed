@@ -33,6 +33,7 @@ export class GiftService {
   // Payment Information
   public accountLast4: string = '';
   public amount: number;
+  public selectedAmount: number;
   public customAmount: number;
   public paymentType: string = '';
 
@@ -114,6 +115,32 @@ export class GiftService {
     this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
   };
 
+  public validAmount() {
+    let result = false;
+    if (this.type === 'payment') {
+      result = !isNaN(this.amount)
+        && this.validDollarAmount(this.amount)
+        && Number(this.amount) >= this.minPayment
+        && Number(this.amount) <= this.totalCost;
+    } else if (this.type === 'donation') {
+      result = !isNaN(this.amount)
+        && this.validDollarAmount(this.amount)
+        && Number(this.amount) > 0
+        && Number(this.amount) < 1000000;
+
+    }
+    return result;
+  }
+
+  public validDollarAmount(amount: any): boolean {
+    let str = String(amount);
+    let pattern = new RegExp('(^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{2})$)|(^(|0)\.[0-9]{2}$)');
+    if ( pattern.test(str) ) {
+      return true;
+    }
+    return false;
+  }
+
   public resetPaymentDetails(): void {
     _.each([
       'paymentType',
@@ -143,17 +170,6 @@ export class GiftService {
       this.accountLast4 = pmtInfo.default_source.bank_account.last4;
       this.paymentType = 'ach';
     }
-  }
-
-  public validAmount(): boolean {
-    let result = true;
-    if (this.type === 'payment') {
-      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
-    } else if (this.type === 'donation') {
-      result = this.amount > 0;
-    }
-
-    return result;
   }
 
   /*******************
