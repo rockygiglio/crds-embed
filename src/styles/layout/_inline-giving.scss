@@ -157,11 +157,14 @@
       font-size: 1.125em;
     }
 
-    &.submitted {
+    &.submitted.ng-invalid {
       .form-control {
-        &.ng-invalid {
-          border: 1px solid #ebccd1;
-        }
+          border: 1px solid $state-danger-border;
+      }
+      .input-group-addon {
+        border: 1px solid $state-danger-border;
+        background-color: $state-danger-bg;
+        color: $state-danger-text;
       }
     }
 

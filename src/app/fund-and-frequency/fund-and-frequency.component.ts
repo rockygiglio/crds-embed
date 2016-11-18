@@ -50,6 +50,8 @@ export class FundAndFrequencyComponent implements OnInit {
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
 
+    this.stateManagerService.is_loading = false;
+
   }
 
   back() {
@@ -64,7 +66,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
   resetDate() {
     this.startDate = undefined;
-    //this.gift.resetDate();
+    // this.gift.resetDate();
   }
 
   setFrequencies() {
