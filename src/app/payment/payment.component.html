@@ -10,7 +10,7 @@
   </div>
 
   <div *ngIf="gift.type === 'donation'">
-    <div class="donation-previous-amount">
+    <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
       <div class="alert alert-warning" *ngIf="previousAmount">
         <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
       </div>
