@@ -48,6 +48,11 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
+        if (this.isArrayOfLength(info, 0)) {
+          this.gift.stripeException = true;
+          this.changePayment();
+          return false;
+        }
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
            if (this.gift.overrideParent === true && window.top !== undefined ) {
@@ -64,13 +69,25 @@ export class SummaryComponent implements OnInit {
     return false;
   }
 
-  isGuest() {
-    return this.gift.isGuest;
-  }
-
   changePayment() {
     this.gift.resetExistingPaymentInfo();
     this.gift.resetPaymentDetails();
     this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
+
+  isArrayOfLength(obj: any, length: number) {
+    let isArrayOfSpecifiedLength = false;
+
+    if (Array.isArray(obj)) {
+      if (obj.length === length) {
+        isArrayOfSpecifiedLength = true;
+      }
+    }
+    return isArrayOfSpecifiedLength;
+  }
+
+  isGuest() {
+    return this.gift.isGuest;
+  }
+
 }

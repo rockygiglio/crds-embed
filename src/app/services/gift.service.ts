@@ -24,6 +24,7 @@ export class GiftService {
   public url: string = '';
   public fundId: number = 0;
   public overrideParent: boolean = true;
+  public stripeException: boolean = false;
 
   public errors: Array<string> = [];
 
@@ -55,6 +56,11 @@ export class GiftService {
   public expDate: string = '';
   public cvv: string = '';
   public zipCode: string = '';
+
+  //Fund and frequency information
+  public fund: any = '';
+  public start_date: any = '';
+  public frequency: any = '';
 
   constructor(private route: ActivatedRoute,
               private helper: ParamValidationService,
