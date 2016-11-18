@@ -36,10 +36,11 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(gift.stripeException || achSubmitted)">
-      <div *ngIf="gift.stripeException" class="alert alert-danger">
-        <p>Your payment method has been declined.</p>
-      </div>
+    <div *ngIf="gift.stripeException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>
+
+    <div class="errors" *ngIf="(achSubmitted)">
       <div *ngIf="!achForm.valid" class="alert alert-danger">
         <p>{{ errorMessage }}</p>
         <ul>
@@ -82,6 +83,10 @@
       </div>
     </div>
 
+    <div *ngIf="gift.stripeException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>
+    
     <div class="errors" *ngIf="ccSubmitted">
       <div *ngIf="!ccForm.valid" class="alert alert-danger">
         <p>{{ errorMessage }}</p>
