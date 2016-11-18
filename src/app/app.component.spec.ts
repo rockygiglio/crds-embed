@@ -13,8 +13,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ParamValidationService } from './services/param-validation.service';
 
-class MockGivingStore { public subscribe() {}; }
-
 describe('App: CrdsEmbed', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
