@@ -79,8 +79,9 @@ describe('Component: Billing', () => {
         routingNumber: { valid: true, errors: null }
       }
     };
-    this.component.displayErrorsACH();
-    expect(this.component.errorMessageACH).toBe(`<p>${this.component.errorMessage}</p><ul><li>Account name is <u>required</u></li><li>Account number is <em>invalid</em></li></ul>`);
+    expect(this.component.achForm.controls['accountName'].valid).toBe(false);
+    expect(this.component.achForm.controls['accountNumber'].valid).toBe(false);
+    expect(this.component.achForm.controls['routingNumber'].valid).toBe(true);
   });
 
   it('should validate required CC parameters', () => {
@@ -93,7 +94,9 @@ describe('Component: Billing', () => {
         zipCode: { valid: true, errors: null }
       }
     };
-    this.component.displayErrorsCC();
-    expect(this.component.errorMessageCC).toBe(`<p>${this.component.errorMessage}</p><ul><li>Card number is <u>required</u></li><li>Expiration date is <em>invalid</em></li></ul>`);
+    expect(this.component.ccForm.controls['ccNumber'].valid).toBe(false);
+    expect(this.component.ccForm.controls['expDate'].valid).toBe(false);
+    expect(this.component.ccForm.controls['cvv'].valid).toBe(true);
+    expect(this.component.ccForm.controls['zipCode'].valid).toBe(true);
   });
 });

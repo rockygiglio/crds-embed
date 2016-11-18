@@ -1,4 +1,5 @@
-.prototype-component {
-  padding: 1em;
-  margin-top: 1em;
-}
+  .donation-previous-amount {
+    height: 98px;
+    margin-bottom: 15px;
+  }
+

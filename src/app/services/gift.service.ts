@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
-import { QuickDonationAmountsService } from './quick-donation-amounts.service';
-import { DonationFundService, Program } from './donation-fund.service';
 import { LoginService } from './login.service';
-import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
 import { Observable } from 'rxjs/Observable';
@@ -14,98 +11,98 @@ declare var _;
 @Injectable()
 export class GiftService {
 
-  private queryParams: Object;
-
-  public type: string = '';
+  public errors: Array<string> = [];
   public invoiceId: number = 0;
-  public totalCost: number = 0;
   public minPayment: number = 0;
   public title: string = '';
+  public totalCost: number = 0;
+  public type: string = '';
   public url: string = '';
   public fundId: number = 0;
   public overrideParent: boolean = true;
   public stripeException: boolean = false;
 
-  public errors: Array<string> = [];
+  private queryParams: Object;
+
+  public isInitialized: boolean = false;
 
   // Form options
-  public funds: Program[];
-  public amounts: number[];
   public existingPaymentInfo: Observable<any>;
   public paymentMethod: string = 'Bank Account';
 
   // Payment Information
+  public accountLast4: string = '';
   public amount: number;
   public customAmount: number;
   public paymentType: string = '';
-  public accountLast4: string = '';
 
   // user info
   public email: string = '';
-  public previousGiftAmount: string = '';
   public isGuest: boolean;
+  public previousGiftAmount: string = '';
 
   // ACH Information
-  public accountType: string = 'individual';
   public accountName: string;
-  public routingNumber: string;
   public accountNumber: string;
+  public accountType: string = 'individual';
+  public routingNumber: string;
 
   // Credit Card information
   public ccNumber: string = '';
-  public expDate: string = '';
   public cvv: string = '';
+  public expDate: string = '';
   public zipCode: string = '';
 
-  //Fund and frequency information
+  // Fund and frequency information
   public fund: any = '';
   public start_date: any = '';
   public frequency: any = '';
 
-  constructor(private route: ActivatedRoute,
+  constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
-              private donationFundService: DonationFundService,
-              private quickDonationAmountService: QuickDonationAmountsService,
               private loginService: LoginService,
-              private previousGiftAmountService: PreviousGiftAmountService,
-              private existingPaymentInfoService: ExistingPaymentInfoService,
+              private route: ActivatedRoute,
               private stateManagerService: StateManagerService) {
     this.processQueryParams();
     this.preloadData();
+    this.isInitialized = true;
   }
 
-  public preloadData() {
+  public loadExistingPaymentData(): void {
+    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
+    this.existingPaymentInfo.subscribe(
+        info => {
+          if ( info !== null ) {
+            this.setBillingInfo(info);
+            if (this.accountLast4) {
+              this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+            }
+          }
+        }
+    );
+  }
+
+  public loadUserData(): void {
+    this.loadExistingPaymentData();
+    this.loginService.authenticate().subscribe(
+      (info) => {
+        if ( info !== null ) {
+          this.email = info.userEmail;
+        } else {
+          this.loginService.logOut();
+        }
+      }
+    );
+  }
+
+  public preloadData(): void {
     if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
-    } else {
-      this.loadFormData();
     }
   }
 
-  public loadUserData() {
-      this.loadExistingPaymentData();
-      this.loginService.authenticate().subscribe(
-        (info) => {
-          if ( info !== null ) {
-            this.email = info.userEmail;
-          } else {
-            this.loginService.logOut();
-          }
-        }
-      );
-  }
-
-  public loadExistingPaymentData() {
-    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
-    if (this.type === 'donation') {
-      this.previousGiftAmountService.get().subscribe(
-        amount => this.previousGiftAmount = amount
-      );
-    }
-  }
-
-  public resetExistingPaymentInfo() {
+  public resetExistingPaymentInfo(): void {
     this.accountLast4 = null;
 
     let emptyPaymentInfo: any = {
@@ -117,38 +114,7 @@ export class GiftService {
     this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
   };
 
-  public setBillingInfo(pmtInfo: PaymentInfo) {
-    if (pmtInfo.default_source.credit_card.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
-      this.paymentType = 'cc';
-    }
-    if (pmtInfo.default_source.bank_account.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
-      this.paymentType = 'ach';
-    }
-  }
-
-  private loadFormData() {
-    this.donationFundService.getFunds().subscribe(
-      funds => this.funds = funds
-    );
-    this.quickDonationAmountService.getQuickDonationAmounts().subscribe(
-      amounts => this.amounts = amounts
-    );
-  }
-
-  public validAmount() {
-    let result = true;
-    if (this.type === 'payment') {
-      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
-    } else if (this.type === 'donation') {
-      result = this.amount > 0;
-    }
-
-    return result;
-  }
-
-  public resetPaymentDetails() {
+  public resetPaymentDetails(): void {
     _.each([
       'paymentType',
       'accountType',
@@ -168,17 +134,36 @@ export class GiftService {
     });
   }
 
+  public setBillingInfo(pmtInfo: PaymentInfo): void {
+    if (pmtInfo.default_source.credit_card.last4 != null) {
+      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
+      this.paymentType = 'cc';
+    }
+    if (pmtInfo.default_source.bank_account.last4 != null) {
+      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
+      this.paymentType = 'ach';
+    }
+  }
+
+  public validAmount(): boolean {
+    let result = true;
+    if (this.type === 'payment') {
+      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
+    } else if (this.type === 'donation') {
+      result = this.amount > 0;
+    }
+
+    return result;
+  }
 
   /*******************
    * PRIVATE FUNCTIONS
    *******************/
 
-  parseParamOrSetError(paramName, queryParams) {
-
+  private parseParamOrSetError(paramName, queryParams): any {
     let isValid: boolean = queryParams[paramName] ?
         this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
     let isRequired: boolean =  this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
-
     let parsedParam: any = undefined;
 
     if (isValid && isRequired) {
@@ -195,7 +180,7 @@ export class GiftService {
     return parsedParam;
   }
 
-  private processQueryParams() {
+  private processQueryParams(): void {
     this.queryParams = this.route.snapshot.queryParams;
 
     if (this.queryParams['theme'] === 'dark') {
@@ -221,7 +206,14 @@ export class GiftService {
       this.errors.push('Invalid type');
     }
 
-    // Do not remove these logs - they were requested for testing
+    if (this.type === this.helper.types.donation) {
+      this.stateManagerService.unhidePage(this.stateManagerService.fundIndex);
+    }
+
+    // this.logInputParams();
+  }
+
+  private logInputParams(): void {
     console.log('type ' + this.type);
     console.log('invoice_id', this.invoiceId);
     console.log('total_cost', this.totalCost);
@@ -230,10 +222,9 @@ export class GiftService {
     console.log('url', this.url);
     console.log('fund_id', this.fundId);
     console.log('override_parent', this.overrideParent);
-
   }
 
-  private setTheme(theme) {
+  private setTheme(theme): void {
     document.body.classList.add(theme);
   }
 

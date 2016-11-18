@@ -1,36 +1,44 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { StateManagerService } from '../services/state-manager.service';
-import { GiftService } from '../services/gift.service';
 import { Router } from '@angular/router';
+
+import { GiftService } from '../services/gift.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { StateManagerService } from '../services/state-manager.service';
+
 
 @Component({
   selector: 'app-payment',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'payment.component.html',
   styleUrls: ['payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-  public form: FormGroup;
-  public customAmount: number;
-  public selectedAmount: string;
   public amountDue: Array<Object>;
+  public customAmount: number;
+  public errorMessage: string;
+  public form: FormGroup;
+  public predefinedAmounts: number[];
+  public previousAmount: string;
+  public selectedAmount: string;
   public submitted: boolean = false;
 
-  constructor(private router: Router,
-              private stateManagerService: StateManagerService,
+  constructor(private fb: FormBuilder,
               private gift: GiftService,
-              private fb: FormBuilder) {
+              private previousGiftAmountService: PreviousGiftAmountService,
+              private quickDonationAmountsService: QuickDonationAmountsService,
+              private router: Router,
+              private stateManagerService: StateManagerService) {
   }
 
   ngOnInit() {
-    (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
-
+    this.stateManagerService.is_loading = true;
     if (this.gift.type === 'donation') {
-      this.router.navigateByUrl('/donation');
+      this.getPredefinedDonationAmounts();
+      this.getPreviousGiftAmount();
+    } else {
+      this.stateManagerService.is_loading = false;
     }
-
-    this.stateManagerService.is_loading = false;
 
     this.amountDue = [
       {
@@ -48,6 +56,26 @@ export class PaymentComponent implements OnInit {
       customAmount: [this.gift.amount, [<any>Validators.required, this.validateAmount.bind(this)]],
       selectedAmount: [this.gift.amount]
     });
+  }
+
+  getPreviousGiftAmount() {
+    this.previousGiftAmountService.get().subscribe(
+      amount => this.previousAmount = amount,
+      error => this.errorMessage = <any>error);
+  }
+
+  getPredefinedDonationAmounts() {
+    this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
+      amounts => {
+        this.predefinedAmounts = amounts;
+        this.stateManagerService.is_loading = false;
+      },
+      error => this.errorMessage = <any>error
+    );
+  }
+
+  isValid() {
+    return this.form.valid || this.gift.validAmount();
   }
 
   next() {
@@ -73,14 +101,14 @@ export class PaymentComponent implements OnInit {
     this.gift.amount = parseFloat(value);
   }
 
-  isValid() {
-    return this.form.valid || this.gift.validAmount();
-  }
-
   private validateAmount(control) {
-    return this.gift.validAmount() ? null : {
-      validateAmount: true
-    };
+    if (this.gift.validAmount()) {
+      return null;
+    } else {
+      return {
+        validateAmount: false
+      };
+    }
   }
 
 }
