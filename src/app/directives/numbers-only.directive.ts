@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import { CreditCard } from '../shared/credit-card';
 
 @Directive({
   selector: '[numbersOnly]'
@@ -13,7 +14,7 @@ export class NumbersOnlyDirective {
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {
-      return e.charCode === 0 || /\d/.test(String.fromCharCode(e.charCode));
+      return CreditCard.restrictNumeric(e);
   }
 
 }
