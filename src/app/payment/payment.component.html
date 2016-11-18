@@ -10,11 +10,6 @@
   </div>
 
   <div *ngIf="gift.type === 'donation'">
-    <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
-      <div class="alert alert-warning" *ngIf="previousAmount">
-        <strong>Welcome back!</strong><br>Would you like to make another <a href="#" (click)="gift.amount=previousAmount; next();">${{previousAmount}} donation</a>?
-      </div>
-    </div>
     <div class="btn-group btn-group--flex btn-group--underline">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item"
@@ -51,6 +46,15 @@
                (ngModelChange)="onCustomAmount($event)">
       </div>
     </div>
+
+    <div *ngIf="gift.type === 'donation'">
+      <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
+        <div class="alert alert-warning" *ngIf="previousAmount">
+          You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a href="#" (click)="gift.amount=previousAmount; next();">Yes</a>
+        </div>
+      </div>
+    </div>
+
 
     <footer class="page-footer">
       <input type="button"
