@@ -41,6 +41,7 @@ export class FundAndFrequencyComponent implements OnInit {
     this.funds = this.route.snapshot.data['giveTo'];
     this.fundIdParam = this.gift.fundId;
     this.gift.fund = this.fundsHlpr.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
+    this.gift.frequency = 'One Time';
     this.isFundSelectShown =  !this.funds.find(fund => fund.ProgramId == this.fundIdParam);
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
     this.form = this._fb.group({
@@ -65,8 +66,10 @@ export class FundAndFrequencyComponent implements OnInit {
 
   onClickFund(fund: any) {
     this.gift.fund = fund;
-    if(!fund.AllowRecurringGiving)
+    if(!fund.AllowRecurringGiving) {
+      this.gift.frequency = 'One Time';
       this.resetDate();
+    }
   }
 
   onClickFrequency(frequency: any) {

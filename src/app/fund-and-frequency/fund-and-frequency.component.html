@@ -2,9 +2,6 @@
   <h2>Details:</h2>
 </header>
 
-<pre>{{ funds | json }}</pre>
-<pre>Is fund selection shown? {{ isFundSelectShown }}</pre>
-
 <form [formGroup]="form">
 
   <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectShown">
@@ -12,7 +9,7 @@
     <template ngFor let-fund [ngForOf]="funds" let-i="index">
       <button class="btn btn-option"
               (click)="onClickFund(fund)"
-              [ngClass]="{ active: (gift.fund == fund) }">{{fund.Name}}</button>
+              [ngClass]="{ active: (gift.fund.Name == fund.Name) }">{{fund.Name}}</button>
     </template>
   </div>
 
