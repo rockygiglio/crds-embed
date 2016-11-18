@@ -88,6 +88,8 @@ export class AuthenticationComponent implements OnInit {
       this.stateManagerService.is_loading = true;
       this.router.navigateByUrl('/payment');
     }
+    
+    this.stateManagerService.is_loading = false;
   }
 
 }
