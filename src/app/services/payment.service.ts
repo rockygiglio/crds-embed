@@ -116,10 +116,13 @@ export class PaymentService {
         return this.httpClient.post(url, paymentInfo)
             .map(this.extractData)
             .catch(this.handleError);
+// Can I look for 400 response code  -- invoiceId bad or other system error          
 
     };
 
     private extractData(res: Response) {
+console.log(res);
+console.log('status: ' + res.status);
         return res;
     };
 
