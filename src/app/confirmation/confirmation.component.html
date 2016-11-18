@@ -3,7 +3,7 @@
     <h2>Thanks!</h2>
   </header>
 
-  <p *ngIf="gift.type == 'gift'" class="text-block--lg-font">
+  <p *ngIf="gift.type == 'donation'" class="text-block--lg-font">
    Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> <span *ngIf="gift.frequency != 'One Time'">{{ gift.frequency }}</span> gift to the '{{ gift.fund }}' campaign.
   </p>
 
