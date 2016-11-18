@@ -160,6 +160,7 @@
     .input-group-addon {
       background-color: $input-bg-color;
       border: none;
+      border-radius: 0;
       font-size: 1.125em;
     }
 
@@ -186,15 +187,6 @@
       box-sizing: border-box;
       height: 42px;
       padding: 0 20px;
-    }
-
-  }
-
-  .inline-form {
-    &__input {
-      &--half {
-        @include make-xs-column(6);
-      }
     }
   }
 
@@ -283,6 +275,24 @@
     padding: 1em 0 2em;
   }
 
+  .row {
+    .form-group {
+      @include make-xs-column(12);
+    }
+
+    .inline-form__input {
+      @include make-xs-column(4);
+    }
+  }
+
+  .inline-form {
+    &__input {
+      &--half {
+        @include make-xs-column(6);
+      }
+    }
+  }
+
   .contrast-background {
     background: $page-bg-color;
 
@@ -338,7 +348,9 @@
     }
   }
 
-  .ng-touched {
+  .ng-touched,
+  .ng-untouched,
+  .ng-pristine {
     .ng-valid {
       border: 1px solid $success;
     }
@@ -349,24 +361,32 @@
   }
 
   .alert {
-    font-size: .875em;
     border-radius: 0;
+    font-size: .875em;
 
     &-danger {
       background-color: $error-bg;
       border-color: $error-border;
       color: $error-text;
       font-weight: 700;
-      text-align: center;
+      margin-top: -15px;
       padding: 5px 0;
+      text-align: center;
 
-      /*p {
-        margin: 0 0 0.5em 0;
+      p {
         font-weight: bold;
+        line-height: 5px;
+        margin-bottom: 9px;
       }
       ul {
+        list-style: none;
         padding-left: 1.5em;
-      }*/
+      }
+
+      li {
+        line-height: 5px;
+        margin-bottom: 9px;
+      }
     }
   }
 }
