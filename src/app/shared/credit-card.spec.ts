@@ -91,10 +91,10 @@ describe('Shared: Credit Card', () => {
       value: '411111111111111'
     };
 
-    expect(CreditCard.restrictCardNumber(key, target)).toBe(true);
+    expect(CreditCard.isCardNumber(key, target)).toBe(true);
 
     target.value = '41111111111111111';
-    expect(CreditCard.restrictCardNumber(key, target)).toBe(false);
+    expect(CreditCard.isCardNumber(key, target)).toBe(false);
 
   });
 

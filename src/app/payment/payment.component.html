@@ -9,38 +9,61 @@
     <h2>Amount:</h2>
   </div>
 
-  <div class="btn-group btn-group--flex btn-group--underline">
-    <button *ngFor="let item of amountDue"
-            class="btn btn-option btn-option--flex-item"
-            (click)="onSelectAmount($event, item.amount)"
-            [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
-      {{ item.label }}: {{ item.amount | currency: "USD": true }}
-    </button>
+  <div *ngIf="gift.type === 'donation'">
+    <div class="btn-group btn-group--flex btn-group--underline">
+      <button *ngFor="let amount of predefinedAmounts"
+              class="btn btn-option btn-option--flex-item"
+              (click)="onSelectAmount($event, amount)"
+              [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
+        {{ amount | currency: "USD": true }}
+      </button>
+    </div>
   </div>
 
-  <form [formGroup]="form" [class.submitted]="ccSubmitted" (ngSubmit)="next()">
+  <div *ngIf="gift.type === 'payment'">
+    <div class="btn-group btn-group--flex btn-group--underline">
+      <button *ngFor="let item of amountDue"
+              class="btn btn-option btn-option--flex-item"
+              (click)="onSelectAmount($event, item.amount)"
+              [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
+        {{ item.label }}: {{ item.amount | currency: "USD": true }}
+      </button>
+    </div>
+  </div>
+
+  <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
 
     <div class="form-group">
       <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <input type="text"
+        <input type="tel"
                class="form-control"
                placeholder="Or Enter Amount"
                id="custom-amount"
-               [formControl]="form.get('customAmount')"
+               maxlength="9"
+               formControlName="customAmount"
+               onlyTheseKeys="[0-9\.]"
                [(ngModel)]="customAmount"
                (ngModelChange)="onCustomAmount($event)">
       </div>
     </div>
 
+    <div *ngIf="gift.type === 'donation'">
+      <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
+        <div class="alert alert-warning" *ngIf="previousAmount">
+          You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a href="#" (click)="applyPreviousAmount()">Yes</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="errors" *ngIf="( !isValid() && submitted )">
+      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+    </div>
+
     <footer class="page-footer">
-      <input type="button"
-             class="btn btn-next btn-block"
-             (click)="next()"
-             value="Next"
-             [disabled]="!isValid()"
-      >
+      <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
     </footer>
 
   </form>

@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { GiftService } from '../services/gift.service';
-import { ParamValidationService } from '../services/param-validation.service.ts';
+import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 

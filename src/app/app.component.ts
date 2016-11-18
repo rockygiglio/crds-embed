@@ -33,9 +33,10 @@ export class AppComponent {
     private state: StateManagerService) {
 
     if ( this.iFrameResizerCW === undefined ) {
-      this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.min.js');
+      this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');
     }
 
+    (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
   }
 
 }

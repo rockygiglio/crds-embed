@@ -157,11 +157,14 @@
       font-size: 1.125em;
     }
 
-    &.submitted {
+    &.submitted.ng-invalid {
       .form-control {
-        &.ng-invalid {
-          border: 1px solid #ebccd1;
-        }
+          border: 1px solid $state-danger-border;
+      }
+      .input-group-addon {
+        border: 1px solid $state-danger-border;
+        background-color: $state-danger-bg;
+        color: $state-danger-text;
       }
     }
 
@@ -181,6 +184,15 @@
     label {
       font-weight: normal;
     }
+
+    input[type="email"], input[type="password"], input[type="text"], input[type="tel"] {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      height: 42px;
+      padding: 0 20px;
+    }
+
   }
 
   .inline-form {

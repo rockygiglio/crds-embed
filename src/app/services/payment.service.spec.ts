@@ -114,7 +114,7 @@ describe('Service: Previous Gift Amount', () => {
                     ));
                 });
 
-            srvc.getDonor('test@test.com').subscribe(
+            srvc.getDonor().subscribe(
                 (data) => {
                     expect(data.stripe_token).toBe(123);
                 }

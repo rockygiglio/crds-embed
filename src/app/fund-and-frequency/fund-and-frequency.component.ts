@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DonationFundService } from '../services/donation-fund.service';
 import { GiftService } from '../services/gift.service';
 import { Program } from '../interfaces/program';
+import { StateManagerService } from '../services/state-manager.service';
 
 
 @Component({
@@ -28,10 +29,11 @@ export class FundAndFrequencyComponent implements OnInit {
     'AllowRecurringGiving': true
   };
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private fundsHlpr: DonationFundService,
               private gift: GiftService,
+              private router: Router,
+              private stateManagerService: StateManagerService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
@@ -47,13 +49,17 @@ export class FundAndFrequencyComponent implements OnInit {
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
 
+    this.stateManagerService.is_loading = false;
+
   }
 
   back() {
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
     return false;
   }
 
   next() {
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
     return false;
   }
 
