@@ -23,8 +23,8 @@
     </div>
 
     <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" [(ngModel)]="gift.accountName" pattern=".*"><br>
-    <input type="tel" numbersOnly class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
-    <input type="tel" numbersOnly class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="\s*[0-9]*\s*">
+    <input type="tel" onlyTheseKeys='[0-9]' class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
+    <input type="tel" onlyTheseKeys='[0-9]' class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="\s*[0-9]*\s*">
 
     <div class="sample-check">
       <small>
