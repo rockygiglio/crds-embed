@@ -200,14 +200,17 @@ export class CreditCard {
     return result;
   }
 
-  public static restrictCardNumber(key, target) {
+  public static isCardNumber(key, target) {
     let card,
         digit,
         value,
         result;
     digit = String.fromCharCode(key);
-    if (!/^\d+$/.test(digit) && CreditCard.hasTextSelected(target)) {
-      result = false;
+    if (!/^\d+$/.test(digit)) {
+      return false;
+    }
+    if (CreditCard.hasTextSelected(target)) {
+      return true;
     }
     value = (target.value + digit).replace(/\D/g, '');
     card = CreditCard.cardFromNumber(value);
