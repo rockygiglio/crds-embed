@@ -28,7 +28,7 @@
 
 </form>
 
-<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date && gift.frequency !== 'One Time'">
+<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date">
   <h3 class="btn-form__header">Recurs On:</h3>
   <datepicker [(ngModel)]="gift.start_date"
               [minDate]="minDate"
