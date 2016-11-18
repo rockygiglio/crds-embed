@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamValidationService } from './param-validation.service';
-import { QuickDonationAmountsService } from './quick-donation-amounts.service';
-import { DonationFundService, Program } from './donation-fund.service';
 import { LoginService } from './login.service';
-import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { StateManagerService } from './state-manager.service';
 import { Observable } from 'rxjs/Observable';
@@ -30,10 +27,7 @@ export class GiftService {
 
   // Form options
   public existingPaymentInfo: Observable<any>;
-  public funds: Observable<Program[]>;
   public paymentMethod: string = 'Bank Account';
-  public getPredefinedAmounts: Observable<number[]>;
-  public predefinedAmounts: number[];
 
   // Payment Information
   public accountLast4: string = '';
@@ -58,17 +52,14 @@ export class GiftService {
   public expDate: string = '';
   public zipCode: string = '';
 
-  //Fund and frequency information
+  // Fund and frequency information
   public fund: any = '';
   public start_date: any = '';
   public frequency: any = '';
 
-  constructor(private donationFundService: DonationFundService,
-              private existingPaymentInfoService: ExistingPaymentInfoService,
+  constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
               private loginService: LoginService,
-              private previousGiftAmountService: PreviousGiftAmountService,
-              private quickDonationAmountService: QuickDonationAmountsService,
               private route: ActivatedRoute,
               private stateManagerService: StateManagerService) {
     this.processQueryParams();
@@ -76,23 +67,18 @@ export class GiftService {
     this.isInitialized = true;
   }
 
-  private loadDonationFormData(): void {
-    this.funds = this.donationFundService.getFunds();
-    this.getPredefinedAmounts = this.quickDonationAmountService.getQuickDonationAmounts();
-    this.getPredefinedAmounts.subscribe(
-      amounts => this.predefinedAmounts = amounts
-    );
-  }
-
   public loadExistingPaymentData(): void {
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
-    if (this.type === 'donation') {
-      this.previousGiftAmountService.get().subscribe(
-        amount => {
-          this.previousGiftAmount = amount;
+    this.existingPaymentInfo.subscribe(
+        info => {
+          if ( info !== null ) {
+            this.setBillingInfo(info);
+            if (this.accountLast4) {
+              this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+            }
+          }
         }
-      );
-    }
+    );
   }
 
   public loadUserData(): void {
@@ -112,9 +98,6 @@ export class GiftService {
     if (this.loginService.isLoggedIn()) {
       this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
       this.loadUserData();
-    }
-    if (this.type === 'donation') {
-      this.loadDonationFormData();
     }
   }
 
@@ -223,10 +206,10 @@ export class GiftService {
     }
 
     if (this.type === this.helper.types.donation) {
-      this.stateManagerService.unhidePage(this.stateManagerService.detailsIndex);
+      this.stateManagerService.unhidePage(this.stateManagerService.fundIndex);
     }
 
-    //this.logInputParams();
+    // this.logInputParams();
   }
 
   private logInputParams(): void {

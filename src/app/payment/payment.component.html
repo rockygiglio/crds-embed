@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="btn-group btn-group--flex btn-group--underline">
-      <button *ngFor="let amount of gift.predefinedAmounts"
+      <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item"
               (click)="onSelectAmount($event, amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">

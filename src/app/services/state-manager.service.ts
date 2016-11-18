@@ -11,10 +11,19 @@ export class StateManagerService {
   public authenticationIndex: number = 2;
   public billingIndex: number = 3;
   public confirmationIndex: number = 5;
-  public detailsIndex: number = 1;
+  public fundIndex: number = 1;
   public is_loading: boolean = false;
   public paymentIndex: number = 0;
   public summaryIndex: number = 4;
+
+  public paymentState: PageState[] = [
+    { path: '/payment', show: true },
+    { path: '/fund', show: false },
+    { path: '/auth', show: true },
+    { path: '/billing', show: true },
+    { path: '/summary', show: true },
+    { path: '/confirmation', show: true}
+  ];
 
   public getNextPageToShow(currentPage: number): string {
     let nextPage = currentPage + 1;
@@ -40,15 +49,6 @@ export class StateManagerService {
   public hidePage(pageIndex: number) {
       this.paymentState[pageIndex].show = false;
   }
-
-  public paymentState: PageState[] = [
-    { path: '/payment', show: true },
-    { path: '/details', show: false },
-    { path: '/auth', show: true },
-    { path: '/billing', show: true },
-    { path: '/summary', show: true },
-    { path: '/confirmation', show: true}
-  ];
 
   public unhidePage(pageIndex: number) {
       this.paymentState[pageIndex].show = true;

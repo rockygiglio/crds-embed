@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { FundsService } from '../services/funds/funds.service';
 import { GiftService } from '../services/gift.service';
 import { Program } from '../interfaces/program';
+import { StateManagerService } from '../services/state-manager.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class FundAndFrequencyComponent implements OnInit {
   form: FormGroup;
   startDate: any;
   fundIdParam: number;
-  isFundSelectionHidden : boolean = undefined;
+  isFundSelectionHidden: boolean = undefined;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -30,10 +31,11 @@ export class FundAndFrequencyComponent implements OnInit {
     'AllowRecurringGiving': true
   };
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private fundsHlpr: FundsService,
               private gift: GiftService,
+              private router: Router,
+              private stateManagerService: StateManagerService,
               private _fb: FormBuilder) {}
 
   ngOnInit() {
@@ -51,10 +53,12 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   back() {
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
     return false;
   }
 
   next() {
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
     return false;
   }
 
