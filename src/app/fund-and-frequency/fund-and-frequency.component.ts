@@ -2,7 +2,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as _ from 'lodash';
 
 import { DonationFundService } from '../services/donation-fund.service';
 import { GiftService } from '../services/gift.service';
@@ -22,7 +21,6 @@ export class FundAndFrequencyComponent implements OnInit {
   startDate: any;
   fundIdParam: number;
   isFundSelectShown: boolean = undefined;
-  isFrequencySelectShown: boolean = undefined;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -43,7 +41,7 @@ export class FundAndFrequencyComponent implements OnInit {
     this.gift.fund = this.fundsHlpr.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     this.gift.frequency = 'One Time';
     this.isFundSelectShown =  !this.funds.find(fund => fund.ProgramId == this.fundIdParam);
-    this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
+    this.gift.start_date = this.gift.start_date ? new Date(this.gift.start_date) : new Date();
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],
@@ -60,8 +58,7 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   resetDate() {
-    this.startDate = undefined;
-    this.gift.resetDate();
+    this.gift.start_date = new Date();
   }
 
   onClickFund(fund: any) {
@@ -74,9 +71,13 @@ export class FundAndFrequencyComponent implements OnInit {
 
   onClickFrequency(frequency: any) {
     this.gift.frequency = frequency;
-    if (frequency === 'One Time') {
-      this.resetDate();
-    }
+    // if (frequency === 'One Time') {
+    //   this.resetDate();
+    // }
+  }
+
+  onClickChangeDate() {
+    this.gift.start_date = undefined;
   }
 
   onClickDate(newValue: any) {

@@ -149,7 +149,7 @@ export class GiftService {
   }
 
   public resetDate() {
-    this.start_date = '';
+    this.start_date = undefined;
   }
 
   public resetPaymentDetails() {
