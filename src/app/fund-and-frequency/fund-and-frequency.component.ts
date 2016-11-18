@@ -29,9 +29,9 @@ export class FundAndFrequencyComponent implements OnInit {
     'AllowRecurringGiving': true
   };
 
-  constructor(private route: ActivatedRoute,
-              private fundsHlpr: DonationFundService,
+  constructor(private fundsHlpr: DonationFundService,
               private gift: GiftService,
+              private route: ActivatedRoute,
               private router: Router,
               private stateManagerService: StateManagerService,
               private _fb: FormBuilder) {}

@@ -2,12 +2,6 @@
   <h2>Details:</h2>
 </header>
 
-<pre>{{ funds | json }}</pre>
-<pre>Is fund selection shown? {{ isFundSelectionShown }}</pre>
-<pre>Fund name: {{ gift.fund.Name | json }}</pre>
-<pre>Fund frequency: {{ gift.frequency| json }}</pre>
-<pre>Fund fund date: {{ gift.start_date | json }}</pre>
-
 <form [formGroup]="form">
 
   <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectShown">
