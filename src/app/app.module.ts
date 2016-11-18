@@ -15,7 +15,6 @@ import { PreloaderModule } from './preloader/preloader.module';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
-import { DonationComponent } from './donation/donation.component';
 import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
@@ -39,8 +38,7 @@ import { StripeService } from './services/stripe.service';
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
-import { NumbersOnlyDirective } from './directives/numbers-only.directive';
-import { MoneyOnlyDirective } from './directives/money-only.directive';
+import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 @NgModule({
   imports:      [
@@ -64,7 +62,6 @@ import { MoneyOnlyDirective } from './directives/money-only.directive';
     AppComponent,
     PageNotFoundComponent,
     PaymentComponent,
-    DonationComponent,
     FundAndFrequencyComponent,
     BillingComponent,
     SummaryComponent,
@@ -73,8 +70,7 @@ import { MoneyOnlyDirective } from './directives/money-only.directive';
     CreditCardFormatDirective,
     ExpiryFormatDirective,
     CvvFormatDirective,
-    NumbersOnlyDirective,
-    MoneyOnlyDirective
+    OnlyTheseKeysDirective
   ],
   providers:    [
     appRoutingProviders,

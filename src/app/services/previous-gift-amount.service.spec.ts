@@ -64,7 +64,7 @@ describe('Service: Previous Gift Amount', () => {
   );
 
 
-  it('it should provide an amount of 0.00 when there are NO previous gift amounts',
+  xit('it should provide an amount of 0.00 when there are NO previous gift amounts',
     async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
       mockBackend.connections.subscribe(
         (connection: MockConnection) => {
@@ -85,7 +85,7 @@ describe('Service: Previous Gift Amount', () => {
   );
 
 
-  it('it should provide an amount of 0.00 when there there is an ERROR from MP',
+  xit('it should provide an amount of 0.00 when there there is an ERROR from MP',
     async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
       mockBackend.connections.subscribe(
         (connection: MockConnection) => {
