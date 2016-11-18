@@ -3,7 +3,8 @@
 </header>
 
 <form [formGroup]="form">
-  <div class="btn-form btn-form--border-btm">
+
+  <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectionShown">
     <h3 class="btn-form__header">Give To:</h3>
     <template ngFor let-fund [ngForOf]="funds" let-i="index">
       <button class="btn btn-option" (click)="onClickFund(fund)" [ngClass]="{ active: (gift.fund == fund.Name) }">{{fund.Name}}</button>

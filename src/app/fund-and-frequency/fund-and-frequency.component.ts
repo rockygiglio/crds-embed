@@ -22,7 +22,7 @@ export class FundAndFrequencyComponent implements OnInit {
   form: FormGroup;
   startDate: any;
   fundIdParam: number;
-  isFundSelectionHidden: boolean = undefined;
+  isFundSelectionShown: boolean = undefined;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -40,6 +40,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
     this.funds = this.route.snapshot.data['giveTo'];
     this.fundIdParam = this.gift.fundId;
+    this.isFundSelectionShown =  !this.funds.find(fund => fund.ProgramId == this.fundIdParam);
     this.gift.fund = this.fundsHlpr.getFundNameOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     this.setFrequencies();
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
