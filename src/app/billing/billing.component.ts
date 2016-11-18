@@ -94,49 +94,6 @@ export class BillingComponent implements OnInit {
     return ret;
   }
 
-  displayErrorsACH() {
-    if ( !this.achForm.valid ) {
-      let thisMessage = `<p>${this.errorMessage}</p>`;
-      thisMessage += `<ul>`;
-      if ( !this.achForm.controls['accountName'].valid ) {
-        thisMessage += `<li>Account name ${this.switchMessage(this.achForm.controls['accountName'].errors)}</li>`;
-      }
-      if ( !this.achForm.controls['accountNumber'].valid ) {
-        thisMessage += `<li>Account number ${this.switchMessage(this.achForm.controls['accountNumber'].errors)}</li>`;
-      }
-      if ( !this.achForm.controls['routingNumber'].valid ) {
-        thisMessage += `<li>Routing number ${this.switchMessage(this.achForm.controls['routingNumber'].errors)}</li>`;
-      }
-      thisMessage += '</ul>';
-      this.errorMessageACH = thisMessage;
-    } else {
-      this.errorMessageACH = '';
-    }
-  }
-
-  displayErrorsCC() {
-    if ( !this.ccForm.valid ) {
-      let thisMessage = `<p>${this.errorMessage}</p>`;
-      thisMessage += `<ul>`;
-      if ( !this.ccForm.controls['ccNumber'].valid ) {
-        thisMessage += `<li>Card number ${this.switchMessage(this.ccForm.controls['ccNumber'].errors)}</li>`;
-      }
-      if ( !this.ccForm.controls['expDate'].valid ) {
-        thisMessage += `<li>Expiration date ${this.switchMessage(this.ccForm.controls['expDate'].errors)}</li>`;
-      }
-      if ( !this.ccForm.controls['cvv'].valid ) {
-        thisMessage += `<li>CVV ${this.switchMessage(this.ccForm.controls['cvv'].errors)}</li>`;
-      }
-      if ( !this.ccForm.controls['zipCode'].valid ) {
-        thisMessage += `<li>Zip code ${this.switchMessage(this.ccForm.controls['zipCode'].errors)}</li>`;
-      }
-      thisMessage += `</ul>`;
-      this.errorMessageCC = thisMessage;
-    } else {
-      this.errorMessageCC = '';
-    }
-  }
-
   achNext() {
     this.achSubmitted = true;
     if (this.achForm.valid) {
@@ -157,8 +114,6 @@ export class BillingComponent implements OnInit {
           error => {
           }
       );
-    } else {
-      this.displayErrorsACH();
     }
     return false;
   }
@@ -185,8 +140,6 @@ export class BillingComponent implements OnInit {
           error => {
           }
       );
-    } else {
-      this.displayErrorsCC();
     }
     return false;
   }

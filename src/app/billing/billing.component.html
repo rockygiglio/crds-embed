@@ -36,8 +36,21 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(achSubmitted && !achForm.valid)">
-      <div *ngIf="!achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
+    <div class="errors" *ngIf="(achSubmitted)">
+      <div *ngIf="!achForm.valid" class="alert alert-danger">
+        <p>{{ errorMessage }}</p>
+        <ul>
+          <li *ngIf="!achForm.controls['accountName'].valid" >
+            Account name <span [innerHTML]="switchMessage(achForm.controls['accountName'].errors)"></span>
+          </li>
+          <li *ngIf="!achForm.controls['accountNumber'].valid">
+            Account number <span [innerHTML]="switchMessage(achForm.controls['accountNumber'].errors)"></span>
+          </li>
+          <li *ngIf="!achForm.controls['routingNumber'].valid">
+            Routing number <span [innerHTML]="switchMessage(achForm.controls['routingNumber'].errors)"></span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <footer class="page-footer">
@@ -66,8 +79,24 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(ccSubmitted && !ccForm.valid)">
-      <div *ngIf="!ccForm.valid" class="alert alert-danger" [innerHTML]="errorMessageCC"></div>
+    <div class="errors" *ngIf="(ccSubmitted)">
+      <div *ngIf="!ccForm.valid" class="alert alert-danger">
+        <p>{{ errorMessage }}</p>
+        <ul>
+          <li *ngIf="!ccForm.controls['ccNumber'].valid" >
+            Card number <span [innerHTML]="switchMessage(ccForm.controls['ccNumber'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['expDate'].valid">
+            Expiration Date <span [innerHTML]="switchMessage(ccForm.controls['expDate'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['cvv'].valid">
+            CVV <span [innerHTML]="switchMessage(ccForm.controls['cvv'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['zipCode'].valid">
+            Zip code <span [innerHTML]="switchMessage(ccForm.controls['zipCode'].errors)"></span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <footer class="page-footer">
