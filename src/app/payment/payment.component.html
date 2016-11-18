@@ -5,7 +5,7 @@
   <alert *ngFor="let error of gift.errors">{{ error }}</alert>
 </div>
 <div *ngIf="gift.errors.length <= 0">
-  <div class="page-header">
+  <div class="page-header page-header--border-btm">
     <h2>Amount:</h2>
   </div>
 
@@ -23,7 +23,7 @@
     <div class="form-group">
       <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
       <div class="input-group">
-        <div class="input-group-addon">$</div>
+        <span class="input-group-addon">$</span>
         <input type="text"
                class="form-control"
                placeholder="Or Enter Amount"

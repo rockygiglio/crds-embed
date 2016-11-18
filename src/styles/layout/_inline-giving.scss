@@ -54,6 +54,15 @@
     }
   }
 
+  .radio-form {
+    &__header {
+      color: $text-color;
+      font-size: .75em; // 12px
+      margin: 0;
+      text-transform: uppercase;
+    }
+  }
+
   .btn-group {
     .btn-option {
       background-color: transparent;
@@ -106,6 +115,8 @@
   }
 
   .table {
+    border-bottom: 1px solid $underline-color;
+
     tbody {
       > tr {
         > td {
@@ -126,9 +137,10 @@
 
     td:first-child {
       font-family: inherit;
-      font-size: 12px;
+      font-size: .75em;
       font-weight: 500;
       text-transform: uppercase;
+      vertical-align: top;
 
       a {
         color: $text-color-link;
@@ -137,6 +149,10 @@
 
     td:last-child {
       font-size: 14px;
+
+      &.confirm-amount {
+        font-size: 1.5em;
+      }
 
       a {
         color: $text-color-link;
