@@ -36,8 +36,24 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(gift.stripeException || (achSubmitted && !achForm.valid))">
-      <div *ngIf="gift.stripeException || !achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
+    <div class="errors" *ngIf="(gift.stripeException || achSubmitted)">
+      <div *ngIf="gift.stripeException" class="alert alert-danger">
+        <p>Your payment method has been declined.</p>
+      </div>
+      <div *ngIf="!achForm.valid" class="alert alert-danger">
+        <p>{{ errorMessage }}</p>
+        <ul>
+          <li *ngIf="!achForm.controls['accountName'].valid" >
+            Account name <span [innerHTML]="switchMessage(achForm.controls['accountName'].errors)"></span>
+          </li>
+          <li *ngIf="!achForm.controls['accountNumber'].valid">
+            Account number <span [innerHTML]="switchMessage(achForm.controls['accountNumber'].errors)"></span>
+          </li>
+          <li *ngIf="!achForm.controls['routingNumber'].valid">
+            Routing number <span [innerHTML]="switchMessage(achForm.controls['routingNumber'].errors)"></span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <footer class="page-footer">
@@ -53,7 +69,7 @@
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
-    <input tabindex="1" type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
+    <input tabindex="1" type="tel" class="form-control" maxlength="20" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
     <div class="row inline-form">
       <div class="col-xs-4 inline-form__input">
         <input tabindex="2" type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp"><br>
@@ -66,8 +82,24 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="( gift.stripeException ||(ccSubmitted && !ccForm.valid))">
-      <div *ngIf="gift.stripeException || !ccForm.valid" class="alert alert-danger" [innerHTML]="errorMessageCC"></div>
+    <div class="errors" *ngIf="ccSubmitted">
+      <div *ngIf="!ccForm.valid" class="alert alert-danger">
+        <p>{{ errorMessage }}</p>
+        <ul>
+          <li *ngIf="!ccForm.controls['ccNumber'].valid" >
+            Card number <span [innerHTML]="switchMessage(ccForm.controls['ccNumber'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['expDate'].valid">
+            Expiration Date <span [innerHTML]="switchMessage(ccForm.controls['expDate'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['cvv'].valid">
+            CVV <span [innerHTML]="switchMessage(ccForm.controls['cvv'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['zipCode'].valid">
+            Zip code <span [innerHTML]="switchMessage(ccForm.controls['zipCode'].errors)"></span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <footer class="page-footer">
