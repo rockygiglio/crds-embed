@@ -66,7 +66,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
   resetDate() {
     this.startDate = undefined;
-    //this.gift.resetDate();
+    // this.gift.resetDate();
   }
 
   setFrequencies() {

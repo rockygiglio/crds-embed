@@ -90,74 +90,57 @@ describe('Component: Payment', () => {
 
   });
 
-  describe('isValid()', () => {
-    it('returns true if form is valid and gift amount is valid', () => {
-      this.component.form = {
-        valid: true,
-        controls: {
-          amount: { valid: false, errors: { required: true } },
-          customAmount: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
-          selectedAmount: { valid: true, errors: null }
-        }
-      };
-      expect(this.component.isValid()).toBe(true);
-    });
+});
 
-    xit('returns true if form is valid and gift amount is not valid', () => {
-      this.component.form = {
-        valid: true,
-        controls: {
-          amount: { valid: false, errors: { required: true } },
-          customAmount: { valid: true, errors: { minLength: 8, requiredLength: 9 } },
-          selectedAmount: { valid: false, errors: null }
-        }
-      };
-      expect(this.component.isValid()).toBe(true);
-    });
+describe('Component: Donation', () => {
 
-    it('returns true if form is not valid and gift amount is valid', () => {
-      this.component.form = {
-        valid: false,
-        controls: {
-          amount: { valid: false, errors: { required: true } },
-          customAmount: { valid: true, errors: { minLength: 8, requiredLength: 9 } },
-          selectedAmount: { valid: false, errors: null }
-        }
-      };
-      expect(this.component.isValid()).toBe(true);
-    });
+  let component;
+  let fixture;
 
-    xit('returns false if form is not valid and gift amount is not valid', () => {
-
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ PaymentComponent ],
+      imports: [
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+      ],
+      providers: [
+        ExistingPaymentInfoService,
+        PreviousGiftAmountService,
+        QuickDonationAmountsService,
+        DonationFundService,
+        GiftService,
+        ParamValidationService,
+        StateManagerService,
+        LoginService,
+        HttpClientService,
+        CookieService
+      ]
     });
+    this.fixture = TestBed.createComponent(PaymentComponent);
+    this.component = this.fixture.componentInstance;
+
+    this.component.gift.type = 'donation';
+    this.component.gift.previousAmount = 53.17;
+    this.component.gift.fundId = 1;
+
   });
 
-  xdescribe('next()', () => {
-    it('registers that the form was submitted', () => {
-
-    });
-
-    it('advances the state manager', () => {
-
-    });
+  it('should create an instance', () => {
+    expect(this.component).toBeTruthy();
   });
 
-  xdescribe('onCustomAmount(value)', () => {
-    it('sets the custom amount', () => {
+  it('should expect a valid gift amount to validate', () => {
 
-    });
+    this.component.onCustomAmount('300.01');
+    expect(this.component.isValid()).toBeTruthy();
+
   });
 
-  xdescribe('onSelectAmount(event, value)', () => {
-    it('sets the selected amount', () => {
+  it('should expect an invalid gift amount to invalidate', () => {
 
-    });
-  });
+    this.component.onCustomAmount('300.01adfdf');
+    expect(this.component.isValid()).toBeFalsy();
 
-  xdescribe('setAmount(value)', () => {
-    it('', () => {
-
-    });
   });
 
 });
