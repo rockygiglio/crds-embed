@@ -53,16 +53,16 @@
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
-    <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
+    <input tabindex="1" type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
     <div class="row inline-form">
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp"><br>
+        <input tabindex="2" type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
+        <input tabindex="3" type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
       </div>
       <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
+        <input tabindex="4" type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
       </div>
     </div>
 

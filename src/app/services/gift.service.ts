@@ -57,6 +57,11 @@ export class GiftService {
   public cvv: string = '';
   public zipCode: string = '';
 
+  //Fund and frequency information
+  public fund: any = '';
+  public start_date: any = '';
+  public frequency: any = '';
+
   constructor(private route: ActivatedRoute,
               private helper: ParamValidationService,
               private donationFundService: DonationFundService,

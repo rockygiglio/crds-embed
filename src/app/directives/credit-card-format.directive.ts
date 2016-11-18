@@ -16,14 +16,15 @@ export class CreditCardFormatDirective {
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {
-    let process = CreditCard.restrictNumeric(e) && CreditCard.restrictCardNumber(e.which, this.target);
-
-    if (process) {
-      this.formatCardNumber(e);
+    if (CreditCard.restrictNumeric(e)) {
+      if (CreditCard.isCardNumber(e.which, this.target)) {
+        this.formatCardNumber(e);
+      }
     } else {
       e.preventDefault();
       return false;
     }
+
   }
   @HostListener('keydown', ['$event']) onKeydown(e) {
     this.formatBackCardNumber(e);
