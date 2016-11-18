@@ -2,23 +2,29 @@
   <h2>Details:</h2>
 </header>
 
+<pre>{{ funds | json }}</pre>
+<pre>Is fund selection shown? {{ isFundSelectShown }}</pre>
+
 <form [formGroup]="form">
 
-  <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectionShown">
+  <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectShown">
     <h3 class="btn-form__header">Give To:</h3>
     <template ngFor let-fund [ngForOf]="funds" let-i="index">
       <button class="btn btn-option" (click)="onClickFund(fund)" [ngClass]="{ active: (gift.fund == fund.Name) }">{{fund.Name}}</button>
     </template>
   </div>
 
-  <div class="btn-form btn-form--border-btm">
+  <div class="btn-form btn-form--border-btm" *ngIf="isFrequencySelectShown">
     <h3 class="btn-form__header">Frequency:</h3>
     <div class="btn-group">
     <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
-      <button class="btn btn-option" (click)="onClickFrequency(frequency)" [ngClass]="{ active: (gift.frequency == frequency), disabled: (availableFrequencies.indexOf(frequency) === -1) }" [disabled]="availableFrequencies.indexOf(frequency) === -1">{{frequency}}</button>
+      <button class="btn btn-option"
+             (click)="onClickFrequency(frequency)">{{frequency}}
+      </button>
     </template>
     </div>
   </div>
+
 </form>
 
 <div *ngIf="gift.frequency !== 'One Time' && !gift.start_date">

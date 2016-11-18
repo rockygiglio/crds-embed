@@ -18,11 +18,11 @@ export class FundAndFrequencyComponent implements OnInit {
 
   funds: Array<Program>;
   defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
-  availableFrequencies: Array<string> = this.defaultFrequencies;
   form: FormGroup;
   startDate: any;
   fundIdParam: number;
-  isFundSelectionShown: boolean = undefined;
+  isFundSelectShown: boolean = undefined;
+  isFrequencySelectShown: boolean = undefined;
   defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
@@ -40,9 +40,9 @@ export class FundAndFrequencyComponent implements OnInit {
 
     this.funds = this.route.snapshot.data['giveTo'];
     this.fundIdParam = this.gift.fundId;
-    this.isFundSelectionShown =  !this.funds.find(fund => fund.ProgramId == this.fundIdParam);
     this.gift.fund = this.fundsHlpr.getFundNameOrDefault(this.fundIdParam, this.funds, this.defaultFund);
-    this.setFrequencies();
+    this.isFundSelectShown =  !this.funds.find(fund => fund.ProgramId == this.fundIdParam);
+    this.isFrequencySelectShown = this.fundsHlpr.doesFundAllowRecurringGiving(this.gift.fund, this.funds);
     this.startDate = this.gift.start_date ? new Date(this.gift.start_date) : undefined;
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
@@ -64,22 +64,13 @@ export class FundAndFrequencyComponent implements OnInit {
     // this.gift.resetDate();
   }
 
-  setFrequencies() {
-    let selectedFund = _.find(this.funds, (f: any) => {
-      return (f.Name === this.gift.fund);
-    });
-
-    if (selectedFund.AllowRecurringGiving) {
-      this.availableFrequencies = this.defaultFrequencies;
-    } else {
-      this.gift.frequency = _.first(this.availableFrequencies);
-      this.availableFrequencies.push(_.first(this.availableFrequencies));
-    }
+  setFundSelectVisibility(fundName: string) {
+    this.isFrequencySelectShown = this.fundsHlpr.doesFundAllowRecurringGiving(this.gift.fund, this.funds);
   }
 
   onClickFund(fund: any) {
     this.gift.fund = fund.Name;
-    this.setFrequencies();
+    this.setFundSelectVisibility(fund);
   }
 
   onClickFrequency(frequency: any) {

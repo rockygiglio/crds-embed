@@ -51,4 +51,12 @@ export class DonationFundService implements Resolve<any> {
 
   }
 
+  doesFundAllowRecurringGiving(fundName: string, funds: Array<Program>): boolean {
+
+    let fund: Program = funds.find(fund => fund.Name == fundName);
+    let doesAllowRecurring = fund.AllowRecurringGiving;
+    return doesAllowRecurring;
+
+  }
+
 }

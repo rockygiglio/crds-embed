@@ -79,6 +79,24 @@ describe('Service: DonationFund', () => {
 
   }));
 
+  it('should specify that the fund allows re-occuring giving',
+    inject([DonationFundService], (srvc: DonationFundService) => {
+
+        let fundName = '(t) Test Pledge Program2';
+        let doesAllowReocurring = srvc.doesFundAllowRecurringGiving(fundName, mockFunds);
+        expect(doesAllowReocurring).toBe(true);
+
+  }));
+
+  it('should specify that the fund does NOT allow re-occuring giving',
+    inject([DonationFundService], (srvc: DonationFundService) => {
+
+        let fundName = '(t) Test Pledge Program1';
+        let doesAllowReocurring = srvc.doesFundAllowRecurringGiving(fundName, mockFunds);
+        expect(doesAllowReocurring).toBe(false);
+
+  }));
+
   it('should create an instance', async(inject([DonationFundService, MockBackend], (service, mockBackend) => {
     expect(service).toBeDefined();
   })));
