@@ -12,10 +12,8 @@ declare var _;
 export class GiftService {
 
   public errors: Array<string> = [];
-  public fundId: number = 0;
   public invoiceId: number = 0;
   public minPayment: number = 0;
-  public overrideParent: boolean = true;
   public title: string = '';
   public totalCost: number = 0;
   public type: string = '';
