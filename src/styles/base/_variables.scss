@@ -15,7 +15,11 @@ $fontface-header: "bebas-neue", sans-serif;
 
 // Form Validation Colors
 $success: #66C93E !default;
-$error: #EA5151 !default;
+
+$error: #C9302C !default;
+$error-text: $error;
+$error-bg: lighten(desaturate(adjust-hue($error, 346.4713), 20.6034), 42.9412);
+$error-border: lighten(desaturate(adjust-hue($error, 348.7939), 20.4197), 38.0392);
 
 // Default colors
 $bg-color: $cr-white !default;

@@ -20,19 +20,37 @@
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="sr-only" for="accountName">Account Name</label>
-      <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" name="accountName" [(ngModel)]="gift.accountName" pattern=".*">
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <label class="sr-only" for="accountName">Account Name</label>
+        <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" name="accountName" [(ngModel)]="gift.accountName" pattern=".*">
+      </div>
     </div>
 
-    <div class="form-group">
-      <label class="sr-only" for="routingNumber">Routing Number</label>
-      <input type="tel"  onlyTheseKeys="[0-9]" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" name="routingNumber" [(ngModel)]="gift.routingNumber" numbersOnly pattern="[0-9]*">
+    <div class="errors" *ngIf="(gift.stripeException || (achSubmitted && !achForm.valid))">
+      <div *ngIf="gift.stripeException || !achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
     </div>
 
-    <div class="form-group">
-      <label class="sr-only" for="accountNumber">Account Number</label>
-      <input type="tel"  onlyTheseKeys="[0-9]" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" name="accountNumber" [(ngModel)]="gift.accountNumber" numbersOnly pattern="\s*[0-9]*\s*">
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <label class="sr-only" for="routingNumber">Routing Number</label>
+        <input type="tel"  onlyTheseKeys="[0-9]" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" name="routingNumber" [(ngModel)]="gift.routingNumber" numbersOnly pattern="[0-9]*">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="(gift.stripeException || (achSubmitted && !achForm.valid))">
+      <div *ngIf="gift.stripeException || !achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <label class="sr-only" for="accountNumber">Account Number</label>
+        <input type="tel"  onlyTheseKeys="[0-9]" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" name="accountNumber" [(ngModel)]="gift.accountNumber" numbersOnly pattern="\s*[0-9]*\s*">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="(gift.stripeException || (achSubmitted && !achForm.valid))">
+      <div *ngIf="gift.stripeException || !achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
     </div>
 
     <div class="sample-check">
@@ -45,9 +63,9 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="(gift.stripeException || (achSubmitted && !achForm.valid))">
+    <!--<div class="errors" *ngIf="(gift.stripeException || (achSubmitted && !achForm.valid))">
       <div *ngIf="gift.stripeException || !achForm.valid" class="alert alert-danger" [innerHTML]="errorMessageACH"></div>
-    </div>
+    </div>-->
 
     <footer class="page-footer page-footer--border-top">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>

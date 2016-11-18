@@ -2,16 +2,6 @@
   background-color: $bg-color;
   font-size: 16px;
 
-  .alert {
-    p {
-      margin: 0 0 0.5em 0;
-      font-weight: bold;
-    }
-    ul {
-      padding-left: 1.5em;
-    }
-  }
-
   .page-header {
     @include header-font($fontface-header, 1.25em);
 
@@ -176,7 +166,7 @@
     &.submitted {
       .form-control {
         &.ng-invalid {
-          border: 1px solid #ebccd1;
+          border: 1px solid $error-border;
         }
       }
     }
@@ -336,6 +326,39 @@
           }
         }
       }
+    }
+  }
+
+  // Validation styles
+  .ng-touched {
+    .ng-valid {
+      border: 1px solid $success;
+    }
+
+    .ng-invalid {
+      border: 1px solid $error-border;
+    }
+  }
+
+  .alert {
+    font-size: .875em;
+    border-radius: 0;
+
+    &-danger {
+      background-color: $error-bg;
+      border-color: $error-border;
+      color: $error-text;
+      font-weight: 700;
+      text-align: center;
+      padding: 5px 0;
+
+      /*p {
+        margin: 0 0 0.5em 0;
+        font-weight: bold;
+      }
+      ul {
+        padding-left: 1.5em;
+      }*/
     }
   }
 }
