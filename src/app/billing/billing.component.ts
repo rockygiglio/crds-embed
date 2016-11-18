@@ -78,11 +78,6 @@ export class BillingComponent implements OnInit {
     if (!this.gift.type) {
       this.router.navigateByUrl('/payment');
     }
-
-    if (this.gift.stripeException) {
-      this.displayErrorsACH();
-    }
-
   }
 
   back() {
@@ -96,52 +91,6 @@ export class BillingComponent implements OnInit {
       ret = `is <u>required</u>`;
     }
     return ret;
-  }
-
-  displayErrorsACH() {
-    if ( this.gift.stripeException ) {
-      this.errorMessage = 'Your payment method has been declined.';
-      this.errorMessageACH = `${this.errorMessage}`;
-    } else if ( !this.achForm.valid ) {
-      let thisMessage = `<p>${this.errorMessage}</p>`;
-      thisMessage += `<ul>`;
-      if ( !this.achForm.controls['accountName'].valid ) {
-        thisMessage += `<li>Account name ${this.switchMessage(this.achForm.controls['accountName'].errors)}</li>`;
-      }
-      if ( !this.achForm.controls['accountNumber'].valid ) {
-        thisMessage += `<li>Account number ${this.switchMessage(this.achForm.controls['accountNumber'].errors)}</li>`;
-      }
-      if ( !this.achForm.controls['routingNumber'].valid ) {
-        thisMessage += `<li>Routing number ${this.switchMessage(this.achForm.controls['routingNumber'].errors)}</li>`;
-      }
-      thisMessage += '</ul>';
-      this.errorMessageACH = thisMessage;
-    } else {
-      this.errorMessageACH = '';
-    }
-  }
-
-  displayErrorsCC() {
-      if ( !this.ccForm.valid ) {
-      let thisMessage = `<p>${this.errorMessage}</p>`;
-      thisMessage += `<ul>`;
-      if ( !this.ccForm.controls['ccNumber'].valid ) {
-        thisMessage += `<li>Card number ${this.switchMessage(this.ccForm.controls['ccNumber'].errors)}</li>`;
-      }
-      if ( !this.ccForm.controls['expDate'].valid ) {
-        thisMessage += `<li>Expiration date ${this.switchMessage(this.ccForm.controls['expDate'].errors)}</li>`;
-      }
-      if ( !this.ccForm.controls['cvv'].valid ) {
-        thisMessage += `<li>CVV ${this.switchMessage(this.ccForm.controls['cvv'].errors)}</li>`;
-      }
-      if ( !this.ccForm.controls['zipCode'].valid ) {
-        thisMessage += `<li>Zip code ${this.switchMessage(this.ccForm.controls['zipCode'].errors)}</li>`;
-      }
-      thisMessage += `</ul>`;
-      this.errorMessageCC = thisMessage;
-    } else {
-      this.errorMessageCC = '';
-    }
   }
 
   achNext() {
@@ -173,8 +122,6 @@ export class BillingComponent implements OnInit {
             );
           }
       );
-    } else {
-      this.displayErrorsACH();
     }
     return false;
   }
@@ -194,7 +141,7 @@ export class BillingComponent implements OnInit {
                                                     this.ccForm.value.cvc, this.ccForm.value.zipCode);
 
       let firstName = 'placeholder'; // not used by API, except for guest donations
-      let lastName = 'placeholder';  // not used by API, except for guest donations      
+      let lastName = 'placeholder';  // not used by API, except for guest donations
 
       this.pmtService.getDonor().subscribe(
           donor => {
@@ -212,8 +159,6 @@ export class BillingComponent implements OnInit {
             );
           }
       );
-   } else {
-      this.displayErrorsCC();
     }
     return false;
   }
