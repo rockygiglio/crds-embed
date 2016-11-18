@@ -61,41 +61,24 @@ describe('Service: DonationFund', () => {
     });
   });
 
-  it('should return default fund name when fund is not in list of funds',
+  it('should return the default fund when fund is not in list of funds',
     inject([DonationFundService], (srvc: DonationFundService) => {
 
       let fundId = 2;
-      let fundName = srvc.getFundNameOrDefault(fundId, mockFunds, mockDefaultFund);
+      let fundName = srvc.getUrlParamFundOrDefault(fundId, mockFunds, mockDefaultFund).Name;
       expect(fundName).toBe(mockDefaultFund.Name);
 
   }));
 
-  it('should return the name of the fund whose id was passed in',
+  it('should the fund whose id was passed in',
     inject([DonationFundService], (srvc: DonationFundService) => {
 
       let fundId = 146;
-      let fundName = srvc.getFundNameOrDefault(fundId, mockFunds, mockDefaultFund);
+      let fundName = srvc.getUrlParamFundOrDefault(fundId, mockFunds, mockDefaultFund).Name;
       expect(fundName).toBe('I\'m In');
 
   }));
 
-  it('should specify that the fund allows re-occuring giving',
-    inject([DonationFundService], (srvc: DonationFundService) => {
-
-        let fundName = '(t) Test Pledge Program2';
-        let doesAllowReocurring = srvc.doesFundAllowRecurringGiving(fundName, mockFunds);
-        expect(doesAllowReocurring).toBe(true);
-
-  }));
-
-  it('should specify that the fund does NOT allow re-occuring giving',
-    inject([DonationFundService], (srvc: DonationFundService) => {
-
-        let fundName = '(t) Test Pledge Program1';
-        let doesAllowReocurring = srvc.doesFundAllowRecurringGiving(fundName, mockFunds);
-        expect(doesAllowReocurring).toBe(false);
-
-  }));
 
   it('should create an instance', async(inject([DonationFundService, MockBackend], (service, mockBackend) => {
     expect(service).toBeDefined();

@@ -42,20 +42,11 @@ export class DonationFundService implements Resolve<any> {
     }]];
   }
 
-  getFundNameOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): string {
+  getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
 
     let urlParamFund: any = funds.find(fund => fund.ProgramId == paramFundId);
-    let urlParamFundName: any = urlParamFund ? urlParamFund.Name : undefined;
-    let fundName: string = urlParamFundName ? urlParamFundName : defaultFund.Name;
-    return fundName;
-
-  }
-
-  doesFundAllowRecurringGiving(fundName: string, funds: Array<Program>): boolean {
-
-    let fund: Program = funds.find(fund => fund.Name == fundName);
-    let doesAllowRecurring = fund.AllowRecurringGiving;
-    return doesAllowRecurring;
+    let fund: Program = urlParamFund ? urlParamFund : defaultFund;
+    return fund;
 
   }
 

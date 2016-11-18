@@ -148,6 +148,10 @@ export class GiftService {
     return result;
   }
 
+  public resetDate() {
+    this.start_date = '';
+  }
+
   public resetPaymentDetails() {
     _.each([
       'paymentType',

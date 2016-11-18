@@ -10,16 +10,19 @@
   <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectShown">
     <h3 class="btn-form__header">Give To:</h3>
     <template ngFor let-fund [ngForOf]="funds" let-i="index">
-      <button class="btn btn-option" (click)="onClickFund(fund)" [ngClass]="{ active: (gift.fund == fund.Name) }">{{fund.Name}}</button>
+      <button class="btn btn-option"
+              (click)="onClickFund(fund)"
+              [ngClass]="{ active: (gift.fund == fund) }">{{fund.Name}}</button>
     </template>
   </div>
 
-  <div class="btn-form btn-form--border-btm" *ngIf="isFrequencySelectShown">
+  <div class="btn-form btn-form--border-btm" *ngIf="gift.fund.AllowRecurringGiving">
     <h3 class="btn-form__header">Frequency:</h3>
     <div class="btn-group">
     <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
       <button class="btn btn-option"
-             (click)="onClickFrequency(frequency)">{{frequency}}
+             (click)="onClickFrequency(frequency)"
+             [ngClass]="{ active: (gift.frequency == frequency) }">{{frequency}}
       </button>
     </template>
     </div>
@@ -27,12 +30,12 @@
 
 </form>
 
-<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date">
+<div *ngIf="gift.frequency !== 'One Time' && !gift.start_date && gift.fund.AllowRecurringGiving">
   <h3 class="btn-form__header">Recurs On:</h3>
   <datepicker [(ngModel)]="startDate" [minDate]="minDate" [showWeeks]="false" (ngModelChange)="onClickDate($event)"></datepicker>
 </div>
 
-<div class="alert alert-warning" *ngIf="gift.start_date">
+<div class="alert alert-warning" *ngIf="gift.start_date && gift.fund.AllowRecurringGiving">
   Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}. <button (click)="resetDate()">Change</button>
 </div>
 
