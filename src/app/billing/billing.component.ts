@@ -79,6 +79,10 @@ export class BillingComponent implements OnInit {
       this.router.navigateByUrl('/payment');
     }
 
+    if (this.gift.stripeException) {
+      this.displayErrorsACH();
+    }
+
   }
 
   back() {
@@ -95,7 +99,11 @@ export class BillingComponent implements OnInit {
   }
 
   displayErrorsACH() {
-    if ( !this.achForm.valid ) {
+    if ( this.gift.stripeException ) {
+      this.errorMessage = 'Your payment method has been declined.';
+      let thisMessage = `<p>${this.errorMessage}</p>`;
+      this.errorMessageACH = thisMessage;
+    } else if ( !this.achForm.valid ) {
       let thisMessage = `<p>${this.errorMessage}</p>`;
       thisMessage += `<ul>`;
       if ( !this.achForm.controls['accountName'].valid ) {
@@ -115,7 +123,11 @@ export class BillingComponent implements OnInit {
   }
 
   displayErrorsCC() {
-    if ( !this.ccForm.valid ) {
+    if ( this.gift.stripeException ) {
+      this.errorMessage = 'Please reenter your payment information';
+      let thisMessage = `<p>${this.errorMessage}</p>`;
+      this.errorMessageCC = thisMessage;
+    } else if ( !this.ccForm.valid ) {
       let thisMessage = `<p>${this.errorMessage}</p>`;
       thisMessage += `<ul>`;
       if ( !this.ccForm.controls['ccNumber'].valid ) {
@@ -139,7 +151,7 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
-    if (this.achForm.valid) {
+    if (this.achForm.valid && !this.gift.stripeException) {
       this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
       let email = this.gift.email;
@@ -155,17 +167,13 @@ export class BillingComponent implements OnInit {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
                  this.adv();
-              },
-            error => {
-            }
+              }
             );
           },
           error => {
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
-              },
-              error => {
               }
             );
           }
@@ -179,7 +187,7 @@ export class BillingComponent implements OnInit {
   ccNext() {
     this.ccSubmitted = true;
 
-    if (this.ccForm.valid) {
+    if (this.ccForm.valid && !this.gift.stripeException) {
       this.gift.paymentType = 'cc';
 
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
@@ -195,21 +203,16 @@ export class BillingComponent implements OnInit {
 
       this.pmtService.getDonor(email).subscribe(
           donor => {
-            // PUT??
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
                  this.adv();
-              },
-            error => {
-            }
+              }
             );
           },
           error => {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
-              },
-              error => {
               }
             );
           }

@@ -127,8 +127,6 @@ export class PaymentService {
     };
 
     private handleError (res: Response | any) {
-console.log('ERROR - handle error');
-console.log(res);
         return [[]];
     };
 

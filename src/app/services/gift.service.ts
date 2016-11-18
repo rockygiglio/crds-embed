@@ -24,6 +24,7 @@ export class GiftService {
   public url: string = '';
   public fundId: number = 0;
   public overrideParent: boolean = true;
+  public stripeException: boolean = false;
 
   public errors: Array<string> = [];
 

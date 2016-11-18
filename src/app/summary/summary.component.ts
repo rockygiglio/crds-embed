@@ -49,12 +49,10 @@ export class SummaryComponent implements OnInit {
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
         if (this.isArrayOfLength(info, 0)) {
-          // this.router.navigateByUrl('/billing');
+          this.gift.stripeException = true;
           this.changePayment();
           return false;
-          // TODO also need to have error show on the page
         }
-
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
            if (this.gift.overrideParent === true && window.top !== undefined ) {
