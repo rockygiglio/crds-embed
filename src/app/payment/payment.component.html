@@ -30,7 +30,7 @@
                id="custom-amount"
                maxlength="9"
                formControlName="customAmount"
-               moneyOnly
+               onlyTheseKeys="[0-9\.]"
                [(ngModel)]="customAmount"
                (ngModelChange)="onCustomAmount($event)">
       </div>
