@@ -20,6 +20,9 @@ export class GiftService {
   public totalCost: number = 0;
   public type: string = '';
   public url: string = '';
+  public fundId: number = 0;
+  public overrideParent: boolean = true;
+  public stripeException: boolean = false;
 
   private queryParams: Object;
 
