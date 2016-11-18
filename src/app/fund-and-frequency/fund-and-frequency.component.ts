@@ -70,10 +70,11 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   onClickFrequency(frequency: any) {
-    this.gift.frequency = frequency;
-    // if (frequency === 'One Time') {
-    //   this.resetDate();
-    // }
+
+    if (this.gift.fund.AllowRecurringGiving) {
+      this.gift.frequency = frequency;
+    }
+
   }
 
   onClickChangeDate() {

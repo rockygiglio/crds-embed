@@ -13,13 +13,14 @@
     </template>
   </div>
 
-  <div class="btn-form btn-form--border-btm" *ngIf="gift.fund.AllowRecurringGiving">
+  <div class="btn-form btn-form--border-btm">
     <h3 class="btn-form__header">Frequency:</h3>
     <div class="btn-group">
     <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
       <button class="btn btn-option"
              (click)="onClickFrequency(frequency)"
-             [ngClass]="{ active: (gift.frequency == frequency) }">{{frequency}}
+             [ngClass]="{ active: (gift.frequency == frequency),
+                          disabled: (!gift.fund.AllowRecurringGiving && frequency != 'One Time') }">{{frequency}}
       </button>
     </template>
     </div>
