@@ -27,6 +27,8 @@ export class SummaryComponent implements OnInit {
     if (!this.gift.type) {
       this.router.navigateByUrl('/payment');
     }
+
+    this.stateManagerService.is_loading = false;
   }
 
   getLastFourOfAccountNumber() {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { GiftService } from '../services/gift.service';
@@ -16,11 +16,8 @@ import { StateManagerService } from '../services/state-manager.service';
 export class PaymentComponent implements OnInit {
   public amountDue: Array<Object>;
   public customAmount: number;
-  public errorMessage: string;
   public form: FormGroup;
-  public customAmount: number;
   public selectedAmount: number;
-  public amountDue: Array<Object>;
   public predefinedAmounts: number[];
   public previousAmount: string;
   public submitted: boolean = false;
@@ -81,16 +78,22 @@ export class PaymentComponent implements OnInit {
   }
 
   isValid() {
-    return this.form.valid || this.gift.validAmount();
+    return this.gift.validAmount();
+  }
+
+  applyPreviousAmount() {
+    this.gift.amount = Number(this.previousAmount);
+    this.next();
   }
 
   next() {
-    this.submitted = true;
     if ( this.isValid() ) {
+      this.stateManagerService.is_loading = true;
       this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
     } else {
       this.setErrorMessage();
     }
+    this.submitted = true;
     return false;
   }
 

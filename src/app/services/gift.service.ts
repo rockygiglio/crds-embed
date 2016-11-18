@@ -115,26 +115,6 @@ export class GiftService {
     this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
   };
 
-  public setBillingInfo(pmtInfo: PaymentInfo) {
-    if (pmtInfo.default_source.credit_card.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
-      this.paymentType = 'cc';
-    }
-    if (pmtInfo.default_source.bank_account.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
-      this.paymentType = 'ach';
-    }
-  }
-
-  private loadFormData() {
-    this.donationFundService.getFunds().subscribe(
-      funds => this.funds = funds
-    );
-    this.quickDonationAmountService.getQuickDonationAmounts().subscribe(
-      amounts => this.amounts = amounts
-    );
-  }
-
   public validAmount() {
     let result = false;
     if (this.type === 'payment') {
@@ -154,7 +134,7 @@ export class GiftService {
 
   public validDollarAmount(amount: any): boolean {
     let str = String(amount);
-    let pattern = new RegExp('^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{2})$');
+    let pattern = new RegExp('(^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{2})$)|(^(|0)\.[0-9]{2}$)');
     if ( pattern.test(str) ) {
       return true;
     }
@@ -190,17 +170,6 @@ export class GiftService {
       this.accountLast4 = pmtInfo.default_source.bank_account.last4;
       this.paymentType = 'ach';
     }
-  }
-
-  public validAmount(): boolean {
-    let result = true;
-    if (this.type === 'payment') {
-      result = this.amount >= this.minPayment && this.amount <= this.totalCost;
-    } else if (this.type === 'donation') {
-      result = this.amount > 0;
-    }
-
-    return result;
   }
 
   /*******************
