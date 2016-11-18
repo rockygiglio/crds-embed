@@ -7,7 +7,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 export class OnlyTheseKeysDirective {
 
   public target;
-  public regex: RegExp = new RegExp('[0-9\.]');
+  public regex: RegExp = new RegExp('[0-9a-zA-Z]');
   public custom: string;
 
   @Input('onlyTheseKeys') onlyTheseKeys: any;
