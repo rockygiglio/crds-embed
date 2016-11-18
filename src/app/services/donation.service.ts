@@ -30,7 +30,7 @@ export class DonationService implements Resolve<number> {
 
     let observable  = new Observable(observer => {
 
-      this.paymentService.getDonor(this.giftService.email)
+      this.paymentService.getDonor()
         .subscribe(
           donor => {
             this.updateDonorAndDonate(donor.id);

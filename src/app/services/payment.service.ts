@@ -27,10 +27,7 @@ export class PaymentService {
         };
     }
 
-// TODO remove email parameter
-    getDonor(email: string): Observable<any> {
-
-        // let encodedEmail = email ? encodeURI(email).replace(/\+/g, '%2B') : '';
+    getDonor(): Observable<any> {
         let donorUrl = this.baseUrl + 'api/donor';
 
         return this.httpClient.get(donorUrl)

@@ -101,8 +101,7 @@ export class BillingComponent implements OnInit {
   displayErrorsACH() {
     if ( this.gift.stripeException ) {
       this.errorMessage = 'Your payment method has been declined.';
-      let thisMessage = `<p>${this.errorMessage}</p>`;
-      this.errorMessageACH = thisMessage;
+      this.errorMessageACH = `${this.errorMessage}`;
     } else if ( !this.achForm.valid ) {
       let thisMessage = `<p>${this.errorMessage}</p>`;
       thisMessage += `<ul>`;
@@ -123,11 +122,7 @@ export class BillingComponent implements OnInit {
   }
 
   displayErrorsCC() {
-    if ( this.gift.stripeException ) {
-      this.errorMessage = 'Please reenter your payment information';
-      let thisMessage = `<p>${this.errorMessage}</p>`;
-      this.errorMessageCC = thisMessage;
-    } else if ( !this.ccForm.valid ) {
+      if ( !this.ccForm.valid ) {
       let thisMessage = `<p>${this.errorMessage}</p>`;
       thisMessage += `<ul>`;
       if ( !this.ccForm.controls['ccNumber'].valid ) {
@@ -162,7 +157,7 @@ export class BillingComponent implements OnInit {
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
-      this.pmtService.getDonor(email).subscribe(
+      this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
@@ -201,7 +196,7 @@ export class BillingComponent implements OnInit {
       let firstName = 'placeholder'; // not used by API, except for guest donations
       let lastName = 'placeholder';  // not used by API, except for guest donations      
 
-      this.pmtService.getDonor(email).subscribe(
+      this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
