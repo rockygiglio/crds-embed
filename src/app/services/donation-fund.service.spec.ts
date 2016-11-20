@@ -70,7 +70,7 @@ describe('Service: DonationFund', () => {
 
   }));
 
-  it('should the fund whose id was passed in',
+  it('should return the fund whose id was passed in',
     inject([DonationFundService], (srvc: DonationFundService) => {
 
       let fundId = 146;
