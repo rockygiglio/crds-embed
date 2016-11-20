@@ -227,18 +227,6 @@ export class GiftService {
       this.stateManagerService.unhidePage(this.stateManagerService.fundIndex);
     }
 
-    // this.logInputParams();
-  }
-
-  private logInputParams(): void {
-    console.log('type ' + this.type);
-    console.log('invoice_id', this.invoiceId);
-    console.log('total_cost', this.totalCost);
-    console.log('min_payment', this.minPayment);
-    console.log('title', this.title);
-    console.log('url', this.url);
-    console.log('fund_id', this.fundId);
-    console.log('override_parent', this.overrideParent);
   }
 
   private setTheme(theme): void {
