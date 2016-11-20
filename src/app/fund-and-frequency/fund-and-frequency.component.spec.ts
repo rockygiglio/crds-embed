@@ -60,26 +60,28 @@ describe('Component: FundAndFrequency', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ FundAndFrequencyComponent ],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        DatepickerModule,
-        HttpModule
+      declarations: [
+        FundAndFrequencyComponent
       ],
-      providers:    [
+      imports: [
+        DatepickerModule,
+        HttpModule,
+        ReactiveFormsModule,
+        RouterTestingModule
+      ],
+      providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        GiftService,
-        ParamValidationService,
-        DonationFundService,
-        QuickDonationAmountsService,
-        PreviousGiftAmountService,
-        LoginService,
         CookieService,
+        DonationFundService,
         ExistingPaymentInfoService,
+        GiftService,
         HttpClientService,
-        StateManagerService,
+        LoginService,
+        ParamValidationService,
         PaymentService,
+        PreviousGiftAmountService,
+        QuickDonationAmountsService,
+        StateManagerService,
         StripeService
       ]
     });
@@ -128,6 +130,5 @@ describe('Component: FundAndFrequency', () => {
 
     expect(this.component.gift.start_date ).toBe(currentDateTime);
   });
-
 
 });

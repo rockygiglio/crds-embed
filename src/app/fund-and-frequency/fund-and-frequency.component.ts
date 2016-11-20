@@ -65,32 +65,30 @@ export class FundAndFrequencyComponent implements OnInit {
     return false;
   }
 
-  resetDate() {
-    this.gift.start_date = new Date();
+  onClickChangeDate() {
+        this.gift.start_date = undefined;
+  }
+
+  onClickDate(newValue: any) {
+        this.gift.start_date = newValue;
+  }
+
+  onClickFrequency(frequency: any) {
+    if (this.gift.fund.AllowRecurringGiving) {
+        this.gift.frequency = frequency;
+    }
   }
 
   onClickFund(fund: any) {
     this.gift.fund = fund;
     if(!fund.AllowRecurringGiving) {
-      this.gift.frequency = 'One Time';
-      this.resetDate();
+        this.gift.frequency = 'One Time';
+        this.resetDate();
     }
   }
 
-  onClickFrequency(frequency: any) {
-
-    if (this.gift.fund.AllowRecurringGiving) {
-      this.gift.frequency = frequency;
-    }
-
-  }
-
-  onClickChangeDate() {
-    this.gift.start_date = undefined;
-  }
-
-  onClickDate(newValue: any) {
-    this.gift.start_date = newValue;
+  resetDate() {
+    this.gift.start_date = new Date();
   }
 
 }
