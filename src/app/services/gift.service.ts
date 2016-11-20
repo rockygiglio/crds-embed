@@ -189,7 +189,7 @@ export class GiftService {
       parsedParam = null;
       this.errors.push(`${paramName} is missing or invalid`);
     } else if (isValid && !isRequired) {
-      parsedParam = queryParams[paramName];
+      parsedParam = this.helper.castParamToProperType(paramName, queryParams[paramName]);
     } else if (!isValid && !isRequired) {
       parsedParam = null;
     }
