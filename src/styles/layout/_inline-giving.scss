@@ -2,16 +2,6 @@
   background-color: $bg-color;
   font-size: 16px;
 
-  .alert {
-    p {
-      margin: 0 0 0.5em 0;
-      font-weight: bold;
-    }
-    ul {
-      padding-left: 1.5em;
-    }
-  }
-
   .page-header {
     @include header-font($fontface-header, 1.25em);
 
@@ -170,18 +160,8 @@
     .input-group-addon {
       background-color: $input-bg-color;
       border: none;
+      border-radius: 0;
       font-size: 1.125em;
-    }
-
-    &.submitted.ng-invalid {
-      .form-control {
-          border: 1px solid $state-danger-border;
-      }
-      .input-group-addon {
-        border: 1px solid $state-danger-border;
-        background-color: $state-danger-bg;
-        color: $state-danger-text;
-      }
     }
 
     .form-control {
@@ -201,20 +181,18 @@
       font-weight: normal;
     }
 
-    input[type="email"], input[type="password"], input[type="text"], input[type="tel"] {
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    input[type="tel"] {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       height: 42px;
-      padding: 0 20px;
-    }
+      padding: 0 10px;
 
-  }
-
-  .inline-form {
-    &__input {
-      &--half {
-        @include make-xs-column(6);
+      @media (min-width: $screen-sm) {
+        padding: 0 20px;
       }
     }
   }
@@ -304,6 +282,34 @@
     padding: 1em 0 2em;
   }
 
+  .row {
+    .form-group {
+      @include make-xs-column(12);
+    }
+
+    .inline-form__input {
+      @include make-xs-column(4);
+      padding-left: 8px;
+      padding-right: 8px;
+
+      &:first-child {
+        padding-left: 15px;
+      }
+
+      &:last-child {
+        padding-right: 15px;
+      }
+    }
+  }
+
+  .inline-form {
+    &__input {
+      &--half {
+        @include make-xs-column(6);
+      }
+    }
+  }
+
   .contrast-background {
     background: $page-bg-color;
 
@@ -338,6 +344,60 @@
             }
           }
         }
+      }
+    }
+  }
+
+  // Validation styles
+
+  form {
+    &.submitted {
+      &.ng-invalid {
+        .input-group-addon {
+          background-color: $danger-state-bg;
+          color: $danger-state-text;
+        }
+      }
+    }
+  }
+
+  .ng-touched,
+  .ng-dirty {
+    .ng-valid {
+      border: 1px solid $success-state;
+    }
+
+    .ng-invalid {
+      border: 1px solid $danger-state-border;
+    }
+  }
+
+  .alert {
+    border-radius: 0;
+    font-size: .875em;
+
+    &-danger {
+      background-color: $danger-state-bg;
+      border-color: $danger-state-border;
+      color: $danger-state-text;
+      font-weight: 700;
+      margin-top: -15px;
+      padding: 5px 0;
+      text-align: center;
+
+      p {
+        font-weight: bold;
+        line-height: 5px;
+        margin-bottom: 9px;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      li {
+        line-height: 5px;
+        margin-bottom: 9px;
       }
     }
   }
