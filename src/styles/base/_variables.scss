@@ -14,12 +14,15 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $fontface-header: "bebas-neue", sans-serif;
 
 // Form Validation Colors
-$success: #66C93E !default;
+$success-state: #66C93E !default;
+$success-state-text: $success-state;
+$success-state-bg: lighten(desaturate(adjust-hue($success-state, 346.4713), 20.6034), 42.9412);
+$success-state-border: $success-state;
 
-$error: #C9302C !default;
-$error-text: $error;
-$error-bg: lighten(desaturate(adjust-hue($error, 346.4713), 20.6034), 42.9412);
-$error-border: lighten(desaturate(adjust-hue($error, 348.7939), 20.4197), 38.0392);
+$danger-state: #C9302C !default;
+$danger-state-text: $danger-state;
+$danger-state-bg: lighten(desaturate(adjust-hue($danger-state, 346.4713), 20.6034), 42.9412);
+$danger-state-border: lighten(desaturate(adjust-hue($danger-state, 348.7939), 20.4197), 38.0392);
 
 // Default colors
 $bg-color: $cr-white !default;
