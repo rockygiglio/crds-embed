@@ -127,7 +127,14 @@ console.log('status: ' + res.status);
     };
 
     private handleError (res: Response | any) {
-        return [[]];
+let error = [[]];
+console.log(res);
+console.log('status: ' + res.status);
+if (res.status === 400) {
+  console.log('status in IF block: ' + res.status);
+  error.push({'status': res.status});
+}
+        return error;
     };
 
 }

@@ -50,6 +50,7 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
+console.log('status in summary component: ' + info.status);
          if (this.isArrayOfLength(info, 0)) {
            this.gift.stripeException = true;
            this.changePayment();
