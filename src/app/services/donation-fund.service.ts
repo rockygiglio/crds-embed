@@ -28,6 +28,13 @@ export class DonationFundService implements Resolve<any> {
       .catch(this.handleError);
   }
 
+  getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
+    let urlParamFund: any = funds.find(fund => fund.ProgramId === paramFundId);
+    let fund: Program = urlParamFund ? urlParamFund : defaultFund;
+
+    return fund;
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || {};
@@ -40,13 +47,6 @@ export class DonationFundService implements Resolve<any> {
       'ProgramType': 1,
       'AllowRecurringGiving': true
     }]];
-  }
-
-  getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
-    let urlParamFund: any = funds.find(fund => fund.ProgramId === paramFundId);
-    let fund: Program = urlParamFund ? urlParamFund : defaultFund;
-
-    return fund;
   }
 
 }

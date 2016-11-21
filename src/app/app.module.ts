@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
+import { Angulartics2Module } from 'angulartics2';
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { HttpModule } from '@angular/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -13,80 +14,75 @@ import { routing, appRoutingProviders } from './app.routing';
 import { DemoModule } from './demo/demo.module';
 import { PreloaderModule } from './preloader/preloader.module';
 
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { BillingComponent } from './billing/billing.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
-import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
-import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
-import { ConfirmationComponent } from './confirmation/confirmation.component';
 
-import { GiftService } from './services/gift.service';
-import { StateManagerService } from './services/state-manager.service';
-import { ParamValidationService } from './services/param-validation.service';
-import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { DonationFundService } from './services/donation-fund.service';
-import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
-import { LoginService } from './services/login.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { GiftService } from './services/gift.service';
 import { HttpClientService } from './services/http-client.service';
+import { LoginService } from './services/login.service';
+import { ParamValidationService } from './services/param-validation.service';
 import { PaymentService } from './services/payment.service';
+import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
+import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
+import { StateManagerService } from './services/state-manager.service';
 import { StripeService } from './services/stripe.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
-import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
+import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 @NgModule({
   imports:      [
     AlertModule,
+    Angulartics2Module.forRoot(),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
     CommonModule,
-    HttpModule,
     DatepickerModule,
-    ReactiveFormsModule,
-    routing,
-    Angulartics2Module.forRoot(),
     DemoModule,
-    ReactiveFormsModule,
-    AlertModule,
+    HttpModule,
     PreloaderModule,
-    DemoModule
+    ReactiveFormsModule,
+    routing
   ],
   declarations: [
     AppComponent,
-    PageNotFoundComponent,
-    PaymentComponent,
-    FundAndFrequencyComponent,
-    BillingComponent,
-    SummaryComponent,
     AuthenticationComponent,
+    BillingComponent,
     ConfirmationComponent,
     CreditCardFormatDirective,
-    ExpiryFormatDirective,
     CvvFormatDirective,
-    OnlyTheseKeysDirective
+    ExpiryFormatDirective,
+    FundAndFrequencyComponent,
+    OnlyTheseKeysDirective,
+    PageNotFoundComponent,
+    PaymentComponent,
+    SummaryComponent
   ],
   providers:    [
+    Angulartics2GoogleTagManager,
     appRoutingProviders,
-    QuickDonationAmountsService,
-    DonationFundService,
-    PreviousGiftAmountService,
-    LoginService,
     CookieService,
+    DonationFundService,
     ExistingPaymentInfoService,
-    HttpClientService,
-    ParamValidationService,
-    StateManagerService,
     GiftService,
-    PaymentService,
+    HttpClientService,
+    LoginService,
     ParamValidationService,
+    PaymentService,
+    PreviousGiftAmountService,
+    QuickDonationAmountsService,
+    StateManagerService,
     StripeService,
-    Angulartics2GoogleTagManager
   ],
   bootstrap:    [AppComponent]
 })

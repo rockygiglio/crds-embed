@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { StateManagerService } from '../services/state-manager.service';
-import { GiftService } from '../services/gift.service';
 import { Router } from '@angular/router';
+
 import { CheckGuestEmailService } from '../services/check-guest-email.service';
-import { LoginService } from '../services/login.service';
-import { HttpClientService } from '../services/http-client.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { GiftService } from '../services/gift.service';
+import { HttpClientService } from '../services/http-client.service';
+import { LoginService } from '../services/login.service';
+import { StateManagerService } from '../services/state-manager.service';
 
 @Component({
   selector: 'app-authentication',
@@ -33,16 +33,15 @@ export class AuthenticationComponent implements OnInit {
     private existingPaymentInfoService: ExistingPaymentInfoService,
   ) { }
 
-  back() {
+  back(): void {
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
-    return false;
   }
 
-  adv() {
+  adv(): void {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
   }
 
-  next() {
+  next(): void {
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
@@ -56,24 +55,22 @@ export class AuthenticationComponent implements OnInit {
         }
       );
     }
-    return false;
   }
 
-  guest() {
+  guest(): void {
     if (this.form.valid) {
       this.gift.isGuest = true;
       this.adv();
     }
-    return false;
   }
 
-  checkEmail(event: any) {
+  checkEmail(event: any): void {
     this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
       resp => { this.guestEmail = resp; }
     );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
     this.form = this._fb.group({
       email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],

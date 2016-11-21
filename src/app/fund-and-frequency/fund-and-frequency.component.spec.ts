@@ -11,8 +11,8 @@ import { TestBed } from '@angular/core/testing';
 import { DonationFundService } from '../services/donation-fund.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
-import { HttpClientService } from '../services/http-client.service';
 import { GiftService } from '../services/gift.service';
+import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { PaymentService } from '../services/payment.service';
@@ -32,7 +32,15 @@ class MockActivatedRoute {
 describe('Component: FundAndFrequency', () => {
 
   let component: any;
+  let currentDateTime: Date = new Date();
+  let currentDateTime2: Date = undefined;
   let fixture: any;
+
+  let giveFrequencies: any = {
+    oneTime: 'One Time',
+    weekly: 'Weekly',
+    monthly: 'Monthly'
+  };
 
   let mockFund: Program = {
     'ProgramId': 5,
@@ -47,16 +55,6 @@ describe('Component: FundAndFrequency', () => {
     'ProgramType': 1,
     'AllowRecurringGiving': false
   };
-
-  let giveFrequencies: any = {
-    oneTime: 'One Time',
-    weekly: 'Weekly',
-    monthly: 'Monthly'
-  };
-
-  let currentDateTime: Date = new Date();
-
-  let currentDateTime2: Date = undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

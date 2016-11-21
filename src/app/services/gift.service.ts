@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ParamValidationService } from './param-validation.service';
-import { LoginService } from './login.service';
-import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
-import { StateManagerService } from './state-manager.service';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+
+import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { LoginService } from './login.service';
+import { ParamValidationService } from './param-validation.service';
 import { Program } from '../interfaces/program';
+import { StateManagerService } from './state-manager.service';
 
 declare var _;
 
@@ -13,19 +14,18 @@ declare var _;
 export class GiftService {
 
   public errors: Array<string> = [];
+  public fundId: number = 0;
   public invoiceId: number = 0;
+  public isInitialized: boolean = false;
   public minPayment: number = 0;
+  public overrideParent: boolean = true;
+  public stripeException: boolean = false;
   public title: string = '';
   public totalCost: number = 0;
   public type: string = '';
   public url: string = '';
-  public fundId: number = 0;
-  public overrideParent: boolean = true;
-  public stripeException: boolean = false;
 
   private queryParams: Object;
-
-  public isInitialized: boolean = false;
 
   // Form options
   public existingPaymentInfo: Observable<any>;

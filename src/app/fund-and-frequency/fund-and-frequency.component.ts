@@ -36,7 +36,7 @@ export class FundAndFrequencyComponent implements OnInit {
               private stateManagerService: StateManagerService,
               private _fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
 
     this.funds = this.route.snapshot.data['giveTo'];
     this.fundIdParam = this.gift.fundId;
@@ -52,34 +52,31 @@ export class FundAndFrequencyComponent implements OnInit {
     });
 
     this.stateManagerService.is_loading = false;
-
   }
 
-  back() {
+  back(): void {
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
-    return false;
   }
 
-  next() {
+  next(): void {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
-    return false;
   }
 
-  onClickChangeDate() {
+  onClickChangeDate(): void {
         this.gift.start_date = undefined;
   }
 
-  onClickDate(newValue: any) {
+  onClickDate(newValue: any): void {
         this.gift.start_date = newValue;
   }
 
-  onClickFrequency(frequency: any) {
+  onClickFrequency(frequency: any): void {
     if (this.gift.fund.AllowRecurringGiving) {
         this.gift.frequency = frequency;
     }
   }
 
-  onClickFund(fund: any) {
+  onClickFund(fund: any): void {
     this.gift.fund = fund;
     if (!fund.AllowRecurringGiving) {
         this.gift.frequency = 'One Time';
@@ -87,8 +84,7 @@ export class FundAndFrequencyComponent implements OnInit {
     }
   }
 
-  resetDate() {
+  resetDate(): void {
     this.gift.start_date = new Date();
   }
-
 }
