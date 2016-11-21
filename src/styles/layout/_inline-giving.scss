@@ -181,12 +181,19 @@
       font-weight: normal;
     }
 
-    input[type="email"], input[type="password"], input[type="text"], input[type="tel"] {
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    input[type="tel"] {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       height: 42px;
-      padding: 0 20px;
+      padding: 0 10px;
+
+      @media (min-width: $screen-sm) {
+        padding: 0 20px;
+      }
     }
   }
 
@@ -282,6 +289,16 @@
 
     .inline-form__input {
       @include make-xs-column(4);
+      padding-left: 8px;
+      padding-right: 8px;
+
+      &:first-child {
+        padding-left: 15px;
+      }
+
+      &:last-child {
+        padding-right: 15px;
+      }
     }
   }
 
