@@ -4,20 +4,20 @@
 
 <form [formGroup]="form">
 
-  <div class="btn-form btn-form--border-btm" *ngIf="isFundSelectShown">
-    <h3 class="btn-form__header">Give To:</h3>
+  <h4>Give To:</h4>
+  <div class="btn-group btn-group--flex btn-group--underline" *ngIf="isFundSelectShown">
     <template ngFor let-fund [ngForOf]="funds" let-i="index">
-      <button class="btn btn-option"
+      <button class="btn btn-option btn-option--flex-item"
               (click)="onClickFund(fund)"
               [ngClass]="{ active: (gift.fund.Name == fund.Name) }">{{fund.Name}}</button>
     </template>
   </div>
 
-  <div class="btn-form btn-form--border-btm">
-    <h3 class="btn-form__header">Frequency:</h3>
+  <h4>Frequency:</h4>
+  <div class="btn-group btn-group--flex btn-group--underline">
     <div class="btn-group">
     <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
-      <button class="btn btn-option"
+      <button class="btn btn-option btn-option--flex-item"
              (click)="onClickFrequency(frequency)"
              [ngClass]="{ active: (gift.frequency == frequency),
                           disabled: (!gift.fund.AllowRecurringGiving && frequency != 'One Time') }">{{frequency}}
