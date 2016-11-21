@@ -81,7 +81,7 @@
   <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
     <div class="form-group">
       <label class="sr-only" for="ccNumber">Credit Card Number</label>
-      <input tabindex="1" type="tel" class="form-control" maxlength="20" placeholder="Credit Card Number" formControlName="ccNumber" name="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number">
+      <input tabindex="1" type="tel" class="form-control" maxlength="16" placeholder="Credit Card Number" formControlName="ccNumber" name="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number">
     </div>
 
     <div class="row inline-form">
