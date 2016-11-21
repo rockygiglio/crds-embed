@@ -3,21 +3,6 @@
 <head>
   <meta charset="utf-8">
 
-  <style id="antiClickjack">
-    body {
-      display: none !important;
-    }
-  </style>
-  <script type="text/javascript">
-    document.domain = "crossroads.net";
-    if (self === top || this.top.location.hostname.endsWith('.crossroads.net')) {        
-        var antiClickjack = document.getElementById("antiClickjack");
-        antiClickjack.parentNode.removeChild(antiClickjack);
-    } else {
-        top.location = self.location;
-    }
-  </script>
-
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
