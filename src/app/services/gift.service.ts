@@ -41,7 +41,7 @@ export class GiftService {
 
   // user info
   public email: string = '';
-  public isGuest: boolean;
+  public isGuest: boolean = false;
   public previousGiftAmount: string = '';
 
   // ACH Information

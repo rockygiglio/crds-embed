@@ -18,7 +18,6 @@ export class SummaryComponent implements OnInit {
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
               private gift: GiftService,
-              private existingPaymentInfoService: ExistingPaymentInfoService,
               private paymentService: PaymentService) {}
 
   ngOnInit() {
