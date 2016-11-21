@@ -109,7 +109,7 @@ describe('Component: FundAndFrequency', () => {
     expect(this.component.gift.frequency).toBe(giveFrequencies.weekly);
   });
 
-  it('should NOT set frequency for the fund to anything other than daily if it does not allow re-occurring', () => {
+  it('should NOT set frequency for the fund to anything other than "One Time" if it does not allow reoccurring', () => {
     this.component.onClickFund(mockOneTimeGiftFund);
     this.component.onClickFrequency(giveFrequencies.weekly);
 
