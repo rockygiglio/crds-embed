@@ -115,7 +115,7 @@ export class PaymentService {
 
         return this.httpClient.post(url, paymentInfo)
             .map(this.extractData)
-            .catch(this.handleError);
+            .catch(this.handlePaymentError);
 
     };
 
@@ -125,6 +125,10 @@ export class PaymentService {
 
     private handleError (res: Response | any) {
         return [[]];
+    };
+
+    private handlePaymentError (err: Response | any) {
+        return Observable.throw(err);
     };
 
 }

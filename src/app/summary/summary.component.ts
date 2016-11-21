@@ -50,12 +50,8 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
-         if (this.isArrayOfLength(info, 0)) {
-           this.gift.stripeException = true;
-           this.changePayment();
-          return false;
-         }
          this.gift.stripeException = false;
+         this.gift.systemException = false;
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
            if (this.gift.overrideParent === true && window.top !== undefined ) {
@@ -66,6 +62,16 @@ export class SummaryComponent implements OnInit {
          } else {
            this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
          }
+      },
+      error => {
+        if (error.status === 400) {
+          this.gift.systemException = true;
+          return false;
+        } else {
+          this.gift.stripeException = true;
+          this.changePayment();
+          return false;
+        }
       }
     );
 

@@ -24,6 +24,7 @@ export class GiftService {
   public totalCost: number = 0;
   public type: string = '';
   public url: string = '';
+  public systemException: boolean = false;
 
   private queryParams: Object;
 
