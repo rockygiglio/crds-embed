@@ -106,6 +106,7 @@ export class GiftService {
   }
 
   public resetExistingPaymentInfo(): void {
+    this.stateManagerService.unhidePage(this.stateManagerService.billingIndex);
     this.accountLast4 = null;
 
     let emptyPaymentInfo: any = {

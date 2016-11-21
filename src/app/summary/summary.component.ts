@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import { GiftService } from '../services/gift.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { PaymentService } from '../services/payment.service';
 import { PaymentCallBody } from '../models/payment-call-body';
 
@@ -80,7 +79,6 @@ export class SummaryComponent implements OnInit {
   changePayment() {
     this.gift.resetExistingPaymentInfo();
     this.gift.resetPaymentDetails();
-    this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.billingIndex));
   }
 
   isArrayOfLength(obj: any, length: number) {
