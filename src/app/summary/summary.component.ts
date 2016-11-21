@@ -50,12 +50,9 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
-console.log('status in summary component: ' + info.status);
-         if (this.isArrayOfLength(info, 0)) {
-           this.gift.stripeException = true;
-           this.changePayment();
-          return false;
-         }
+        //TODO: REMOVE CONSOLE LOGS BELOW
+        console.log('Success');
+        console.log(info);
          this.gift.stripeException = false;
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
@@ -67,6 +64,14 @@ console.log('status in summary component: ' + info.status);
          } else {
            this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
          }
+      },
+      error => {
+        //TODO: REMOVE CONSOLE LOGS BELOW
+        console.log('Error');
+        console.log(error);
+        this.gift.stripeException = true;
+        this.changePayment();
+        return false;
       }
     );
 

@@ -115,26 +115,20 @@ export class PaymentService {
 
         return this.httpClient.post(url, paymentInfo)
             .map(this.extractData)
-            .catch(this.handleError);
-// Can I look for 400 response code  -- invoiceId bad or other system error          
+            .catch(this.handlePaymentError);
 
     };
 
     private extractData(res: Response) {
-console.log(res);
-console.log('status: ' + res.status);
         return res;
     };
 
     private handleError (res: Response | any) {
-let error = [[]];
-console.log(res);
-console.log('status: ' + res.status);
-if (res.status === 400) {
-  console.log('status in IF block: ' + res.status);
-  error.push({'status': res.status});
-}
-        return error;
+        return [[]];
+    };
+
+    private handlePaymentError (err: Response | any) {
+        return Observable.throw(err)
     };
 
 }
