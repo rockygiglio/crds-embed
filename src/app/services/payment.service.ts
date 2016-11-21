@@ -31,8 +31,7 @@ export class PaymentService {
         let donorUrl = this.baseUrl + 'api/donor';
 
         return this.httpClient.get(donorUrl)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(this.extractData);
     };
 
     createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string) {
@@ -100,12 +99,10 @@ export class PaymentService {
 
         if (restMethod === this.restMethodNames.post) {
             return this.http.post(donorUrl, donorInfo, requestOptions)
-                .map(this.extractData)
-                .catch(this.handleError);
+                .map(this.extractData);
         } else if (restMethod === this.restMethodNames.put) {
             return this.http.put(donorUrl, donorInfo, requestOptions)
-                .map(this.extractData)
-                .catch(this.handleError);
+                .map(this.extractData);
         }
     };
 
@@ -114,21 +111,11 @@ export class PaymentService {
         let url: string = this.baseUrl + 'api/donation';
 
         return this.httpClient.post(url, paymentInfo)
-            .map(this.extractData)
-            .catch(this.handlePaymentError);
-
+            .map(this.extractData);
     };
 
     private extractData(res: Response) {
         return res;
-    };
-
-    private handleError (res: Response | any) {
-        return [[]];
-    };
-
-    private handlePaymentError (err: Response | any) {
-        return Observable.throw(err);
     };
 
 }
