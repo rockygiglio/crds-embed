@@ -20,15 +20,21 @@
     </div>
   </div>
 
-  <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex btn-group--underline">
-      <button *ngFor="let item of amountDue"
-              class="btn btn-option btn-option--flex-item"
-              (click)="onSelectAmount($event, item.amount)"
-              [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
-        {{ item.label }}: {{ item.amount | currency: "USD": true }}
-      </button>
-    </div>
+  <div *ngIf="gift.type === 'payment'" class="btn-group btn-group--flex">
+    <button *ngFor="let item of amountDue"
+            type="button"
+            class="btn--payment btn btn-option btn-option--flex-item"
+            (click)="onSelectAmount($event, item.amount)"
+            [ngClass]="{ active: (!customAmount && gift.amount == item.amount) }">
+      <div class="row">
+        <div>
+          <span class="glyph" aria-hidden="true"></span> {{ item.label }}
+        </div>
+        <div class="payment--lg">
+          {{ item.amount | currency: "USD": true }}
+        </div>
+      </div>
+    </button>
   </div>
 
   <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
