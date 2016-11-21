@@ -50,10 +50,8 @@ export class SummaryComponent implements OnInit {
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
-        //TODO: REMOVE CONSOLE LOGS BELOW
-        console.log('Success');
-        console.log(info);
          this.gift.stripeException = false;
+         this.gift.systemException = false;
          if (this.gift.url) {
            this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
            if (this.gift.overrideParent === true && window.top !== undefined ) {
@@ -66,12 +64,14 @@ export class SummaryComponent implements OnInit {
          }
       },
       error => {
-        //TODO: REMOVE CONSOLE LOGS BELOW
-        console.log('Error');
-        console.log(error);
-        this.gift.stripeException = true;
-        this.changePayment();
-        return false;
+        if (error.status === 400) {
+          this.gift.systemException = true;
+          return false;
+        } else {
+          this.gift.stripeException = true;
+          this.changePayment();
+          return false;
+        }
       }
     );
 

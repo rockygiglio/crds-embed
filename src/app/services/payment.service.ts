@@ -128,7 +128,7 @@ export class PaymentService {
     };
 
     private handlePaymentError (err: Response | any) {
-        return Observable.throw(err)
+        return Observable.throw(err);
     };
 
 }

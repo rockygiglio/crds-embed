@@ -21,6 +21,7 @@ export class GiftService {
   public fundId: number = 0;
   public overrideParent: boolean = true;
   public stripeException: boolean = false;
+  public systemException: boolean = false;
 
   private queryParams: Object;
 
