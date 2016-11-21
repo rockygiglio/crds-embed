@@ -349,31 +349,26 @@
   }
 
   // Validation styles
-  .form {
-    &.submitted.ng-invalid {
-      .form-control {
-        &.ng-invalid {
-          border: 1px solid $error-border;
+
+  form {
+    &.submitted {
+      &.ng-invalid {
+        .input-group-addon {
+          background-color: $danger-state-bg;
+          color: $danger-state-text;
         }
-          border: 1px solid $error-border;
-      }
-      .input-group-addon {
-        border: 1px solid $error-border;
-        background-color: $error-bg;
-        color: $error-text;
       }
     }
   }
 
   .ng-touched,
-  .ng-untouched,
-  .ng-pristine {
+  .ng-dirty {
     .ng-valid {
-      border: 1px solid $success;
+      border: 1px solid $success-state;
     }
 
     .ng-invalid {
-      border: 1px solid $error-border;
+      border: 1px solid $danger-state-border;
     }
   }
 
@@ -382,9 +377,9 @@
     font-size: .875em;
 
     &-danger {
-      background-color: $error-bg;
-      border-color: $error-border;
-      color: $error-text;
+      background-color: $danger-state-bg;
+      border-color: $danger-state-border;
+      color: $danger-state-text;
       font-weight: 700;
       margin-top: -15px;
       padding: 5px 0;
