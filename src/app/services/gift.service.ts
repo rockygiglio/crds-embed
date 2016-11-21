@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ParamValidationService } from './param-validation.service';
-import { LoginService } from './login.service';
-import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
-import { StateManagerService } from './state-manager.service';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+
+import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { LoginService } from './login.service';
+import { ParamValidationService } from './param-validation.service';
+import { Program } from '../interfaces/program';
+import { StateManagerService } from './state-manager.service';
 
 declare var _;
 
@@ -12,19 +14,18 @@ declare var _;
 export class GiftService {
 
   public errors: Array<string> = [];
+  public fundId: number = 0;
   public invoiceId: number = 0;
+  public isInitialized: boolean = false;
   public minPayment: number = 0;
+  public overrideParent: boolean = true;
+  public stripeException: boolean = false;
   public title: string = '';
   public totalCost: number = 0;
   public type: string = '';
   public url: string = '';
-  public fundId: number = 0;
-  public overrideParent: boolean = true;
-  public stripeException: boolean = false;
 
   private queryParams: Object;
-
-  public isInitialized: boolean = false;
 
   // Form options
   public existingPaymentInfo: Observable<any>;
@@ -55,7 +56,7 @@ export class GiftService {
   public zipCode: string = '';
 
   // Fund and frequency information
-  public fund: any = '';
+  public fund: Program = undefined;
   public start_date: any = '';
   public frequency: any = '';
 
@@ -188,7 +189,7 @@ export class GiftService {
       parsedParam = null;
       this.errors.push(`${paramName} is missing or invalid`);
     } else if (isValid && !isRequired) {
-      parsedParam = queryParams[paramName];
+      parsedParam = this.helper.castParamToProperType(paramName, queryParams[paramName]);
     } else if (!isValid && !isRequired) {
       parsedParam = null;
     }
@@ -226,18 +227,6 @@ export class GiftService {
       this.stateManagerService.unhidePage(this.stateManagerService.fundIndex);
     }
 
-    // this.logInputParams();
-  }
-
-  private logInputParams(): void {
-    console.log('type ' + this.type);
-    console.log('invoice_id', this.invoiceId);
-    console.log('total_cost', this.totalCost);
-    console.log('min_payment', this.minPayment);
-    console.log('title', this.title);
-    console.log('url', this.url);
-    console.log('fund_id', this.fundId);
-    console.log('override_parent', this.overrideParent);
   }
 
   private setTheme(theme): void {
