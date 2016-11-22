@@ -120,9 +120,6 @@ export class BillingComponent implements OnInit {
                  this.adv();
               },
               errorInner => {
-                  //TODO: MIMICK CC LOGIC
-console.log('ACH - Error in errorInner UPDATE');
-console.log(errorInner);
                 if (errorInner.status === 400) {
                   this.gift.systemException = true;
                   return false;
@@ -130,7 +127,6 @@ console.log(errorInner);
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-
                   this.router.navigateByUrl('/billing');
 
                   return false;
@@ -144,9 +140,6 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
-                  //TODO: MIMICK CC LOGIC
-console.log('ACH - Error in errorInner CREATE');
-console.log(errorInner);
                 if (errorInner.status === 400) {
                   this.gift.systemException = true;
                   return false;
@@ -154,7 +147,7 @@ console.log(errorInner);
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  // this.router.navigateByUrl('/billing');
+                  this.router.navigateByUrl('/billing');
                   return false;
                 }
               }
@@ -192,9 +185,17 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
-                //TODO: SET ERRORS
                 this.stateManagerService.is_loading = false;
-                this.gift.stripeException = true;
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  this.router.navigateByUrl('/billing');
+                  return false;
+                }
               }
             );
           },
@@ -204,9 +205,17 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
-                //TODO: SET ERRORS
                 this.stateManagerService.is_loading = false;
-                this.gift.stripeException = true;
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  this.router.navigateByUrl('/billing');
+                  return false;
+                }
               }
             );
           }

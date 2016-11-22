@@ -73,6 +73,7 @@ export class SummaryComponent implements OnInit {
         } else {
           this.gift.stripeException = true;
           this.changePayment();
+          this.router.navigateByUrl('/billing');
           return false;
         }
       }
