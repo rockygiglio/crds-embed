@@ -50,7 +50,7 @@ export class PaymentService {
         return this.apiDonor(card, email, null, null, this.stripeService.methodNames.card, this.restMethodNames.put);
     };
 
-    /**
+    /*
      * Send the donor's information to stripe to receive a donor Id, then make a call to the Crossroad Gateway API's
      * 'Donor' endpoint to either save or update the donor.
      * @param {Number} BankOrCcPmtInfo - either bank or credit card information entered by the user (will be passed to stripe)
@@ -72,7 +72,6 @@ export class PaymentService {
 
             this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
                 stripeEncryptedPmtInfo => {
-
                     let crdsDonor = new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName);
 
                     this.makeApiDonorCall(crdsDonor, email, firstName, lastName, restMethod).subscribe(
@@ -80,19 +79,12 @@ export class PaymentService {
                             observer.next(value);
                         },
                         error => {
-console.log('PaymentService, makeApiDonorCall just setting observer.error - ERROR - ??');
-console.log(error);
-
-
-
-                            observer.error(error);
+                            observer.error(new Error(error));
                         }
                     );
                 },
-                errorOuter => {
-console.log('PaymentService, makeApiDonorCall just setting observer.error - OUTER');
-console.log(errorOuter);
-                observer.error(errorOuter);
+                error => {
+                    observer.error(error);
                 }
             );
 

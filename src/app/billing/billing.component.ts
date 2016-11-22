@@ -186,52 +186,30 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
-
-
-console.log('CC - Error in errorInner UPDATE');
-console.log(errorInner);
-                if (errorInner.status === 400) {
-console.log('CC - 400');
-                  this.gift.systemException = true;
-                  this.router.navigateByUrl('/billing');
-                  return false;
-                } else {
-console.log('CC - not 400');
-                  this.gift.stripeException = true;
-                  this.gift.resetExistingPaymentInfo();
-                  this.gift.resetPaymentDetails();
-                  this.router.navigateByUrl('/billing');
-                  return false;
-                }
-
-
+                console.log('UPDATE DONOR WITH CARD FAILED - CRITICAL: ');
+                console.log(errorInner);
+                this.gift.stripeException = true;
+                console.log('flag after call completes: ' + this.gift.stripeException);
               }
             );
           },
           error => {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
+                 console.log('UPDATE DONOR WITH CARD SUCCEEDED');
                  this.adv();
               },
               errorInner => {
-console.log('CC - Error in errorInner CREATE');
-console.log(errorInner);
-                if (errorInner.status === 400) {
-                  this.gift.systemException = true;
-                  this.router.navigateByUrl('/billing');
-                  return false;
-                } else {
-                  this.gift.stripeException = true;
-                  this.gift.resetExistingPaymentInfo();
-                  this.gift.resetPaymentDetails();
-                  this.router.navigateByUrl('/billing');
-                  return false;
-                }
+                console.log('CREATE DONOR WITH CARD FAILED - CRITICAL: ')
+                console.log(errorInner);
+                this.gift.stripeException = true;;
+                console.log('flag after call completes: ' + this.gift.stripeException);
               }
             );
           }
       );
     }
+
     return false;
   }
 
