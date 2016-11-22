@@ -159,7 +159,7 @@
 
   .input-group-addon {
     background-color: $input-bg-color;
-    border: 1px solid $input-bg-color;
+    border: 1px solid transparent;
     border-radius: 0;
     font-size: 1.125em;
   }
@@ -168,7 +168,7 @@
     .form-control {
       background-color: $input-bg-color;
       border: none;
-      border: 1px solid $input-bg-color;
+      border: 1px solid transparent;
       border-radius: 0;
       box-shadow: none;
       height: 2em;
@@ -353,17 +353,55 @@
   // Validation styles
 
   form {
+    .form-control {
+      &.ng-dirty,
+      &.ng-touched {
+        &.ng-invalid {
+          border: 1px solid $danger-state-border;
+        }
+      }
+    }
+
+    .form-control {
+      &.ng-dirty,
+      &.ng-touched {
+        &.ng-valid {
+          border: 1px solid $success-state;
+        }
+      }
+    }
+  }
+
+  .custom-amount {
     &.ng-dirty,
     &.ng-touched {
       &.ng-invalid {
-        .form-group {
+        .form-control,
+        .input-group-addon {
           border: 1px solid $danger-state-border;
+        }
+
+        .form-control {
+          border-left: none;
+        }
+
+        .input-group-addon {
+          border-right: none;
         }
       }
 
       &.ng-valid {
-        .form-group {
+        .form-control,
+        .input-group-addon {
           border: 1px solid $success-state;
+        }
+
+        .form-control {
+          border-left: none;
+        }
+
+        .input-group-addon {
+          border-right: none;
         }
       }
     }
@@ -382,17 +420,17 @@
       text-align: center;
 
       p {
-        font-weight: bold;
-        line-height: 5px;
+        line-height: 10px;
         margin-bottom: 9px;
       }
+
       ul {
         list-style: none;
         padding-left: 0;
       }
 
       li {
-        line-height: 5px;
+        line-height: 10px;
         margin-bottom: 9px;
       }
     }
