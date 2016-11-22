@@ -33,15 +33,16 @@ export class AuthenticationComponent implements OnInit {
     private existingPaymentInfoService: ExistingPaymentInfoService,
   ) { }
 
-  back(): void {
+  back(): boolean {
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
+    return false;
   }
 
   adv(): void {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
   }
 
-  next(): void {
+  next(): boolean {
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
@@ -55,13 +56,15 @@ export class AuthenticationComponent implements OnInit {
         }
       );
     }
+    return false;
   }
 
-  guest(): void {
+  guest(): boolean {
     if (this.form.valid) {
       this.gift.isGuest = true;
       this.adv();
     }
+    return false;
   }
 
   checkEmail(event: any): void {
