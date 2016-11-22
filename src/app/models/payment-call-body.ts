@@ -14,7 +14,7 @@ export class PaymentCallBody {
     }
 
     formatAmountForStripe(amount: any): any {
-        return Number(amount.toString().replace(".", ""));
+        return Number(amount.toString().replace('.', ''));
     }
 }
 

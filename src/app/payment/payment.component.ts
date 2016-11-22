@@ -130,7 +130,7 @@ export class PaymentComponent implements OnInit {
   }
 
   setAmount(value) {
-    this.gift.amount = Number(value);
+    this.gift.amount = value;
   }
 
   private validateAmount(control) {
