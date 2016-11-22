@@ -13,6 +13,7 @@ import { PaymentCallBody } from '../models/payment-call-body';
 })
 export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
+  private paymentSubmitted: boolean = false;
 
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
@@ -44,6 +45,7 @@ export class SummaryComponent implements OnInit {
   }
 
   next() {
+    this.paymentSubmitted = true;
     let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
     let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
 
