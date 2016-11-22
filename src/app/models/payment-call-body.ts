@@ -13,7 +13,7 @@ export class PaymentCallBody {
         this.invoice_id = invoice_id;
     }
 
-    formatAmountForStripe(amount: any): any {
+    private formatAmountForStripe(amount: any): any {
         return Number(amount.toString().replace('.', ''));
     }
 }
