@@ -30,7 +30,7 @@
     </td>
   </tr>
   <tr>
-    <td *ngIf="gift.type == 'donation'"><a (click)="changePayment()">Payment:</a></td>
+    <td *ngIf="gift.type == 'donation'"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
     <td *ngIf="gift.type == 'payment'">Payment:</td>
     <td class="text-right">
       Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
@@ -43,8 +43,8 @@
 </div>
 
 <footer class="page-footer page-footer--pt-1">
-  <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
-  <a *ngIf="gift.type == 'donation'" href="#" class="btn btn-next pull-right" (click)="next()">Give {{ gift.amount | currency:'USD':true }}</a>
-  <a *ngIf="gift.type == 'payment'" href="#" class="btn btn-next pull-right" (click)="next()">Pay {{ gift.amount | currency:'USD':true }}</a>
+  <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+  <input type="button" *ngIf="gift.type == 'donation'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="next()" value="Give {{ gift.amount | currency:'USD':true }}">
+  <input type="button" *ngIf="gift.type == 'payment'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="next()" value="Pay {{ gift.amount | currency:'USD':true }}">
 </footer>
 
