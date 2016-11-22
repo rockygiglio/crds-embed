@@ -15,6 +15,7 @@ export class StateManagerService {
   public is_loading: boolean = false;
   public paymentIndex: number = 0;
   public summaryIndex: number = 4;
+  public watcherInterval: any = undefined;
 
   public paymentState: PageState[] = [
     { path: '/payment', show: true },
@@ -53,4 +54,13 @@ export class StateManagerService {
   public unhidePage(pageIndex: number) {
       this.paymentState[pageIndex].show = true;
   }
+
+  public watchState(){
+    this.watcherInterval = setInterval(function(){}, 1000);
+  }
+
+  public stopWatchingState() {
+    clearInterval(this.watcherInterval);
+  }
+
 }

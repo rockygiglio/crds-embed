@@ -111,6 +111,8 @@ export class BillingComponent implements OnInit {
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
+      this.stateManagerService.is_loading = true;
+      this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
@@ -127,9 +129,9 @@ console.log(errorInner);
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  
+
                   this.router.navigateByUrl('/billing');
-                  
+
                   return false;
                 }
               }
@@ -179,6 +181,8 @@ console.log(errorInner);
       let firstName = 'placeholder'; // not used by API, except for guest donations
       let lastName = 'placeholder';  // not used by API, except for guest donations
 
+      this.stateManagerService.is_loading = true;
+      this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
@@ -186,6 +190,7 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
+                  this.stateManagerService.is_loading = false;
                 console.log('UPDATE DONOR WITH CARD FAILED - CRITICAL: ');
                 console.log(errorInner);
                 this.gift.stripeException = true;
@@ -200,6 +205,7 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
+                  this.stateManagerService.is_loading = false;
                 console.log('CREATE DONOR WITH CARD FAILED - CRITICAL: ')
                 console.log(errorInner);
                 this.gift.stripeException = true;;
@@ -215,6 +221,11 @@ console.log(errorInner);
 
   adv() {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
+    return false;
+  }
+
+  handleDonorError() {
+    this.stateManagerService.is_loading = false;
   }
 
 }
