@@ -30,7 +30,7 @@
     </td>
   </tr>
   <tr>
-    <td *ngIf="gift.type == 'donation'"><a (click)="changePayment()">Payment:</a></td>
+    <td *ngIf="gift.type == 'donation'"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
     <td *ngIf="gift.type == 'payment'">Payment:</td>
     <td class="text-right">
       Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
