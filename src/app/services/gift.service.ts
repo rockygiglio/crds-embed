@@ -41,7 +41,7 @@ export class GiftService {
 
   // user info
   public email: string = '';
-  public isGuest: boolean;
+  public isGuest: boolean = false;
   public previousGiftAmount: string = '';
 
   // ACH Information
@@ -106,6 +106,7 @@ export class GiftService {
   }
 
   public resetExistingPaymentInfo(): void {
+    this.stateManagerService.unhidePage(this.stateManagerService.billingIndex);
     this.accountLast4 = null;
 
     let emptyPaymentInfo: any = {
