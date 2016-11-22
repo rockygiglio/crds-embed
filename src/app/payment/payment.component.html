@@ -15,7 +15,7 @@
               class="btn btn-option btn-option--flex-item"
               (click)="onSelectAmount($event, amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
-        {{ amount | currency: "USD": true }}
+        {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
     </div>
   </div>
