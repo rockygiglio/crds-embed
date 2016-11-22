@@ -44,7 +44,8 @@ export class SummaryComponent implements OnInit {
   }
 
   next() {
-    let paymentDetail = new PaymentCallBody(this.gift.amount, this.gift.paymentType, 'PAYMENT', this.gift.invoiceId );
+    let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+    let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
