@@ -121,7 +121,6 @@ export class PaymentService {
     };
 
     private handleError (err: Response | any) {
-console.log('handle Error in catch of makeApiDonorCall !!');
        return Observable.throw(err);
       };
 

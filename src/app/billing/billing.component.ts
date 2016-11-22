@@ -120,6 +120,7 @@ export class BillingComponent implements OnInit {
                  this.adv();
               },
               errorInner => {
+                  //TODO: MIMICK CC LOGIC
 console.log('ACH - Error in errorInner UPDATE');
 console.log(errorInner);
                 if (errorInner.status === 400) {
@@ -143,6 +144,7 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
+                  //TODO: MIMICK CC LOGIC
 console.log('ACH - Error in errorInner CREATE');
 console.log(errorInner);
                 if (errorInner.status === 400) {
@@ -190,26 +192,21 @@ console.log(errorInner);
                  this.adv();
               },
               errorInner => {
-                  this.stateManagerService.is_loading = false;
-                console.log('UPDATE DONOR WITH CARD FAILED - CRITICAL: ');
-                console.log(errorInner);
+                //TODO: SET ERRORS
+                this.stateManagerService.is_loading = false;
                 this.gift.stripeException = true;
-                console.log('flag after call completes: ' + this.gift.stripeException);
               }
             );
           },
           error => {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
-                 console.log('UPDATE DONOR WITH CARD SUCCEEDED');
                  this.adv();
               },
               errorInner => {
-                  this.stateManagerService.is_loading = false;
-                console.log('CREATE DONOR WITH CARD FAILED - CRITICAL: ')
-                console.log(errorInner);
-                this.gift.stripeException = true;;
-                console.log('flag after call completes: ' + this.gift.stripeException);
+                //TODO: SET ERRORS
+                this.stateManagerService.is_loading = false;
+                this.gift.stripeException = true;
               }
             );
           }
