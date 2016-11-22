@@ -40,12 +40,17 @@ export class SummaryComponent implements OnInit {
   }
 
   back() {
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.summaryIndex));
     return false;
   }
 
   next() {
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     this.paymentSubmitted = true;
+
     let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
     let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
 
@@ -71,6 +76,7 @@ export class SummaryComponent implements OnInit {
         } else {
           this.gift.stripeException = true;
           this.changePayment();
+          this.router.navigateByUrl('/billing');
           return false;
         }
       }

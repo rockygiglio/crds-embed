@@ -81,6 +81,8 @@ export class BillingComponent implements OnInit {
   }
 
   back() {
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
     return false;
   }
@@ -95,6 +97,9 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
+
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
@@ -113,8 +118,17 @@ export class BillingComponent implements OnInit {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
                  this.adv();
-              }, error => {
-                this.handleDonorError();
+              },
+              errorInner => {
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
               }
             );
           },
@@ -122,9 +136,18 @@ export class BillingComponent implements OnInit {
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
-               }, error => {
-                 this.handleDonorError();
-               }
+              },
+              errorInner => {
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
+              }
             );
           }
       );
@@ -134,7 +157,8 @@ export class BillingComponent implements OnInit {
 
   ccNext() {
     this.ccSubmitted = true;
-
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
 
@@ -156,22 +180,43 @@ export class BillingComponent implements OnInit {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
                  this.adv();
-               }, error => {
-                 this.handleDonorError();
-               }
+              },
+              errorInner => {
+                this.stateManagerService.is_loading = false;
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
+              }
             );
           },
           error => {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
-              }, error => {
-                 this.handleDonorError();
+              },
+              errorInner => {
+                this.stateManagerService.is_loading = false;
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
               }
             );
           }
       );
     }
+
     return false;
   }
 

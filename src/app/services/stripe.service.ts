@@ -16,10 +16,15 @@ export class StripeService {
     }
 
     public getCardInfoToken(customerCard: CustomerCard) {
+
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
-                observer.next(response);
+                if(status === 200){
+                    observer.next(response)
+                } else {
+                    observer.error(new Error(response));
+                }
             };
 
             (<any>window).Stripe.card.createToken(customerCard, stripeResponseHandler);
@@ -33,7 +38,11 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
-                observer.next(response);
+                if(status === 200){
+                    observer.next(response)
+                } else {
+                    observer.error(new Error(response));
+                }
             };
 
             (<any>window).Stripe.bankAccount.createToken(customerBank, stripeResponseHandler);
