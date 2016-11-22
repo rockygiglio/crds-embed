@@ -56,12 +56,14 @@ export class FundAndFrequencyComponent implements OnInit {
     this.stateManagerService.is_loading = false;
   }
 
-  back(): void {
+  back(): boolean {
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
+    return false;
   }
 
-  next(): void {
+  next(): boolean {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
+    return false;
   }
 
   onClickChangeDate(): void {
