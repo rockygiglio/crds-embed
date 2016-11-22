@@ -100,7 +100,7 @@
         border-radius: 4px;
         margin-top: -9px;
         margin-bottom: -9px;
-        padding: 20px 0;
+        padding: 15px 0;
 
         &:hover {
           background-color: $secondary-color;
@@ -121,7 +121,7 @@
 
         .payment--lg {
           font-size: 24px;
-          line-height: 18px;
+          line-height: 24px;
         }
       }
 
@@ -153,6 +153,23 @@
 
       margin-bottom: 1em;
       padding-bottom: 1em;
+    }
+  }
+
+  .custom-input-payment {
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -15px;
+
+    &__icon {
+      flex-basis: 30px;
+      font-size: 22px;
+      padding: 5px 20px 0;
+    }
+
+    .form-group {
+      /*margin-bottom: 0;*/
     }
   }
 

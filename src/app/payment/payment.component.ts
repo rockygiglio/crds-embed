@@ -42,15 +42,15 @@ export class PaymentComponent implements OnInit {
 
     this.amountDue = [
       {
-        label: 'Minimum Due:',
+        label: 'Minimum Payment:',
         amount: this.gift.minPayment
       },
       {
-        label: 'Total Due:',
+        label: 'Full Balance:',
         amount: this.gift.totalCost
       },
       {
-        label: 'Custom Amount...'
+        label: 'Other Amount...'
       }
     ];
 

@@ -6,7 +6,7 @@
 </div>
 <div *ngIf="gift.errors.length <= 0">
   <div class="page-header page-header--border-btm">
-    <h2>Amount:</h2>
+    <h2>Amount</h2>
   </div>
 
   <div *ngIf="gift.type === 'donation'">
@@ -17,10 +17,40 @@
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
         {{ amount | currency: "USD": true }}
       </button>
+
+      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+        <div class="form-group">
+          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="text"
+                  class="form-control"
+                  placeholder="Or Enter Amount"
+                  id="custom-amount"
+                  maxlength="9"
+                  formControlName="customAmount"
+                  onlyTheseKeys="[0-9\.]"
+                  [(ngModel)]="customAmount"
+                  (ngModelChange)="onCustomAmount($event)">
+          </div>
+        </div>
+
+        <div *ngIf="gift.type === 'donation'">
+          <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
+            <div class="alert alert-warning" *ngIf="previousAmount">
+              You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a href="#" (click)="applyPreviousAmount()">Yes</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="errors" *ngIf="( !isValid() && submitted )">
+          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+        </div>
+      </form>
     </div>
   </div>
 
-  <div *ngIf="gift.type === 'payment'" class="btn-group btn-group--flex">
+  <div *ngIf="gift.type === 'payment'" class="btn-group btn-group--flex btn-group--underline">
     <button *ngFor="let item of amountDue"
             type="button"
             class="btn-payment btn btn-option btn-option--flex-item"
@@ -39,44 +69,37 @@
         </div>
       </div>
     </button>
+
+    <div class="custom-input-payment">
+      <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+
+      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+        <div class="form-group">
+          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="text"
+                  class="form-control"
+                  placeholder="Enter Amount"
+                  id="custom-amount"
+                  maxlength="9"
+                  formControlName="customAmount"
+                  onlyTheseKeys="[0-9\.]"
+                  [(ngModel)]="customAmount"
+                  (ngModelChange)="onCustomAmount($event)">
+          </div>
+        </div>
+
+        <div class="errors" *ngIf="( !isValid() && submitted )">
+          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-
-    <div class="form-group">
-      <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-      <div class="input-group">
-        <span class="input-group-addon">$</span>
-        <input type="text"
-               class="form-control"
-               placeholder="Or Enter Amount"
-               id="custom-amount"
-               maxlength="9"
-               formControlName="customAmount"
-               onlyTheseKeys="[0-9\.]"
-               [(ngModel)]="customAmount"
-               (ngModelChange)="onCustomAmount($event)">
-      </div>
-    </div>
-
-    <div *ngIf="gift.type === 'donation'">
-      <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
-        <div class="alert alert-warning" *ngIf="previousAmount">
-          You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a href="#" (click)="applyPreviousAmount()">Yes</a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="errors" *ngIf="( !isValid() && submitted )">
-      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-    </div>
-
-    <footer class="page-footer">
-      <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
-    </footer>
-
-  </form>
+  <footer class="page-footer">
+    <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
+  </footer>
 </div>
 
 
