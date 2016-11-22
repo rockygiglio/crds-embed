@@ -19,6 +19,8 @@ export class FundAndFrequencyComponent implements OnInit {
   funds: Array<Program>;
   defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
   form: FormGroup;
+  minDate: Date = new Date();
+  maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
   startDate: any;
   fundIdParam: number;
   isFundSelectShown: boolean = undefined;
