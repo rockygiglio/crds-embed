@@ -106,11 +106,15 @@ export class BillingComponent implements OnInit {
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
+      this.stateManagerService.is_loading = true;
+      this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
                  this.adv();
+              }, error => {
+                this.handleDonorError();
               }
             );
           },
@@ -118,7 +122,9 @@ export class BillingComponent implements OnInit {
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
-              }
+               }, error => {
+                 this.handleDonorError();
+               }
             );
           }
       );
@@ -143,18 +149,24 @@ export class BillingComponent implements OnInit {
       let firstName = 'placeholder'; // not used by API, except for guest donations
       let lastName = 'placeholder';  // not used by API, except for guest donations
 
+      this.stateManagerService.is_loading = true;
+      this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
                  this.adv();
-              }
+               }, error => {
+                 this.handleDonorError();
+               }
             );
           },
           error => {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
+              }, error => {
+                 this.handleDonorError();
               }
             );
           }
@@ -165,6 +177,11 @@ export class BillingComponent implements OnInit {
 
   adv() {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
+    return false;
+  }
+
+  handleDonorError() {
+    this.stateManagerService.is_loading = false;
   }
 
 }

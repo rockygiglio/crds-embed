@@ -4,13 +4,15 @@
 
 <form [formGroup]="form">
 
-  <h4>Give To:</h4>
-  <div class="btn-group btn-group--flex btn-group--underline" *ngIf="isFundSelectShown">
-    <template ngFor let-fund [ngForOf]="funds" let-i="index">
-      <button class="btn btn-option btn-option--flex-item"
-              (click)="onClickFund(fund)"
-              [ngClass]="{ active: (gift.fund.Name == fund.Name) }">{{fund.Name}}</button>
-    </template>
+  <div *ngIf="isFundSelectShown">
+    <h4>Give To:</h4>
+    <div class="btn-group btn-group--flex btn-group--underline">
+      <template ngFor let-fund [ngForOf]="funds" let-i="index">
+        <button class="btn btn-option btn-option--flex-item"
+                (click)="onClickFund(fund)"
+                [ngClass]="{ active: (gift.fund.Name == fund.Name) }">{{fund.Name}}</button>
+      </template>
+    </div>
   </div>
 
   <h4>Frequency:</h4>
