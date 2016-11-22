@@ -127,8 +127,6 @@ export class BillingComponent implements OnInit {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  this.router.navigateByUrl('/billing');
-
                   return false;
                 }
               }
@@ -147,7 +145,6 @@ export class BillingComponent implements OnInit {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  this.router.navigateByUrl('/billing');
                   return false;
                 }
               }
@@ -193,7 +190,6 @@ export class BillingComponent implements OnInit {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  this.router.navigateByUrl('/billing');
                   return false;
                 }
               }
@@ -213,7 +209,6 @@ export class BillingComponent implements OnInit {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  this.router.navigateByUrl('/billing');
                   return false;
                 }
               }
