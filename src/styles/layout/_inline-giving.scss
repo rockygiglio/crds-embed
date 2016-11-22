@@ -82,6 +82,8 @@
     }
 
     .btn-payment {
+      text-align: left;
+
       &.active {
         background-color: $secondary-color;
 
@@ -111,17 +113,18 @@
           @include make-xs-column(6);
 
           &:first-child {
-            text-align: left;
+            /*text-align: left;*/
           }
 
           &:last-child {
-            text-align: right;
+            /*text-align: right;*/
           }
         }
 
         .payment--lg {
           font-size: 24px;
           line-height: 24px;
+          text-align: right;
         }
       }
 
