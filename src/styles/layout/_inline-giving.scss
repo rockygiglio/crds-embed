@@ -81,9 +81,19 @@
       background-color: $secondary-color;
     }
 
-    .btn--payment {
-      .active {
+    .btn-payment {
+      &.active {
         background-color: $secondary-color;
+
+        .btn-payment__icon {
+          .fa-circle-thin {
+            display: none;
+          }
+
+          .fa-check-circle {
+            display: inline-block;
+          }
+        }
       }
 
       .row {
@@ -112,6 +122,22 @@
         .payment--lg {
           font-size: 24px;
           line-height: 18px;
+        }
+      }
+
+      &__icon {
+        .fa {
+          font-size: 1.43em; // 20px
+          padding-right: 8px;
+          vertical-align: middle;
+
+          &-circle-thin {
+            display: inline-block;
+          }
+
+          &-check-circle {
+            display: none;
+          }
         }
       }
     }
