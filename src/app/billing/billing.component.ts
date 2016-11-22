@@ -81,6 +81,8 @@ export class BillingComponent implements OnInit {
   }
 
   back() {
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
     return false;
   }
@@ -95,6 +97,9 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
+
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
@@ -111,6 +116,22 @@ export class BillingComponent implements OnInit {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+console.log('ACH - Error in errorInner UPDATE');
+console.log(errorInner);
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  
+                  this.router.navigateByUrl('/billing');
+                  
+                  return false;
+                }
               }
             );
           },
@@ -118,6 +139,20 @@ export class BillingComponent implements OnInit {
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+console.log('ACH - Error in errorInner CREATE');
+console.log(errorInner);
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  // this.router.navigateByUrl('/billing');
+                  return false;
+                }
               }
             );
           }
@@ -128,7 +163,8 @@ export class BillingComponent implements OnInit {
 
   ccNext() {
     this.ccSubmitted = true;
-
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
 
@@ -148,6 +184,27 @@ export class BillingComponent implements OnInit {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+
+
+console.log('CC - Error in errorInner UPDATE');
+console.log(errorInner);
+                if (errorInner.status === 400) {
+console.log('CC - 400');
+                  this.gift.systemException = true;
+                  this.router.navigateByUrl('/billing');
+                  return false;
+                } else {
+console.log('CC - not 400');
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  this.router.navigateByUrl('/billing');
+                  return false;
+                }
+
+
               }
             );
           },
@@ -155,6 +212,21 @@ export class BillingComponent implements OnInit {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+console.log('CC - Error in errorInner CREATE');
+console.log(errorInner);
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  this.router.navigateByUrl('/billing');
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  this.router.navigateByUrl('/billing');
+                  return false;
+                }
               }
             );
           }

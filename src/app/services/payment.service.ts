@@ -34,19 +34,19 @@ export class PaymentService {
             .map(this.extractData);
     };
 
-    createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string) {
+    createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string): Observable<any> {
         return this.apiDonor(bankAcct, email, firstName, lastName, this.stripeService.methodNames.bankAccount, this.restMethodNames.post);
     };
 
-    createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string) {
+    createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string): Observable<any> {
         return this.apiDonor(card, email, firstName, lastName, this.stripeService.methodNames.card, this.restMethodNames.post);
     };
 
-    updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string) {
+    updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string): Observable<any> {
         return this.apiDonor(bankAcct, email, null, null, this.stripeService.methodNames.bankAccount, this.restMethodNames.put);
     };
 
-    updateDonorWithCard(donorId: number, card: CustomerCard, email: string) {
+    updateDonorWithCard(donorId: number, card: CustomerCard, email: string): Observable<any> {
         return this.apiDonor(card, email, null, null, this.stripeService.methodNames.card, this.restMethodNames.put);
     };
 
@@ -80,11 +80,19 @@ export class PaymentService {
                             observer.next(value);
                         },
                         error => {
+console.log('PaymentService, makeApiDonorCall just setting observer.error - ERROR - ??');
+console.log(error);
+
+
+
                             observer.error(error);
                         }
                     );
                 },
-                error => {
+                errorOuter => {
+console.log('PaymentService, makeApiDonorCall just setting observer.error - OUTER');
+console.log(errorOuter);
+                observer.error(errorOuter);
                 }
             );
 
@@ -99,10 +107,12 @@ export class PaymentService {
 
         if (restMethod === this.restMethodNames.post) {
             return this.http.post(donorUrl, donorInfo, requestOptions)
-                .map(this.extractData);
+                .map(this.extractData)
+                .catch(this.handleError);
         } else if (restMethod === this.restMethodNames.put) {
             return this.http.put(donorUrl, donorInfo, requestOptions)
-                .map(this.extractData);
+                .map(this.extractData)
+                .catch(this.handleError);
         }
     };
 
@@ -117,5 +127,10 @@ export class PaymentService {
     private extractData(res: Response) {
         return res;
     };
+
+    private handleError (err: Response | any) {
+console.log('handle Error in catch of makeApiDonorCall !!');
+       return Observable.throw(err);
+      };
 
 }
