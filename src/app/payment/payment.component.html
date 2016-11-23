@@ -30,6 +30,7 @@
                   maxlength="9"
                   formControlName="customAmount"
                   onlyTheseKeys="[0-9\.]"
+                  currency
                   [(ngModel)]="customAmount"
                   (ngModelChange)="onCustomAmount($event)">
           </div>
@@ -102,6 +103,7 @@
                   maxlength="9"
                   formControlName="customAmount"
                   onlyTheseKeys="[0-9\.]"
+                  currency
                   [(ngModel)]="customAmount"
                   (ngModelChange)="onCustomAmount($event)">
           </div>
