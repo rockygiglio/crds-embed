@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+  <form class="custom-amount" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
 
     <div class="form-group">
       <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
