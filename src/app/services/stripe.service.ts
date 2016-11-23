@@ -20,8 +20,8 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
-                if(status === 200){
-                    observer.next(response)
+                if (status === 200) {
+                    observer.next(response);
                 } else {
                     observer.error(new Error(response));
                 }
@@ -38,8 +38,8 @@ export class StripeService {
         let observable  = new Observable(observer => {
 
             let stripeResponseHandler = function(status, response) {
-                if(status === 200){
-                    observer.next(response)
+                if (status === 200) {
+                    observer.next(response);
                 } else {
                     observer.error(new Error(response));
                 }
