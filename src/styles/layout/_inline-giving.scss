@@ -74,11 +74,6 @@
         &:not(:last-child):not(.dropdown-toggle) {
           margin-right: 0;
           margin-bottom: .5em;
-
-          @media (min-width: $screen-xs) {
-            margin-right: .5em;
-            margin-bottom: 0;
-          }
         }
       }
     }
@@ -87,14 +82,73 @@
       background-color: $secondary-color;
     }
 
+    .btn-payment {
+      text-align: left;
+
+      &.active {
+        background-color: $secondary-color;
+
+        .btn-payment__icon {
+          .fa-circle-thin {
+            display: none;
+          }
+
+          .fa-check-circle {
+            display: inline-block;
+          }
+        }
+      }
+
+      .row {
+        border-radius: 4px;
+        margin-top: -9px;
+        margin-bottom: -9px;
+        padding: 15px 0;
+
+        &:hover {
+          background-color: $secondary-color;
+          color: $cr-white;
+        }
+
+        & > div {
+          @include make-xs-column(6);
+
+          &:first-child {
+            /*text-align: left;*/
+          }
+
+          &:last-child {
+            /*text-align: right;*/
+          }
+        }
+
+        .payment--lg {
+          font-size: 24px;
+          line-height: 24px;
+          text-align: right;
+        }
+      }
+
+      &__icon {
+        .fa {
+          padding-right: 8px;
+          vertical-align: middle;
+
+          &-circle-thin {
+            display: inline-block;
+          }
+
+          &-check-circle {
+            display: none;
+          }
+        }
+      }
+    }
+
     &--flex {
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
-
-      @media (min-width: $screen-xs) {
-        flex-direction: row;
-      }
     }
 
     &--underline {
@@ -102,6 +156,20 @@
 
       margin-bottom: 1em;
       padding-bottom: 1em;
+    }
+  }
+
+  .custom-input-payment {
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -15px;
+    overflow: hidden;
+
+    &__icon {
+      flex-basis: 30px;
+      font-size: 22px;
+      padding: 5px 20px 0;
     }
   }
 

@@ -66,8 +66,14 @@ $dt-page-bg-color: #222222;
       }
     }
 
+    .btn-payment {
+      border-color: $underline-color;
+      color: $text-color;
+    }
+
     .active {
       background-color: $secondary-color;
+      color: $cr-white;
     }
 
     &--underline {

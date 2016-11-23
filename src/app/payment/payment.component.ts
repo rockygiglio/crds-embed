@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, animate, state, style, transition, trigger } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,15 @@ import { StateManagerService } from '../services/state-manager.service';
 @Component({
   selector: 'app-payment',
   templateUrl: 'payment.component.html',
-  styleUrls: ['payment.component.css']
+  styleUrls: ['payment.component.css'],
+  animations: [
+    trigger('customAmountForm', [
+      state('expanded', style({ height: '*' })),
+      state('collapsed', style({ height: '0px' })),
+      transition('collapsed => expanded', animate('200ms ease-in')),
+      transition('expanded => collapsed', animate('200ms 200ms ease-out'))
+    ])
+  ]
 })
 export class PaymentComponent implements OnInit {
   public amountDue: Array<Object>;
@@ -22,6 +30,7 @@ export class PaymentComponent implements OnInit {
   public previousAmount: string;
   public submitted: boolean = false;
   public errorMessage: string = '';
+  public customAmtSelected: boolean = false;
 
   constructor(private fb: FormBuilder,
               private gift: GiftService,
@@ -42,11 +51,11 @@ export class PaymentComponent implements OnInit {
 
     this.amountDue = [
       {
-        label: 'Minimum Due',
+        label: 'Minimum Payment',
         amount: this.gift.minPayment
       },
       {
-        label: 'Total Due',
+        label: 'Full Balance',
         amount: this.gift.totalCost
       }
     ];
@@ -122,8 +131,9 @@ export class PaymentComponent implements OnInit {
     this.gift.customAmount = value;
   }
 
-  onSelectAmount(event, value) {
+  onSelectAmount(value) {
     this.submitted = false;
+    this.customAmtSelected = false;
     delete(this.customAmount);
     this.gift.selectedAmount = value;
     this.setAmount(value);
