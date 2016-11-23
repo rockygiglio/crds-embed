@@ -65,9 +65,24 @@
 
       &--no-outline {
         border: none;
+        box-shadow: none;
+      }
+    }
+
+    .active {
+      background-color: $secondary-color;
+    }
+
+    &--flex-col {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+
+      @media (min-width: $screen-xs) {
+        flex-direction: row;
       }
 
-      &--flex-item {
+      .btn-option--flex-item {
         flex: 1 1 50%;
         min-height: 37px;
 
@@ -83,17 +98,25 @@
       }
     }
 
-    .active {
-      background-color: $secondary-color;
-    }
-
-    &--flex {
+    &--flex-row {
       display: flex;
-      flex-flow: column nowrap;
+      flex-flow: row nowrap;
       justify-content: space-between;
 
-      @media (min-width: $screen-xs) {
-        flex-direction: row;
+      .btn-option {
+        &--flex-item {
+          flex: 1 1 50%;
+          min-height: 37px;
+
+          &:not(:last-child):not(.dropdown-toggle) {
+            margin-right: 8px;
+
+            @media (min-width: $screen-xs) {
+              margin-right: .5em;
+              margin-bottom: 0;
+            }
+          }
+        }
       }
     }
 
