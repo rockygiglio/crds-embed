@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { CreditCard } from '../shared/credit-card';
+import { KeypressValidation } from '../shared/keypress-validation';
 
 @Directive({
   selector: '[currency]'
@@ -14,6 +14,9 @@ export class CurrencyFormatDirective {
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {
+    if (KeypressValidation.isNonValidationKeypress(e)) {
+      return true;
+    }
     if (this.isValidCurrency(String.fromCharCode(e.which))) {
       return true;
     } else {
@@ -23,6 +26,9 @@ export class CurrencyFormatDirective {
   }
 
   @HostListener('paste', ['$event']) onPaste(e) {
+    if (KeypressValidation.isNonValidationKeypress(e)) {
+      return true;
+    }
     if (this.isValidCurrency(e.clipboardData.getData('Text'))) {
       return true;
     } else {
@@ -32,15 +38,21 @@ export class CurrencyFormatDirective {
   }
 
   @HostListener('change', ['$event']) onChange(e) {
+    if (KeypressValidation.isNonValidationKeypress(e)) {
+      return true;
+    }
     this.isValidCurrency(String.fromCharCode(e.which));
   }
 
   @HostListener('input', ['$event']) onInput(e) {
+    if (KeypressValidation.isNonValidationKeypress(e)) {
+      return true;
+    }
     this.isValidCurrency(String.fromCharCode(e.which));
   }
 
   private isValidCurrency(input: string): boolean {
-    let val = CreditCard.replaceFullWidthChars(this.target.value);
+    let val = KeypressValidation.replaceFullWidthChars(this.target.value);
 
     // place new input value in the selected position,
     // replacing any value that exists there
