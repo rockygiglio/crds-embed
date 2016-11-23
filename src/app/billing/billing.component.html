@@ -100,7 +100,8 @@
                formControlName="ccNumber"
                name="ccNumber"
                [(ngModel)]="gift.ccNumber"
-               oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+               simpleCcNumber
+               onlyTheseKeys="[0-9]"
                autocomplete="cc-number">
       </div>
     </div>
