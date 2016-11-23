@@ -55,7 +55,7 @@ export class StateManagerService {
       this.paymentState[pageIndex].show = true;
   }
 
-  public watchState(){
+  public watchState() {
     this.watcherInterval = setInterval(function(){}, 1000);
   }
 

@@ -59,7 +59,7 @@
     </div>
 
     <footer class="page-footer">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">      
       <input type="submit" class="btn btn-next pull-right" (click)="guest()" [ngClass]="{ disabled: !form.valid }" value="Next">
     </footer>
   </form>

@@ -72,9 +72,12 @@
     <div *ngIf="gift.stripeException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
     </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>    
 
     <footer class="page-footer page-footer--border-top">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
       <input type="button" class="btn btn-next pull-right" (click)="achNext()" value="Next">
     </footer>
   </form>
@@ -144,9 +147,12 @@
     <div *ngIf="gift.stripeException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
     </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>    
 
     <footer class="page-footer page-footer--border-top">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
       <input type="button" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
     </footer>
   </form>
