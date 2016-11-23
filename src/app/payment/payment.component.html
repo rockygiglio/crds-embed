@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div *ngIf="gift.type === 'payment'" class="btn-group btn-group--flex btn-group--underline">
+  <div *ngIf="gift.type === 'payment'" class="btn-group btn-group--flex">
     <button *ngFor="let item of amountDue"
             type="button"
             class="btn-payment btn btn-option btn-option--flex-item"
@@ -73,7 +73,7 @@
     <!-- onclick, btn highlight (active class), icon change (display changes for each) and input field appears -->
     <button type="button"
             class="btn-payment btn btn-option btn-option--flex-item"
-            (click)="customAmtSelected = true"
+            (click)="selectedCustom()"
             [ngClass]="{ active: (customAmtSelected) }">
       <div class="row">
         <div>
@@ -106,14 +106,14 @@
                   (ngModelChange)="onCustomAmount($event)">
           </div>
         </div>
-
-        <div class="errors" *ngIf="( !isValid() && submitted )">
-          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-        </div>
       </form>
     </div>
-  </div>
 
+  </div>
+  <div class="errors clearfix payment-errors" *ngIf="( !isValid() && submitted )">
+    <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+  </div>
+  <hr>
   <footer class="page-footer">
     <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
   </footer>
