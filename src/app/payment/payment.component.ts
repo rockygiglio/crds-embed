@@ -143,6 +143,11 @@ export class PaymentComponent implements OnInit {
     this.gift.amount = value;
   }
 
+  selectedCustom() {
+    this.onSelectAmount(null);
+    this.customAmtSelected = true;
+  }
+
   private validateAmount(control) {
     if (this.gift.validAmount()) {
       return null;
