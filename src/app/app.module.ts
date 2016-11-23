@@ -38,6 +38,7 @@ import { CreditCardFormatDirective } from './directives/credit-card-format.direc
 import { CvvFormatDirective } from './directives/cvv-format.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
+import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card-format.directive';
 
 @NgModule({
   imports:      [
@@ -66,6 +67,7 @@ import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     PaymentComponent,
+    SimpleCreditCardFormatDirective,
     SummaryComponent
   ],
   providers:    [
