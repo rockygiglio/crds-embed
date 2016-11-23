@@ -30,7 +30,7 @@ export class ExpiryFormatDirective {
       this.formatBackExpiry(e);
     }
   }
-  @HostListener('change', ['$event']) onChange(e) {
+  @HostListener('paste', ['$event']) onPaste(e) {
     this.reformatExpiry(e);
   }
   @HostListener('input', ['$event']) onInput(e) {
