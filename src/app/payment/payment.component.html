@@ -10,7 +10,7 @@
   </div>
 
   <div *ngIf="gift.type === 'donation'">
-    <div class="btn-group btn-group--flex-row btn-group--underline">
+    <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount($event, amount)"
@@ -18,10 +18,12 @@
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
     </div>
+
+    <hr>
   </div>
 
   <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex-col btn-group--underline">
+    <div class="btn-group btn-group--flex-col">
       <button *ngFor="let item of amountDue"
               class="btn btn-option btn-option--flex-item"
               (click)="onSelectAmount($event, item.amount)"
@@ -29,6 +31,8 @@
         {{ item.label }}: {{ item.amount | currency: "USD": true }}
       </button>
     </div>
+
+    <hr>
   </div>
 
   <form class="custom-amount" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">

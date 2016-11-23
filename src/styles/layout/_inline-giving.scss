@@ -77,24 +77,18 @@
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
+      margin-right: -8px;
+      margin-left: -8px;
 
       @media (min-width: $screen-xs) {
-        flex-direction: row;
+        flex-flow: row wrap;
       }
 
       .btn-option--flex-item {
-        flex: 1 1 50%;
+        flex: 1 1 auto;
         min-height: 37px;
-
-        &:not(:last-child):not(.dropdown-toggle) {
-          margin-right: 0;
-          margin-bottom: .5em;
-
-          @media (min-width: $screen-xs) {
-            margin-right: .5em;
-            margin-bottom: 0;
-          }
-        }
+        margin: 8px;
+        margin-top: 0;
       }
     }
 
@@ -102,6 +96,7 @@
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
+      margin-bottom: 8px;
 
       .btn-option {
         &--flex-item {
