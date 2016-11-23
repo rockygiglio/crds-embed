@@ -19,7 +19,7 @@
     <td *ngIf="gift.type == 'payment'">From:</td>
     <td class="text-right">
       {{ gift.email }}<br>
-      <small *ngIf="gift.type == 'donation'"><a routerLink="/auth" (click)="changePayment()">log out</a></small>
+      <small *ngIf="gift.type == 'donation'"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
     </td>
   </tr>
   <tr *ngIf="gift.type != 'payment'">
