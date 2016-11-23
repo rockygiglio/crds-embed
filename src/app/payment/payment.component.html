@@ -30,6 +30,7 @@
                   maxlength="9"
                   formControlName="customAmount"
                   onlyTheseKeys="[0-9\.]"
+                  currency
                   [(ngModel)]="customAmount"
                   (ngModelChange)="onCustomAmount($event)">
           </div>
@@ -91,21 +92,21 @@
       <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
         <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
 
-        <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-          <div class="form-group">
-            <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-            <div class="input-group">
-              <span class="input-group-addon">$</span>
-              <input type="text"
-                    class="form-control"
-                    placeholder="Enter Amount"
-                    id="custom-amount"
-                    maxlength="9"
-                    formControlName="customAmount"
-                    onlyTheseKeys="[0-9\.]"
-                    [(ngModel)]="customAmount"
-                    (ngModelChange)="onCustomAmount($event)">
-            </div>
+      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+        <div class="form-group">
+          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="text"
+                  class="form-control"
+                  placeholder="Enter Amount"
+                  id="custom-amount"
+                  maxlength="9"
+                  formControlName="customAmount"
+                  onlyTheseKeys="[0-9\.]"
+                  currency
+                  [(ngModel)]="customAmount"
+                  (ngModelChange)="onCustomAmount($event)">
           </div>
         </form>
       </div>
