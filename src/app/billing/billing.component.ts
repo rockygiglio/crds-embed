@@ -81,6 +81,8 @@ export class BillingComponent implements OnInit {
   }
 
   back() {
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
     return false;
   }
@@ -95,6 +97,9 @@ export class BillingComponent implements OnInit {
 
   achNext() {
     this.achSubmitted = true;
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
+
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
@@ -106,11 +111,24 @@ export class BillingComponent implements OnInit {
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
+      this.stateManagerService.is_loading = true;
+      this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
               }
             );
           },
@@ -118,6 +136,17 @@ export class BillingComponent implements OnInit {
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
               }
             );
           }
@@ -128,7 +157,8 @@ export class BillingComponent implements OnInit {
 
   ccNext() {
     this.ccSubmitted = true;
-
+    this.gift.stripeException = false;
+    this.gift.systemException = false;
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
 
@@ -143,11 +173,25 @@ export class BillingComponent implements OnInit {
       let firstName = 'placeholder'; // not used by API, except for guest donations
       let lastName = 'placeholder';  // not used by API, except for guest donations
 
+      this.stateManagerService.is_loading = true;
+      this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+                this.stateManagerService.is_loading = false;
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
               }
             );
           },
@@ -155,16 +199,34 @@ export class BillingComponent implements OnInit {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
                  this.adv();
+              },
+              errorInner => {
+                this.stateManagerService.is_loading = false;
+                if (errorInner.status === 400) {
+                  this.gift.systemException = true;
+                  return false;
+                } else {
+                  this.gift.stripeException = true;
+                  this.gift.resetExistingPaymentInfo();
+                  this.gift.resetPaymentDetails();
+                  return false;
+                }
               }
             );
           }
       );
     }
+
     return false;
   }
 
   adv() {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
+    return false;
+  }
+
+  handleDonorError() {
+    this.stateManagerService.is_loading = false;
   }
 
 }

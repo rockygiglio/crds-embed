@@ -1,5 +1,6 @@
 .inline-giving {
   background-color: $bg-color;
+  font-family: $fontface-body;
   font-size: 16px;
 
   .page-header {
@@ -223,17 +224,18 @@
     }
   }
 
-  form {
-    .input-group-addon {
-      background-color: $input-bg-color;
-      border: none;
-      border-radius: 0;
-      font-size: 1.125em;
-    }
+  .input-group-addon {
+    background-color: $input-bg-color;
+    border: 1px solid transparent;
+    border-radius: 0;
+    font-size: 1.125em;
+  }
 
+  form {
     .form-control {
       background-color: $input-bg-color;
       border: none;
+      border: 1px solid transparent;
       border-radius: 0;
       box-shadow: none;
       height: 2em;
@@ -418,24 +420,57 @@
   // Validation styles
 
   form {
-    &.submitted {
-      &.ng-invalid {
-        .input-group-addon {
-          background-color: $danger-state-bg;
-          color: $danger-state-text;
+    .form-control {
+      &.ng-dirty,
+      &.ng-touched {
+        &.ng-invalid {
+          border: 1px solid $danger-state-border;
+        }
+      }
+    }
+
+    .form-control {
+      &.ng-dirty,
+      &.ng-touched {
+        &.ng-valid {
+          border: 1px solid $success-state;
         }
       }
     }
   }
 
-  .ng-touched,
-  .ng-dirty {
-    .ng-valid {
-      border: 1px solid $success-state;
-    }
+  .custom-amount {
+    &.ng-dirty,
+    &.ng-touched {
+      &.ng-invalid {
+        .form-control,
+        .input-group-addon {
+          border: 1px solid $danger-state-border;
+        }
 
-    .ng-invalid {
-      border: 1px solid $danger-state-border;
+        .form-control {
+          border-left: none;
+        }
+
+        .input-group-addon {
+          border-right: none;
+        }
+      }
+
+      &.ng-valid {
+        .form-control,
+        .input-group-addon {
+          border: 1px solid $success-state;
+        }
+
+        .form-control {
+          border-left: none;
+        }
+
+        .input-group-addon {
+          border-right: none;
+        }
+      }
     }
   }
 
@@ -447,23 +482,22 @@
       background-color: $danger-state-bg;
       border-color: $danger-state-border;
       color: $danger-state-text;
-      font-weight: 700;
       margin-top: -15px;
       padding: 5px 0;
       text-align: center;
 
       p {
-        font-weight: bold;
-        line-height: 5px;
+        line-height: 10px;
         margin-bottom: 9px;
       }
+
       ul {
         list-style: none;
         padding-left: 0;
       }
 
       li {
-        line-height: 5px;
+        line-height: 10px;
         margin-bottom: 9px;
       }
     }

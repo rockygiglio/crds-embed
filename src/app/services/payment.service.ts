@@ -34,23 +34,23 @@ export class PaymentService {
             .map(this.extractData);
     };
 
-    createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string) {
+    createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string): Observable<any> {
         return this.apiDonor(bankAcct, email, firstName, lastName, this.stripeService.methodNames.bankAccount, this.restMethodNames.post);
     };
 
-    createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string) {
+    createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string): Observable<any> {
         return this.apiDonor(card, email, firstName, lastName, this.stripeService.methodNames.card, this.restMethodNames.post);
     };
 
-    updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string) {
+    updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string): Observable<any> {
         return this.apiDonor(bankAcct, email, null, null, this.stripeService.methodNames.bankAccount, this.restMethodNames.put);
     };
 
-    updateDonorWithCard(donorId: number, card: CustomerCard, email: string) {
+    updateDonorWithCard(donorId: number, card: CustomerCard, email: string): Observable<any> {
         return this.apiDonor(card, email, null, null, this.stripeService.methodNames.card, this.restMethodNames.put);
     };
 
-    /**
+    /*
      * Send the donor's information to stripe to receive a donor Id, then make a call to the Crossroad Gateway API's
      * 'Donor' endpoint to either save or update the donor.
      * @param {Number} BankOrCcPmtInfo - either bank or credit card information entered by the user (will be passed to stripe)
@@ -72,7 +72,6 @@ export class PaymentService {
 
             this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
                 stripeEncryptedPmtInfo => {
-
                     let crdsDonor = new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName);
 
                     this.makeApiDonorCall(crdsDonor, email, firstName, lastName, restMethod).subscribe(
@@ -80,11 +79,12 @@ export class PaymentService {
                             observer.next(value);
                         },
                         error => {
-                            observer.error(error);
+                            observer.error(new Error(error));
                         }
                     );
                 },
                 error => {
+                    observer.error(error);
                 }
             );
 
@@ -99,10 +99,12 @@ export class PaymentService {
 
         if (restMethod === this.restMethodNames.post) {
             return this.http.post(donorUrl, donorInfo, requestOptions)
-                .map(this.extractData);
+                .map(this.extractData)
+                .catch(this.handleError);
         } else if (restMethod === this.restMethodNames.put) {
             return this.http.put(donorUrl, donorInfo, requestOptions)
-                .map(this.extractData);
+                .map(this.extractData)
+                .catch(this.handleError);
         }
     };
 
@@ -117,5 +119,9 @@ export class PaymentService {
     private extractData(res: Response) {
         return res;
     };
+
+    private handleError (err: Response | any) {
+       return Observable.throw(err);
+      };
 
 }
