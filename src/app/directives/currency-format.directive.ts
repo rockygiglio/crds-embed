@@ -56,7 +56,7 @@ export class CurrencyFormatDirective {
 
     // place new input value in the selected position,
     // replacing any value that exists there
-    this.target.value = val.substring(0, this.target.selectionStart) + input + val.substring(this.target.selectionEnd);
+    val = val.substring(0, this.target.selectionStart) + input + val.substring(this.target.selectionEnd);
 
     let regex: RegExp = new RegExp('^\\d{0,6}(\\.\\d{0,2})?$');
     return regex.test(val);
