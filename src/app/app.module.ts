@@ -35,10 +35,11 @@ import { StateManagerService } from './services/state-manager.service';
 import { StripeService } from './services/stripe.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
+import { CurrencyFormatDirective } from './directives/currency-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
-import { CurrencyFormatDirective } from './directives/currency-format.directive';
+import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card-format.directive';
 
 @NgModule({
   imports:      [
@@ -68,6 +69,7 @@ import { CurrencyFormatDirective } from './directives/currency-format.directive'
     CurrencyFormatDirective,
     PageNotFoundComponent,
     PaymentComponent,
+    SimpleCreditCardFormatDirective,
     SummaryComponent
   ],
   providers:    [

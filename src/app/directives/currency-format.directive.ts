@@ -14,30 +14,33 @@ export class CurrencyFormatDirective {
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {
-
-    if (this.isValidCurrency(e)) {
+    if (this.isValidCurrency(String.fromCharCode(e.which))) {
       return true;
     } else {
       e.preventDefault();
       return false;
     }
   }
+
   @HostListener('paste', ['$event']) onPaste(e) {
-    console.log(e.clipboardData.getData('Text'));
-    this.isValidCurrency(e);
-  }
-  @HostListener('change', ['$event']) onChange(e) {
-    this.isValidCurrency(e);
-  }
-  @HostListener('input', ['$event']) onInput(e) {
-    this.isValidCurrency(e);
+    if (this.isValidCurrency(e.clipboardData.getData('Text'))) {
+      return true;
+    } else {
+      e.preventDefault();
+      return false;
+    }
   }
 
-  private isValidCurrency(e): boolean {
-    let input;
-    let keypress = e.which;
+  @HostListener('change', ['$event']) onChange(e) {
+    this.isValidCurrency(String.fromCharCode(e.which));
+  }
+
+  @HostListener('input', ['$event']) onInput(e) {
+    this.isValidCurrency(String.fromCharCode(e.which));
+  }
+
+  private isValidCurrency(input: string): boolean {
     let val = CreditCard.replaceFullWidthChars(this.target.value);
-    input = String.fromCharCode(keypress);
 
     // place new input value in the selected position,
     // replacing any value that exists there

@@ -72,6 +72,9 @@
     <div *ngIf="gift.stripeException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
     </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>    
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
@@ -97,7 +100,8 @@
                formControlName="ccNumber"
                name="ccNumber"
                [(ngModel)]="gift.ccNumber"
-               oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+               simpleCcNumber
+               onlyTheseKeys="[0-9]"
                autocomplete="cc-number">
       </div>
     </div>
@@ -144,6 +148,9 @@
     <div *ngIf="gift.stripeException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
     </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>    
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
