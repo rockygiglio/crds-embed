@@ -50,70 +50,74 @@
     </div>
   </div>
 
-  <div *ngIf="gift.type === 'payment'" class="btn-group btn-group--flex">
-    <button *ngFor="let item of amountDue"
-            type="button"
-            class="btn-payment btn btn-option btn-option--flex-item"
-            (click)="onSelectAmount(item.amount)"
-            [ngClass]="{ active: (!customAmtSelected && gift.amount == item.amount) }">
-      <div class="row">
-        <div>
-          <span class="btn-payment__icon">
-            <i class="fa fa-circle-thin fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
-          </span>
-           {{ item.label }}:
-        </div>
-        <div class="payment--lg">
-          {{ item.amount | currency: "USD": true }}
-        </div>
-      </div>
-    </button>
-
-    <!-- onclick, btn highlight (active class), icon change (display changes for each) and input field appears -->
-    <button type="button"
-            class="btn-payment btn btn-option btn-option--flex-item"
-            (click)="selectedCustom()"
-            [ngClass]="{ active: (customAmtSelected) }">
-      <div class="row">
-        <div>
-          <span class="btn-payment__icon">
-            <i class="fa fa-circle-thin fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
-          </span>
-           Other Amount...
-        </div>
-      </div>
-    </button>
-
-    <!-- if custom amount button selected (active), show. if input has focus, button remains selected (active) -->
-    <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
-      <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
-
-      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-        <div class="form-group">
-          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input type="text"
-                  class="form-control"
-                  placeholder="Enter Amount"
-                  id="custom-amount"
-                  maxlength="9"
-                  formControlName="customAmount"
-                  onlyTheseKeys="[0-9\.]"
-                  [(ngModel)]="customAmount"
-                  (ngModelChange)="onCustomAmount($event)">
+  <div *ngIf="gift.type === 'payment'">
+    <div class="btn-group btn-group--flex">
+      <button *ngFor="let item of amountDue"
+              type="button"
+              class="btn-payment btn btn-option btn-option--flex-item"
+              (click)="onSelectAmount(item.amount)"
+              [ngClass]="{ active: (!customAmtSelected && gift.amount == item.amount) }">
+        <div class="row">
+          <div>
+            <span class="btn-payment__icon">
+              <i class="fa fa-circle-thin fa-2x" aria-hidden="true"></i>
+              <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+            </span>
+            {{ item.label }}:
+          </div>
+          <div class="payment--lg">
+            {{ item.amount | currency: "USD": true }}
           </div>
         </div>
-      </form>
+      </button>
+
+      <!-- onclick, btn highlight (active class), icon change (display changes for each) and input field appears -->
+      <button type="button"
+              class="btn-payment btn btn-option btn-option--flex-item"
+              (click)="selectedCustom()"
+              [ngClass]="{ active: (customAmtSelected) }">
+        <div class="row">
+          <div>
+            <span class="btn-payment__icon">
+              <i class="fa fa-circle-thin fa-2x" aria-hidden="true"></i>
+              <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+            </span>
+            Other Amount...
+          </div>
+        </div>
+      </button>
+
+      <!-- if custom amount button selected (active), show. if input has focus, button remains selected (active) -->
+      <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
+        <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+
+        <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+          <div class="form-group">
+            <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <input type="text"
+                    class="form-control"
+                    placeholder="Enter Amount"
+                    id="custom-amount"
+                    maxlength="9"
+                    formControlName="customAmount"
+                    onlyTheseKeys="[0-9\.]"
+                    [(ngModel)]="customAmount"
+                    (ngModelChange)="onCustomAmount($event)">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
+    <div class="errors" *ngIf="( !isValid() && submitted )">
+      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+    </div>
+
+    <hr>
   </div>
-  <div class="errors clearfix payment-errors" *ngIf="( !isValid() && submitted )">
-    <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-  </div>
-  <hr>
+
   <footer class="page-footer">
     <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
   </footer>
