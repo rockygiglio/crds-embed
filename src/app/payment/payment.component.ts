@@ -48,7 +48,6 @@ export class PaymentComponent implements OnInit {
       if ( !this.gift.previousGiftAmount ) {
         this.getPreviousGiftAmount();
       } else if ( Number(this.gift.previousGiftAmount) !== Number(this.gift.customAmount) ) {
-        //this.loadPreviousAmount = false;
         this.previousAmount = this.gift.previousGiftAmount;
       } else {
         this.loadPreviousAmount = false;

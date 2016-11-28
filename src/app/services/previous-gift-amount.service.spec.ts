@@ -39,7 +39,7 @@ describe('Service: Previous Gift Amount', () => {
   }));
 
 
-  it('it should provide the last amount when there are previous gifts',
+  it('it should provide the last amount in the array when there are previous gifts',
     async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
       mockBackend.connections.subscribe(
         (connection: MockConnection) => {
@@ -49,6 +49,9 @@ describe('Service: Previous Gift Amount', () => {
                 donations: [
                   {
                     amount: '4000'
+                  },
+                  {
+                    amount: '5000'
                   }
                 ]
               }
@@ -58,13 +61,13 @@ describe('Service: Previous Gift Amount', () => {
 
       previousGiftAmountService.get().subscribe(
         (data) => {
-          expect(data).toBe('40.00');
+          expect(data).toBe('50.00');
         });
     }))
   );
 
 
-  xit('it should provide an amount of 0.00 when there are NO previous gift amounts',
+  it('it should expect a null response when there are NO previous gift amounts',
     async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
       mockBackend.connections.subscribe(
         (connection: MockConnection) => {
@@ -79,13 +82,13 @@ describe('Service: Previous Gift Amount', () => {
 
       previousGiftAmountService.get().subscribe(
         (data) => {
-          expect(data).toBe('0.00');
+          expect(data).toBe(null);
         });
     }))
   );
 
 
-  xit('it should provide an amount of 0.00 when there there is an ERROR from MP',
+  it('it should expect a null response when there there is an ERROR from MP',
     async(inject([PreviousGiftAmountService], (previousGiftAmountService) => {
       mockBackend.connections.subscribe(
         (connection: MockConnection) => {
@@ -94,7 +97,7 @@ describe('Service: Previous Gift Amount', () => {
 
       previousGiftAmountService.get().subscribe(
         (data) => {
-          expect(data).toBe('0.00');
+          expect(data).toBe(null);
         });
     }))
   );
