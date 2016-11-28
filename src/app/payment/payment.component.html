@@ -72,7 +72,6 @@
         </div>
       </button>
 
-      <!-- onclick, btn highlight (active class), icon change (display changes for each) and input field appears -->
       <button type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
               (click)="selectedCustom()"
@@ -88,7 +87,6 @@
         </div>
       </button>
 
-      <!-- if custom amount button selected (active), show. if input has focus, button remains selected (active) -->
       <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
         <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
 
