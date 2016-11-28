@@ -11,7 +11,7 @@ import { StateManagerService } from '../services/state-manager.service';
 @Component({
   selector: 'app-payment',
   templateUrl: 'payment.component.html',
-  styleUrls: ['payment.component.css'],
+  styleUrls: ['payment.component.scss'],
   animations: [
     trigger('customAmountForm', [
       state('expanded', style({ height: '*' })),
@@ -28,6 +28,7 @@ export class PaymentComponent implements OnInit {
   public selectedAmount: number;
   public predefinedAmounts: number[];
   public previousAmount: string;
+  public loadPreviousAmount: boolean = true;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public customAmtSelected: boolean = false;
@@ -44,7 +45,14 @@ export class PaymentComponent implements OnInit {
     this.stateManagerService.is_loading = true;
     if (this.gift.type === 'donation') {
       this.getPredefinedDonationAmounts();
-      this.getPreviousGiftAmount();
+      if ( !this.gift.previousGiftAmount ) {
+        this.getPreviousGiftAmount();
+      } else if ( Number(this.gift.previousGiftAmount) !== Number(this.gift.customAmount) ) {
+        //this.loadPreviousAmount = false;
+        this.previousAmount = this.gift.previousGiftAmount;
+      } else {
+        this.loadPreviousAmount = false;
+      }
     } else {
       this.stateManagerService.is_loading = false;
     }
@@ -72,7 +80,10 @@ export class PaymentComponent implements OnInit {
 
   getPreviousGiftAmount() {
     this.previousGiftAmountService.get().subscribe(
-      amount => this.previousAmount = amount,
+      (amount) => {
+        this.previousAmount = amount;
+        this.gift.previousGiftAmount = amount;
+      },
       error => this.errorMessage = <any>error);
   }
 
@@ -91,7 +102,9 @@ export class PaymentComponent implements OnInit {
   }
 
   applyPreviousAmount() {
+    this.customAmount = Number(this.previousAmount);
     this.gift.amount = Number(this.previousAmount);
+    this.next();
   }
 
   next() {
