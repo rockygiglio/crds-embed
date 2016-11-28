@@ -92,7 +92,6 @@ export class PaymentComponent implements OnInit {
 
   applyPreviousAmount() {
     this.gift.amount = Number(this.previousAmount);
-    this.next();
   }
 
   next() {

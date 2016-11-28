@@ -39,7 +39,7 @@
         <div *ngIf="gift.type === 'donation'">
           <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
             <div class="alert alert-warning" *ngIf="previousAmount">
-              You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a href="#" (click)="applyPreviousAmount()">Yes</a>
+              You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a routerLink="{{stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex)}}" (click)="applyPreviousAmount()">Yes</a>
             </div>
           </div>
         </div>
