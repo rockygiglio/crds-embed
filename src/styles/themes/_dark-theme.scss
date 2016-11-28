@@ -79,6 +79,10 @@ $dt-page-bg-color: #222222;
     &--underline {
       border-bottom-color: $underline-color;
     }
+
+    &--flex-row {
+      border-bottom-color:  $underline-color;
+    }
   }
 
   .table {

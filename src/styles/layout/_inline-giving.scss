@@ -5,11 +5,11 @@
 
   .page-header {
     @include header-font($fontface-header, 1.25em);
-
     border: none;
 
     &--border-btm {
       border-bottom: 1px solid $underline-color;
+      margin: 0 0 8px;
     }
 
     &--mb-0 {
@@ -58,6 +58,10 @@
     .btn-option {
       background-color: transparent;
 
+      &--mb-8 {
+        margin-bottom: 8px;
+      }
+
       :hover,
       :active {
         background-color: $secondary-color;
@@ -73,7 +77,6 @@
 
         &:not(:last-child):not(.dropdown-toggle) {
           margin-right: 0;
-          margin-bottom: .5em;
         }
       }
     }
@@ -142,8 +145,9 @@
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
-      margin-right: -8px;
+      margin-right: 0;
       margin-left: -8px;
+      padding-top: 8px;
 
       .btn-option--flex-item {
         flex: 1 1 auto;
@@ -154,10 +158,12 @@
     }
 
     &--flex-row {
+      border-bottom: 1px solid $underline-color;
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
 
       .btn-option {
         &--flex-item {
