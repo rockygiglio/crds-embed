@@ -40,7 +40,7 @@ export class BillingComponent implements OnInit {
     if ( this.gift.existingPaymentInfo ) {
         this.gift.existingPaymentInfo.subscribe(
         info => {
-          this.stateManagerService.is_loading = false;
+          this.handleDonorError();
           if ( info !== null ) {
             this.gift.setBillingInfo(info);
             if (this.gift.accountLast4) {
@@ -50,11 +50,11 @@ export class BillingComponent implements OnInit {
           }
         },
         error => {
-          this.stateManagerService.is_loading = false;
+          this.handleDonorError();
         }
       );
     } else {
-      this.stateManagerService.is_loading = false;
+       this.handleDonorError();
     }
 
     this.achForm = this.fb.group({
@@ -120,6 +120,8 @@ export class BillingComponent implements OnInit {
                  this.adv();
               },
               errorInner => {
+                this.achSubmitted = false;
+                this.handleDonorError();
                 if (errorInner.status === 400) {
                   this.gift.systemException = true;
                   return false;
@@ -138,6 +140,8 @@ export class BillingComponent implements OnInit {
                  this.adv();
               },
               errorInner => {
+                this.achSubmitted = false;
+                this.handleDonorError();
                 if (errorInner.status === 400) {
                   this.gift.systemException = true;
                   return false;
@@ -182,7 +186,8 @@ export class BillingComponent implements OnInit {
                  this.adv();
               },
               errorInner => {
-                this.stateManagerService.is_loading = false;
+                this.ccSubmitted = false;
+                this.handleDonorError();
                 if (errorInner.status === 400) {
                   this.gift.systemException = true;
                   return false;
@@ -201,7 +206,8 @@ export class BillingComponent implements OnInit {
                  this.adv();
               },
               errorInner => {
-                this.stateManagerService.is_loading = false;
+                this.ccSubmitted = false;
+                this.handleDonorError();
                 if (errorInner.status === 400) {
                   this.gift.systemException = true;
                   return false;
