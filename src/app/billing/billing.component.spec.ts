@@ -16,6 +16,8 @@ import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { StateManagerService } from '../services/state-manager.service';
+import { PaymentService } from '../services/payment.service';
+import { StripeService } from '../services/stripe.service';
 
 class MockDonationFundService { }
 class MockQuickDonationAboutsService { }
@@ -54,6 +56,8 @@ describe('Component: Billing', () => {
         HttpClientService,
         CookieService,
         ParamValidationService,
+        PaymentService,
+        StripeService,
         StateManagerService
       ]
     });
@@ -64,5 +68,35 @@ describe('Component: Billing', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should validate required ACH parameters', () => {
+    this.component.achForm = {
+      valid: false,
+      controls: {
+        accountName: { valid: false, errors: { required: true } },
+        accountNumber: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
+        routingNumber: { valid: true, errors: null }
+      }
+    };
+    expect(this.component.achForm.controls['accountName'].valid).toBe(false);
+    expect(this.component.achForm.controls['accountNumber'].valid).toBe(false);
+    expect(this.component.achForm.controls['routingNumber'].valid).toBe(true);
+  });
+
+  it('should validate required CC parameters', () => {
+    this.component.ccForm = {
+      valid: false,
+      controls: {
+        ccNumber: { valid: false, errors: { required: true } },
+        expDate: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
+        cvv: { valid: true, errors: null },
+        zipCode: { valid: true, errors: null }
+      }
+    };
+    expect(this.component.ccForm.controls['ccNumber'].valid).toBe(false);
+    expect(this.component.ccForm.controls['expDate'].valid).toBe(false);
+    expect(this.component.ccForm.controls['cvv'].valid).toBe(true);
+    expect(this.component.ccForm.controls['zipCode'].valid).toBe(true);
   });
 });

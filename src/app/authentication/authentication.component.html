@@ -1,39 +1,44 @@
 <div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.flow_type == 'gift'">
-  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">Sign In</label>
-  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as Guest</label>
+  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
+  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
 </div>
 
 <div *ngIf="signinOption == 'Sign In'" heading="Sign In">
-  <header class="page-header">
-    <h2>I Have An Account</h2>
+  <header class="page-header page-header--border-btm">
+    <h2>Sign In</h2>
   </header>
 
   <form [formGroup]="form" (ngSubmit)="next()">
-    <div>
-      <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')"><br>
-      <input type="password" class="form-control" placeholder="Password" [formControl]="form.get('password')"><br>
+    <div class="form-group">
+      <label class="sr-only" for="email">Email</label>
+      <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
     </div>
 
-    <div class="row">
-      <div class="col-xs-6">
+    <div class="form-group">
+      <label class="sr-only" for="password">Password</label>
+      <input type="password" class="form-control" placeholder="Password" name="password" [formControl]="form.get('password')">
+    </div>
+
+    <div class="row form__helpers">
+      <div class="form__helpers--half">
         <label>
           <input type="checkbox" checked="checked"> Keep me logged in
         </label>
       </div>
 
-      <div class="col-xs-6">
+      <div class="form__helpers--half">
         <p class="pull-right text-left text-block">
-          <a class="text-block__link--underline" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
-          <a class="text-block__link--underline" href="#">Need help?</a>
+          <a class="text-block__link" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
+          <a class="text-block__link" href="#">Need help?</a>
         </p>
       </div>
     </div>
 
     <hr>
 
-    <p class="text-block text-block--pb-2">Or <a routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
+    <p class="text-block">Or <a class="text-block__inline-link" routerLink="/prototype/{{ gift.flow_type}}/registration">register for an account</a></p>
     <footer class="page-footer">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
       <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
     </footer>
   </form>
@@ -54,7 +59,7 @@
     </div>
 
     <footer class="page-footer">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">      
       <input type="submit" class="btn btn-next pull-right" (click)="guest()" [ngClass]="{ disabled: !form.valid }" value="Next">
     </footer>
   </form>

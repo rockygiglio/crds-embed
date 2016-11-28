@@ -21,9 +21,6 @@ export class CvvFormatDirective {
   @HostListener('paste', ['$event']) onPaste(e) {
     this.reformatCvv(e)
   }
-  @HostListener('change', ['$event']) onChange(e) {
-    this.reformatCvv(e)
-  }
   @HostListener('input', ['$event']) onInput(e) {
     this.reformatCvv(e)
   }

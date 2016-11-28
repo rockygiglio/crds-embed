@@ -2,6 +2,22 @@
 <html>
 <head>
   <meta charset="utf-8">
+
+    <style id="antiClickjack">
+    body {
+      display: none !important;
+    }
+  </style>
+  <script type="text/javascript">
+    document.domain = "crossroads.net";
+    if (self === top || this.top.location.hostname.endsWith('.crossroads.net')) {
+        var antiClickjack = document.getElementById("antiClickjack");
+        antiClickjack.parentNode.removeChild(antiClickjack);
+    } else {
+        top.location = self.location;
+    }
+  </script>
+
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -9,12 +25,38 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-MFS4MJ');</script>
   <!-- End Google Tag Manager -->
+
+  <!--Stripe Payment Methods-->
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
   <title>CrdsEmbed</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="//crossroads-media.s3.amazonaws.com/images/favicon/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="//crossroads-media.s3.amazonaws.com/images/favicon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="//crossroads-media.s3.amazonaws.com/images/favicon/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="//crossroads-media.s3.amazonaws.com/images/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="//crossroads-media.s3.amazonaws.com/images/favicon/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="//crossroads-media.s3.amazonaws.com/images/favicon/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="//crossroads-media.s3.amazonaws.com/images/favicon/manifest.json">
+  <link rel="shortcut icon" href="//crossroads-media.s3.amazonaws.com/images/favicon/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="//crossroads-media.s3.amazonaws.com/images/favicon/mstile-144x144.png">
+  <meta name="msapplication-config" content="//crossroads-media.s3.amazonaws.com/images/favicon/browserconfig.xml">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <script src="https://use.typekit.net/zjp2efd.js"></script>
+  <!--<script src="https://use.typekit.net/zjp2efd.js"></script>-->
+  <script src="https://use.fontawesome.com/ccd1aba2f7.js"></script>
+
+  <script src="https://use.typekit.net/ccb3vpa.js"></script>
   <script>try{Typekit.load({ async: true });}catch(e){}</script>
 </head>
 <body class="inline-giving">

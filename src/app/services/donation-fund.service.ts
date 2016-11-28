@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
+import { Program } from '../interfaces/program';
 
 export interface Program {
   Name: string;
@@ -25,6 +26,13 @@ export class DonationFundService implements Resolve<any> {
     return this.http.get(this.fundsUrl)
       .map(this.extractData)
       .catch(this.handleError);
+  }
+
+  getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
+    let urlParamFund: any = funds.find(fund => fund.ProgramId === paramFundId);
+    let fund: Program = urlParamFund ? urlParamFund : defaultFund;
+
+    return fund;
   }
 
   private extractData(res: Response) {

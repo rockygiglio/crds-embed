@@ -8,23 +8,56 @@
 </div>
 
 <div *ngIf="gift.paymentMethod == 'Bank Account'" heading="Bank Account">
-  <header class="page-header page-header--no-btm-space">
-    <h2>Account Type:</h2>
-  </header>
+  <h3 class="radio-form__header">Account Type:</h3>
 
-  <form [formGroup]="achForm" (ngSubmit)="achNext()">
+  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achNext()">
     <div class="radio-group">
       <label>
-        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="personal" checked> Personal
+        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="individual" checked> Personal
       </label>&nbsp;&nbsp;
       <label>
-        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="business"> Business
+        <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="company"> Business
       </label>
     </div>
 
-    <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" [(ngModel)]="gift.accountName" pattern=".*"><br>
-    <input type="tel" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" [(ngModel)]="gift.routingNumber" pattern="[0-9]*"><br>
-    <input type="tel" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" [(ngModel)]="gift.accountNumber" pattern="\s*[0-9]*\s*">
+    <div class="row">
+      <div class="form-group">
+        <label class="sr-only" for="accountName">Account Name</label>
+        <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" name="accountName" [(ngModel)]="gift.accountName" pattern=".*">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['accountName'].valid">
+      <div class="alert alert-danger">
+        <p>Account name <span [innerHTML]="switchMessage(achForm.controls['accountName'].errors)"></span></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="sr-only" for="routingNumber">Routing Number</label>
+        <input type="tel" onlyTheseKeys="[0-9]" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" name="routingNumber" [(ngModel)]="gift.routingNumber" numbersOnly pattern="[0-9]*">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['routingNumber'].valid">
+      <div class="alert alert-danger">
+        <p>Routing number <span [innerHTML]="switchMessage(achForm.controls['routingNumber'].errors)"></span></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="sr-only" for="accountNumber">Account Number</label>
+        <input type="tel" onlyTheseKeys="[0-9]" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" name="accountNumber" [(ngModel)]="gift.accountNumber" numbersOnly pattern="\s*[0-9]*\s*">
+      </div>
+    </div>
+
+    <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['accountNumber'].valid">
+      <div class="alert alert-danger">
+        <p>Account number <span [innerHTML]="switchMessage(achForm.controls['accountNumber'].errors)"></span></p>
+      </div>
+    </div>
 
     <div class="sample-check">
       <small>
@@ -36,47 +69,91 @@
       </div>
     </div>
 
-    <div class="errors" *ngIf="achSubmitted">
-      <div *ngIf="!achForm.controls.accountName.valid" class="alert alert-danger">Account Holder Name is required</div>
-      <div *ngIf="!achForm.controls.routingNumber.valid" class="alert alert-danger">Routing Number is required</div>
-      <div *ngIf="!achForm.controls.accountNumber.valid" class="alert alert-danger">Account Number is required</div>
+    <div *ngIf="gift.stripeException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
     </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>    
 
-    <footer class="page-footer">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+    <footer class="page-footer page-footer--border-top">
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
       <input type="button" class="btn btn-next pull-right" (click)="achNext()" value="Next">
     </footer>
   </form>
 </div>
 
 <div *ngIf="gift.paymentMethod == 'Credit Card'" heading="Credit Card">
-  <!-- <br> -->
+
   <alert *ngIf="gift.type == 'donation'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
   <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
-  <form [formGroup]="ccForm" (ngSubmit)="ccNext()">
-    <input type="tel" class="form-control" placeholder="Credit Card Number" formControlName="ccNumber" [(ngModel)]="gift.ccNumber" ccNumber autocomplete="cc-number"><br>
+  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
+    <div class="row">
+      <div class="form-group">
+        <label class="sr-only" for="ccNumber">Credit Card Number</label>
+        <input tabindex="1"
+               type="text"
+               class="form-control"
+               maxlength="16"
+               placeholder="Credit Card Number"
+               formControlName="ccNumber"
+               name="ccNumber"
+               [(ngModel)]="gift.ccNumber"
+               simpleCcNumber
+               onlyTheseKeys="[0-9]"
+               autocomplete="cc-number">
+      </div>
+    </div>
+
+    <div *ngIf="ccSubmitted && !ccForm.controls['ccNumber'].valid" class="errors">
+      <div class="alert alert-danger">
+        <p>Card number <span [innerHTML]="switchMessage(ccForm.controls['ccNumber'].errors)"></span></p>
+      </div>
+    </div>
+
     <div class="row inline-form">
-      <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='7' placeholder="Expiration" formControlName="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp"><br>
+      <div class="form-group inline-form__input">
+        <label class="sr-only" for="expDate">Expiration Date</label>
+        <input tabindex="2" type="tel" class="form-control" maxlength="7" placeholder="MM/YY" formControlName="expDate" name="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp">
       </div>
-      <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='4' placeholder="CVV" formControlName="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off"><br>
+
+      <div class="form-group inline-form__input">
+        <label class="sr-only" for="cvv">CVV Number</label>
+        <input tabindex="3" type="tel" onlyTheseKeys="[0-9\-]" class="form-control" maxlength="4" placeholder="CVV" formControlName="cvv" name="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off">
       </div>
-      <div class="col-xs-4 inline-form__input">
-        <input type="tel" class="form-control" maxlength='10' placeholder="Zip Code" formControlName="zipCode" [(ngModel)]="gift.zipCode" pattern="^\d{5}$)|(^\d{5}-\d{4}$" autocomplete="zip-code">
+
+      <div class="form-group inline-form__input">
+        <label class="sr-only" for="zipCode">Zip Code</label>
+        <input tabindex="4" type="tel" onlyTheseKeys="[0-9\-]" class="form-control" maxlength="10" placeholder="Zip Code" formControlName="zipCode" name="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
       </div>
     </div>
 
-    <div class="errors" *ngIf="ccSubmitted">
-      <div *ngIf="!ccForm.controls.ccNumber.valid" class="alert alert-danger">Credit Card is invalid</div>
-      <div *ngIf="!ccForm.controls.expDate.valid" class="alert alert-danger">Expiration Date is required</div>
-      <div *ngIf="!ccForm.controls.cvv.valid" class="alert alert-danger">CVV is required</div>
-      <div *ngIf="!ccForm.controls.zipCode.valid" class="alert alert-danger">Zipcode is invalid</div>
+    <div class="errors" *ngIf="ccSubmitted && (!ccForm.controls['expDate'].valid || !ccForm.controls['cvv'].valid || !ccForm.controls['zipCode'].valid)">
+      <div class="alert alert-danger">
+        <ul>
+          <li *ngIf="!ccForm.controls['expDate'].valid">
+            Expiration Date <span [innerHTML]="switchMessage(ccForm.controls['expDate'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['cvv'].valid">
+            CVV <span [innerHTML]="switchMessage(ccForm.controls['cvv'].errors)"></span>
+          </li>
+          <li *ngIf="!ccForm.controls['zipCode'].valid">
+            Zip code <span [innerHTML]="switchMessage(ccForm.controls['zipCode'].errors)"></span>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <footer class="page-footer">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Go Back</a>
+    <div *ngIf="gift.stripeException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>    
+
+    <footer class="page-footer page-footer--border-top">
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
       <input type="button" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
     </footer>
   </form>

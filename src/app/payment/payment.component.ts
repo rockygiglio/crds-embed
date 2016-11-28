@@ -1,82 +1,160 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { StateManagerService } from '../services/state-manager.service';
-import { GiftService } from '../services/gift.service';
+import { Component, OnInit, animate, state, style, transition, trigger } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { GiftService } from '../services/gift.service';
+import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
+import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { StateManagerService } from '../services/state-manager.service';
+
 
 @Component({
   selector: 'app-payment',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'payment.component.html',
-  styleUrls: ['payment.component.css']
+  styleUrls: ['payment.component.css'],
+  animations: [
+    trigger('customAmountForm', [
+      state('expanded', style({ height: '*' })),
+      state('collapsed', style({ height: '0px' })),
+      transition('collapsed => expanded', animate('200ms ease-in')),
+      transition('expanded => collapsed', animate('200ms 200ms ease-out'))
+    ])
+  ]
 })
 export class PaymentComponent implements OnInit {
-  public form: FormGroup;
-  public customAmount: number;
-  public selectedAmount: string;
   public amountDue: Array<Object>;
+  public customAmount: number;
+  public form: FormGroup;
+  public selectedAmount: number;
+  public predefinedAmounts: number[];
+  public previousAmount: string;
+  public submitted: boolean = false;
+  public errorMessage: string = '';
+  public customAmtSelected: boolean = false;
 
-  constructor(private router: Router,
-              private stateManagerService: StateManagerService,
+  constructor(private fb: FormBuilder,
               private gift: GiftService,
-              private fb: FormBuilder) {
+              private previousGiftAmountService: PreviousGiftAmountService,
+              private quickDonationAmountsService: QuickDonationAmountsService,
+              private router: Router,
+              private stateManagerService: StateManagerService) {
   }
 
   ngOnInit() {
+    this.stateManagerService.is_loading = true;
     if (this.gift.type === 'donation') {
-      this.router.navigateByUrl('/donation');
+      this.getPredefinedDonationAmounts();
+      this.getPreviousGiftAmount();
+    } else {
+      this.stateManagerService.is_loading = false;
     }
-
-    this.stateManagerService.is_loading = false;
 
     this.amountDue = [
       {
-        label: 'Minimum Due',
+        label: 'Minimum Payment',
         amount: this.gift.minPayment
       },
       {
-        label: 'Total Due',
+        label: 'Full Balance',
         amount: this.gift.totalCost
       }
     ];
 
+    // set these for returning values
+    this.selectedAmount = this.gift.selectedAmount;
+    this.customAmount = this.gift.customAmount;
+
     this.form = this.fb.group({
-      amount: [this.gift.amount, [<any>Validators.required, this.validateAmount.bind(this)]],
-      customAmount: [this.gift.amount, [<any>Validators.required, this.validateAmount.bind(this)]],
-      selectedAmount: [this.gift.amount]
+      customAmount: ['', [<any>Validators.required, this.validateAmount.bind(this)]],
+      selectedAmount: ['']
     });
   }
 
+  getPreviousGiftAmount() {
+    this.previousGiftAmountService.get().subscribe(
+      amount => this.previousAmount = amount,
+      error => this.errorMessage = <any>error);
+  }
+
+  getPredefinedDonationAmounts() {
+    this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
+      amounts => {
+        this.predefinedAmounts = amounts;
+        this.stateManagerService.is_loading = false;
+      },
+      error => this.errorMessage = <any>error
+    );
+  }
+
+  isValid() {
+    return this.gift.validAmount();
+  }
+
+  applyPreviousAmount() {
+    this.gift.amount = Number(this.previousAmount);
+  }
+
   next() {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
+    if ( this.isValid() ) {
+      this.stateManagerService.is_loading = true;
+      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
+    } else {
+      this.setErrorMessage();
+    }
+    this.submitted = true;
     return false;
   }
 
-  onCustomAmount(value) {
-    if (!isNaN(value)) {
-      delete(this.selectedAmount);
-      this.setAmount(value);
+  setErrorMessage() {
+    if (this.gift.amount === undefined || this.gift.amount === null) {
+      this.errorMessage = 'Please select or provide an amount.';
+    } else if ( isNaN(this.gift.amount) || !this.gift.validDollarAmount(this.gift.amount) ) {
+      this.errorMessage = 'The amount you provided is not a valid number.';
+    } else if (Number(this.gift.amount) > this.gift.totalCost) {
+      this.errorMessage = 'The amount you provided is higher than the total cost.';
+    } else if (Number(this.gift.amount) < this.gift.minPayment) {
+      this.errorMessage = 'The amount you provided is less than the minimum payment allowed.';
+    } else if (Number(this.gift.amount) > 999999.99) {
+      this.errorMessage = 'You can not charge more than 1 million dollars.';
+    }else {
+      this.errorMessage = 'An unknown error has occurred.';
     }
   }
 
-  onSelectAmount(event, value) {
+  onCustomAmount(value) {
+    if ( value !== undefined ) {
+      delete(this.selectedAmount);
+      this.setAmount(value);
+      this.setErrorMessage();
+    }
+    this.gift.customAmount = value;
+  }
+
+  onSelectAmount(value) {
+    this.submitted = false;
+    this.customAmtSelected = false;
     delete(this.customAmount);
+    this.gift.selectedAmount = value;
     this.setAmount(value);
   }
 
   setAmount(value) {
-    (<FormControl>this.form.controls['amount']).setValue(value, { onlySelf: true });
-    this.gift.amount = parseFloat(value);
+    this.gift.amount = value;
   }
 
-  isValid() {
-    return this.form.valid || this.gift.validAmount();
+  selectedCustom() {
+    this.onSelectAmount(null);
+    this.customAmtSelected = true;
   }
 
   private validateAmount(control) {
-    return this.gift.validAmount() ? null : {
-      validateAmount: true
-    };
+    if (this.gift.validAmount()) {
+      return null;
+    } else {
+      return {
+        validateAmount: false
+      };
+    }
   }
 
 }

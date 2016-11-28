@@ -72,7 +72,7 @@ describe('Service: Existing Payment Info', () => {
                       'routing': '123456789',
                       'last4': '0987',
                       'accountHolderName': 'Ricky Bobby',
-                      'accountHolderType': 'personal'
+                      'accountHolderType': 'individual'
                     }
                   },
                   'Registered_User': true,
@@ -100,7 +100,7 @@ describe('Service: Existing Payment Info', () => {
           expect(defaultSource.bank_account.routing).toBe('123456789');
           expect(defaultSource.bank_account.last4).toBe('0987');
           expect(defaultSource.bank_account.accountHolderName).toBe('Ricky Bobby');
-          expect(defaultSource.bank_account.accountHolderType).toBe('personal');
+          expect(defaultSource.bank_account.accountHolderType).toBe('individual');
         });
     }))
   );
