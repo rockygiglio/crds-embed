@@ -381,7 +381,14 @@
   }
 
   .radio-group {
+    line-height: 1em;
     padding: 1em 0 2em;
+
+    input {
+      margin: 0;
+      margin-bottom: 4px;
+      vertical-align: middle;
+    }
   }
 
   .row {
