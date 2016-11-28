@@ -65,6 +65,7 @@
 
       &--no-outline {
         border: none;
+        box-shadow: none;
       }
 
       &--flex-item {
@@ -112,14 +113,6 @@
 
         & > div {
           @include make-xs-column(6);
-
-          &:first-child {
-            /*text-align: left;*/
-          }
-
-          &:last-child {
-            /*text-align: right;*/
-          }
         }
 
         .payment--lg {
@@ -145,10 +138,42 @@
       }
     }
 
-    &--flex {
+    &--flex-col {
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
+      margin-right: -8px;
+      margin-left: -8px;
+
+      .btn-option--flex-item {
+        flex: 1 1 auto;
+        min-height: 37px;
+        margin: 8px;
+        margin-top: 0;
+      }
+    }
+
+    &--flex-row {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      margin-bottom: 8px;
+
+      .btn-option {
+        &--flex-item {
+          flex: 1 1 50%;
+          min-height: 37px;
+
+          &:not(:last-child):not(.dropdown-toggle) {
+            margin-right: 8px;
+
+            @media (min-width: $screen-xs) {
+              margin-right: .5em;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
     }
 
     &--underline {

@@ -10,49 +10,51 @@
   </div>
 
   <div *ngIf="gift.type === 'donation'">
-    <div class="btn-group btn-group--flex btn-group--underline">
+    <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-option--flex-item"
+              class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
-
-      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-        <div class="form-group">
-          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input type="text"
-                  class="form-control"
-                  placeholder="Or Enter Amount"
-                  id="custom-amount"
-                  maxlength="9"
-                  formControlName="customAmount"
-                  onlyTheseKeys="[0-9\.]"
-                  currency
-                  [(ngModel)]="customAmount"
-                  (ngModelChange)="onCustomAmount($event)">
-          </div>
-        </div>
-
-        <div *ngIf="gift.type === 'donation'">
-          <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
-            <div class="alert alert-warning" *ngIf="previousAmount">
-              You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a routerLink="{{stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex)}}" (click)="applyPreviousAmount()">Yes</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="errors" *ngIf="( !isValid() && submitted )">
-          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-        </div>
-      </form>
     </div>
+
+    <hr>
+
+    <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+      <div class="form-group">
+        <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input type="text"
+                class="form-control"
+                placeholder="Or Enter Amount"
+                id="custom-amount"
+                maxlength="9"
+                formControlName="customAmount"
+                onlyTheseKeys="[0-9\.]"
+                currency
+                [(ngModel)]="customAmount"
+                (ngModelChange)="onCustomAmount($event)">
+        </div>
+      </div>
+
+      <div *ngIf="gift.type === 'donation'">
+        <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
+          <div class="alert alert-warning" *ngIf="previousAmount">
+            You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a routerLink="{{stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex)}}" (click)="applyPreviousAmount()">Yes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
+    </form>
   </div>
 
   <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex">
+    <div class="btn-group btn-group--flex-col">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
@@ -91,7 +93,6 @@
       <!-- if custom amount button selected (active), show. if input has focus, button remains selected (active) -->
       <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
         <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
-
         <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
           <div class="form-group">
             <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
@@ -116,9 +117,9 @@
     <div class="errors" *ngIf="( !isValid() && submitted )">
       <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
     </div>
-
-    <hr>
   </div>
+
+  <hr>
 
   <footer class="page-footer">
     <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
