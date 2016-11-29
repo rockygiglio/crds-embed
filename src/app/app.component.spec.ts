@@ -10,7 +10,7 @@ import { PreviousGiftAmountService } from './services/previous-gift-amount.servi
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientService } from './services/http-client.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2, Angulartics2GoogleAnalytics, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ParamValidationService } from './services/param-validation.service';
 
 describe('App: CrdsEmbed', () => {
@@ -30,6 +30,7 @@ describe('App: CrdsEmbed', () => {
         CookieService,
         StateManagerService,
         Angulartics2,
+        Angulartics2GoogleAnalytics,
         Angulartics2GoogleTagManager,
         ParamValidationService
       ]
