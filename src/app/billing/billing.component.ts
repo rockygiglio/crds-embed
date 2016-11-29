@@ -32,7 +32,28 @@ export class BillingComponent implements OnInit {
     private gift: GiftService,
     private fb: FormBuilder,
     private pmtService: PaymentService,
-    private stripeService: StripeService) { }
+    private stripeService: StripeService,
+    ) {
+      this.achForm = this.fb.group({
+        accountName: ['', [<any>Validators.required]],
+        routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
+        accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4), <any>Validators.maxLength(30)]],
+        accountType:   ['', [<any>Validators.required]]
+      });
+
+      this.ccForm = this.fb.group({
+        ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
+        expDate:  ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
+        cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+        zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
+      });
+
+      this.ccForm.controls['expDate'].valueChanges.subscribe(
+          value => {
+            return this.gift.expDate = value;
+          }
+      );
+    }
 
   ngOnInit() {
     this.stateManagerService.is_loading = true;
@@ -56,20 +77,6 @@ export class BillingComponent implements OnInit {
     } else {
       this.stateManagerService.is_loading = false;
     }
-
-    this.achForm = this.fb.group({
-      accountName: ['', [<any>Validators.required]],
-      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
-      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4), <any>Validators.maxLength(30)]],
-      accountType:   ['', [<any>Validators.required]]
-    });
-
-    this.ccForm = this.fb.group({
-      ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
-      expDate:  ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
-      cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
-      zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
-    });
 
     if ( this.gift.accountLast4) {
       this.adv();

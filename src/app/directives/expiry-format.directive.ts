@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { CreditCard } from '../shared/credit-card';
+import { NgControl } from "@angular/forms";
 
 @Directive({
   selector: '[ccExp]'
@@ -9,7 +10,7 @@ export class ExpiryFormatDirective {
 
   public target;
 
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef, private control: NgControl) {
     this.target = this.el.nativeElement;
   }
 
@@ -31,7 +32,8 @@ export class ExpiryFormatDirective {
     }
   }
   @HostListener('paste', ['$event']) onPaste(e) {
-    this.reformatExpiry(e);
+      this.reformatExpiryOnPaste(e);
+      e.preventDefault();
   }
   @HostListener('input', ['$event']) onInput(e) {
     this.reformatExpiry(e);
@@ -107,6 +109,17 @@ export class ExpiryFormatDirective {
       val = CreditCard.formatExpiry(val);
       this.target.selectionStart = this.target.selectionEnd = CreditCard.safeVal(val, this.target);
     });
+  }
+
+  private reformatExpiryOnPaste(pasteEvent) {
+
+    let pastedText: string = pasteEvent.clipboardData.getData('Text');
+
+    setTimeout(() => {
+      let pastedTextSansLongChars: string = CreditCard.replaceFullWidthChars(pastedText);
+      let formattedText: string = CreditCard.formatExpiry(pastedTextSansLongChars);
+      this.control.control.setValue(formattedText);
+    }, 1);
   }
 
 }
