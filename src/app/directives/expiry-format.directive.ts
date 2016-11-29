@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { CreditCard } from '../shared/credit-card';
-import { NgControl } from "@angular/forms";
 
 @Directive({
   selector: '[ccExp]'

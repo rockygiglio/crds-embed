@@ -49,9 +49,7 @@ export class BillingComponent implements OnInit {
       });
 
       this.ccForm.controls['expDate'].valueChanges.subscribe(
-          value => {
-            return this.gift.expDate = value;
-          }
+          value => this.gift.expDate = value
       );
     }
 
