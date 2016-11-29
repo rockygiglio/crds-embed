@@ -114,11 +114,13 @@ export class ExpiryFormatDirective {
   private reformatExpiryOnPaste(pasteEvent) {
 
     let pastedText: string = pasteEvent.clipboardData.getData('Text');
+    this.target.blur();
 
     setTimeout(() => {
       let pastedTextSansLongChars: string = CreditCard.replaceFullWidthChars(pastedText);
       let formattedText: string = CreditCard.formatExpiry(pastedTextSansLongChars);
       this.control.control.setValue(formattedText);
+      this.target.focus();
     }, 1);
   }
 
