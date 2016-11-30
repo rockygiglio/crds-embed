@@ -3,7 +3,7 @@ export class RecurringGiftDto {
 
     stripe_token_id: string;
     amount: number;
-    program: string; //actually the programId
+    program: string; // actually the programId
     interval: string; // 'week' or 'month'
     start_date: Date;
 
