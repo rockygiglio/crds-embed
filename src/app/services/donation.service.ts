@@ -10,13 +10,13 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DonationService {
 
-  private baseUrl = process.env.CRDS_API_ENDPOINT;
+  private baseUrl: string = process.env.CRDS_API_ENDPOINT;
 
   constructor(private http: HttpClientService) { }
 
   postRecurringGift(giftData: RecurringGiftDto): Observable<any> {
 
-    let recurringGiftUrl = this.baseUrl + 'api/donor/recurrence/';
+    let recurringGiftUrl: string = this.baseUrl + 'api/donor/recurrence/';
 
     return this.http.post(recurringGiftUrl, giftData)
         .map(this.extractData)
