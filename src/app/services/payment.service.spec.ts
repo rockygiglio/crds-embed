@@ -49,7 +49,7 @@ describe('Service: Previous Gift Amount', () => {
 
     let mockCrdsDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe"}';
     let mockBank =  new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
-    let mockPaymentTypeBody = new PaymentCallBody(1, 'bank', 'PAYMENT', 123);
+    let mockPaymentTypeBody = new PaymentCallBody('', 1, 'bank', 'PAYMENT', 123);
     let mockPostPaymentResp = '{"amount":1,"email":"scrudgemcduckcrds@mailinator.com","status":0,"include_on_giving_h'
     + 'istory":false,"include_on_printed_statement":false,"date":"0001-01-01T00:00:00","fee":0.0,"payment_id":125,"'
     + 'source":{"type":0},"distributions":[]}';
