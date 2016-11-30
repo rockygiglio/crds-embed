@@ -44,7 +44,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
 @NgModule({
   imports:      [
     AlertModule,
-    Angulartics2Module.forRoot(),
+    Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -73,7 +73,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     SummaryComponent
   ],
   providers:    [
-    Angulartics2GoogleTagManager,
     appRoutingProviders,
     CookieService,
     DonationFundService,
