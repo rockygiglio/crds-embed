@@ -73,7 +73,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     SummaryComponent
   ],
   providers:    [
-    // Angulartics2GoogleTagManager,
     appRoutingProviders,
     CookieService,
     DonationFundService,
