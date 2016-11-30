@@ -22,6 +22,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PaymentComponent } from './payment/payment.component';
 import { SummaryComponent } from './summary/summary.component';
 
+import { DonationService } from './services/donation.service';
 import { DonationFundService } from './services/donation-fund.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
 import { GiftService } from './services/gift.service';
@@ -76,6 +77,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     Angulartics2GoogleTagManager,
     appRoutingProviders,
     CookieService,
+    DonationService,
     DonationFundService,
     ExistingPaymentInfoService,
     GiftService,

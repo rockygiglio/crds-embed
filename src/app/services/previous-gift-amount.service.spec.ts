@@ -1,11 +1,14 @@
-import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
-import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
 
-import { ResponseOptions } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { PreviousGiftAmountService } from './previous-gift-amount.service';
-import { HttpClientService } from './http-client.service';
 import { CookieService } from 'angular2-cookie/core';
+import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { ResponseOptions } from '@angular/http';
+import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
+
+import { GiftService } from './gift.service';
+import { HttpClientService } from './http-client.service';
+import { PreviousGiftAmountService } from './previous-gift-amount.service';
+
 
 
 describe('Service: Previous Gift Amount', () => {
@@ -19,6 +22,7 @@ describe('Service: Previous Gift Amount', () => {
         MockBackend,
         HttpClientService,
         BaseRequestOptions,
+        GiftService,
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],

@@ -1,16 +1,29 @@
-import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
-import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
-
-import { ResponseOptions } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { HttpClientService } from './http-client.service';
+import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'angular2-cookie/core';
-import { PaymentService } from './payment.service';
-import { StripeService } from './stripe.service';
-import { CustomerCard } from '../models/customer-card';
+import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { ResponseOptions } from '@angular/http';
+import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
+
 import { CustomerBank } from '../models/customer-bank';
-import { PaymentCallBody} from '../models/payment-call-body';
+import { CustomerCard } from '../models/customer-card';
+import { ExistingPaymentInfoService } from './existing-payment-info.service';
+import { GiftService } from './gift.service';
+import { HttpClientService } from './http-client.service';
+import { LoginService } from './login.service';
 import { Observable } from 'rxjs/Observable';
+import { ParamValidationService } from './param-validation.service';
+import { PaymentCallBody} from '../models/payment-call-body';
+import { PaymentService } from './payment.service';
+import { StateManagerService } from './state-manager.service';
+import { StripeService } from './stripe.service';
+
+class MockActivatedRoute {
+    public snapshot = {
+        queryParams: []
+    };
+}
+
 
 class MockStripeService {
 
@@ -77,10 +90,15 @@ describe('Service: Previous Gift Amount', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                ExistingPaymentInfoService,
+                LoginService,
                 MockBackend,
                 HttpClientService,
                 BaseRequestOptions,
+                ParamValidationService,
                 PaymentService,
+                StateManagerService,
+                GiftService,
                 { provide: StripeService, useClass: MockStripeService},
                 CookieService,
                 {
@@ -89,7 +107,8 @@ describe('Service: Previous Gift Amount', () => {
                     useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
                         return new Http(backend, defaultOptions);
                     }
-                }
+                },
+                { provide: ActivatedRoute, useClass: MockActivatedRoute }
 
             ],
             imports: [

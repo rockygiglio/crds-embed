@@ -61,6 +61,8 @@ export class GiftService {
   public start_date: any = '';
   public frequency: any = '';
 
+  public stripeToken: string = undefined;
+
   constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
               private loginService: LoginService,
