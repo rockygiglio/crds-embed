@@ -27,8 +27,6 @@ export class PaymentComponent implements OnInit {
   public form: FormGroup;
   public selectedAmount: number;
   public predefinedAmounts: number[];
-  public previousAmount: string;
-  public loadPreviousAmount: boolean = true;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public customAmtSelected: boolean = false;
@@ -45,13 +43,6 @@ export class PaymentComponent implements OnInit {
     this.stateManagerService.is_loading = true;
     if (this.gift.type === 'donation') {
       this.getPredefinedDonationAmounts();
-      if ( !this.gift.previousGiftAmount ) {
-        this.getPreviousGiftAmount();
-      } else if ( Number(this.gift.previousGiftAmount) !== Number(this.gift.customAmount) ) {
-        this.previousAmount = this.gift.previousGiftAmount;
-      } else {
-        this.loadPreviousAmount = false;
-      }
     } else {
       this.stateManagerService.is_loading = false;
     }
@@ -77,15 +68,6 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  getPreviousGiftAmount() {
-    this.previousGiftAmountService.get().subscribe(
-      (amount) => {
-        this.previousAmount = amount;
-        this.gift.previousGiftAmount = amount;
-      },
-      error => this.errorMessage = <any>error);
-  }
-
   getPredefinedDonationAmounts() {
     this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
       amounts => {
@@ -98,12 +80,6 @@ export class PaymentComponent implements OnInit {
 
   isValid() {
     return this.gift.validAmount();
-  }
-
-  applyPreviousAmount() {
-    this.customAmount = Number(this.previousAmount);
-    this.gift.amount = Number(this.previousAmount);
-    this.next();
   }
 
   next() {
