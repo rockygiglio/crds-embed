@@ -423,7 +423,6 @@
 
   form {
     .form-control {
-      &.ng-dirty,
       &.ng-touched {
         &.ng-invalid {
           border: 1px solid $danger-state-border;
@@ -432,7 +431,6 @@
     }
 
     .form-control {
-      &.ng-dirty,
       &.ng-touched {
         &.ng-valid {
           border: 1px solid $success-state;
@@ -441,8 +439,7 @@
     }
   }
 
-  .custom-amount {
-    &.ng-dirty,
+  .custom-input-payment__input {
     &.ng-touched {
       &.ng-invalid {
         .form-control,
