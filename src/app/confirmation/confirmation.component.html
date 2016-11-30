@@ -1,0 +1,15 @@
+<div class="contrast-background">
+  <header class="page-header page-header--no-btm-space">
+    <h2>Thanks!</h2>
+  </header>
+
+  <p *ngIf="gift.type == 'donation'" class="text-block--lg-font">
+   Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> <span *ngIf="gift.frequency != 'One Time'">{{ gift.frequency }}</span> gift to the '{{ gift.fund }}' campaign.
+  </p>
+
+  <p *ngIf="gift.type == 'payment'" class="text-block--lg-font">
+   Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> payment<span *ngIf="gift.title"> for '{{ gift.title }}'</span>.
+  </p>
+
+  <p>A receipt has been sent to {{ gift.email }}</p>
+</div>
