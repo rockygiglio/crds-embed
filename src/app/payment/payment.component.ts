@@ -42,7 +42,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     this.stateManagerService.is_loading = true;
-    if (this.gift.type === 'donation') {
+    if (this.gift.isDonation()) {
       this.getPredefinedDonationAmounts();
     } else {
       this.stateManagerService.is_loading = false;

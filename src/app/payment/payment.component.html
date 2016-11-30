@@ -9,7 +9,7 @@
     <h2>Amount</h2>
   </div>
 
-  <div *ngIf="gift.type === 'donation'">
+  <div *ngIf="gift.isDonation()">
     <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item btn-option--no-outline"
@@ -43,7 +43,7 @@
     </form>
   </div>
 
-  <div *ngIf="gift.type === 'payment'">
+  <div *ngIf="gift.isPayment()">
     <div class="btn-group btn-group--flex-col">
       <button *ngFor="let item of amountDue"
               type="button"
