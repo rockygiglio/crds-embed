@@ -28,8 +28,8 @@ fdescribe('AuthenticationComponent', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow']);
-    gift = jasmine.createSpyObj<GiftService>('giftService', ['resetPaymentDetails']);
+    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['hidePage']);
+    gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData']);
     _fb = new FormBuilder();
     spyOn(_fb, 'group').and.returnValue
     checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
@@ -38,10 +38,6 @@ fdescribe('AuthenticationComponent', () => {
     existingPaymentInfoService = jasmine.createSpyObj<ExistingPaymentInfoService>('existingPaymentInfoService', ['resolve']);
 
     fixture = new AuthenticationComponent(router, stateManagerService, gift, _fb, checkGuestEmailService, loginService, httpClientService, existingPaymentInfoService);
-    fixture.form = new FormGroup({
-      email: new FormControl('good@', Validators.minLength(8)),
-      password: new FormControl('foobar')
-    })
   });
 
   describe('#ngOnInit', () => {
@@ -56,13 +52,26 @@ fdescribe('AuthenticationComponent', () => {
 
   describe('#next', () => {
     it('does not get called if form is invalid', () => {
+      fixture.form = new FormGroup({
+        email: new FormControl('good@', Validators.minLength(8)),
+        password: new FormControl('foobar')
+      });
+
       spyOn(fixture, 'adv');
       fixture.next();
       expect(fixture.adv).not.toHaveBeenCalled();
     });
 
     it('calls #adv when valid auth credentials are provided', () => {
-    
+      fixture.form = new FormGroup({
+        email: new FormControl('good@good.com', Validators.minLength(8)),
+        password: new FormControl('foobar')
+      });
+
+      (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
+      spyOn(fixture, 'adv');
+      fixture.next();
+      expect(fixture.adv).toHaveBeenCalled();
     });
 
     it('provides an error message when invalid auth credentials are provided', () => {
