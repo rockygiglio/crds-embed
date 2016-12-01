@@ -33,6 +33,30 @@ export class AuthenticationComponent implements OnInit {
     private existingPaymentInfoService: ExistingPaymentInfoService,
   ) { }
 
+  ngOnInit(): void {
+
+    if ( this.gift.isGuest === true ) {
+      this.signinOption = 'Guest';
+      this.email = this.gift.email;
+    }
+
+    this.form = this._fb.group({
+      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
+      password: ['']
+    });
+
+    this.form.valueChanges.subscribe((value: any) => {
+      this.gift.email = value.email;
+    });
+
+    if (!this.gift.type) {
+      this.stateManagerService.is_loading = true;
+      this.router.navigateByUrl('/payment');
+    }
+
+    this.stateManagerService.is_loading = false;
+  }
+
   back(): boolean {
     this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
     return false;
@@ -43,6 +67,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   next(): boolean {
+    this.gift.isGuest = false;
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
@@ -59,36 +84,22 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
-  guest(): boolean {
-    if (this.form.valid) {
+  checkEmail(): void {
+    if ( this.form.valid ) {
       this.gift.isGuest = true;
-      this.adv();
-    }
-    return false;
-  }
-
-  checkEmail(event: any): void {
-    this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
-      resp => { this.guestEmail = resp; }
-    );
-  }
-
-  ngOnInit(): void {
-    this.form = this._fb.group({
-      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
-      password: ['']
-    });
-
-    this.form.valueChanges.subscribe((value: any) => {
-      this.gift.email = value.email;
-    });
-
-    if (!this.gift.type) {
       this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/payment');
+      this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
+        resp => {
+          this.guestEmail = resp;
+          if ( resp === false ) {
+            this.gift.email = this.email;
+            this.adv();
+          } else {
+            this.stateManagerService.is_loading = false;
+          }
+        }
+      );
     }
-
-    this.stateManagerService.is_loading = false;
   }
 
 }
