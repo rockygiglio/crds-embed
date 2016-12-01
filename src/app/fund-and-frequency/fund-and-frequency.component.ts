@@ -17,7 +17,7 @@ import { StateManagerService } from '../services/state-manager.service';
 export class FundAndFrequencyComponent implements OnInit {
 
   funds: Array<Program>;
-  defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
+  defaultFrequencies: Array<string> = ['One Time', 'week', 'month'];
   form: FormGroup;
   minDate: Date = new Date();
   maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );

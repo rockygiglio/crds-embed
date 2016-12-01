@@ -56,7 +56,7 @@ describe('Service: Previous Gift Amount', () => {
 
     let mockBackend: MockBackend;
 
-    let mockRecurringDonation: RecurringGiftDto = new RecurringGiftDto('tok_123', 25, '12', 'weekly', '2017-02-05');
+    let mockRecurringDonation: RecurringGiftDto = new RecurringGiftDto('tok_123', 25, '12', 'week', '2017-02-05');
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -106,7 +106,7 @@ describe('Service: Previous Gift Amount', () => {
 
             srvc.postRecurringGift(mockRecurringDonation).subscribe(
                 (data) => {
-                    expect(data.interval).toBe('weekly');
+                    expect(data.interval).toBe('week');
                 }
             );
         }))

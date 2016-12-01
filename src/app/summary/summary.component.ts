@@ -142,19 +142,19 @@ export class SummaryComponent implements OnInit {
     } else {
       console.log('Recurring gift');
       let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
-      let stripeTokenOrPlaceholder = this.gift.stripeToken['id'] ? this.gift.stripeToken['id'] : '';
+      let stripeTokenOrPlaceholder = this.gift.stripeToken ? this.gift.stripeToken['id'] : '';
 
-      let giftDto: RecurringGiftDto = new RecurringGiftDto( stripeTokenOrPlaceholder, this.gift.amount,
-                                              this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+      // let giftDto: RecurringGiftDto = new RecurringGiftDto( stripeTokenOrPlaceholder, this.gift.amount,
+      //                                         this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
 
-      // let giftDto: any = {
-      //   stripe_token_id: stripeTokenOrPlaceholder,
-      //   amount: this.gift.amount,
-      //   program: this.gift.fund.ProgramId.toString(),
-      //   start_date: recurrenceDate,
-      //   interval: this.gift.frequency
-      // };
-      //
+      let giftDto: any = {
+        stripe_token_id: stripeTokenOrPlaceholder,
+        amount: '15',//this.gift.amount,
+        program: 146, //this.gift.fund.ProgramId.toString(),
+        start_date: '2016-12-02', //recurrenceDate,
+        interval: 'month' //this.gift.frequency
+      };
+
 
       console.log('GIFT DTO');
       console.log(giftDto);
