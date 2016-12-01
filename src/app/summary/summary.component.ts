@@ -144,30 +144,24 @@ export class SummaryComponent implements OnInit {
       let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
       let stripeTokenOrPlaceholder = this.gift.stripeToken ? this.gift.stripeToken['id'] : '';
 
-      // let giftDto: RecurringGiftDto = new RecurringGiftDto( stripeTokenOrPlaceholder, this.gift.amount,
-      //                                         this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
-
-      let giftDto: any = {
-        stripe_token_id: stripeTokenOrPlaceholder,
-        amount: '15',//this.gift.amount,
-        program: 146, //this.gift.fund.ProgramId.toString(),
-        start_date: '2016-12-02', //recurrenceDate,
-        interval: 'month' //this.gift.frequency
-      };
+      let giftDto: RecurringGiftDto = new RecurringGiftDto( stripeTokenOrPlaceholder, this.gift.amount,
+                                              this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
 
 
       console.log('GIFT DTO');
       console.log(giftDto);
-      this.donationService.postRecurringGift(giftDto).subscribe(
-          success => {
-            console.log('Submitted recurring gift');
-            console.log(success);
-            this.next();
-          }, err => {
-            console.log('Failure to submit recurring gift');
-            console.log(err);
-          }
-      );
+      // this.donationService.postRecurringGift(giftDto).subscribe(
+      //     success => {
+      //       console.log('Submitted recurring gift');
+      //       console.log(success);
+      //       this.next();
+      //     }, err => {
+      //       console.log('Failure to submit recurring gift');
+      //       console.log(err);
+      //     }
+      // );
+
+      this.donationService.getTokenAndPostRecurringGift(this.gift.userCc, giftDto);
     }
   }
 

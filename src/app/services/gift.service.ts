@@ -56,6 +56,9 @@ export class GiftService {
   public expDate: string = '';
   public zipCode: string = '';
 
+  public userBank: any = undefined;
+  public userCc: any  = undefined;
+
   // Fund and frequency information
   public fund: Program = undefined;
   public start_date: any = '';

@@ -113,6 +113,8 @@ export class BillingComponent implements OnInit {
       let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
                                        this.achForm.value.accountName, this.achForm.value.accountType);
 
+      this.gift.userBank = userBank;
+
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
@@ -178,6 +180,8 @@ export class BillingComponent implements OnInit {
 
       let userCard: CustomerCard = new CustomerCard(this.gift.email, this.ccForm.value.ccNumber, expMonth, expYear,
                                                     this.ccForm.value.cvc, this.ccForm.value.zipCode);
+
+      this.gift.userCc = userCard;
 
       let firstName = 'placeholder'; // not used by API, except for guest donations
       let lastName = 'placeholder';  // not used by API, except for guest donations
