@@ -1,6 +1,8 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 import { DonationService } from '../services/donation.service';
 import { GiftService } from '../services/gift.service';
 import { LoginService } from '../services/login.service';
@@ -140,28 +142,17 @@ export class SummaryComponent implements OnInit {
       );
 
     } else {
-      console.log('Recurring gift');
-      let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
-      let stripeTokenOrPlaceholder = this.gift.stripeToken ? this.gift.stripeToken['id'] : '';
 
-      let giftDto: RecurringGiftDto = new RecurringGiftDto( stripeTokenOrPlaceholder, this.gift.amount,
-                                              this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+      let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
+      let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
 
-
-      console.log('GIFT DTO');
-      console.log(giftDto);
-      // this.donationService.postRecurringGift(giftDto).subscribe(
-      //     success => {
-      //       console.log('Submitted recurring gift');
-      //       console.log(success);
-      //       this.next();
-      //     }, err => {
-      //       console.log('Failure to submit recurring gift');
-      //       console.log(err);
-      //     }
-      // );
-
-      this.donationService.getTokenAndPostRecurringGift(this.gift.userCc, giftDto);
+      this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+          success => {
+            this.next();
+          }, err => {
+            //TODO: Add error handling
+          }
+      );
     }
   }
 

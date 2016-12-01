@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 import { GiftService } from './gift.service';
 import { HttpClientService } from './http-client.service';
 import { RecurringGiftDto } from '../models/recurring-gift-dto';
@@ -18,24 +20,34 @@ export class DonationService {
               private http: HttpClientService,
               private stripe: StripeService) { }
 
-  getTokenAndPostRecurringGift (pmtInfo: any, giftData: RecurringGiftDto){
-    this.stripe.getCardInfoToken(this.gift.userCc).subscribe(
+  getTokenAndPostRecurringGift (pmtInfo: CustomerBank | CustomerCard,
+                                stripeApiMethodName: string){
+
+    let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
+
+    let giftDto: RecurringGiftDto = new RecurringGiftDto( this.gift.stripeToken['id'], this.gift.amount,
+                                            this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+
+    let observable  = new Observable(observer => {
+
+      this.stripe[stripeApiMethodName](pmtInfo).subscribe(
         token => {
-          console.log('Got token from stripe');
-          console.log(token);
-          let tokenId: any = token['id'];
-          giftData.stripe_token_id = tokenId;
-          this.postRecurringGift(giftData).subscribe(
-              succes => {
-                console.log('Success!');
+          giftDto.stripe_token_id = token['id'];
+          this.postRecurringGift(giftDto).subscribe(
+              recurringGiftResp => {
+                observer.next(recurringGiftResp);
               }, err => {
-                console.log('Err');
+                observer.error(new Error('Failed to post recurring gift'));
               }
           )
         }, err => {
-          console.log('Failed to get token!');
+          observer.error(new Error('Failed to get stripe token'));
         }
-    )
+     )
+    });
+
+    return observable;
+
   }
 
   postRecurringGift(giftData: RecurringGiftDto): Observable<any> {
@@ -48,13 +60,10 @@ export class DonationService {
   };
 
   private extractData(res: Response) {
-    // console.log(res);
     return res;
   };
 
   private handleError (err: Response | any) {
-    // console.log('Error');
-    // console.log(err);
     return Observable.throw(err);
   };
 
