@@ -56,7 +56,7 @@ describe('Service: Previous Gift Amount', () => {
 
     let mockBackend: MockBackend;
 
-    let mockRecurringDonation: RecurringGiftDto = new RecurringGiftDto('tok_123', 25, '12', 'weekly', new Date());
+    let mockRecurringDonation: RecurringGiftDto = new RecurringGiftDto('tok_123', 25, '12', 'weekly', '2017-02-05');
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

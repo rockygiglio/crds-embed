@@ -1,11 +1,12 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
-
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
+import { DonationService } from '../services/donation.service';
 import { GiftService } from '../services/gift.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
 import { PaymentCallBody } from '../models/payment-call-body';
+import { RecurringGiftDto } from '../models/recurring-gift-dto';
 
 export const WindowToken = new OpaqueToken('Window');
 export function _window(): Window {
@@ -24,6 +25,7 @@ export class SummaryComponent implements OnInit {
 
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
+              private donationService: DonationService,
               private gift: GiftService,
               private loginService: LoginService,
               private paymentService: PaymentService,
@@ -109,7 +111,64 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
-    this.next();
+
+    if (this.gift.isOneTimeGift()) {
+      console.log('One time gift');
+      let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+      let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
+                                                pymt_type, 'DONATION', this.gift.invoiceId );
+
+      this.paymentService.postPayment(donationDetails).subscribe(
+          info => {
+            this.gift.stripeException = false;
+            this.gift.systemException = false;
+            this.redirectParams.set('invoiceId', this.gift.invoiceId);
+            this.redirectParams.set('paymentId', info.payment_id);
+            this.next();
+          },
+          error => {
+            if (error.status === 400) {
+              this.gift.systemException = true;
+              return false;
+            } else {
+              this.gift.stripeException = true;
+              this.changePayment();
+              this.router.navigateByUrl('/billing');
+              return false;
+            }
+          }
+      );
+
+    } else {
+      console.log('Recurring gift');
+      let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
+      let stripeTokenOrPlaceholder = this.gift.stripeToken['id'] ? this.gift.stripeToken['id'] : '';
+
+      let giftDto: RecurringGiftDto = new RecurringGiftDto( stripeTokenOrPlaceholder, this.gift.amount,
+                                              this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+
+      // let giftDto: any = {
+      //   stripe_token_id: stripeTokenOrPlaceholder,
+      //   amount: this.gift.amount,
+      //   program: this.gift.fund.ProgramId.toString(),
+      //   start_date: recurrenceDate,
+      //   interval: this.gift.frequency
+      // };
+      //
+
+      console.log('GIFT DTO');
+      console.log(giftDto);
+      this.donationService.postRecurringGift(giftDto).subscribe(
+          success => {
+            console.log('Submitted recurring gift');
+            console.log(success);
+            this.next();
+          }, err => {
+            console.log('Failure to submit recurring gift');
+            console.log(err);
+          }
+      );
+    }
   }
 
   changePayment() {

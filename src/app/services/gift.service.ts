@@ -73,6 +73,10 @@ export class GiftService {
     this.isInitialized = true;
   }
 
+  public isOneTimeGift(): boolean {
+    return this.frequency === 'One Time';
+  }
+
   public loadExistingPaymentData(): void {
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
