@@ -101,14 +101,13 @@
           </div>
         </form>
       </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
     </div>
 
-    <div class="errors" *ngIf="( !isValid() && submitted )">
-      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-    </div>
   </div>
-
-  <hr>
 
   <footer class="page-footer">
     <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
