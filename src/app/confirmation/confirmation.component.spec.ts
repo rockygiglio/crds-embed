@@ -23,7 +23,7 @@ class MockGiftService { }
 class MockRouter { public navigate() {}; }
 class MockPrototypeStore { public subscribe() {}; }
 
-fdescribe('Component: Confirmation', () => {
+describe('Component: Confirmation', () => {
 
   let component: ConfirmationComponent;
   let fixture: ComponentFixture<ConfirmationComponent>;
@@ -54,16 +54,16 @@ fdescribe('Component: Confirmation', () => {
     el = de.nativeElement;
   });
 
-  it('should show thank you for payment', () => {
-    this.component.gift.type = 'payment';
-    this.component.gift.amount = 12.34;
-    this.component.gift.title = 'test';
-    this.fixture.detectChanges();
-    console.log(el.textContent);
-    expect(el.textContent).toContain('Thanks!');
-    // console.log(this.fixture);
-    // expect(this.fixture.nativeElement.querySelector('.text-block--lg-font').innerHTML).toBe(`Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> payment<span *ngIf="gift.title"> for '{{ gift.title }}'</span>.`);
-  });
+  // it('should show thank you for payment', () => {
+  //   this.component.gift.type = 'payment';
+  //   this.component.gift.amount = 12.34;
+  //   this.component.gift.title = 'test';
+  //   this.fixture.detectChanges();
+  //   console.log(el.textContent);
+  //   expect(el.textContent).toContain('Thanks!');
+  //   // console.log(this.fixture);
+  //   // expect(this.fixture.nativeElement.querySelector('.text-block--lg-font').innerHTML).toBe(`Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> payment<span *ngIf="gift.title"> for '{{ gift.title }}'</span>.`);
+  // });
 
   it('should show thank you for one time gift', () => {
     expect(this.component).toBeTruthy();
