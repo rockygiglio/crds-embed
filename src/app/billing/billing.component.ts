@@ -34,6 +34,7 @@ export class BillingComponent implements OnInit {
     private pmtService: PaymentService,
     private stripeService: StripeService,
     ) {
+      this.stateManagerService.is_loading = true;
       this.achForm = this.fb.group({
         accountName: ['', [<any>Validators.required]],
         routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
@@ -54,8 +55,6 @@ export class BillingComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.stateManagerService.is_loading = true;
-
     if ( this.gift.existingPaymentInfo ) {
         this.gift.existingPaymentInfo.subscribe(
         info => {
@@ -120,8 +119,10 @@ export class BillingComponent implements OnInit {
       this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
+            this.gift.createDonor = false;
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
                value => {
+                 this.gift.donor = value;
                  this.adv();
               },
               errorInner => {
@@ -140,8 +141,10 @@ export class BillingComponent implements OnInit {
             );
           },
           error => {
+            this.gift.createDonor = true;
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
                value => {
+                 this.gift.donor = value;
                  this.adv();
               },
               errorInner => {
@@ -186,8 +189,10 @@ export class BillingComponent implements OnInit {
       this.stateManagerService.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
+            this.gift.createDonor = false;
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
                value => {
+                 this.gift.donor = value;
                  this.adv();
               },
               errorInner => {
@@ -206,8 +211,10 @@ export class BillingComponent implements OnInit {
             );
           },
           error => {
+            this.gift.createDonor = true;
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
                value => {
+                 this.gift.donor = value;
                  this.adv();
               },
               errorInner => {

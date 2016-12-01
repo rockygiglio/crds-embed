@@ -52,7 +52,7 @@ export class AuthenticationComponent implements OnInit {
 
     if (!this.gift.type) {
       this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/payment');
+      this.router.navigateByUrl('/');
     }
 
     this.stateManagerService.is_loading = false;
@@ -68,6 +68,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   next(): boolean {
+    this.stateManagerService.is_loading = true;
     this.gift.isGuest = false;
     this.loginException = false;
     let context = this;

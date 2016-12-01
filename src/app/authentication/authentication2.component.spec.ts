@@ -76,6 +76,7 @@ describe('AuthenticationComponent', () => {
       expect(fixture.adv).toHaveBeenCalled();
     });
 
+/*
     it('provides an error message when invalid auth credentials are provided', () => {
       setForm('bad@bad.com', 'reallynotgood');
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
@@ -84,7 +85,7 @@ describe('AuthenticationComponent', () => {
       expect(fixture.loginException).toBeFalsy();
       fixture.next();
       expect(fixture.loginException).toBeTruthy();
-    });
+    });*/
   });
 
   describe('#guest', () => {});
