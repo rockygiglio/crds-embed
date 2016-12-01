@@ -19,6 +19,10 @@
       <input type="password" class="form-control" placeholder="Password" name="password" [formControl]="form.get('password')">
     </div>
 
+    <div class="alert alert-danger" *ngIf="loginException">
+      Oops! Sign in failed. Please try again or use <a href="#">Forgot Password.</a>
+    </div>
+
     <div class="row form__helpers">
       <div class="form__helpers--half">
         <label>
@@ -32,10 +36,6 @@
           <a class="text-block__link" href="#">Need help?</a>
         </p>
       </div>
-    </div>
-
-    <div *ngIf="loginException">
-      IT DON'T WORK!!!!!!!!!!
     </div>
 
     <hr>

@@ -82,7 +82,7 @@ export class AuthenticationComponent implements OnInit {
         },
         (error) => {
           this.loginException = true;
-          console.log(this.loginException);
+          this.stateManagerService.is_loading = false;
         }
       );
     }

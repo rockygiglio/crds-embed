@@ -46,7 +46,7 @@ export class LoginService {
   }
 
   public handleError(res: Response | any) {
-    return Observable.throw();
+    return Observable.throw([res.json()]);
   }
 
 }
