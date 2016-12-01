@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+    <form class="custom-input-payment__input" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group">
