@@ -12,7 +12,7 @@ import { StateManagerService } from '../services/state-manager.service';
 
 
 
-fdescribe('AuthenticationComponent', () => {
+describe('AuthenticationComponent', () => {
   let fixture: AuthenticationComponent,
       router: Router,
       stateManagerService: StateManagerService,

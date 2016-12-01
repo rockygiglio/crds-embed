@@ -48,7 +48,7 @@ export class StateManagerService {
   }
 
   public hidePage(pageIndex: number) {
-      this.paymentState[pageIndex].show = false;
+    this.paymentState[pageIndex].show = false;
   }
 
   public unhidePage(pageIndex: number) {

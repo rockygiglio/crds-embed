@@ -18,10 +18,11 @@ import { StateManagerService } from '../services/state-manager.service';
 export class AuthenticationComponent implements OnInit {
   public signinOption: string = 'Sign In';
 
-  form: FormGroup;
-  email: string;
-  guestEmail: boolean;
-  userPmtInfo: any;
+  public email: string;
+  public form: FormGroup;
+  public guestEmail: boolean;
+  public loginException: boolean;
+  public userPmtInfo: any;
 
   constructor( private router: Router,
     private stateManagerService: StateManagerService,
@@ -68,16 +69,19 @@ export class AuthenticationComponent implements OnInit {
 
   next(): boolean {
     this.gift.isGuest = false;
+    this.loginException = false;
+    let context = this;
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
-        user => {
+        (user) => {
           this.gift.loadUserData();
           this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
           this.adv();
         },
-        error => {
-          this.adv();
+        (error) => {
+          this.loginException = true;
+          console.log(this.loginException);
         }
       );
     }
