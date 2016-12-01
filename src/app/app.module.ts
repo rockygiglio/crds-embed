@@ -1,6 +1,6 @@
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
-import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Angulartics2Module } from 'angulartics2';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -20,7 +20,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
-import { SummaryComponent } from './summary/summary.component';
+import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
 
 import { DonationService } from './services/donation.service';
 import { DonationFundService } from './services/donation-fund.service';
@@ -45,7 +45,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
 @NgModule({
   imports:      [
     AlertModule,
-    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
+    Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -74,7 +74,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     SummaryComponent
   ],
   providers:    [
-    Angulartics2GoogleTagManager,
     appRoutingProviders,
     CookieService,
     DonationService,
@@ -89,6 +88,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     QuickDonationAmountsService,
     StateManagerService,
     StripeService,
+    {provide: WindowToken, useFactory: _window},
   ],
   bootstrap:    [AppComponent]
 })

@@ -10,52 +10,41 @@
   </div>
 
   <div *ngIf="gift.type === 'donation'">
-    <div class="btn-group btn-group--flex btn-group--underline">
+    <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-option--flex-item"
+              class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
-
-      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-        <div class="form-group">
-          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input type="text"
-                  class="form-control"
-                  placeholder="Or Enter Amount"
-                  id="custom-amount"
-                  maxlength="9"
-                  formControlName="customAmount"
-                  onlyTheseKeys="[0-9\.]"
-                  currency
-                  [(ngModel)]="customAmount"
-                  (ngModelChange)="onCustomAmount($event)">
-          </div>
-        </div>
-
-        <div *ngIf="gift.type === 'donation'">
-          <div class="donation-previous-amount" *ngIf="gift.loginService.isLoggedIn() && loadPreviousAmount">
-            <div class="async-preloader alert alert-warning" *ngIf="!previousAmount">
-              <svg viewBox="0 0 102 101" class="preloader"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><ellipse stroke="#eee" cx="50" cy="49.421" rx="50" ry="49.421"></ellipse><path d="M50 98.842c27.614 0 50-22.127 50-49.42C100 22.125 77.614 0 50 0" stroke-opacity=".631" stroke="#3B6E8F"></path></g></g></svg>
-            </div>
-            <div class="alert alert-warning" *ngIf="previousAmount">
-              You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a (click)="applyPreviousAmount()">Yes</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="errors" *ngIf="( !isValid() && submitted )">
-          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-        </div>
-      </form>
     </div>
+
+    <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+      <div class="form-group">
+        <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input type="text"
+                class="form-control"
+                placeholder="Or Enter Amount"
+                id="custom-amount"
+                maxlength="9"
+                formControlName="customAmount"
+                onlyTheseKeys="[0-9\.]"
+                currency
+                [(ngModel)]="customAmount"
+                (ngModelChange)="onCustomAmount($event)">
+        </div>
+      </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
+    </form>
   </div>
 
   <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex">
+    <div class="btn-group btn-group--flex-col">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
@@ -117,9 +106,9 @@
     <div class="errors" *ngIf="( !isValid() && submitted )">
       <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
     </div>
-
-    <hr>
   </div>
+
+  <hr>
 
   <footer class="page-footer">
     <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
