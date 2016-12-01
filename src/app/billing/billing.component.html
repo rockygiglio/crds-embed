@@ -59,6 +59,15 @@
       </div>
     </div>
 
+    <br>
+
+    <div *ngIf="gift.stripeException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>
+    <div *ngIf="gift.systemException" class="alert alert-danger">
+      <p>Your payment method has been declined.</p>
+    </div>
+
     <div class="sample-check">
       <small>
         <a (click)="hideCheck = false;" *ngIf="hideCheck">Where can I find this information?</a>
@@ -69,12 +78,6 @@
       </div>
     </div>
 
-    <div *ngIf="gift.stripeException" class="alert alert-danger">
-      <p>Your payment method has been declined.</p>
-    </div>
-    <div *ngIf="gift.systemException" class="alert alert-danger">
-      <p>Your payment method has been declined.</p>
-    </div>    
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
@@ -85,8 +88,8 @@
 
 <div *ngIf="gift.paymentMethod == 'Credit Card'" heading="Credit Card">
 
-  <alert *ngIf="gift.type == 'donation'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
-  <alert *ngIf="gift.type == 'payment'" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
+  <alert *ngIf="gift.isDonation()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+  <alert *ngIf="gift.isPayment()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
   <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
     <div class="row">
@@ -150,7 +153,7 @@
     </div>
     <div *ngIf="gift.systemException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
-    </div>    
+    </div>
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">

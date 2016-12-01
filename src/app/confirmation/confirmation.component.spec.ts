@@ -19,7 +19,24 @@ class MockDonationService { }
 class MockQuickDonationAmountsService { }
 class MockPreviousGiftAmountService { }
 class MockExistingPaymentInfoService { }
-class MockGiftService { }
+class MockGiftService {
+  public type: string = '';
+  public isDonation() {
+    if ( this.type === 'donation' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isPayment() {
+    if ( this.type === 'payment' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 class MockRouter { public navigate() {}; }
 class MockPrototypeStore { public subscribe() {}; }
 

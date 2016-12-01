@@ -9,7 +9,7 @@
     <h2>Amount</h2>
   </div>
 
-  <div *ngIf="gift.type === 'donation'">
+  <div *ngIf="gift.isDonation()">
     <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item btn-option--no-outline"
@@ -19,12 +19,12 @@
       </button>
     </div>
 
-    <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+    <form class="form--underline custom-input-payment__input" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group">
           <span class="input-group-addon">$</span>
-          <input type="text"
+          <input type="tel"
                 class="form-control"
                 placeholder="Or Enter Amount"
                 id="custom-amount"
@@ -43,8 +43,8 @@
     </form>
   </div>
 
-  <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex-col">
+  <div *ngIf="gift.isPayment()">
+    <div class="btn-group btn-group--flex-col btn-group--underline">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
@@ -101,14 +101,13 @@
           </div>
         </form>
       </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
     </div>
 
-    <div class="errors" *ngIf="( !isValid() && submitted )">
-      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-    </div>
   </div>
-
-  <hr>
 
   <footer class="page-footer">
     <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">

@@ -120,12 +120,12 @@ export class GiftService {
 
   public validAmount() {
     let result = false;
-    if (this.type === 'payment') {
+    if (this.isPayment()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
         && Number(this.amount) >= this.minPayment
         && Number(this.amount) <= this.totalCost;
-    } else if (this.type === 'donation') {
+    } else if (this.isDonation()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
         && Number(this.amount) > 0
@@ -233,6 +233,22 @@ export class GiftService {
 
   private setTheme(theme): void {
     document.body.classList.add(theme);
+  }
+
+  public isDonation() {
+    if ( this.type === 'donation' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isPayment() {
+    if ( this.type === 'payment' ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
