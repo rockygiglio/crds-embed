@@ -7,6 +7,7 @@ import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Program } from '../interfaces/program';
 import { StateManagerService } from './state-manager.service';
+import { CrdsDonor } from '../models/crds-donor';
 
 declare var _;
 
@@ -29,6 +30,7 @@ export class GiftService {
   private queryParams: Object;
 
   // Form options
+  public predefinedAmounts: number[];
   public existingPaymentInfo: Observable<any>;
   public paymentMethod: string = 'Bank Account';
 
@@ -43,6 +45,8 @@ export class GiftService {
   public email: string = '';
   public isGuest: boolean = false;
   public previousGiftAmount: string = '';
+  public donor: CrdsDonor;
+  public createDonor: boolean = false;
 
   // ACH Information
   public accountName: string;

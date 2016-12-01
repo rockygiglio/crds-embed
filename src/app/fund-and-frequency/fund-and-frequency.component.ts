@@ -55,7 +55,12 @@ export class FundAndFrequencyComponent implements OnInit {
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
 
-    this.stateManagerService.is_loading = false;
+    if (!this.gift.type) {
+      this.stateManagerService.is_loading = true;
+      this.router.navigateByUrl('/');
+    } else {
+      this.stateManagerService.is_loading = false;
+    }
   }
 
   back(): boolean {

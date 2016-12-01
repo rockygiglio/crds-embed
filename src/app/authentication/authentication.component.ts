@@ -51,7 +51,7 @@ export class AuthenticationComponent implements OnInit {
 
     if (!this.gift.type) {
       this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/payment');
+      this.router.navigateByUrl('/');
     }
 
     this.stateManagerService.is_loading = false;
@@ -67,6 +67,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   next(): boolean {
+    this.stateManagerService.is_loading = true;
     this.gift.isGuest = false;
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)

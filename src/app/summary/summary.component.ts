@@ -52,36 +52,55 @@ export class SummaryComponent implements OnInit {
     this.gift.stripeException = false;
     this.gift.systemException = false;
     this.paymentSubmitted = true;
+    this.stateManagerService.is_loading = true;
 
-    let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-    let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
+    let restMethod = this.paymentService.restMethodNames.put;
+    if ( this.gift.createDonor === true ) {
+      restMethod = this.paymentService.restMethodNames.post;
+    }
 
-    this.paymentService.postPayment(paymentDetail).subscribe(
-      info => {
-         this.gift.stripeException = false;
-         this.gift.systemException = false;
-         if (this.gift.url) {
-           this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
-           if (this.gift.overrideParent === true && window.top !== undefined ) {
-             window.top.location.href = this.gift.url;
-           } else {
-             window.location.href = this.gift.url;
-           }
-         } else {
-           this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
-         }
-      },
-      error => {
-        if (error.status === 400) {
-          this.gift.systemException = true;
-          return false;
-        } else {
-          this.gift.stripeException = true;
-          this.changePayment();
-          this.router.navigateByUrl('/billing');
-          return false;
+    this.paymentService.makeApiDonorCall(this.gift.donor, restMethod).subscribe(
+        value => {
+
+          let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+          let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
+
+          this.paymentService.postPayment(paymentDetail).subscribe(
+            info => {
+              this.gift.stripeException = false;
+              this.gift.systemException = false;
+              if (this.gift.url) {
+                this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
+                if (this.gift.overrideParent === true && window.top !== undefined ) {
+                  window.top.location.href = this.gift.url;
+                } else {
+                  window.location.href = this.gift.url;
+                }
+              } else {
+                this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
+                this.stateManagerService.is_loading = false;
+              }
+            },
+            error => {
+              if (error.status === 400) {
+                this.gift.systemException = true;
+                this.stateManagerService.is_loading = false;
+                return false;
+              } else {
+                this.gift.stripeException = true;
+                this.changePayment();
+                this.router.navigateByUrl('/billing');
+                this.stateManagerService.is_loading = false;
+                return false;
+              }
+            }
+          );
+        },
+        error => {
+            this.gift.systemException = true;
+            this.stateManagerService.is_loading = false;
+            return false;
         }
-      }
     );
 
     return false;

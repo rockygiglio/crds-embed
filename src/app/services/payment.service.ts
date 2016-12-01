@@ -14,7 +14,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class PaymentService {
 
-    private restMethodNames: any;
+    public restMethodNames: any;
     private baseUrl = process.env.CRDS_API_ENDPOINT;
 
     constructor(private http: Http,
@@ -69,19 +69,9 @@ export class PaymentService {
              restMethod: string): Observable<any> {
         let observable  = new Observable(observer => {
 
-
             this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
                 stripeEncryptedPmtInfo => {
-                    let crdsDonor = new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName);
-
-                    this.makeApiDonorCall(crdsDonor, email, firstName, lastName, restMethod).subscribe(
-                        value => {
-                            observer.next(value);
-                        },
-                        error => {
-                            observer.error(new Error(error));
-                        }
-                    );
+                    observer.next(new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName));
                 },
                 error => {
                     observer.error(error);
@@ -93,7 +83,7 @@ export class PaymentService {
         return observable;
     };
 
-    makeApiDonorCall(donorInfo: CrdsDonor, email: string, firstName: string, lastName: string, restMethod: string): Observable<any> {
+    makeApiDonorCall(donorInfo: CrdsDonor, restMethod: string): Observable<any> {
         let donorUrl = this.baseUrl + 'api/donor';
         let requestOptions: any = this.httpClient.getRequestOption();
 
