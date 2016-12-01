@@ -235,4 +235,20 @@ export class GiftService {
     document.body.classList.add(theme);
   }
 
+  public isDonation() {
+    if ( this.type === 'donation' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isPayment() {
+    if ( this.type === 'payment' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
