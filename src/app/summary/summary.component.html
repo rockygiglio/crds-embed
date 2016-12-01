@@ -46,6 +46,6 @@
 
 <footer class="page-footer page-footer--pt-1">
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-  <input type="button" *ngIf="gift.type == 'donation'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="next()" value="Give {{ gift.amount | currency:'USD':true }}">
-  <input type="button" *ngIf="gift.type == 'payment'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="next()" value="Pay {{ gift.amount | currency:'USD':true }}">
+  <input type="button" *ngIf="gift.type == 'donation'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="submitDonation()" value="Give {{ gift.amount | currency:'USD':true }}">
+  <input type="button" *ngIf="gift.type == 'payment'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="submitPayment()" value="Pay {{ gift.amount | currency:'USD':true }}">
 </footer>

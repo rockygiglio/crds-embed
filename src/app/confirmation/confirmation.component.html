@@ -3,8 +3,12 @@
     <h2>Thanks!</h2>
   </header>
 
-  <p *ngIf="gift.type == 'donation'" class="text-block--lg-font">
+  <p *ngIf="gift.type == 'donation' && gift.frequency === 'One Time'" class="text-block--lg-font">
    Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> <span *ngIf="gift.frequency != 'One Time'">{{ gift.frequency }}</span> gift to the '{{ gift.fund }}' campaign.
+  </p>
+
+  <p *ngIf="gift.type == 'donation' && gift.frequency != 'One Time'" class="text-block--lg-font">
+    Your Recurring Gift was successfully created!  Thank you for setting up a Recurring Gift.  We will process your Recurring Gift of <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> for <strong>{{ gift.title }} {{ gift.frequency }}</strong> starting on <strong> {{ gift.start_date | date: 'MM/dd/yyyy' }}</strong>.
   </p>
 
   <p *ngIf="gift.type == 'payment'" class="text-block--lg-font">
