@@ -33,47 +33,12 @@ export class AuthenticationComponent implements OnInit {
     private existingPaymentInfoService: ExistingPaymentInfoService,
   ) { }
 
-  back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
-    return false;
-  }
-
-  adv(): void {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
-  }
-
-  next(): boolean {
-    if (this.form.valid) {
-      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
-      .subscribe(
-        user => {
-          this.gift.loadUserData();
-          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-          this.adv();
-        },
-        error => {
-          this.adv();
-        }
-      );
-    }
-    return false;
-  }
-
-  guest(): boolean {
-    if (this.form.valid) {
-      this.gift.isGuest = true;
-      this.adv();
-    }
-    return false;
-  }
-
-  checkEmail(event: any): void {
-    this.checkGuestEmailService.guestEmailExists(event.target.value).subscribe(
-      resp => { this.guestEmail = resp; }
-    );
-  }
-
   ngOnInit(): void {
+
+    if ( this.gift.isGuest === true ) {
+      this.signinOption = 'Guest';
+      this.email = this.gift.email;
+    }
 
     this.form = this._fb.group({
       email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
@@ -90,6 +55,51 @@ export class AuthenticationComponent implements OnInit {
     }
 
     this.stateManagerService.is_loading = false;
+  }
+
+  back(): boolean {
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
+    return false;
+  }
+
+  adv(): void {
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
+  }
+
+  next(): boolean {
+    this.gift.isGuest = false;
+    if (this.form.valid) {
+      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
+      .subscribe(
+        user => {
+          this.gift.loadUserData();
+          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+          this.adv();
+        },
+        error => {
+          this.adv();
+        }
+      );
+    }
+    return false;
+  }
+
+  checkEmail(): void {
+    if ( this.form.valid ) {
+      this.gift.isGuest = true;
+      this.stateManagerService.is_loading = true;
+      this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
+        resp => {
+          this.guestEmail = resp;
+          if ( resp === false ) {
+            this.gift.email = this.email;
+            this.adv();
+          } else {
+            this.stateManagerService.is_loading = false;
+          }
+        }
+      );
+    }
   }
 
 }
