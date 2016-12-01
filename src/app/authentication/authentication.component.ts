@@ -85,19 +85,21 @@ export class AuthenticationComponent implements OnInit {
   }
 
   checkEmail(): void {
-    this.gift.isGuest = true;
-    this.stateManagerService.is_loading = true;
-    this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
-      resp => {
-        this.guestEmail = resp;
-        if ( resp === false ) {
-          this.gift.email = this.email;
-          this.adv();
-        } else {
-          this.stateManagerService.is_loading = false;
+    if ( this.form.valid ) {
+      this.gift.isGuest = true;
+      this.stateManagerService.is_loading = true;
+      this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
+        resp => {
+          this.guestEmail = resp;
+          if ( resp === false ) {
+            this.gift.email = this.email;
+            this.adv();
+          } else {
+            this.stateManagerService.is_loading = false;
+          }
         }
-      }
-    );
+      );
+    }
   }
 
 }
