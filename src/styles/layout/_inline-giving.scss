@@ -71,14 +71,6 @@
         border: none;
         box-shadow: none;
       }
-
-      &--flex-item {
-        min-height: 37px;
-
-        &:not(:last-child):not(.dropdown-toggle) {
-          margin-right: 0;
-        }
-      }
     }
 
     .active {
@@ -145,15 +137,27 @@
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
-      margin-right: 0;
-      margin-left: -8px;
-      padding-top: 8px;
 
       .btn-option--flex-item {
         flex: 1 1 auto;
         min-height: 37px;
-        margin: 8px;
-        margin-top: 0;
+        margin: 4px 0;
+
+        &:last-of-type {
+          margin-bottom: 8px;
+        }
+      }
+
+      &.btn-group {
+        > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+        > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+          margin-right: 0;
+        }
+      }
+
+      &.btn-group--underline {
+        margin-bottom: 0;
+        padding-bottom: 0;
       }
     }
 
@@ -307,6 +311,10 @@
       &--half {
         @include make-xs-column(6);
       }
+    }
+
+    &--underline {
+      border-bottom: 1px solid $underline-color;
     }
   }
 
