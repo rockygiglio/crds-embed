@@ -89,17 +89,9 @@ export class SummaryComponent implements OnInit {
             info => {
               this.gift.stripeException = false;
               this.gift.systemException = false;
-              if (this.gift.url) {
-                this.gift.url = this.gift.url + '?invoiceId=' + this.gift.invoiceId + '&paymentId='  + info.payment_id;
-                if (this.gift.overrideParent === true && window.top !== undefined ) {
-                  window.top.location.href = this.gift.url;
-                } else {
-                  window.location.href = this.gift.url;
-                }
-              } else {
-                this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
-                this.stateManagerService.is_loading = false;
-              }
+              this.redirectParams.set('invoiceId', this.gift.invoiceId);
+              this.redirectParams.set('paymentId', info.payment_id);
+              this.next();
             },
             error => {
               if (error.status === 400) {
@@ -120,8 +112,6 @@ export class SummaryComponent implements OnInit {
             this.gift.systemException = true;
             this.stateManagerService.is_loading = false;
             return false;
-         this.redirectParams.set('invoiceId', this.gift.invoiceId);
-         this.redirectParams.set('paymentId', info.payment_id);
         }
     );
     return false;
