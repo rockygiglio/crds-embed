@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+    <form class="form--underline" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group">
@@ -44,7 +44,7 @@
   </div>
 
   <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex-col">
+    <div class="btn-group btn-group--flex-col btn-group--underline">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"

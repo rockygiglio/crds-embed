@@ -308,6 +308,10 @@
         @include make-xs-column(6);
       }
     }
+
+    &--underline {
+      border-bottom: 1px solid $underline-color;
+    }
   }
 
   .text-block {
