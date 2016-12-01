@@ -83,6 +83,12 @@ $dt-page-bg-color: #222222;
     &--flex-row {
       border-bottom-color:  $underline-color;
     }
+
+    &--flex-col {
+      &.btn-group--underline {
+        border-bottom-color: $underline-color;
+      }
+    }
   }
 
   .table {
@@ -115,6 +121,12 @@ $dt-page-bg-color: #222222;
       &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
         color: lighten($input-text-color, 10);
       }
+    }
+  }
+
+  .form {
+    &--underline {
+      border-bottom-color: $underline-color;
     }
   }
 
