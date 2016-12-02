@@ -75,8 +75,6 @@ export class PaymentService {
             this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
                 stripeEncryptedPmtInfo => {
 
-                    this.gift.stripeToken = stripeEncryptedPmtInfo;
-
                     let crdsDonor = new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName);
 
                     this.makeApiDonorCall(crdsDonor, email, firstName, lastName, restMethod).subscribe(

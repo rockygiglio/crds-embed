@@ -74,5 +74,15 @@ describe('Service: Gift', () => {
     expect(srvc.userBank).toBe(undefined);
   }));
 
+  it('should indicate that gift is a one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'One Time';
+    expect(srvc.isOneTimeGift()).toBe(true);
+  }));
+
+  it('should indicate that gift is NOT a one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    expect(srvc.isOneTimeGift()).toBe(false);
+  }));
+
 
 });

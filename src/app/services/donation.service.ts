@@ -20,19 +20,18 @@ export class DonationService {
               private http: HttpClientService,
               private stripe: StripeService) { }
 
-  getTokenAndPostRecurringGift (pmtInfo: CustomerBank | CustomerCard,
-                                stripeApiMethodName: string) {
+  getTokenAndPostRecurringGift (pmtInfo: CustomerBank | CustomerCard, stripeApiMethodName: string) {
 
     let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
-
-    let giftDto: RecurringGiftDto = new RecurringGiftDto( this.gift.stripeToken['id'], this.gift.amount,
-                                            this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
 
     let observable  = new Observable(observer => {
 
       this.stripe[stripeApiMethodName](pmtInfo).subscribe(
         token => {
-          giftDto.stripe_token_id = token['id'];
+
+        let giftDto: RecurringGiftDto = new RecurringGiftDto( token['id'], this.gift.amount,
+            this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+
           this.postRecurringGift(giftDto).subscribe(
               recurringGiftResp => {
                 observer.next(recurringGiftResp);
