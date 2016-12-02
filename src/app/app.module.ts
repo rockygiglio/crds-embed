@@ -20,7 +20,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
-import { SummaryComponent } from './summary/summary.component';
+import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
 
 import { DonationFundService } from './services/donation-fund.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
@@ -86,6 +86,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     QuickDonationAmountsService,
     StateManagerService,
     StripeService,
+    {provide: WindowToken, useFactory: _window},
   ],
   bootstrap:    [AppComponent]
 })

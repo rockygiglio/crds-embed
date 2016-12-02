@@ -5,15 +5,15 @@
 
   <table class="table">
     <tr>
-      <td *ngIf="gift.type == 'donation'"><a routerLink="/payment">Amount:</a></td>
-      <td *ngIf="gift.type == 'payment'">Amount:</td>
+      <td *ngIf="gift.isDonation()"><a routerLink="/payment">Amount:</a></td>
+      <td *ngIf="gift.isPayment()">Amount:</td>
       <td class="text-right confirm-amount">{{ gift.amount | currency:'USD':true }}</td>
     </tr>
     <tr>
-      <td *ngIf="gift.type == 'donation'"><a routerLink="/fund">To:</a></td>
-      <td *ngIf="gift.type == 'payment'">To:</td>
-      <td *ngIf="gift.type == 'donation'" class="text-right">{{ gift.fund.Name }}</td>
-      <td *ngIf="gift.type == 'payment'" class="text-right">{{ gift.title }}</td>
+      <td *ngIf="gift.isDonation()"><a routerLink="/fund">To:</a></td>
+      <td *ngIf="gift.isPayment()">To:</td>
+      <td *ngIf="gift.isDonation()" class="text-right">{{ gift.fund.Name }}</td>
+      <td *ngIf="gift.isPayment()" class="text-right">{{ gift.title }}</td>
     </tr>
     <tr>
       <td *ngIf="gift.isDonation()"><a routerLink="/auth" (click)="changeUser()">From:</a></td>
@@ -24,7 +24,7 @@
         <small *ngIf="gift.isDonation() && gift.isGuest"><a routerLink="/auth" (click)="changeUser()">change</a></small>
       </td>
     </tr>
-    <tr *ngIf="gift.type != 'payment'">
+    <tr *ngIf="!gift.isPayment()">
       <td><a routerLink="/fund">Frequency:</a></td>
       <td class="text-right">
         {{ gift.frequency }}<br>
@@ -32,8 +32,8 @@
       </td>
     </tr>
     <tr>
-      <td *ngIf="gift.type == 'donation'"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
-      <td *ngIf="gift.type == 'payment'">Payment:</td>
+      <td *ngIf="gift.isDonation()"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
+      <td *ngIf="gift.isPayment()">Payment:</td>
       <td class="text-right">
         Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
         <small><a routerLink="/billing" (click)="changePayment()">change</a></small>
@@ -47,6 +47,6 @@
 
 <footer class="page-footer page-footer--pt-1">
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-  <input type="button" *ngIf="gift.type == 'donation'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="next()" value="Give {{ gift.amount | currency:'USD':true }}">
-  <input type="button" *ngIf="gift.type == 'payment'" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="next()" value="Pay {{ gift.amount | currency:'USD':true }}">
+  <input type="button" *ngIf="gift.isDonation()" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="submitDonation()" value="Give {{ gift.amount | currency:'USD':true }}">
+  <input type="button" *ngIf="gift.isPayment()" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="submitPayment()" value="Pay {{ gift.amount | currency:'USD':true }}">
 </footer>
