@@ -71,7 +71,6 @@ export class AuthenticationComponent implements OnInit {
     this.stateManagerService.is_loading = true;
     this.gift.isGuest = false;
     this.loginException = false;
-    let context = this;
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
@@ -85,6 +84,9 @@ export class AuthenticationComponent implements OnInit {
           this.stateManagerService.is_loading = false;
         }
       );
+    } else {
+      this.loginException = true;
+      this.stateManagerService.is_loading = false;
     }
     return false;
   }

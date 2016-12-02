@@ -59,15 +59,45 @@ describe('AuthenticationComponent', () => {
   describe('#adv', () => {});
 
   describe('#next', () => {
-    it('does not get called if form is invalid', () => {
-      setForm('good@', 'foobar');
-      spyOn(fixture, 'adv');
+    describe('when form is invalid', () => {
+      beforeEach(() => {
+        setForm('good@', 'foobar');
+      });
+      it('does not call #adv', () => {
+        spyOn(fixture, 'adv');
 
-      fixture.next();
-      expect(fixture.adv).not.toHaveBeenCalled();
+        fixture.next();
+        expect(fixture.adv).not.toHaveBeenCalled();
+      });
+
+      it('loginException gets set to true', () => {
+        expect(fixture.loginException).toBeFalsy();
+        fixture.next();
+        expect(fixture.loginException).toBeTruthy();
+      });
     });
 
-    it('calls #adv when valid auth credentials are provided', () => {
+    describe('when invalid credentials are submitted', () => {
+      beforeEach(() => {
+        setForm('bad@bad.com', 'reallynotgood');
+        (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
+      });
+
+      it('#adv does not get called', () => {
+        spyOn(fixture, 'adv');
+
+        fixture.next();
+        expect(fixture.adv).not.toHaveBeenCalled();
+      });
+
+      it('loginException gets set to true', () => {
+        expect(fixture.loginException).toBeFalsy();
+        fixture.next();
+        expect(fixture.loginException).toBeTruthy();
+      });
+    });
+
+    it('calls #adv when valid auth credentials are submitted', () => {
       setForm('good@good.com', 'foobar');
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
       spyOn(fixture, 'adv');
@@ -75,17 +105,6 @@ describe('AuthenticationComponent', () => {
       fixture.next();
       expect(fixture.adv).toHaveBeenCalled();
     });
-
-/*
-    it('provides an error message when invalid auth credentials are provided', () => {
-      setForm('bad@bad.com', 'reallynotgood');
-      (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
-      spyOn(fixture, 'adv');
-
-      expect(fixture.loginException).toBeFalsy();
-      fixture.next();
-      expect(fixture.loginException).toBeTruthy();
-    });*/
   });
 
   describe('#guest', () => {});
