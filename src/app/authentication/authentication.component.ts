@@ -24,7 +24,7 @@ export class AuthenticationComponent implements OnInit {
   userPmtInfo: any;
 
   constructor( private router: Router,
-    private stateManagerService: StateManagerService,
+    private state: StateManagerService,
     private gift: GiftService,
     private _fb: FormBuilder,
     private checkGuestEmailService: CheckGuestEmailService,
@@ -49,32 +49,28 @@ export class AuthenticationComponent implements OnInit {
       this.gift.email = value.email;
     });
 
-    if (!this.gift.type) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/');
-    }
-
-    this.stateManagerService.is_loading = false;
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
     return false;
   }
 
   adv(): void {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
   }
 
   next(): boolean {
-    this.stateManagerService.is_loading = true;
+    this.state.setLoading(true);
     this.gift.isGuest = false;
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         user => {
           this.gift.loadUserData();
-          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+          this.state.hidePage(this.state.authenticationIndex);
           this.adv();
         },
         error => {
@@ -88,7 +84,7 @@ export class AuthenticationComponent implements OnInit {
   checkEmail(): void {
     if ( this.form.valid ) {
       this.gift.isGuest = true;
-      this.stateManagerService.is_loading = true;
+      this.state.setLoading(true);
       this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
@@ -96,7 +92,7 @@ export class AuthenticationComponent implements OnInit {
             this.gift.email = this.email;
             this.adv();
           } else {
-            this.stateManagerService.is_loading = false;
+            this.state.setLoading(false);
           }
         }
       );

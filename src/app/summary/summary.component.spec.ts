@@ -21,6 +21,7 @@ import { PreviousGiftAmountService } from '../services/previous-gift-amount.serv
 import { PaymentService } from '../services/payment.service';
 import { StripeService } from '../services/stripe.service';
 
+import { CrdsDonor } from '../models/crds-donor';
 import { PaymentCallBody } from '../models/payment-call-body';
 
 class MockStateManagerService {
@@ -100,24 +101,26 @@ describe('Component: Summary', () => {
     }
   );
 
-  xit('should submit payment with cc', () => {
+  it('should submit payment with cc', () => {
     this.component.gift.paymentType = 'cc';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
     let paymentBody = new PaymentCallBody(this.component.gift.amount, 'cc', 'PAYMENT', this.component.gift.invoiceId );
-    spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
+    // spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
+    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     this.component.submitPayment();
-    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  xit('should submit payment with bank', () => {
+  it('should submit payment with bank', () => {
     this.component.gift.paymentType = 'ach';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
     let paymentBody = new PaymentCallBody(this.component.gift.amount, 'bank', 'PAYMENT', this.component.gift.invoiceId );
-    spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
+    // spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
+    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     this.component.submitPayment();
-    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   xit('should submit donation', () => {

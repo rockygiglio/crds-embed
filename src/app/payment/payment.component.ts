@@ -38,20 +38,20 @@ export class PaymentComponent implements OnInit {
               private previousGiftAmountService: PreviousGiftAmountService,
               private quickDonationAmountsService: QuickDonationAmountsService,
               private router: Router,
-              private stateManagerService: StateManagerService) {
+              private state: StateManagerService) {
   }
 
   ngOnInit() {
-    this.stateManagerService.is_loading = true;
+    this.state.setLoading(true);
     if (this.gift.isDonation()) {
       if ( !this.gift.predefinedAmounts ) {
         this.getPredefinedDonationAmounts();
       } else {
         this.predefinedAmounts = this.gift.predefinedAmounts;
-        this.stateManagerService.is_loading = false;
+        this.state.setLoading(false);
       }
     } else {
-      this.stateManagerService.is_loading = false;
+      this.state.setLoading(false);
     }
 
     this.amountDue = [
@@ -80,7 +80,7 @@ export class PaymentComponent implements OnInit {
       amounts => {
         this.predefinedAmounts = amounts;
         this.gift.predefinedAmounts = amounts;
-        this.stateManagerService.is_loading = false;
+        this.state.setLoading(false);
       },
       error => this.errorMessage = <any>error
     );
@@ -92,8 +92,8 @@ export class PaymentComponent implements OnInit {
 
   next() {
     if ( this.isValid() ) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
+      this.state.setLoading(true);
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.paymentIndex));
     } else {
       this.setErrorMessage();
     }

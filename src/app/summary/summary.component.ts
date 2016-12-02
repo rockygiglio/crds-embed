@@ -116,6 +116,7 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
+    this.state.setLoading(true);
     this.next();
   }
 

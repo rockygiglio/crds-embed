@@ -4,7 +4,7 @@
   </header>
 
   <p *ngIf="gift.isDonation() && gift.frequency === 'One Time'" class="text-block--lg-font">
-     Thank you for your <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> gift to <strong>{{ gift.fund }}</strong>.
+     Thank you for your <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> gift to <strong>{{ gift.fund.Name }}</strong>.
     A receipt has been sent to <strong>{{ gift.email }}</strong>.
   </p>
 

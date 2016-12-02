@@ -77,9 +77,7 @@ export class BillingComponent implements OnInit {
       this.adv();
     }
 
-    if (!this.gift.type) {
-      this.router.navigateByUrl('/payment');
-    }
+    this.gift.validateRoute(this.router);
   }
 
   public back() {

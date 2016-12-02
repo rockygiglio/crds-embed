@@ -35,7 +35,7 @@ export class FundAndFrequencyComponent implements OnInit {
               private gift: GiftService,
               private route: ActivatedRoute,
               private router: Router,
-              private stateManagerService: StateManagerService,
+              private state: StateManagerService,
               private _fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -55,21 +55,17 @@ export class FundAndFrequencyComponent implements OnInit {
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
 
-    if (!this.gift.type) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/');
-    } else {
-      this.stateManagerService.is_loading = false;
-    }
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.fundIndex));
     return false;
   }
 
   next(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
     return false;
   }
 
