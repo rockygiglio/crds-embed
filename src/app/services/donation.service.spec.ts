@@ -25,7 +25,6 @@ class MockActivatedRoute {
     };
 }
 
-
 class MockStripeService {
 
     public getCardInfoToken(customerCard: CustomerCard ): Observable<any> {
@@ -111,8 +110,5 @@ describe('Service: Previous Gift Amount', () => {
             );
         }))
     );
-
-
-
 
 });

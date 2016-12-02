@@ -114,7 +114,6 @@ export class SummaryComponent implements OnInit {
   submitDonation() {
 
     if (this.gift.isOneTimeGift()) {
-      console.log('One time gift');
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
                                                 pymt_type, 'DONATION', this.gift.invoiceId );
@@ -151,7 +150,7 @@ export class SummaryComponent implements OnInit {
             this.gift.clearUserPmtInfo();
             this.next();
           }, err => {
-            //TODO: Add error handling
+            // TODO: Add error handling
           }
       );
     }
