@@ -20,6 +20,7 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { PaymentService } from '../services/payment.service';
 import { StripeService } from '../services/stripe.service';
+import { DonationService } from '../services/donation.service';
 
 import { PaymentCallBody } from '../models/payment-call-body';
 
@@ -57,7 +58,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        GiftService, ExistingPaymentInfoService,
+        GiftService, ExistingPaymentInfoService, DonationService,
         HttpClientService, CookieService,
         { provide: StateManagerService, useClass: MockStateManagerService},
         { provide: WindowToken, useValue: mockWindow},
@@ -104,7 +105,7 @@ describe('Component: Summary', () => {
     this.component.gift.paymentType = 'cc';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
-    let paymentBody = new PaymentCallBody(this.component.gift.amount, 'cc', 'PAYMENT', this.component.gift.invoiceId );
+    let paymentBody = new PaymentCallBody('', this.component.gift.amount, 'cc', 'PAYMENT', this.component.gift.invoiceId );
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     this.component.submitPayment();
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
@@ -114,13 +115,13 @@ describe('Component: Summary', () => {
     this.component.gift.paymentType = 'ach';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
-    let paymentBody = new PaymentCallBody(this.component.gift.amount, 'bank', 'PAYMENT', this.component.gift.invoiceId );
+    let paymentBody = new PaymentCallBody('', this.component.gift.amount, 'bank', 'PAYMENT', this.component.gift.invoiceId );
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     this.component.submitPayment();
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  xit('should submit donation', () => {
+  it('should submit donation', () => {
     expect(this.component).toBeTruthy();
   });
 

@@ -38,8 +38,8 @@ describe('Component: FundAndFrequency', () => {
 
   let giveFrequencies: any = {
     oneTime: 'One Time',
-    weekly: 'Weekly',
-    monthly: 'Monthly'
+    weekly: 'week',
+    monthly: 'month'
   };
 
   let mockFund: Program = {

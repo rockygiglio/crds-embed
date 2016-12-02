@@ -2,6 +2,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
@@ -61,6 +63,9 @@ export class GiftService {
   public start_date: any = '';
   public frequency: any = '';
 
+  public userBank: CustomerBank = undefined;
+  public userCc: CustomerCard  = undefined;
+
   constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
               private loginService: LoginService,
@@ -69,6 +74,15 @@ export class GiftService {
     this.processQueryParams();
     this.preloadData();
     this.isInitialized = true;
+  }
+
+  public clearUserPmtInfo() {
+    this.userBank = undefined;
+    this.userCc = undefined;
+  }
+
+  public isOneTimeGift(): boolean {
+    return this.frequency === 'One Time';
   }
 
   public loadExistingPaymentData(): void {

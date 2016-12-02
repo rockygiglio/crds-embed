@@ -1,7 +1,9 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
-
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
+import { DonationService } from '../services/donation.service';
 import { GiftService } from '../services/gift.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
@@ -24,6 +26,7 @@ export class SummaryComponent implements OnInit {
 
   constructor(private router: Router,
               private stateManagerService: StateManagerService,
+              private donationService: DonationService,
               private gift: GiftService,
               private loginService: LoginService,
               private paymentService: PaymentService,
@@ -74,7 +77,7 @@ export class SummaryComponent implements OnInit {
     this.paymentSubmitted = true;
 
     let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-    let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
+    let paymentDetail = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
 
     this.paymentService.postPayment(paymentDetail).subscribe(
       info => {
@@ -82,6 +85,7 @@ export class SummaryComponent implements OnInit {
          this.gift.systemException = false;
          this.redirectParams.set('invoiceId', this.gift.invoiceId);
          this.redirectParams.set('paymentId', info.payment_id);
+         this.gift.clearUserPmtInfo();
          this.next();
       },
       error => {
@@ -108,7 +112,48 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
-    this.next();
+
+    if (this.gift.isOneTimeGift()) {
+      let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+      let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
+                                                pymt_type, 'DONATION', this.gift.invoiceId );
+
+      this.paymentService.postPayment(donationDetails).subscribe(
+          info => {
+            this.gift.stripeException = false;
+            this.gift.systemException = false;
+            this.redirectParams.set('invoiceId', this.gift.invoiceId);
+            this.redirectParams.set('paymentId', info.payment_id);
+            this.gift.clearUserPmtInfo();
+            this.next();
+          },
+          error => {
+            if (error.status === 400) {
+              this.gift.systemException = true;
+              return false;
+            } else {
+              this.gift.stripeException = true;
+              this.changePayment();
+              this.router.navigateByUrl('/billing');
+              return false;
+            }
+          }
+      );
+
+    } else {
+
+      let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
+      let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
+
+      this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+          success => {
+            this.gift.clearUserPmtInfo();
+            this.next();
+          }, err => {
+            // TODO: Add error handling
+          }
+      );
+    }
   }
 
   changePayment() {
