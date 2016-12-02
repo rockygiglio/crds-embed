@@ -106,8 +106,7 @@ export class SummaryComponent implements OnInit {
   addParamsToRedirectUrl() {
     let delimiter = '?';
     this.redirectParams.forEach((value, key) => {
-      this.gift.url = this.gift.url + delimiter;
-      this.gift.url = this.gift.url + key + '=' + value;
+      this.gift.url += `${delimiter}${key}=${value}`;
       delimiter = '&';
     });
   }

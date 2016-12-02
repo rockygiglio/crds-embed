@@ -48,7 +48,7 @@ export class FundAndFrequencyComponent implements OnInit {
     if (!this.gift.frequency) {
       this.gift.frequency  = 'One Time';
     }
-    this.isFundSelectShown = !this.funds.find(fund => fund.ProgramId === this.fundIdParam);
+    this.isFundSelectShown = !this.funds.find(fund => fund.ProgramId == this.fundIdParam); // need == not ===
     this.gift.start_date = this.gift.start_date ? new Date(this.gift.start_date) : new Date();
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],

@@ -129,12 +129,12 @@ export class GiftService {
 
   public validAmount() {
     let result = false;
-    if (this.type === 'payment') {
+    if (this.isPayment()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
         && Number(this.amount) >= this.minPayment
         && Number(this.amount) <= this.totalCost;
-    } else if (this.type === 'donation') {
+    } else if (this.isDonation()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
         && Number(this.amount) > 0

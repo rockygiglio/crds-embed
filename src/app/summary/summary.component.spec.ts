@@ -31,6 +31,7 @@ class MockStateManagerService {
     return '/billing';
   }
   public unhidePage(pageIndex: number) { }
+  public hidePage(pageIndex: number) { }
 }
 
 describe('Component: Summary', () => {
