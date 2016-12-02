@@ -20,6 +20,7 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { PaymentService } from '../services/payment.service';
 import { StripeService } from '../services/stripe.service';
+import { DonationService } from '../services/donation.service';
 
 import { PaymentCallBody } from '../models/payment-call-body';
 
@@ -57,7 +58,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        GiftService, ExistingPaymentInfoService,
+        GiftService, ExistingPaymentInfoService, DonationService,
         HttpClientService, CookieService,
         { provide: StateManagerService, useClass: MockStateManagerService},
         { provide: WindowToken, useValue: mockWindow},
@@ -70,29 +71,29 @@ describe('Component: Summary', () => {
     this.component = this.fixture.componentInstance;
   });
 
-  xit('should create an instance', () => {
+  it('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
 
-  xit('should get last 4 digits of cc account number', () => {
+  it('should get last 4 digits of cc account number', () => {
     this.component.gift.paymentType = 'cc';
     this.component.gift.ccNumber = '1212343456567878';
     expect(this.component.getLastFourOfAccountNumber()).toBe('7878');
   });
 
-  xit('should get last 4 digits of bank account number', () => {
+  it('should get last 4 digits of bank account number', () => {
     this.component.gift.paymentType = 'ach';
     this.component.gift.accountNumber = '123456789';
     expect(this.component.getLastFourOfAccountNumber()).toBe('6789');
   });
 
-  xit('should navigate back', () => {
+  it('should navigate back', () => {
     spyOn(this.component.router, 'navigateByUrl');
     this.component.back();
     expect(this.component.router.navigateByUrl).toHaveBeenCalledWith('/billing');
   });
 
-  xit('should navigate to passed in url after submit', () => {
+  it('should navigate to passed in url after submit', () => {
       this.component.gift.overrideParent = true;
       this.component.gift.url = 'http://www.redirecturl.com';
       this.component.next();
@@ -100,7 +101,7 @@ describe('Component: Summary', () => {
     }
   );
 
-  xit('should submit payment with cc', () => {
+  it('should submit payment with cc', () => {
     this.component.gift.paymentType = 'cc';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
@@ -110,7 +111,7 @@ describe('Component: Summary', () => {
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  xit('should submit payment with bank', () => {
+  it('should submit payment with bank', () => {
     this.component.gift.paymentType = 'ach';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
@@ -120,11 +121,11 @@ describe('Component: Summary', () => {
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  xit('should submit donation', () => {
+  it('should submit donation', () => {
     expect(this.component).toBeTruthy();
   });
 
-  xit('should reset payment info on link to billing page', () => {
+  it('should reset payment info on link to billing page', () => {
     this.component.gift.paymentType = 'cc';
     spyOn(this.component.gift, 'resetExistingPaymentInfo');
     this.component.changePayment();
@@ -132,13 +133,13 @@ describe('Component: Summary', () => {
     expect(this.component.gift.paymentType).toBeUndefined();
   });
 
-  xit('should logout user on link to auth page', () => {
+  it('should logout user on link to auth page', () => {
     spyOn(this.component.loginService, 'logOut');
     this.component.changeUser();
     expect(this.component.loginService.logOut).toHaveBeenCalled();
   });
 
-  xit('should add redirect params to redirect url', () => {
+  it('should add redirect params to redirect url', () => {
     this.component.gift.url = 'http://www.redirecturl.com';
     this.component.redirectParams.set('param1', 1);
     this.component.redirectParams.set('param2', 'two');

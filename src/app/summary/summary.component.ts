@@ -8,7 +8,6 @@ import { GiftService } from '../services/gift.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
 import { PaymentCallBody } from '../models/payment-call-body';
-import { RecurringGiftDto } from '../models/recurring-gift-dto';
 
 export const WindowToken = new OpaqueToken('Window');
 export function _window(): Window {

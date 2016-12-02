@@ -21,7 +21,7 @@ export class DonationService {
               private stripe: StripeService) { }
 
   getTokenAndPostRecurringGift (pmtInfo: CustomerBank | CustomerCard,
-                                stripeApiMethodName: string){
+                                stripeApiMethodName: string) {
 
     let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
 
@@ -39,11 +39,11 @@ export class DonationService {
               }, err => {
                 observer.error(new Error('Failed to post recurring gift'));
               }
-          )
+          );
         }, err => {
           observer.error(new Error('Failed to get stripe token'));
         }
-     )
+     );
     });
 
     return observable;
