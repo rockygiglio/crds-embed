@@ -27,7 +27,7 @@ describe('AuthenticationComponent', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['hidePage']);
+    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['hidePage', 'setLoading']);
     gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData']);
     _fb = new FormBuilder();
     spyOn(_fb, 'group').and.returnValue;
