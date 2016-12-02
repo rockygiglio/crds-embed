@@ -60,18 +60,18 @@ describe('Service: Previous Gift Amount', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                ExistingPaymentInfoService,
-                LoginService,
-                DonationService,
-                MockBackend,
-                HttpClientService,
+                CookieService,
                 BaseRequestOptions,
+                DonationService,
+                ExistingPaymentInfoService,
+                GiftService,
+                HttpClientService,
+                LoginService,
+                MockBackend,
                 ParamValidationService,
                 PaymentService,
                 StateManagerService,
-                GiftService,
                 { provide: StripeService, useClass: MockStripeService},
-                CookieService,
                 {
                     provide: Http,
                     deps: [MockBackend, BaseRequestOptions],
