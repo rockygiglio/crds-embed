@@ -127,7 +127,7 @@ describe('Component: Confirmation', () => {
   it('should show thank you for one time gift', () => {
     this.component.gift.type = 'donation';
     this.component.gift.amount = 90;
-    this.component.gift.fund.Name = 'Onetime fund';
+    this.component.gift.fund = { Name: 'Onetime fund' };
     this.component.gift.frequency  = 'One Time';
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));

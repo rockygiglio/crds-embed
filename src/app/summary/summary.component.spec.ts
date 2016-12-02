@@ -145,11 +145,11 @@ describe('Component: Summary', () => {
   });
 
   xit('should add redirect params to redirect url', () => {
-    this.component.gift.url = 'http://www.redirecturl.com';
-    this.component.redirectParams.set('param1', 1);
-    this.component.redirectParams.set('param2', 'two');
-    this.component.addParamsToRedirectUrl();
-    expect(this.component.gift.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
+    // this.component.gift.url = 'http://www.redirecturl.com';
+    // this.component.redirectParams.set('param1', 1);
+    // this.component.redirectParams.set('param2', 'two');
+    // this.component.addParamsToRedirectUrl();
+    // expect(this.component.gift.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
   });
 
 });
