@@ -63,8 +63,6 @@ export class GiftService {
   public start_date: any = '';
   public frequency: any = '';
 
-  public stripeToken: string = undefined;
-
   public userBank: CustomerBank = undefined;
   public userCc: CustomerCard  = undefined;
 
