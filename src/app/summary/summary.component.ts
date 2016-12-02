@@ -85,6 +85,7 @@ export class SummaryComponent implements OnInit {
          this.gift.systemException = false;
          this.redirectParams.set('invoiceId', this.gift.invoiceId);
          this.redirectParams.set('paymentId', info.payment_id);
+         this.gift.clearUserPmtInfo();
          this.next();
       },
       error => {
@@ -124,6 +125,7 @@ export class SummaryComponent implements OnInit {
             this.gift.systemException = false;
             this.redirectParams.set('invoiceId', this.gift.invoiceId);
             this.redirectParams.set('paymentId', info.payment_id);
+            this.gift.clearUserPmtInfo();
             this.next();
           },
           error => {
@@ -146,6 +148,7 @@ export class SummaryComponent implements OnInit {
 
       this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
           success => {
+            this.gift.clearUserPmtInfo();
             this.next();
           }, err => {
             //TODO: Add error handling

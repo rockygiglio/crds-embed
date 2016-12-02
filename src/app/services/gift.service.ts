@@ -2,6 +2,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
@@ -56,15 +58,15 @@ export class GiftService {
   public expDate: string = '';
   public zipCode: string = '';
 
-  public userBank: any = undefined;
-  public userCc: any  = undefined;
-
   // Fund and frequency information
   public fund: Program = undefined;
   public start_date: any = '';
   public frequency: any = '';
 
   public stripeToken: string = undefined;
+
+  public userBank: CustomerBank = undefined;
+  public userCc: CustomerCard  = undefined;
 
   constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
@@ -74,6 +76,11 @@ export class GiftService {
     this.processQueryParams();
     this.preloadData();
     this.isInitialized = true;
+  }
+
+  public clearUserPmtInfo() {
+    this.userBank = undefined;
+    this.userCc = undefined;
   }
 
   public isOneTimeGift(): boolean {
