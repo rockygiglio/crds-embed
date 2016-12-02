@@ -28,13 +28,13 @@ export class BillingComponent implements OnInit {
   errorMessageCC: string = '';
 
   constructor( private router: Router,
-    private stateManagerService: StateManagerService,
+    private state: StateManagerService,
     private gift: GiftService,
     private fb: FormBuilder,
     private pmtService: PaymentService,
     private stripeService: StripeService,
     ) {
-      this.setLoading(true);
+      this.state.setLoading(true);
       this.achForm = this.fb.group({
         accountName: ['', [<any>Validators.required]],
         routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
@@ -58,19 +58,19 @@ export class BillingComponent implements OnInit {
     if ( this.gift.existingPaymentInfo ) {
       this.gift.existingPaymentInfo.subscribe(
         info => {
-          this.setLoading(false);
+          this.state.setLoading(false);
           if ( info !== null ) {
             this.gift.setBillingInfo(info);
             if (this.gift.accountLast4) {
-              this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+              this.state.hidePage(this.state.billingIndex);
               this.adv();
             }
           }
         },
-        error => this.setLoading(false)
+        error => this.state.setLoading(false)
       );
     } else {
-      this.setLoading(false);
+      this.state.setLoading(false);
     }
 
     if ( this.gift.accountLast4) {
@@ -83,15 +83,15 @@ export class BillingComponent implements OnInit {
   }
 
   public back() {
-    this.resetErrors();
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
+    this.gift.resetErrors();
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.billingIndex));
     return false;
   }
 
   public achNext() {
 
     this.setACHSubmitted(true);
-    this.resetErrors();
+    this.gift.resetErrors();
 
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
@@ -106,18 +106,16 @@ export class BillingComponent implements OnInit {
       let firstName = '';
       let lastName = '';
 
-      this.setLoading(true);
-      this.stateManagerService.watchState();
+      this.state.setLoading(true);
+      this.state.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
-            this.setCreateDonor(false);
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
               value => this.setValueMoveNext(value),
               errorInner => this.handleDonorError(errorInner, false)
             );
           },
           error => {
-            this.setCreateDonor(true);
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
               value => this.setValueMoveNext(value),
               errorInner => this.handleDonorError(errorInner, false)
@@ -131,7 +129,7 @@ export class BillingComponent implements OnInit {
   public ccNext() {
 
     this.setCCSubmitted(true);
-    this.resetErrors();
+    this.gift.resetErrors();
 
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
@@ -146,21 +144,19 @@ export class BillingComponent implements OnInit {
         this.ccForm.value.cvc,
         this.ccForm.value.zipCode);
 
-      let firstName = 'placeholder'; // not used by API, except for guest donations
-      let lastName = 'placeholder';  // not used by API, except for guest donations
+      let firstName = '';
+      let lastName = '';
 
-      this.setLoading(true);
-      this.stateManagerService.watchState();
+      this.state.setLoading(true);
+      this.state.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
-            this.setCreateDonor(false);
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
               value => this.setValueMoveNext(value),
               errorInner => this.handleDonorError(errorInner, true)
             );
           },
           error => {
-            this.setCreateDonor(true);
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
               value => this.setValueMoveNext(value),
               errorInner => this.handleDonorError(errorInner, true)
@@ -173,7 +169,7 @@ export class BillingComponent implements OnInit {
   }
 
   private adv() {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.billingIndex));
     return false;
   }
 
@@ -183,7 +179,7 @@ export class BillingComponent implements OnInit {
     } else {
       this.setACHSubmitted(false);
     }
-    this.setLoading(false);
+    this.state.setLoading(false);
     if (errResponse.status === 400) {
       this.gift.systemException = true;
       return false;
@@ -193,14 +189,6 @@ export class BillingComponent implements OnInit {
       this.gift.resetPaymentDetails();
       return false;
     }
-  }
-
-  private setLoading(val: boolean) {
-    this.stateManagerService.is_loading = val;
-  }
-
-  private setCreateDonor(val: boolean) {
-    this.gift.createDonor = val;
   }
 
   private setValueMoveNext(value) {
@@ -215,12 +203,6 @@ export class BillingComponent implements OnInit {
   private setACHSubmitted(val: boolean) {
      this.achSubmitted = val;
   }
-
-  private resetErrors() {
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
-  }
-
 
   public switchMessage(errors: any): string {
     let ret = `is <em>invalid</em>`;

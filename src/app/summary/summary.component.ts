@@ -18,12 +18,13 @@ export function _window(): Window {
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
+
   private lastFourOfAcctNumber: any = null;
   private paymentSubmitted: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
-              private stateManagerService: StateManagerService,
+              private state: StateManagerService,
               private gift: GiftService,
               private loginService: LoginService,
               private paymentService: PaymentService,
@@ -31,12 +32,8 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
-
-    if (!this.gift.type) {
-      this.router.navigateByUrl('/payment');
-    }
-
-    this.stateManagerService.is_loading = false;
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
   getLastFourOfAccountNumber() {
@@ -49,9 +46,8 @@ export class SummaryComponent implements OnInit {
   }
 
   back() {
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.summaryIndex));
+    this.gift.resetErrors();
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.summaryIndex));
     return false;
   }
 
@@ -64,22 +60,16 @@ export class SummaryComponent implements OnInit {
         this.window.location.href = this.gift.url;
       }
     } else {
-      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.summaryIndex));
     }
   }
 
   submitPayment() {
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
+    this.gift.resetErrors();
     this.paymentSubmitted = true;
-    this.stateManagerService.is_loading = true;
+    this.state.setLoading(true);
 
-    let restMethod = this.paymentService.restMethodNames.put;
-    if ( this.gift.createDonor === true ) {
-      restMethod = this.paymentService.restMethodNames.post;
-    }
-
-    this.paymentService.makeApiDonorCall(this.gift.donor, restMethod).subscribe(
+    this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
         value => {
 
           let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
@@ -96,13 +86,13 @@ export class SummaryComponent implements OnInit {
             error => {
               if (error.status === 400) {
                 this.gift.systemException = true;
-                this.stateManagerService.is_loading = false;
+                this.state.setLoading(false);
                 return false;
               } else {
                 this.gift.stripeException = true;
                 this.changePayment();
                 this.router.navigateByUrl('/billing');
-                this.stateManagerService.is_loading = false;
+                this.state.setLoading(false);
                 return false;
               }
             }
@@ -110,7 +100,7 @@ export class SummaryComponent implements OnInit {
         },
         error => {
             this.gift.systemException = true;
-            this.stateManagerService.is_loading = false;
+            this.state.setLoading(false);
             return false;
         }
     );
@@ -148,10 +138,6 @@ export class SummaryComponent implements OnInit {
       }
     }
     return isArrayOfSpecifiedLength;
-  }
-
-  isGuest() {
-    return this.gift.isGuest;
   }
 
 }

@@ -46,7 +46,6 @@ export class GiftService {
   public isGuest: boolean = false;
   public previousGiftAmount: string = '';
   public donor: CrdsDonor;
-  public createDonor: boolean = false;
 
   // ACH Information
   public accountName: string;
@@ -252,6 +251,17 @@ export class GiftService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public resetErrors() {
+    this.stripeException = false;
+    this.systemException = false;
+  }
+
+  public validateRoute(router) {
+    if (!this.type) {
+      router.navigateByUrl('/');
     }
   }
 

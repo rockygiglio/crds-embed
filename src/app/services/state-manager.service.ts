@@ -63,4 +63,8 @@ export class StateManagerService {
     clearInterval(this.watcherInterval);
   }
 
+  public setLoading(val: boolean) {
+    this.is_loading = val;
+  }
+
 }
