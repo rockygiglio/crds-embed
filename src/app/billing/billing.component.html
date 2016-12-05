@@ -23,7 +23,14 @@
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="accountName">Account Name</label>
-        <input type="text" class="form-control" placeholder="Account Holder Name" formControlName="accountName" name="accountName" [(ngModel)]="gift.accountName" pattern=".*">
+        <input type="text" 
+          class="form-control" 
+          placeholder="Account Holder Name" 
+          formControlName="accountName" 
+          name="accountName" 
+          [(ngModel)]="gift.accountName" 
+          pattern=".*"
+          autocomplete="off">
       </div>
     </div>
 
@@ -36,7 +43,17 @@
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="routingNumber">Routing Number</label>
-        <input type="tel" onlyTheseKeys="[0-9]" class="form-control" maxlength="9" placeholder="Routing Number" formControlName="routingNumber" name="routingNumber" [(ngModel)]="gift.routingNumber" numbersOnly pattern="[0-9]*">
+        <input type="tel" 
+          onlyTheseKeys="[0-9]" 
+          class="form-control" 
+          maxlength="9" 
+          placeholder="Routing Number" 
+          formControlName="routingNumber" 
+          name="routingNumber" 
+          [(ngModel)]="gift.routingNumber" 
+          numbersOnly 
+          pattern="[0-9]*"
+          autocomplete="off">
       </div>
     </div>
 
@@ -49,7 +66,17 @@
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="accountNumber">Account Number</label>
-        <input type="tel" onlyTheseKeys="[0-9]" class="form-control" maxlength="30" placeholder="{{accountNumberPlaceholder}}" formControlName="accountNumber" name="accountNumber" [(ngModel)]="gift.accountNumber" numbersOnly pattern="\s*[0-9]*\s*">
+        <input type="tel" 
+          onlyTheseKeys="[0-9]" 
+          class="form-control" 
+          maxlength="30" 
+          placeholder="{{accountNumberPlaceholder}}" 
+          formControlName="accountNumber" 
+          name="accountNumber" 
+          [(ngModel)]="gift.accountNumber" 
+          numbersOnly 
+          pattern="\s*[0-9]*\s*"
+          autocomplete="off">
       </div>
     </div>
 
@@ -96,16 +123,16 @@
       <div class="form-group">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
         <input tabindex="1"
-               type="text"
-               class="form-control"
-               maxlength="16"
-               placeholder="Credit Card Number"
-               formControlName="ccNumber"
-               name="ccNumber"
-               [(ngModel)]="gift.ccNumber"
-               simpleCcNumber
-               onlyTheseKeys="[0-9]"
-               autocomplete="cc-number">
+          type="text"
+          class="form-control"
+          maxlength="16"
+          placeholder="Credit Card Number"
+          formControlName="ccNumber"
+          name="ccNumber"
+          [(ngModel)]="gift.ccNumber"
+          simpleCcNumber
+          onlyTheseKeys="[0-9]"
+          autocomplete="cc-number">
       </div>
     </div>
 
@@ -118,17 +145,46 @@
     <div class="row inline-form">
       <div class="form-group inline-form__input">
         <label class="sr-only" for="expDate">Expiration Date</label>
-        <input tabindex="2" type="tel" class="form-control" maxlength="7" placeholder="MM/YY" formControlName="expDate" name="expDate" [(ngModel)]="gift.expDate" ccExp autocomplete="cc-exp">
+        <input tabindex="2" 
+          type="tel" 
+          class="form-control" 
+          maxlength="7" 
+          placeholder="MM/YY" 
+          formControlName="expDate" 
+          name="expDate" 
+          [(ngModel)]="gift.expDate" 
+          ccExp 
+          autocomplete="cc-exp">
       </div>
 
       <div class="form-group inline-form__input">
         <label class="sr-only" for="cvv">CVV Number</label>
-        <input tabindex="3" type="tel" onlyTheseKeys="[0-9\-]" class="form-control" maxlength="4" placeholder="CVV" formControlName="cvv" name="cvv" [(ngModel)]="gift.cvv" ccCVV autocomplete="off">
+        <input tabindex="3" 
+          type="tel" 
+          onlyTheseKeys="[0-9\-]" 
+          class="form-control" 
+          maxlength="4" 
+          placeholder="CVV" 
+          formControlName="cvv" 
+          name="cvv" 
+          [(ngModel)]="gift.cvv" 
+          ccCVV 
+          autocomplete="off">
       </div>
 
       <div class="form-group inline-form__input">
         <label class="sr-only" for="zipCode">Zip Code</label>
-        <input tabindex="4" type="tel" onlyTheseKeys="[0-9\-]" class="form-control" maxlength="10" placeholder="Zip Code" formControlName="zipCode" name="zipCode" [(ngModel)]="gift.zipCode" pattern="^(\d{5}|\d{5}-\d{4})$" autocomplete="zip-code">
+        <input tabindex="4" 
+          type="tel" 
+          onlyTheseKeys="[0-9\-]" 
+          class="form-control" 
+          maxlength="10" 
+          placeholder="Zip Code" 
+          formControlName="zipCode" 
+          name="zipCode" 
+          [(ngModel)]="gift.zipCode" 
+          pattern="^(\d{5}|\d{5}-\d{4})$" 
+          autocomplete="zip-code">
       </div>
     </div>
 

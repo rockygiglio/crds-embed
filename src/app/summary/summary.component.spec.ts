@@ -103,7 +103,7 @@ describe('Component: Summary', () => {
     }
   );
 
-  it('should submit payment with cc', () => {
+  it('should submit PAYMENT with cc', () => {
     this.component.gift.paymentType = 'cc';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
@@ -113,10 +113,11 @@ describe('Component: Summary', () => {
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitPayment();
+    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalled();
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  it('should submit payment with bank', () => {
+  it('should submit PAYMENT with bank', () => {
     this.component.gift.paymentType = 'ach';
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
@@ -126,11 +127,66 @@ describe('Component: Summary', () => {
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitPayment();
+    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalled();
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  it('should submit donation', () => {
-    expect(this.component).toBeTruthy();
+  it('should submit ONE TIME DONATION with cc', () => {
+
+    this.component.gift.paymentType = 'cc';
+    this.component.gift.amount = 12.34;
+    this.component.gift.fund = {
+      'ProgramId': 1,
+      'Name': 'Programmer Caffination Fund',
+      'ProgramType': 1,
+      'AllowRecurringGiving': false
+    };
+    this.component.gift.fund_id = 1;
+    this.component.gift.frequency = 'One Time';
+    this.component.gift.email = 'test@test.com';
+    this.component.gift.donor = new CrdsDonor(123, this.component.gift.email, 'John', 'Doe', 'post');
+
+    let paymentBody = new PaymentCallBody(this.component.gift.fund.ProgramId.toString(),
+      this.component.gift.amount,
+      'cc',
+      'DONATION',
+      0);
+
+    spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({ id: 1 }));
+    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.router, 'navigateByUrl').and.stub();
+    this.component.submitDonation();
+    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalled();
+    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+  });
+
+  it('should submit ONE TIME DONATION with bank', () => {
+
+    this.component.gift.paymentType = 'ach';
+    this.component.gift.amount = 12.34;
+    this.component.gift.fund = {
+      'ProgramId': 1,
+      'Name': 'Programmer Caffination Fund',
+      'ProgramType': 1,
+      'AllowRecurringGiving': false
+    };
+    this.component.gift.fund_id = 1;
+    this.component.gift.frequency = 'One Time';
+    this.component.gift.email = 'test@test.com';
+    this.component.gift.donor = new CrdsDonor(123, this.component.gift.email, 'John', 'Doe', 'post');
+
+    let paymentBody = new PaymentCallBody(this.component.gift.fund.ProgramId.toString(),
+      this.component.gift.amount,
+      'bank',
+      'DONATION',
+      0);
+
+    spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({ id: 1 }));
+    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.router, 'navigateByUrl').and.stub();
+    this.component.submitDonation();
+    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalled();
+    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   it('should reset payment info on link to billing page', () => {

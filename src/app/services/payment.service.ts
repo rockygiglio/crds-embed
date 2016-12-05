@@ -30,7 +30,8 @@ export class PaymentService {
   getDonor(): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
     return this.httpClient.get(donorUrl)
-      .map(this.extractData);
+      .map(this.extractData)
+      .catch(this.handleError);
   };
 
   createDonorWithBankAcct(bankAcct: CustomerBank, email: string, firstName: string, lastName: string): Observable<any> {
@@ -106,15 +107,20 @@ export class PaymentService {
   postPayment(paymentInfo: PaymentCallBody): Observable<any> {
     let url: string = this.baseUrl + 'api/donation';
     return this.httpClient.post(url, paymentInfo)
-      .map(this.extractData);
+      .map(this.extractData)
+      .catch(this.handleError);
   };
 
   private extractData(res: Response) {
-    return res;
+    let body: any = res;
+    if (typeof res.json === 'function') {
+      body = res.json();
+    }
+    return body;
   };
 
-    private handleError (err: Response | any) {
-       return Observable.throw(err);
-    };
+  private handleError (err: Response | any) {
+    return Observable.throw(err);
+  };
 
 }

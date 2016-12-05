@@ -6,6 +6,8 @@ export class PaymentCallBody {
     pymt_type: string; // 'bank' or 'cc'
     transaction_type: string; // 'DONATION' or 'PAYMENT'
     invoice_id: number;
+    donor_id: number;
+    email_address: string;
 
     constructor(program_id: string, amount: number, pymt_type: string, transaction_type: string, invoice_id: number) {
         this.program_id = program_id;
