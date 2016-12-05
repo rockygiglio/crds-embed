@@ -84,11 +84,6 @@ export class GiftService {
     this.userCc = undefined;
   }
 
-  public isRecurringGiftWithNoStartDate() {
-    return !this.isOneTimeGift() && !this.start_date;
-
-  }
-
   public loadExistingPaymentData(): void {
     if ( !this.isOneTimeGift() ) {
       return;
@@ -274,6 +269,10 @@ export class GiftService {
 
   public isOneTimeGift(): boolean {
     return this.frequency === 'One Time';
+  }
+
+  public isRecurringGiftWithNoStartDate() {
+    return !this.isOneTimeGift() && !this.start_date;
   }
 
   public resetErrors() {
