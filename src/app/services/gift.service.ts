@@ -85,6 +85,10 @@ export class GiftService {
     return this.frequency === 'One Time';
   }
 
+  public isRecurringGiftWithNoStartDate() {
+    return !this.isOneTimeGift() && !this.start_date;
+  }
+
   public loadExistingPaymentData(): void {
     if ( !this.isOneTimeGift() ) {
       return;
