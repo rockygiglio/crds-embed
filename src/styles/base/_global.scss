@@ -6,3 +6,8 @@ hr,
 tbody > tr > td {
   border-color: #ddd;
 }
+
+*:focus,
+a:focus {
+  outline-color: $cr-light-blue;
+}
