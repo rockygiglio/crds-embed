@@ -3,21 +3,6 @@
 <head>
   <meta charset="utf-8">
 
-  <style id="antiClickjack">
-    body {
-      display: none !important;
-    }
-  </style>
-  <script type="text/javascript">
-    document.domain = "crossroads.net";
-    if (self === top || this.top.location.hostname.endsWith('.crossroads.net')) {
-        var antiClickjack = document.getElementById("antiClickjack");
-        antiClickjack.parentNode.removeChild(antiClickjack);
-    } else {
-        top.location = self.location;
-    }
-  </script>
-
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -97,7 +82,7 @@
   }
   </style>
 
-  <app-root>
+  <app-root data-iframe-height>
     <div class="preloader-wrapper">
       <svg viewBox="0 0 102 101" class="preloader"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><ellipse stroke="#eee" cx="50" cy="49.421" rx="50" ry="49.421"></ellipse><path d="M50 98.842c27.614 0 50-22.127 50-49.42C100 22.125 77.614 0 50 0" stroke-opacity=".631" stroke="#3B6E8F"></path></g></g></svg>
     </div>
