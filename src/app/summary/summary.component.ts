@@ -21,7 +21,7 @@ export function _window(): Window {
 })
 export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
-  private paymentSubmitted: boolean = false;
+  private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
@@ -72,9 +72,13 @@ export class SummaryComponent implements OnInit {
   }
 
   submitPayment() {
+    if (this.isSubmitInProgress) {
+      return;
+    }
+
+    this.isSubmitInProgress = true;
     this.gift.stripeException = false;
     this.gift.systemException = false;
-    this.paymentSubmitted = true;
 
     let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
     let paymentDetail = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
@@ -91,6 +95,7 @@ export class SummaryComponent implements OnInit {
       error => {
         if (error.status === 400 || error.status === 500) {
           this.gift.systemException = true;
+          this.isSubmitInProgress = false;
           return false;
         } else {
           this.gift.stripeException = true;
@@ -112,6 +117,10 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
+    if (this.isSubmitInProgress) {
+      return;
+    }
+    this.isSubmitInProgress = true;
     if (this.gift.isOneTimeGift()) {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
@@ -129,6 +138,7 @@ export class SummaryComponent implements OnInit {
           error => {
             if (error.status === 400 || error.status === 500) {
               this.gift.systemException = true;
+              this.isSubmitInProgress = false;
               return false;
             } else {
               this.gift.stripeException = true;
