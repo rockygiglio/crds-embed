@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
 
 import { StateManagerService } from './services/state-manager.service';
@@ -28,7 +28,7 @@ export class AppComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    private angulartics2: Angulartics2,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private state: StateManagerService) {
 

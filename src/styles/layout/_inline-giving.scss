@@ -5,11 +5,11 @@
 
   .page-header {
     @include header-font($fontface-header, 1.25em);
-
     border: none;
 
     &--border-btm {
       border-bottom: 1px solid $underline-color;
+      margin: 0 0 8px;
     }
 
     &--mb-0 {
@@ -58,6 +58,10 @@
     .btn-option {
       background-color: transparent;
 
+      &--mb-8 {
+        margin-bottom: 8px;
+      }
+
       :hover,
       :active {
         background-color: $secondary-color;
@@ -65,15 +69,7 @@
 
       &--no-outline {
         border: none;
-      }
-
-      &--flex-item {
-        min-height: 37px;
-
-        &:not(:last-child):not(.dropdown-toggle) {
-          margin-right: 0;
-          margin-bottom: .5em;
-        }
+        box-shadow: none;
       }
     }
 
@@ -112,14 +108,6 @@
 
         & > div {
           @include make-xs-column(6);
-
-          &:first-child {
-            /*text-align: left;*/
-          }
-
-          &:last-child {
-            /*text-align: right;*/
-          }
         }
 
         .payment--lg {
@@ -145,10 +133,57 @@
       }
     }
 
-    &--flex {
+    &--flex-col {
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
+
+      .btn-option--flex-item {
+        flex: 1 1 auto;
+        min-height: 37px;
+        margin: 4px 0;
+
+        &:last-of-type {
+          margin-bottom: 8px;
+        }
+      }
+
+      &.btn-group {
+        > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+        > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+          margin-right: 0;
+        }
+      }
+
+      &.btn-group--underline {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+
+    &--flex-row {
+      border-bottom: 1px solid $underline-color;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+
+      .btn-option {
+        &--flex-item {
+          flex: 1 1 50%;
+          min-height: 37px;
+
+          &:not(:last-child):not(.dropdown-toggle) {
+            margin-right: 8px;
+
+            @media (min-width: $screen-xs) {
+              margin-right: .5em;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
     }
 
     &--underline {
@@ -277,6 +312,10 @@
         @include make-xs-column(6);
       }
     }
+
+    &--underline {
+      border-bottom: 1px solid $underline-color;
+    }
   }
 
   .text-block {
@@ -350,7 +389,14 @@
   }
 
   .radio-group {
+    line-height: 1em;
     padding: 1em 0 2em;
+
+    input {
+      margin: 0;
+      margin-bottom: 4px;
+      vertical-align: middle;
+    }
   }
 
   .row {
@@ -487,7 +533,7 @@
 
       p {
         line-height: 10px;
-        margin-bottom: 9px;
+        margin: 7px 0 10px;
       }
 
       ul {

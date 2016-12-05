@@ -7,7 +7,8 @@ import { PreviousGiftAmountService } from '../services/previous-gift-amount.serv
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { StateManagerService } from '../services/state-manager.service';
 
-// NOTE, RE: US5801 – See previous previousGiftAmount implementation in SHA: f2f8b93ee6e5e0c2fed0f5d2f7dbf85b830c496a - Sarah Sachs, 11/30/2016
+// NOTE, RE: US5801 – See previous previousGiftAmount implementation in
+// SHA: f2f8b93ee6e5e0c2fed0f5d2f7dbf85b830c496a - Sarah Sachs, 11/30/2016
 
 @Component({
   selector: 'app-payment',
@@ -42,7 +43,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     this.stateManagerService.is_loading = true;
-    if (this.gift.type === 'donation') {
+    if (this.gift.isDonation()) {
       this.getPredefinedDonationAmounts();
     } else {
       this.stateManagerService.is_loading = false;

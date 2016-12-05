@@ -9,42 +9,42 @@
     <h2>Amount</h2>
   </div>
 
-  <div *ngIf="gift.type === 'donation'">
-    <div class="btn-group btn-group--flex btn-group--underline">
+  <div *ngIf="gift.isDonation()">
+    <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-option--flex-item"
+              class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
-
-      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-        <div class="form-group">
-          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input type="text"
-                  class="form-control"
-                  placeholder="Or Enter Amount"
-                  id="custom-amount"
-                  maxlength="9"
-                  formControlName="customAmount"
-                  onlyTheseKeys="[0-9\.]"
-                  currency
-                  [(ngModel)]="customAmount"
-                  (ngModelChange)="onCustomAmount($event)">
-          </div>
-        </div>
-
-        <div class="errors" *ngIf="( !isValid() && submitted )">
-          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-        </div>
-      </form>
     </div>
+
+    <form class="form--underline custom-input-payment__input" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+      <div class="form-group">
+        <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input type="tel"
+                class="form-control"
+                placeholder="Or Enter Amount"
+                id="custom-amount"
+                maxlength="9"
+                formControlName="customAmount"
+                onlyTheseKeys="[0-9\.]"
+                currency
+                [(ngModel)]="customAmount"
+                (ngModelChange)="onCustomAmount($event)">
+        </div>
+      </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
+    </form>
   </div>
 
-  <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex">
+  <div *ngIf="gift.isPayment()">
+    <div class="btn-group btn-group--flex-col btn-group--underline">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
@@ -101,13 +101,12 @@
           </div>
         </form>
       </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
     </div>
 
-    <div class="errors" *ngIf="( !isValid() && submitted )">
-      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-    </div>
-
-    <hr>
   </div>
 
   <footer class="page-footer">

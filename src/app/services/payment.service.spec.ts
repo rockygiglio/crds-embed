@@ -1,16 +1,29 @@
-import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
-import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
-
-import { ResponseOptions } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { HttpClientService } from './http-client.service';
+import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'angular2-cookie/core';
-import { PaymentService } from './payment.service';
-import { StripeService } from './stripe.service';
-import { CustomerCard } from '../models/customer-card';
+import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { ResponseOptions } from '@angular/http';
+import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
+
 import { CustomerBank } from '../models/customer-bank';
-import { PaymentCallBody} from '../models/payment-call-body';
+import { CustomerCard } from '../models/customer-card';
+import { ExistingPaymentInfoService } from './existing-payment-info.service';
+import { GiftService } from './gift.service';
+import { HttpClientService } from './http-client.service';
+import { LoginService } from './login.service';
 import { Observable } from 'rxjs/Observable';
+import { ParamValidationService } from './param-validation.service';
+import { PaymentCallBody} from '../models/payment-call-body';
+import { PaymentService } from './payment.service';
+import { StateManagerService } from './state-manager.service';
+import { StripeService } from './stripe.service';
+
+class MockActivatedRoute {
+    public snapshot = {
+        queryParams: []
+    };
+}
+
 
 class MockStripeService {
 
@@ -49,7 +62,7 @@ describe('Service: Previous Gift Amount', () => {
 
     let mockCrdsDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe"}';
     let mockBank =  new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
-    let mockPaymentTypeBody = new PaymentCallBody(1, 'bank', 'PAYMENT', 123);
+    let mockPaymentTypeBody = new PaymentCallBody('', 1, 'bank', 'PAYMENT', 123);
     let mockPostPaymentResp = '{"amount":1,"email":"scrudgemcduckcrds@mailinator.com","status":0,"include_on_giving_h'
     + 'istory":false,"include_on_printed_statement":false,"date":"0001-01-01T00:00:00","fee":0.0,"payment_id":125,"'
     + 'source":{"type":0},"distributions":[]}';
@@ -77,10 +90,15 @@ describe('Service: Previous Gift Amount', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                ExistingPaymentInfoService,
+                LoginService,
                 MockBackend,
                 HttpClientService,
                 BaseRequestOptions,
+                ParamValidationService,
                 PaymentService,
+                StateManagerService,
+                GiftService,
                 { provide: StripeService, useClass: MockStripeService},
                 CookieService,
                 {
@@ -89,7 +107,8 @@ describe('Service: Previous Gift Amount', () => {
                     useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
                         return new Http(backend, defaultOptions);
                     }
-                }
+                },
+                { provide: ActivatedRoute, useClass: MockActivatedRoute }
 
             ],
             imports: [

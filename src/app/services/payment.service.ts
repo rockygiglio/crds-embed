@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
-import { StripeService } from './stripe.service';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
-import { PaymentCallBody } from '../models/payment-call-body';
 import { CrdsDonor } from '../models/crds-donor';
+import { GiftService } from './gift.service';
+import { PaymentCallBody } from '../models/payment-call-body';
+import { StripeService } from './stripe.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -19,7 +20,8 @@ export class PaymentService {
 
     constructor(private http: Http,
                 private httpClient: HttpClientService,
-                private stripeService: StripeService) {
+                private stripeService: StripeService,
+                private gift: GiftService) {
 
         this.restMethodNames = {
             post:  'POST',
@@ -72,6 +74,7 @@ export class PaymentService {
 
             this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
                 stripeEncryptedPmtInfo => {
+
                     let crdsDonor = new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName);
 
                     this.makeApiDonorCall(crdsDonor, email, firstName, lastName, restMethod).subscribe(
@@ -122,6 +125,6 @@ export class PaymentService {
 
     private handleError (err: Response | any) {
        return Observable.throw(err);
-      };
+    };
 
 }

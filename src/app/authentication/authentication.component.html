@@ -1,4 +1,4 @@
-<div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.flow_type == 'gift'">
+<div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.isDonation()">
   <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
   <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
 </div>
@@ -28,7 +28,7 @@
 
       <div class="form__helpers--half">
         <p class="pull-right text-left text-block">
-          <a class="text-block__link" routerLink="/prototype/{{ gift.flow_type}}/password">Forgot password?</a><br>
+          <a class="text-block__link" routerLink="/password">Forgot password?</a><br>
           <a class="text-block__link" href="#">Need help?</a>
         </p>
       </div>
@@ -36,31 +36,39 @@
 
     <hr>
 
-    <p class="text-block">Or <a class="text-block__inline-link" routerLink="/{{ gift.flow_type}}/register">register for an account</a></p>
+    <p class="text-block">Or <a class="text-block__inline-link" routerLink="/registration">register for an account</a></p>
     <footer class="page-footer">
       <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
-      <input type="submit" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
+      <input type="button" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !form.valid }" value="Sign In">
     </footer>
   </form>
 </div>
 
-<div *ngIf="signinOption == 'Guest' && gift.frequency == 'One Time' && gift.flow_type == 'gift'" heading="Give as a Guest">
+<div *ngIf="signinOption == 'Guest' && gift.frequency == 'One Time' && gift.isDonation()" heading="Give as a Guest">
   <header class="page-header">
     <h2>Guest</h2>
   </header>
 
-  <form [formGroup]="form" (ngSubmit)="guest()">
-    <form>
-      <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')" (blur)="checkEmail($event)"><br>
-    </form>
+  <form [formGroup]="form" (ngSubmit)="checkEmail()">
+    
+    <div class="form-group">
+      <input type="email" 
+          class="form-control" 
+          [class.ng-invalid]="guestEmail" 
+          [class.ng-valid]="!guestEmail" 
+          placeholder="Email" 
+          name="email" 
+          [(ngModel)]="email" 
+          [formControl]="form.get('email')" />
+    </div>
 
     <div *ngIf="guestEmail">
-      <p>Looks like that email is already taken</p>
+      <div class="alert alert-danger">Looks like that email is already taken</div>
     </div>
 
     <footer class="page-footer">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">      
-      <input type="submit" class="btn btn-next pull-right" (click)="guest()" [ngClass]="{ disabled: !form.valid }" value="Next">
+      <input type="button" class="btn btn-next pull-right" (click)="checkEmail()" [ngClass]="{ disabled: !form.valid }" value="Next">
     </footer>
   </form>
 </div>
