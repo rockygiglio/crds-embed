@@ -123,16 +123,16 @@
       <div class="form-group">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
         <input tabindex="1"
-          type="text"
-          class="form-control"
-          maxlength="16"
-          placeholder="Credit Card Number"
-          formControlName="ccNumber"
-          name="ccNumber"
-          [(ngModel)]="gift.ccNumber"
-          simpleCcNumber
-          onlyTheseKeys="[0-9]"
-          autocomplete="cc-number">
+               type="tel"
+               class="form-control"
+               maxlength="16"
+               placeholder="Credit Card Number"
+               formControlName="ccNumber"
+               name="ccNumber"
+               [(ngModel)]="gift.ccNumber"
+               simpleCcNumber
+               onlyTheseKeys="[0-9]"
+               autocomplete="cc-number">
       </div>
     </div>
 
