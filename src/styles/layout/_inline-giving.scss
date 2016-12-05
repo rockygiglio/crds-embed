@@ -389,13 +389,88 @@
   }
 
   .radio-group {
-    line-height: 1em;
+    // line-height: 1em;
+
+    // input {
+    //   margin: 0;
+    //   margin-bottom: 4px;
+    //   vertical-align: middle;
+    // }
+
+    // display: block;
+    // position: absolute;
+    // margin: auto;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // padding: 0;
     padding: 1em 0 2em;
 
-    input {
+    ul {
+      list-style: none;
       margin: 0;
-      margin-bottom: 4px;
-      vertical-align: middle;
+      padding: 0;
+
+      li {
+        color: $text-color;
+        display: inline-block;
+        position: relative;
+        float: left;
+
+        input[type=radio] {
+          position: absolute;
+          visibility: hidden;
+          display: none;
+
+          &:checked {
+            ~ .check {
+              border: 2px solid $cr-teal;
+              background: $cr-teal;
+
+              &::before {
+                background: $cr-white;
+              }
+            }
+          }
+        }
+
+        label {
+          display: block;
+          position: relative;
+          font-size: 14px;
+          padding: 8px 2px 17px 43px;
+          padding: 0 8px 0 25px;
+          margin: 0 auto;
+          height: 22px;
+          z-index: 9;
+          cursor: pointer;
+        }
+
+        .check {
+          display: block;
+          position: absolute;
+          border: 2px solid $cr-grey;
+          border-radius: 100%;
+          height: 15px;
+          width: 15px;
+          top: 3px;
+          left: 5px;
+          z-index: 5;
+
+          &::before {
+            display: block;
+            position: absolute;
+            content: '';
+            border-radius: 100%;
+            height: 5px;
+            width: 5px;
+            top: 3px;
+            left: 3px;
+            margin: auto;
+          }
+        }
+      }
     }
   }
 
