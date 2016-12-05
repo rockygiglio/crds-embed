@@ -39,6 +39,7 @@ export class SummaryComponent implements OnInit {
       this.router.navigateByUrl('/payment');
     }
 
+    this.isSubmitInProgress = false;
     this.stateManagerService.is_loading = false;
   }
 
@@ -72,11 +73,14 @@ export class SummaryComponent implements OnInit {
   }
 
   submitPayment() {
+
     if (this.isSubmitInProgress) {
       return;
     }
 
     this.isSubmitInProgress = true;
+    this.stateManagerService.watchState();
+    this.stateManagerService.is_loading = true;
     this.gift.stripeException = false;
     this.gift.systemException = false;
 
@@ -96,6 +100,7 @@ export class SummaryComponent implements OnInit {
         if (error.status === 400 || error.status === 500) {
           this.gift.systemException = true;
           this.isSubmitInProgress = false;
+          this.stateManagerService.is_loading = false;
           return false;
         } else {
           this.gift.stripeException = true;
@@ -117,9 +122,13 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
+
     if (this.isSubmitInProgress) {
       return;
     }
+
+    this.stateManagerService.watchState();
+    this.stateManagerService.is_loading = true;
     this.isSubmitInProgress = true;
     if (this.gift.isOneTimeGift()) {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
@@ -139,6 +148,7 @@ export class SummaryComponent implements OnInit {
             if (error.status === 400 || error.status === 500) {
               this.gift.systemException = true;
               this.isSubmitInProgress = false;
+              this.stateManagerService.is_loading = false;
               return false;
             } else {
               this.gift.stripeException = true;
@@ -160,6 +170,8 @@ export class SummaryComponent implements OnInit {
           }, error => {
             if (error.status === 400 || error.status === 500) {
               this.gift.systemException = true;
+              this.isSubmitInProgress = false;
+              this.stateManagerService.is_loading = false;
               return false;
             } else {
               this.gift.stripeException = true;
@@ -180,17 +192,6 @@ export class SummaryComponent implements OnInit {
   changeUser() {
     this.loginService.logOut();
     this.changePayment();
-  }
-
-  isArrayOfLength(obj: any, length: number) {
-    let isArrayOfSpecifiedLength = false;
-
-    if (Array.isArray(obj)) {
-      if (obj.length === length) {
-        isArrayOfSpecifiedLength = true;
-      }
-    }
-    return isArrayOfSpecifiedLength;
   }
 
   isGuest() {
