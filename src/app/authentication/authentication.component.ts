@@ -26,7 +26,7 @@ export class AuthenticationComponent implements OnInit {
   public userPmtInfo: any;
 
   constructor( private router: Router,
-    private stateManagerService: StateManagerService,
+    private state: StateManagerService,
     private gift: GiftService,
     private _fb: FormBuilder,
     private checkGuestEmailService: CheckGuestEmailService,
@@ -51,27 +51,23 @@ export class AuthenticationComponent implements OnInit {
       this.gift.email = value.email;
     });
 
-    if (!this.gift.type) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/');
-    }
-
-    this.stateManagerService.is_loading = false;
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
   adv(): void {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
     return false;
   }
 
   checkEmail(): void {
     if ( this.form.valid ) {
       this.gift.isGuest = true;
-      this.stateManagerService.is_loading = true;
+      this.state.setLoading(true);
       this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
@@ -79,7 +75,7 @@ export class AuthenticationComponent implements OnInit {
             this.gift.email = this.email;
             this.adv();
           } else {
-            this.stateManagerService.is_loading = false;
+            this.state.setLoading(false);
           }
         }
       );
@@ -97,7 +93,7 @@ export class AuthenticationComponent implements OnInit {
 
   next(): boolean {
     this.formSubmitted = true;
-    this.stateManagerService.is_loading = true;
+    this.state.is_loading = true;
     this.gift.isGuest = false;
     this.loginException = false;
     if (this.form.valid) {
@@ -105,19 +101,19 @@ export class AuthenticationComponent implements OnInit {
       .subscribe(
         (user) => {
           this.gift.loadUserData();
-          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+          this.state.hidePage(this.state.authenticationIndex);
           this.adv();
         },
         (error) => {
           this.loginException = true;
-          this.stateManagerService.is_loading = false;
+          this.state.is_loading = false;
         }
       );
     } else {
       this.loginException = true;
       this.form.controls['email'].markAsTouched();
       this.form.controls['password'].markAsTouched();
-      this.stateManagerService.is_loading = false;
+      this.state.is_loading = false;
     }
     return false;
   }

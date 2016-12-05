@@ -17,7 +17,7 @@ import { StateManagerService } from '../services/state-manager.service';
 export class FundAndFrequencyComponent implements OnInit {
 
   funds: Array<Program>;
-  defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
+  defaultFrequencies: Array<string> = ['One Time', 'week', 'month'];
   form: FormGroup;
   minDate: Date = new Date();
   maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
@@ -35,7 +35,7 @@ export class FundAndFrequencyComponent implements OnInit {
               private gift: GiftService,
               private route: ActivatedRoute,
               private router: Router,
-              private stateManagerService: StateManagerService,
+              private state: StateManagerService,
               private _fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -48,28 +48,24 @@ export class FundAndFrequencyComponent implements OnInit {
     if (!this.gift.frequency) {
       this.gift.frequency  = 'One Time';
     }
-    this.isFundSelectShown = !this.funds.find(fund => fund.ProgramId == this.fundIdParam); // need == not ===
+    this.isFundSelectShown = !this.funds.find(fund => Number(fund.ProgramId) === Number(this.fundIdParam));
     this.gift.start_date = this.gift.start_date ? new Date(this.gift.start_date) : new Date();
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
 
-    if (!this.gift.type) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/');
-    } else {
-      this.stateManagerService.is_loading = false;
-    }
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.fundIndex));
     return false;
   }
 
   next(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
     return false;
   }
 

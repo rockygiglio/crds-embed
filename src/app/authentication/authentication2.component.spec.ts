@@ -1,3 +1,4 @@
+
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -28,7 +29,8 @@ describe('AuthenticationComponent', () => {
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
     stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
                                                                                             'getPrevPageToShow',
-                                                                                            'hidePage']);
+                                                                                            'hidePage',
+                                                                                            'setLoading']);
     gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData']);
     _fb = new FormBuilder();
     checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
@@ -136,5 +138,15 @@ describe('AuthenticationComponent', () => {
       fixture.next();
       expect(fixture.adv).toHaveBeenCalled();
     });
+
+    it('provides an error message when invalid auth credentials are provided', () => {
+      setForm('bad@bad.com', 'reallynotgood');
+      (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
+      spyOn(fixture, 'adv');
+
+      expect(fixture.loginException).toBeFalsy();
+      fixture.next();
+      expect(fixture.loginException).toBeTruthy();
+    });
   });
- });
+});
