@@ -129,15 +129,14 @@ export class BillingComponent implements OnInit {
               errorInner => {
                 this.achSubmitted = false;
                 this.handleDonorError();
-                if (errorInner.status === 400) {
+                if (errorInner.status === 400 || errorInner.status === 500) {
                   this.gift.systemException = true;
-                  return false;
                 } else {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  return false;
                 }
+                return false;
               }
             );
           },
@@ -149,15 +148,14 @@ export class BillingComponent implements OnInit {
               errorInner => {
                 this.achSubmitted = false;
                 this.handleDonorError();
-                if (errorInner.status === 400) {
+                if (errorInner.status === 400 || errorInner.status === 500) {
                   this.gift.systemException = true;
-                  return false;
                 } else {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  return false;
                 }
+                return false;
               }
             );
           }
@@ -197,15 +195,14 @@ export class BillingComponent implements OnInit {
               errorInner => {
                 this.ccSubmitted = false;
                 this.handleDonorError();
-                if (errorInner.status === 400) {
+                if (errorInner.status === 400 || errorInner.status === 500) {
                   this.gift.systemException = true;
-                  return false;
                 } else {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  return false;
                 }
+                return false;
               }
             );
           },
@@ -217,15 +214,14 @@ export class BillingComponent implements OnInit {
               errorInner => {
                 this.ccSubmitted = false;
                 this.handleDonorError();
-                if (errorInner.status === 400) {
+                if (errorInner.status === 400 || errorInner.status === 500) {
                   this.gift.systemException = true;
-                  return false;
                 } else {
                   this.gift.stripeException = true;
                   this.gift.resetExistingPaymentInfo();
                   this.gift.resetPaymentDetails();
-                  return false;
                 }
+                return false;
               }
             );
           }
