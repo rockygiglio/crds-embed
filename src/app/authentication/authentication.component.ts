@@ -91,8 +91,8 @@ export class AuthenticationComponent implements OnInit {
 
   public submitLogin(): boolean {
     this.formSubmitted = true;
-    this.state.is_loading = true;
     this.gift.isGuest = false;
+    this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
       this.loginService.login(this.form.get('email').value, this.form.get('password').value)
@@ -104,14 +104,14 @@ export class AuthenticationComponent implements OnInit {
         },
         (error) => {
           this.loginException = true;
-          this.state.is_loading = false;
+          this.state.setLoading(false);
         }
       );
     } else {
       this.loginException = true;
       this.form.controls['email'].markAsTouched();
       this.form.controls['password'].markAsTouched();
-      this.state.is_loading = false;
+      this.state.setLoading(false);
     }
     return false;
   }
