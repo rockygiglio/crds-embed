@@ -36,7 +36,7 @@ export class AuthenticationComponent implements OnInit {
     private existingPaymentInfoService: ExistingPaymentInfoService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
 
     if ( this.gift.isGuest === true && this.gift.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
@@ -60,16 +60,16 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  adv(): void {
+  private adv(): void {
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
   }
 
-  back(): boolean {
+  public back(): boolean {
     this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
     return false;
   }
 
-  submitGuest(): boolean {
+  public submitGuest(): boolean {
     if ( this.formGuest.valid ) {
       this.gift.isGuest = true;
       this.state.setLoading(true);
@@ -89,16 +89,7 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
-  formInvalid(field): boolean {
-    return !this.form.controls[field].valid;
-  }
-
-  formatErrorMessage(errors: any): string {
-    let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
-    return ret;
-  }
-
-  next(): boolean {
+  public submitLogin(): boolean {
     this.formSubmitted = true;
     this.state.is_loading = true;
     this.gift.isGuest = false;
@@ -123,5 +114,14 @@ export class AuthenticationComponent implements OnInit {
       this.state.is_loading = false;
     }
     return false;
+  }
+
+  public formInvalid(field): boolean {
+    return !this.form.controls[field].valid;
+  }
+
+  public formatErrorMessage(errors: any): string {
+    let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
+    return ret;
   }
 }
