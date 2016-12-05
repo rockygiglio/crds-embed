@@ -189,6 +189,39 @@ describe('Component: Summary', () => {
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
+  it('should submit GUEST ONE TIME DONATION', () => {
+
+    this.component.gift.paymentType = 'ach';
+    this.component.gift.amount = 12.34;
+    this.component.gift.fund = {
+      'ProgramId': 1,
+      'Name': 'Programmer Caffination Fund',
+      'ProgramType': 1,
+      'AllowRecurringGiving': false
+    };
+    this.component.gift.fund_id = 1;
+    this.component.gift.frequency = 'One Time';
+    this.component.gift.email = 'test@test.com';
+    this.component.gift.donor = new CrdsDonor(123, this.component.gift.email, 'John', 'Doe', 'post');
+    this.component.gift.isGuest = true;
+
+    let paymentBody = new PaymentCallBody(this.component.gift.fund.ProgramId.toString(),
+      this.component.gift.amount,
+      'bank',
+      'DONATION',
+      0);
+
+    paymentBody.email_address = this.component.gift.email;
+    paymentBody.donor_id = 1;
+
+    spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({ id: 1 }));
+    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.router, 'navigateByUrl').and.stub();
+    this.component.submitDonation();
+    expect(this.component.paymentService.makeApiDonorCall).toHaveBeenCalled();
+    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+  });
+
   it('should reset payment info on link to billing page', () => {
     this.component.gift.paymentType = 'cc';
     spyOn(this.component.gift, 'resetExistingPaymentInfo');
