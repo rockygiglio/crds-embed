@@ -89,7 +89,7 @@ export class SummaryComponent implements OnInit {
          this.next();
       },
       error => {
-        if (error.status === 400) {
+        if (error.status === 400 || error.status === 500) {
           this.gift.systemException = true;
           return false;
         } else {
@@ -112,7 +112,6 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
-
     if (this.gift.isOneTimeGift()) {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
@@ -128,7 +127,7 @@ export class SummaryComponent implements OnInit {
             this.next();
           },
           error => {
-            if (error.status === 400) {
+            if (error.status === 400 || error.status === 500) {
               this.gift.systemException = true;
               return false;
             } else {
@@ -139,8 +138,7 @@ export class SummaryComponent implements OnInit {
             }
           }
       );
-
-    } else {
+    } else { // Recurring Gift
 
       let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
       let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
@@ -149,8 +147,16 @@ export class SummaryComponent implements OnInit {
           success => {
             this.gift.clearUserPmtInfo();
             this.next();
-          }, err => {
-            // TODO: Add error handling
+          }, error => {
+            if (error.status === 400 || error.status === 500) {
+              this.gift.systemException = true;
+              return false;
+            } else {
+              this.gift.stripeException = true;
+              this.changePayment();
+              this.router.navigateByUrl('/billing');
+              return false;
+            }
           }
       );
     }
