@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { GiftService } from '../services/gift.service';
 import { StateManagerService } from '../services/state-manager.service';
@@ -10,7 +10,7 @@ import * as moment from 'moment';
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.css']
 })
-export class ConfirmationComponent {
+export class ConfirmationComponent implements OnInit {
 
   constructor(private gift: GiftService,
     private state: StateManagerService,
@@ -20,7 +20,7 @@ export class ConfirmationComponent {
   }
 
   ngOnInit(): void {
-    this.stateManagerService.is_loading = false;
+    this.state.is_loading = false;
   }
 
   frequencyCalculation(): string {

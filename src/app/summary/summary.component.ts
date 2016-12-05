@@ -37,60 +37,16 @@ export class SummaryComponent implements OnInit {
     this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
     this.gift.validateRoute(this.router);
     this.state.setLoading(false);
-
-    if (!this.gift.type) {
-      this.router.navigateByUrl('/payment');
-    }
-
     this.isSubmitInProgress = false;
-    this.stateManagerService.is_loading = false;
   }
 
   public submitPayment() {
-    this.gift.resetErrors();
-    this.paymentSubmitted = true;
-    this.state.setLoading(true);
-  getLastFourOfAccountNumber() {
-    try {
-      let accountNumber = this.gift.paymentType === 'cc' ? this.gift.ccNumber.toString() : this.gift.accountNumber.toString();
-      return accountNumber.substr(accountNumber.length - 4);
-    } catch (event) {
-      return undefined;
-    }
-  }
-
-  back() {
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.summaryIndex));
-    return false;
-  }
-
-  next() {
-    if (this.gift.url) {
-      this.addParamsToRedirectUrl();
-      if (this.gift.overrideParent === true && this.window.top !== undefined) {
-        this.window.top.location.href = this.gift.url;
-      } else {
-        this.window.location.href = this.gift.url;
-      }
-    } else {
-      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.summaryIndex));
-    }
-  }
-
-  submitPayment() {
 
     if (this.isSubmitInProgress) {
       return;
     }
 
-    this.isSubmitInProgress = true;
-    this.stateManagerService.watchState();
-    this.stateManagerService.is_loading = true;
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
-
+    this.beginProcessing();
     this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
         value => {
 
@@ -103,44 +59,18 @@ export class SummaryComponent implements OnInit {
           );
         },
         error => this.handleOuterError(error)
-    this.paymentService.postPayment(paymentDetail).subscribe(
-      info => {
-         this.gift.stripeException = false;
-         this.gift.systemException = false;
-         this.redirectParams.set('invoiceId', this.gift.invoiceId);
-         this.redirectParams.set('paymentId', info.payment_id);
-         this.gift.clearUserPmtInfo();
-         this.next();
-      },
-      error => {
-        if (error.status === 400 || error.status === 500) {
-          this.gift.systemException = true;
-          this.isSubmitInProgress = false;
-          this.stateManagerService.is_loading = false;
-          return false;
-        } else {
-          this.gift.stripeException = true;
-          this.changePayment();
-          this.router.navigateByUrl('/billing');
-          return false;
-        }
-      }
     );
     return false;
   }
 
   public submitDonation() {
 
-    this.gift.resetErrors();
-    this.state.setLoading(true);
-
     if (this.isSubmitInProgress) {
       return;
     }
 
-    this.stateManagerService.watchState();
-    this.stateManagerService.is_loading = true;
-    this.isSubmitInProgress = true;
+    this.beginProcessing();
+
     if (this.gift.isOneTimeGift()) {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
@@ -150,61 +80,27 @@ export class SummaryComponent implements OnInit {
           if ( this.gift.isGuest === true ) {
             donationDetails.donor_id = value.id;
             donationDetails.email_address = this.gift.email;
-
-      this.paymentService.postPayment(donationDetails).subscribe(
-          info => {
-            this.gift.stripeException = false;
-            this.gift.systemException = false;
-            this.redirectParams.set('invoiceId', this.gift.invoiceId);
-            this.redirectParams.set('paymentId', info.payment_id);
-            this.gift.clearUserPmtInfo();
-            this.next();
-          },
-          error => {
-            if (error.status === 400 || error.status === 500) {
-              this.gift.systemException = true;
-              this.isSubmitInProgress = false;
-              this.stateManagerService.is_loading = false;
-              return false;
-            } else {
-              this.gift.stripeException = true;
-              this.changePayment();
-              this.router.navigateByUrl('/billing');
-              return false;
-            }
           }
           this.paymentService.postPayment(donationDetails).subscribe(
-            info => this.handleSuccess(info),
+            success => this.handleSuccess(success),
             innerError => this.handleInnerError(innerError)
           );
         },
         error => this.handleOuterError(error)
       );
-    } else { // Recurring Gift
+    } else {
 
       let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
       let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
 
-      this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
-          success => {
-            this.gift.clearUserPmtInfo();
-            this.next();
-          }, err => {
-            this.state.setLoading(false);
-            // TODO: Add error handling
-          }, error => {
-            if (error.status === 400 || error.status === 500) {
-              this.gift.systemException = true;
-              this.isSubmitInProgress = false;
-              this.stateManagerService.is_loading = false;
-              return false;
-            } else {
-              this.gift.stripeException = true;
-              this.changePayment();
-              this.router.navigateByUrl('/billing');
-              return false;
-            }
-          }
+      this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
+        value => {
+          this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+            success => this.handleSuccess(success),
+            innerError => this.handleInnerError(innerError)
+          );
+        },
+        error => this.handleOuterError(error)
       );
     }
   }
@@ -228,6 +124,13 @@ export class SummaryComponent implements OnInit {
     }
   }
 
+  private beginProcessing() {
+    this.gift.resetErrors();
+    this.state.setLoading(true);
+    this.isSubmitInProgress = true;
+    this.state.watchState();
+  }
+
   private addParamsToRedirectUrl() {
     let delimiter = '?';
     this.redirectParams.forEach((value, key) => {
@@ -237,24 +140,26 @@ export class SummaryComponent implements OnInit {
   }
 
   private handleSuccess(info) {
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
+    this.gift.resetErrors();
     this.redirectParams.set('invoiceId', this.gift.invoiceId);
     this.redirectParams.set('paymentId', info.payment_id);
+    this.gift.clearUserPmtInfo();
     this.next();
   }
 
   private handleInnerError(error) {
-    if (error.status === 400) {
+    if (error.status === 400 || error.status === 500) {
       this.gift.systemException = true;
       this.state.setLoading(false);
       this.gift.clearUserPmtInfo();
+      this.isSubmitInProgress = false;
       return false;
     } else {
       this.gift.stripeException = true;
       this.changePayment();
       this.router.navigateByUrl('/billing');
       this.state.setLoading(false);
+      this.isSubmitInProgress = false;
       return false;
     }
   }

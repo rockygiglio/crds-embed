@@ -153,7 +153,6 @@ export class BillingComponent implements OnInit {
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
-                if (errorInner.status === 400 || errorInner.status === 500) {
               value => this.setValueMoveNext(value),
               errorInner => this.handleDonorError(errorInner, true)
             );
@@ -182,7 +181,7 @@ export class BillingComponent implements OnInit {
       this.setACHSubmitted(false);
     }
     this.state.setLoading(false);
-    if (errResponse.status === 400) {
+    if (errResponse.status === 400 || errResponse.status === 500) {
       this.gift.systemException = true;
       return false;
     } else {
