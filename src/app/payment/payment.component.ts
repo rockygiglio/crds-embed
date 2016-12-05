@@ -95,6 +95,7 @@ export class PaymentComponent implements OnInit {
       this.stateManagerService.is_loading = true;
       this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
     } else {
+      this.form.controls['customAmount'].markAsTouched();
       this.setErrorMessage();
     }
     this.submitted = true;
