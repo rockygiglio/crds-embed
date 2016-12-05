@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { GiftService } from '../services/gift.service';
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
@@ -16,6 +17,10 @@ export class ConfirmationComponent {
     private router: Router) {
     this.gift.validateRoute(router);
     this.state.setLoading(false);
+  }
+
+  ngOnInit(): void {
+    this.stateManagerService.is_loading = false;
   }
 
   frequencyCalculation(): string {

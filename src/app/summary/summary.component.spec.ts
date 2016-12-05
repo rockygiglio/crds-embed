@@ -35,6 +35,7 @@ class MockStateManagerService {
   public unhidePage(pageIndex: number) { }
   public hidePage(pageIndex: number) { }
   public setLoading(val: boolean) { }
+  public watchState() {}
 }
 
 describe('Component: Summary', () => {

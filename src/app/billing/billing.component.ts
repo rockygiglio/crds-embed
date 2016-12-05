@@ -153,6 +153,7 @@ export class BillingComponent implements OnInit {
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
+                if (errorInner.status === 400 || errorInner.status === 500) {
               value => this.setValueMoveNext(value),
               errorInner => this.handleDonorError(errorInner, true)
             );
