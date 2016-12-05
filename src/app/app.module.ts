@@ -91,11 +91,8 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     QuickDonationAmountsService,
     StateManagerService,
     StripeService,
-<<<<<<<
-    RegistrationService
-=======
+    RegistrationService,
     {provide: WindowToken, useFactory: _window},
->>>>>>>
   ],
   bootstrap:    [AppComponent]
 })

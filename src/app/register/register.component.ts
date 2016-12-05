@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import { RegistrationService } from '../services/registration.service';
+import { CrdsUser } from '../models/crds-user';
 
 @Component({
   selector: 'app-register',
@@ -17,10 +19,10 @@ export class RegisterComponent implements OnInit {
   constructor(private router: Router,
               private fb: FormBuilder,
               private stateManagerService: StateManagerService,
-              private loginService: LoginService) {
+              private loginService: LoginService,
+              private registrationService: RegistrationService) {
 
     const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
-    
     this.regForm = this.fb.group({
         firstName: ['', [<any>Validators.required]],
         lastName:  ['', [<any>Validators.required]],
@@ -38,12 +40,28 @@ export class RegisterComponent implements OnInit {
     return false;
   }
 
+  adv(): void {
+    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.registrationIndex));
+  }
+
   next() {
     this.submitted = true;
     if ( this.regForm.valid ) {
       this.stateManagerService.is_loading = true;
-      const theurl = this.stateManagerService.getNextPageToShow(this.stateManagerService.registrationIndex);
-      this.router.navigateByUrl(theurl);
+      // register the user
+      let newUser = new CrdsUser(this.regForm.get('firstName').value,
+                                 this.regForm.get('lastName').value,
+                                 this.regForm.get('email').value,
+                                 this.regForm.get('password').value);
+      this.registrationService.postUser(newUser)
+        .subscribe(
+          user => {
+            this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+            this.adv();
+          },
+          error => {
+            this.adv();
+          });
     }
 
     this.submitted = true;
