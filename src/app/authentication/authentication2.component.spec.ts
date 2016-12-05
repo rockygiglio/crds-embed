@@ -30,8 +30,8 @@ describe('AuthenticationComponent', () => {
     stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
                                                                                             'getPrevPageToShow',
                                                                                             'hidePage',
-                                                                                            'setLoading']);
-    gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData']);
+                                                                                            'setLoading',]);
+    gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData', 'validateRoute']);
     _fb = new FormBuilder();
     checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
@@ -41,6 +41,7 @@ describe('AuthenticationComponent', () => {
     fixture = new AuthenticationComponent(router, stateManagerService, gift, _fb,
                                           checkGuestEmailService, loginService, httpClientService,
                                           existingPaymentInfoService);
+    fixture.ngOnInit();
   });
 
   function setForm( email, password ) {
@@ -70,9 +71,48 @@ describe('AuthenticationComponent', () => {
     });
   });
 
-  describe('#checkEmail', () => {});
+  describe('#submitGuest', () => {
 
-  xit('formInvalid(field) check to see if field is invalid', () => {});
+    it('should not process if form is invalid', () => {
+      let didSubmit = fixture.submitGuest();
+      expect(didSubmit).toBe(false);
+    });
+
+    it('should process if form is valid', () => {
+      fixture.formGuest.setValue({ email: 's@s.com' });
+      (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of({}));
+      let didSubmit = fixture.submitGuest();
+      expect(didSubmit).toBe(true);
+    });
+
+    it('should throw error if email address is used', () => {
+      fixture.formGuest.setValue({ email: 's@s.com' });
+      (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(true));
+      fixture.submitGuest();
+      expect(fixture.guestEmail).toBe(true);
+    });
+
+    it('should process if email address is not used', () => {
+      fixture.formGuest.setValue({ email: 's@s.com' });
+      (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(false));
+      fixture.submitGuest();
+      expect(fixture.guestEmail).toBe(false);
+      expect(router.navigateByUrl).toHaveBeenCalled();
+    });
+
+  });
+
+  it('#formInvalid(field) check to see if field is invalid', () => {
+
+    fixture.form.setValue({ email: 's@s.com', password: 'test' });
+    let isInvalid = fixture.formInvalid('email');
+    expect(isInvalid).toBe(false);
+
+    fixture.form.setValue({ email: 'sm', password: 'test' });
+    isInvalid = fixture.formInvalid('email');
+    expect(isInvalid).toBe(true);
+
+  });
 
   describe('#formatErrorMessage', () => {
     it('returns <u>required</u> when errors.required !== undefined', () => {

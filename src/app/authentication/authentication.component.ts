@@ -20,6 +20,7 @@ export class AuthenticationComponent implements OnInit {
 
   public email: string;
   public form: FormGroup;
+  public formGuest: FormGroup;
   public formSubmitted: boolean;
   public guestEmail: boolean;
   public loginException: boolean;
@@ -47,6 +48,10 @@ export class AuthenticationComponent implements OnInit {
       password: ['', <any>Validators.required]
     });
 
+    this.formGuest = this._fb.group({
+      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]]
+    });
+
     this.form.valueChanges.subscribe((value: any) => {
       this.gift.email = value.email;
     });
@@ -64,8 +69,8 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
-  checkEmail(): void {
-    if ( this.form.valid ) {
+  submitGuest(): boolean {
+    if ( this.formGuest.valid ) {
       this.gift.isGuest = true;
       this.state.setLoading(true);
       this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
@@ -79,7 +84,9 @@ export class AuthenticationComponent implements OnInit {
           }
         }
       );
+      return true;
     }
+    return false;
   }
 
   formInvalid(field): boolean {
