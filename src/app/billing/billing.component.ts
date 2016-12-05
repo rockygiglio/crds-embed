@@ -101,8 +101,10 @@ export class BillingComponent implements OnInit {
         this.achForm.value.accountName,
         this.achForm.value.accountType);
 
-      let firstName = '';
-      let lastName = '';
+      this.gift.userBank = userBank;
+
+      let firstName = ''; // not used by API, except for guest donations
+      let lastName = '';  // not used by API, except for guest donations
 
       this.state.setLoading(true);
       this.state.watchState();
@@ -145,6 +147,7 @@ export class BillingComponent implements OnInit {
       let firstName = '';
       let lastName = '';
 
+      this.gift.userCc = userCard;
       this.state.setLoading(true);
       this.state.watchState();
       this.pmtService.getDonor().subscribe(

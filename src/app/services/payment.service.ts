@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
-import { StripeService } from './stripe.service';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { PaymentCallBody } from '../models/payment-call-body';
-import { CrdsDonor } from '../models/crds-donor';
+import { StripeService } from './stripe.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -113,8 +112,8 @@ export class PaymentService {
     return res;
   };
 
-  private handleError(err: Response | any) {
-    return Observable.throw(err);
-  };
+    private handleError (err: Response | any) {
+       return Observable.throw(err);
+    };
 
 }

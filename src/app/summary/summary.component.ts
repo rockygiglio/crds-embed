@@ -1,7 +1,9 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
-
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
+import { DonationService } from '../services/donation.service';
 import { GiftService } from '../services/gift.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
@@ -24,7 +26,8 @@ export class SummaryComponent implements OnInit {
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
-              private state: StateManagerService,
+              private stateManagerService: StateManagerService,
+              private donationService: DonationService,
               private gift: GiftService,
               private loginService: LoginService,
               private paymentService: PaymentService,
@@ -102,6 +105,7 @@ export class SummaryComponent implements OnInit {
             this.gift.systemException = true;
             this.state.setLoading(false);
             return false;
+         this.gift.clearUserPmtInfo();
         }
     );
     return false;
@@ -116,8 +120,48 @@ export class SummaryComponent implements OnInit {
   }
 
   submitDonation() {
-    this.state.setLoading(true);
-    this.next();
+
+    if (this.gift.isOneTimeGift()) {
+      let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+      let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
+                                                pymt_type, 'DONATION', this.gift.invoiceId );
+
+      this.paymentService.postPayment(donationDetails).subscribe(
+          info => {
+            this.gift.stripeException = false;
+            this.gift.systemException = false;
+            this.redirectParams.set('invoiceId', this.gift.invoiceId);
+            this.redirectParams.set('paymentId', info.payment_id);
+            this.gift.clearUserPmtInfo();
+            this.next();
+          },
+          error => {
+            if (error.status === 400) {
+              this.gift.systemException = true;
+              return false;
+            } else {
+              this.gift.stripeException = true;
+              this.changePayment();
+              this.router.navigateByUrl('/billing');
+              return false;
+            }
+          }
+      );
+
+    } else {
+
+      let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
+      let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
+
+      this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+          success => {
+            this.gift.clearUserPmtInfo();
+            this.next();
+          }, err => {
+            // TODO: Add error handling
+          }
+      );
+    }
   }
 
   changePayment() {

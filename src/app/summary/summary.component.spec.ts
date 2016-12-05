@@ -20,6 +20,7 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { PaymentService } from '../services/payment.service';
 import { StripeService } from '../services/stripe.service';
+import { DonationService } from '../services/donation.service';
 
 import { CrdsDonor } from '../models/crds-donor';
 import { PaymentCallBody } from '../models/payment-call-body';
@@ -59,7 +60,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        GiftService, ExistingPaymentInfoService,
+        GiftService, ExistingPaymentInfoService, DonationService,
         HttpClientService, CookieService,
         { provide: StateManagerService, useClass: MockStateManagerService},
         { provide: WindowToken, useValue: mockWindow},
@@ -126,7 +127,7 @@ describe('Component: Summary', () => {
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
-  xit('should submit donation', () => {
+  it('should submit donation', () => {
     expect(this.component).toBeTruthy();
   });
 
