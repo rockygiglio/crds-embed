@@ -21,12 +21,25 @@
 .btn {
   padding: 8px 14px;
 
+  &:focus,
+  &.focus {
+    outline-color: $cr-light-blue;
+  }
+
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline-color: $cr-light-blue;
+    }
+  }
+
   datepicker & {
     padding: 5px 10px;
   }
 }
 
-.btn-group {  
+.btn-group {
   > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
   > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
     margin-right: 0.5em;
