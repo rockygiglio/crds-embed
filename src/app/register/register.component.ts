@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { RegistrationService } from '../services/registration.service';
 import { CrdsUser } from '../models/crds-user';
+import { Response } from '@angular/http';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +16,7 @@ export class RegisterComponent implements OnInit {
   public errorMessage: string = '';
   public submitted: boolean = false;
   regForm: FormGroup;
+  public duplicateUser: boolean = false;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -36,7 +38,7 @@ export class RegisterComponent implements OnInit {
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.registrationIndex));
+    this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.authenticationIndex));
     return false;
   }
 
@@ -51,21 +53,32 @@ export class RegisterComponent implements OnInit {
       // register the user
       let newUser = new CrdsUser(this.regForm.get('firstName').value,
                                  this.regForm.get('lastName').value,
-                                 this.regForm.get('email').value,
+                                this.regForm.get('email').value,
                                  this.regForm.get('password').value);
       this.registrationService.postUser(newUser)
+
         .subscribe(
           user => {
-            this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
             this.adv();
           },
           error => {
-            this.adv();
+            if ( error === 'Duplicate User') {
+              this.stateManagerService.is_loading = false;
+              this.duplicateUser = true;
+            }
           });
     }
 
     this.submitted = true;
     return false;
+  }
+
+  emailMessage(errors: any): string {
+    if (this.duplicateUser) {
+      this.duplicateUser = false;
+      return ('This email address is currently in use.');
+    }
+    return 'Email ' + this.switchMessage(errors);
   }
 
   switchMessage(errors: any): string {
@@ -75,5 +88,4 @@ export class RegisterComponent implements OnInit {
     }
     return ret;
   }
-
 }

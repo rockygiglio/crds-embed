@@ -16,23 +16,11 @@ export class RegistrationService {
 
         let url: string = this.baseUrl + 'api/user';
 
-        let body = {
-            'firstname': user.firstname,
-            'lastname': user.lastname,
-            'email' : user.email,
-            'password' : user.password
-        };
-
-        return this.httpClient.post(url, body)
+        return this.httpClient.post(url, user)
             .catch(this.handleError);
     };
 
-    //private extractData(res: Response) {
-    //    let body = res.json();
-    //    return body || { };
-    //}
-
-    private handleError (res: Response | any) {
-       return [res.json()];
+    private handleError (res: Response) {
+       return Observable.throw(res.json().message);
     };
 }

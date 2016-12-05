@@ -1,13 +1,12 @@
 <div heading="Register">
-  <header class="page-header page-header--border-btm">
-    <h2>Register</h2>
+  <header class="page-header">
+    <h2>Register An Account</h2>
   </header>
 
   <form [formGroup]="regForm" [class.submitted]="submitted" (ngSubmit)="next()">
     <!-- First Name -->
-    <div class="row">
+    <div class="inline-form__input--half">
       <div class="form-group">
-        <label class="sr-only" for="firstName">First Name</label>
         <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" [(ngModel)]="firstName" pattern=".*">
       </div>
     </div>
@@ -19,9 +18,8 @@
     </div>
 
     <!-- Last Name -->
-    <div class="row">
+    <div class="inline-form__input--half">
       <div class="form-group">
-        <label class="sr-only" for="lastName">Last Name</label>
         <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" [(ngModel)]="lastName" pattern=".*">
       </div>
     </div>
@@ -34,19 +32,17 @@
 
     <!-- Email -->
     <div class="form-group">
-      <label class="sr-only" for="email">Email</label>
       <input type="text" class="form-control" placeholder="Email" formControlName="email" name="email" [(ngModel)]="email" pattern=".*" >
     </div>
 
-    <div class="errors" *ngIf="(submitted) && !regForm.controls['email'].valid">
+    <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
       <div class="alert alert-danger">
-        <p>Email <span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
+        <p><span [innerHTML]="emailMessage(regForm.controls['email'].errors)"></span></p>
       </div>
     </div>
 
     <!-- Password -->
     <div class="form-group">
-      <label class="sr-only" for="password">Password</label>
       <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password" [(ngModel)]="password" pattern=".*" >
     </div>
 
@@ -56,11 +52,11 @@
       </div>
     </div>
     
-    <hr>
+     <p class="text-block"><small class="text-muted">By registering, you agree to our <a href="#" class="text-block__link--underline">terms of service</a> and <a href="#" class="text-block__link--underline">privacy policy</a>. You will begin receiving email communications. Preferences can be managed in your profile.</small></p>
 
     <footer class="page-footer page-footer--border-top">
-      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-      <input type="button" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !regForm.valid }" value="Next">
+      <a href="#" class="btn pull-left" (click)="back()">Already have an account? Sign In</a>
+      <input type="button" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !regForm.valid }" value="Register">
     </footer>
 
   </form>
