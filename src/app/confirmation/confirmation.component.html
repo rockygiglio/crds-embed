@@ -11,7 +11,7 @@
   <p *ngIf="gift.isDonation() && gift.frequency != 'One Time'" class="text-block--lg-font">
     Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift.
     We will process your Recurring Gift of <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> for
-    <strong>{{ gift.fund }}</strong> on <strong>{{ frequencyCalculation() }}</strong>.
+    <strong>{{ gift.fund.Name }}</strong> on <strong>{{ frequencyCalculation() }}</strong>.
     Your statement will be sent to <strong>{{ gift.email }}</strong>.
   </p>
 
