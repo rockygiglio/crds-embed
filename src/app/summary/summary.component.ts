@@ -21,7 +21,7 @@ export function _window(): Window {
 })
 export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
-  private paymentSubmitted: boolean = false;
+  private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
@@ -39,6 +39,7 @@ export class SummaryComponent implements OnInit {
       this.router.navigateByUrl('/payment');
     }
 
+    this.isSubmitInProgress = false;
     this.stateManagerService.is_loading = false;
   }
 
@@ -72,9 +73,16 @@ export class SummaryComponent implements OnInit {
   }
 
   submitPayment() {
+
+    if (this.isSubmitInProgress) {
+      return;
+    }
+
+    this.isSubmitInProgress = true;
+    this.stateManagerService.watchState();
+    this.stateManagerService.is_loading = true;
     this.gift.stripeException = false;
     this.gift.systemException = false;
-    this.paymentSubmitted = true;
 
     let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
     let paymentDetail = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
@@ -89,8 +97,10 @@ export class SummaryComponent implements OnInit {
          this.next();
       },
       error => {
-        if (error.status === 400) {
+        if (error.status === 400 || error.status === 500) {
           this.gift.systemException = true;
+          this.isSubmitInProgress = false;
+          this.stateManagerService.is_loading = false;
           return false;
         } else {
           this.gift.stripeException = true;
@@ -113,6 +123,13 @@ export class SummaryComponent implements OnInit {
 
   submitDonation() {
 
+    if (this.isSubmitInProgress) {
+      return;
+    }
+
+    this.stateManagerService.watchState();
+    this.stateManagerService.is_loading = true;
+    this.isSubmitInProgress = true;
     if (this.gift.isOneTimeGift()) {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
@@ -128,8 +145,10 @@ export class SummaryComponent implements OnInit {
             this.next();
           },
           error => {
-            if (error.status === 400) {
+            if (error.status === 400 || error.status === 500) {
               this.gift.systemException = true;
+              this.isSubmitInProgress = false;
+              this.stateManagerService.is_loading = false;
               return false;
             } else {
               this.gift.stripeException = true;
@@ -139,8 +158,7 @@ export class SummaryComponent implements OnInit {
             }
           }
       );
-
-    } else {
+    } else { // Recurring Gift
 
       let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
       let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
@@ -149,8 +167,18 @@ export class SummaryComponent implements OnInit {
           success => {
             this.gift.clearUserPmtInfo();
             this.next();
-          }, err => {
-            // TODO: Add error handling
+          }, error => {
+            if (error.status === 400 || error.status === 500) {
+              this.gift.systemException = true;
+              this.isSubmitInProgress = false;
+              this.stateManagerService.is_loading = false;
+              return false;
+            } else {
+              this.gift.stripeException = true;
+              this.changePayment();
+              this.router.navigateByUrl('/billing');
+              return false;
+            }
           }
       );
     }
@@ -164,17 +192,6 @@ export class SummaryComponent implements OnInit {
   changeUser() {
     this.loginService.logOut();
     this.changePayment();
-  }
-
-  isArrayOfLength(obj: any, length: number) {
-    let isArrayOfSpecifiedLength = false;
-
-    if (Array.isArray(obj)) {
-      if (obj.length === length) {
-        isArrayOfSpecifiedLength = true;
-      }
-    }
-    return isArrayOfSpecifiedLength;
   }
 
   isGuest() {

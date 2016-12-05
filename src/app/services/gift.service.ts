@@ -86,6 +86,9 @@ export class GiftService {
   }
 
   public loadExistingPaymentData(): void {
+    if ( !this.isOneTimeGift() ) {
+      return;
+    }
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
         info => {
