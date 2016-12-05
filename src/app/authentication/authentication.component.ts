@@ -38,7 +38,7 @@ export class AuthenticationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if ( this.gift.isGuest === true ) {
+    if ( this.gift.isGuest === true && this.gift.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
       this.email = this.gift.email;
     }

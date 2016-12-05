@@ -84,10 +84,6 @@ export class GiftService {
     this.userCc = undefined;
   }
 
-  public isOneTimeGift(): boolean {
-    return this.frequency === 'One Time';
-  }
-
   public loadExistingPaymentData(): void {
     if ( !this.isOneTimeGift() ) {
       return;
@@ -269,6 +265,10 @@ export class GiftService {
     } else {
       return false;
     }
+  }
+
+  public isOneTimeGift(): boolean {
+    return this.frequency === 'One Time';
   }
 
   public resetErrors() {
