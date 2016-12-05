@@ -128,6 +128,7 @@ export class PaymentComponent implements OnInit {
   }
 
   onSelectAmount(value) {
+    this.form.controls['customAmount'].markAsUntouched();
     this.submitted = false;
     this.customAmtSelected = false;
     delete(this.customAmount);
