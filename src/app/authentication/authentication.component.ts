@@ -60,7 +60,7 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  private adv(): void {
+  public adv(): void {
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
   }
 

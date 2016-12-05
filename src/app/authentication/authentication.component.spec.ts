@@ -139,13 +139,13 @@ describe('Component: Authentication', () => {
       it('does not call #adv', () => {
         spyOn(fixture, 'adv');
 
-        fixture.next();
+        fixture.submitLogin();
         expect(fixture.adv).not.toHaveBeenCalled();
       });
 
       it('loginException gets set to true', () => {
         expect(fixture.loginException).toBeFalsy();
-        fixture.next();
+        fixture.submitLogin();
         expect(fixture.loginException).toBeTruthy();
       });
     });
@@ -159,13 +159,13 @@ describe('Component: Authentication', () => {
       it('#adv does not get called', () => {
         spyOn(fixture, 'adv');
 
-        fixture.next();
+        fixture.submitLogin();
         expect(fixture.adv).not.toHaveBeenCalled();
       });
 
       it('loginException gets set to true', () => {
         expect(fixture.loginException).toBeFalsy();
-        fixture.next();
+        fixture.submitLogin();
         expect(fixture.loginException).toBeTruthy();
       });
     });
@@ -175,7 +175,7 @@ describe('Component: Authentication', () => {
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
       spyOn(fixture, 'adv');
 
-      fixture.next();
+      fixture.submitLogin();
       expect(fixture.adv).toHaveBeenCalled();
     });
 
@@ -185,7 +185,7 @@ describe('Component: Authentication', () => {
       spyOn(fixture, 'adv');
 
       expect(fixture.loginException).toBeFalsy();
-      fixture.next();
+      fixture.submitLogin();
       expect(fixture.loginException).toBeTruthy();
     });
   });
