@@ -90,7 +90,7 @@ describe('Service: Gift', () => {
     expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
   }));
 
-  it('should return true if recurring w/ missing datet', inject([GiftService], (srvc: GiftService) => {
+  it('should return true if recurring gift w/ missing date', inject([GiftService], (srvc: GiftService) => {
     srvc.frequency = 'week';
     srvc.start_date = undefined;
     expect(srvc.isRecurringGiftWithNoStartDate()).toBe(true);
