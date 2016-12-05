@@ -84,6 +84,11 @@ export class GiftService {
     this.userCc = undefined;
   }
 
+  public isRecurringGiftWithNoStartDate() {
+    return !this.isOneTimeGift() && !this.start_date;
+
+  }
+
   public loadExistingPaymentData(): void {
     if ( !this.isOneTimeGift() ) {
       return;
