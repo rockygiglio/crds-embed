@@ -6,6 +6,7 @@ import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { PaymentCallBody } from '../models/payment-call-body';
 import { StripeService } from './stripe.service';
+import { CrdsDonor } from '../models/crds-donor';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';

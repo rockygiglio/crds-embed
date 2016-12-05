@@ -108,9 +108,10 @@ describe('Component: Summary', () => {
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
     this.component.gift.donor = new CrdsDonor(123, 'test@test.com', 'John', 'Doe', 'post');
-    let paymentBody = new PaymentCallBody(this.component.gift.amount, 'cc', 'PAYMENT', this.component.gift.invoiceId );
+    let paymentBody = new PaymentCallBody('', this.component.gift.amount, 'cc', 'PAYMENT', this.component.gift.invoiceId );
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitPayment();
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
@@ -120,9 +121,10 @@ describe('Component: Summary', () => {
     this.component.gift.amount = 12.34;
     this.component.gift.invoiceId = 1234;
     this.component.gift.donor = new CrdsDonor(123, 'test@test.com', 'John', 'Doe', 'post');
-    let paymentBody = new PaymentCallBody(this.component.gift.amount, 'bank', 'PAYMENT', this.component.gift.invoiceId );
+    let paymentBody = new PaymentCallBody('', this.component.gift.amount, 'bank', 'PAYMENT', this.component.gift.invoiceId );
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitPayment();
     expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
   });
@@ -145,12 +147,12 @@ describe('Component: Summary', () => {
     expect(this.component.loginService.logOut).toHaveBeenCalled();
   });
 
-  xit('should add redirect params to redirect url', () => {
-    // this.component.gift.url = 'http://www.redirecturl.com';
-    // this.component.redirectParams.set('param1', 1);
-    // this.component.redirectParams.set('param2', 'two');
-    // this.component.addParamsToRedirectUrl();
-    // expect(this.component.gift.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
+  it('should add redirect params to redirect url', () => {
+    this.component.gift.url = 'http://www.redirecturl.com';
+    this.component.redirectParams.set('param1', 1);
+    this.component.redirectParams.set('param2', 'two');
+    this.component.addParamsToRedirectUrl();
+    expect(this.component.gift.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
   });
 
 });

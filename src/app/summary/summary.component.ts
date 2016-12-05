@@ -26,7 +26,7 @@ export class SummaryComponent implements OnInit {
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
-              private stateManagerService: StateManagerService,
+              private state: StateManagerService,
               private donationService: DonationService,
               private gift: GiftService,
               private loginService: LoginService,
@@ -76,7 +76,7 @@ export class SummaryComponent implements OnInit {
         value => {
 
           let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-          let paymentDetail = new PaymentCallBody(this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId );
+          let paymentDetail = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId);
 
           this.paymentService.postPayment(paymentDetail).subscribe(
             info => {
@@ -90,6 +90,7 @@ export class SummaryComponent implements OnInit {
               if (error.status === 400) {
                 this.gift.systemException = true;
                 this.state.setLoading(false);
+                this.gift.clearUserPmtInfo();
                 return false;
               } else {
                 this.gift.stripeException = true;
@@ -105,7 +106,6 @@ export class SummaryComponent implements OnInit {
             this.gift.systemException = true;
             this.state.setLoading(false);
             return false;
-         this.gift.clearUserPmtInfo();
         }
     );
     return false;
