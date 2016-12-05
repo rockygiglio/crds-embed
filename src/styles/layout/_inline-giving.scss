@@ -389,22 +389,6 @@
   }
 
   .radio-group {
-    // line-height: 1em;
-
-    // input {
-    //   margin: 0;
-    //   margin-bottom: 4px;
-    //   vertical-align: middle;
-    // }
-
-    // display: block;
-    // position: absolute;
-    // margin: auto;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    // top: 0;
-    // padding: 0;
     padding: 1em 0 2em;
 
     ul {
@@ -416,7 +400,6 @@
         color: $text-color;
         display: inline-block;
         position: relative;
-        float: left;
 
         input[type=radio] {
           position: absolute;
