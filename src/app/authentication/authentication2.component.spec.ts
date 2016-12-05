@@ -54,9 +54,25 @@ describe('AuthenticationComponent', () => {
     });
   });
 
+  describe('#adv', () => {});
+
   describe('#back', () => {});
 
-  describe('#adv', () => {});
+  describe('#checkEmail', () => {});
+
+  xit('formInvalid(field) check to see if field is invalid', () => {
+  
+  });
+ 
+  describe('#formatErrorMessage', () => {
+    it('returns <u>required</u> when errors.required !== undefined', () => {
+
+    });
+
+    xit('returns <em>invalid</em> when errors.required === undefined', () => {
+
+    });
+  });
 
   describe('#next', () => {
     describe('when form is invalid', () => {
@@ -106,8 +122,4 @@ describe('AuthenticationComponent', () => {
       expect(fixture.adv).toHaveBeenCalled();
     });
   });
-
-  describe('#guest', () => {});
-
-  describe('#checkEmail', () => {});
-});
+ });

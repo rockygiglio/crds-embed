@@ -20,6 +20,7 @@ export class AuthenticationComponent implements OnInit {
 
   public email: string;
   public form: FormGroup;
+  public formSubmitted: boolean;
   public guestEmail: boolean;
   public loginException: boolean;
   public userPmtInfo: any;
@@ -43,7 +44,7 @@ export class AuthenticationComponent implements OnInit {
 
     this.form = this._fb.group({
       email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
-      password: ['']
+      password: ['', <any>Validators.required]
     });
 
     this.form.valueChanges.subscribe((value: any) => {
@@ -58,36 +59,12 @@ export class AuthenticationComponent implements OnInit {
     this.stateManagerService.is_loading = false;
   }
 
-  back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
-    return false;
-  }
-
   adv(): void {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
   }
 
-  next(): boolean {
-    this.stateManagerService.is_loading = true;
-    this.gift.isGuest = false;
-    this.loginException = false;
-    if (this.form.valid) {
-      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
-      .subscribe(
-        (user) => {
-          this.gift.loadUserData();
-          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-          this.adv();
-        },
-        (error) => {
-          this.loginException = true;
-          this.stateManagerService.is_loading = false;
-        }
-      );
-    } else {
-      this.loginException = true;
-      this.stateManagerService.is_loading = false;
-    }
+  back(): boolean {
+    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
     return false;
   }
 
@@ -109,4 +86,39 @@ export class AuthenticationComponent implements OnInit {
     }
   }
 
+  formInvalid(field): boolean {
+    return !this.form.controls[field].valid
+  }
+
+  formatErrorMessage(errors: any): string {
+    let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
+    return ret;
+  }
+
+  next(): boolean {
+    this.formSubmitted = true;
+    this.stateManagerService.is_loading = true;
+    this.gift.isGuest = false;
+    this.loginException = false;
+    if (this.form.valid) {
+      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
+      .subscribe(
+        (user) => {
+          this.gift.loadUserData();
+          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+          this.adv();
+        },
+        (error) => {
+          this.loginException = true;
+          this.stateManagerService.is_loading = false;
+        }
+      );
+    } else {
+      this.loginException = true;
+      this.form.controls['email'].markAsTouched();
+      this.form.controls['password'].markAsTouched();
+      this.stateManagerService.is_loading = false;
+    }
+    return false;
+  }
 }
