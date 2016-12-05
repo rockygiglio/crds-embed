@@ -26,10 +26,11 @@ describe('AuthenticationComponent', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['hidePage']);
+    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
+                                                                                            'getPrevPageToShow',
+                                                                                            'hidePage']);
     gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData']);
     _fb = new FormBuilder();
-    spyOn(_fb, 'group').and.returnValue;
     checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
     httpClientService = jasmine.createSpyObj<HttpClientService>('httpClientService', ['get']);
@@ -41,12 +42,11 @@ describe('AuthenticationComponent', () => {
   });
 
   function setForm( email, password ) {
-  fixture.form = new FormGroup({
-    email: new FormControl(email, Validators.minLength(8)),
-    password: new FormControl(password)
-  });
-}
-
+    fixture.form = new FormGroup({
+      email: new FormControl(email, Validators.minLength(8)),
+      password: new FormControl(password)
+    });
+  }
 
   describe('#ngOnInit', () => {
     it('initializes the component', () => {
@@ -54,23 +54,37 @@ describe('AuthenticationComponent', () => {
     });
   });
 
-  describe('#adv', () => {});
+  describe('#adv', () => {
+    it('calls the router to move to the next step', () => {
+      fixture.adv();
+      expect(router.navigateByUrl).toHaveBeenCalled();
+    });
+  });
 
-  describe('#back', () => {});
+  describe('#back', () => {
+    it('calls the router to move to the previous step', () => {
+      fixture.back();
+      expect(router.navigateByUrl).toHaveBeenCalled();
+    });
+  });
 
   describe('#checkEmail', () => {});
 
-  xit('formInvalid(field) check to see if field is invalid', () => {
-  
-  });
- 
+  xit('formInvalid(field) check to see if field is invalid', () => {});
+
   describe('#formatErrorMessage', () => {
     it('returns <u>required</u> when errors.required !== undefined', () => {
+      let errors = { required: true };
 
+      let res = fixture.formatErrorMessage(errors);
+      expect(res).toBe('is <u>required</u>');
     });
 
-    xit('returns <em>invalid</em> when errors.required === undefined', () => {
+    it('returns <em>invalid</em> when errors.required === undefined', () => {
+      let errors = { require: undefined };
 
+      let res = fixture.formatErrorMessage(errors);
+      expect(res).toBe('is <em>invalid</em>');
     });
   });
 
@@ -79,6 +93,7 @@ describe('AuthenticationComponent', () => {
       beforeEach(() => {
         setForm('good@', 'foobar');
       });
+
       it('does not call #adv', () => {
         spyOn(fixture, 'adv');
 

@@ -87,7 +87,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   formInvalid(field): boolean {
-    return !this.form.controls[field].valid
+    return !this.form.controls[field].valid;
   }
 
   formatErrorMessage(errors: any): string {
