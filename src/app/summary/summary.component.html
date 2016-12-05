@@ -21,7 +21,7 @@
       <td class="text-right">
         {{ gift.email }}<br>
         <small *ngIf="gift.isDonation() && !gift.isGuest"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
-        <small *ngIf="gift.isDonation() && gift.isGuest"><a routerLink="/auth" (click)="changeUser()">change</a></small>
+        <small *ngIf="gift.isDonation() && gift.isGuest"><a routerLink="/auth">change</a></small>
       </td>
     </tr>
     <tr *ngIf="!gift.isPayment()">
