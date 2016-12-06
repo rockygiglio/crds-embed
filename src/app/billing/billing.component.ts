@@ -28,12 +28,13 @@ export class BillingComponent implements OnInit {
   errorMessageCC: string = '';
 
   constructor( private router: Router,
-    private stateManagerService: StateManagerService,
+    private state: StateManagerService,
     private gift: GiftService,
     private fb: FormBuilder,
     private pmtService: PaymentService,
     private stripeService: StripeService,
     ) {
+      this.state.setLoading(true);
       this.achForm = this.fb.group({
         accountName: ['', [<any>Validators.required]],
         routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
@@ -54,111 +55,70 @@ export class BillingComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.stateManagerService.is_loading = true;
-
     if ( this.gift.existingPaymentInfo ) {
-        this.gift.existingPaymentInfo.subscribe(
+      this.gift.existingPaymentInfo.subscribe(
         info => {
-          this.handleDonorError();
+          this.state.setLoading(false);
           if ( info !== null ) {
             this.gift.setBillingInfo(info);
             if (this.gift.accountLast4) {
-              this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+              this.state.hidePage(this.state.billingIndex);
               this.adv();
             }
           }
         },
-        error => {
-          this.handleDonorError();
-        }
+        error => this.state.setLoading(false)
       );
     } else {
-       this.handleDonorError();
+      this.state.setLoading(false);
     }
 
     if ( this.gift.accountLast4) {
       this.adv();
     }
 
-    if (!this.gift.type) {
-      this.router.navigateByUrl('/payment');
-    }
+    this.gift.validateRoute(this.router);
   }
 
-  back() {
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.billingIndex));
+  public back() {
+    this.gift.resetErrors();
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.billingIndex));
     return false;
   }
 
-  switchMessage(errors: any): string {
-    let ret = `is <em>invalid</em>`;
-    if ( errors.required !==  undefined ) {
-      ret = `is <u>required</u>`;
-    }
-    return ret;
-  }
+  public achNext() {
 
-  achNext() {
-    this.achSubmitted = true;
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
+    this.setACHSubmitted(true);
+    this.gift.resetErrors();
 
     if (this.achForm.valid) {
       this.gift.paymentType = 'ach';
       this.gift.accountNumber = this.gift.accountNumber.trim();
       let email = this.gift.email;
 
-      let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber, this.achForm.value.accountNumber,
-                                       this.achForm.value.accountName, this.achForm.value.accountType);
+      let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber,
+        this.achForm.value.accountNumber,
+        this.achForm.value.accountName,
+        this.achForm.value.accountType);
 
       this.gift.userBank = userBank;
 
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
 
-      this.stateManagerService.is_loading = true;
-      this.stateManagerService.watchState();
+      this.state.setLoading(true);
+      this.state.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
-               value => {
-                 this.adv();
-              },
-              errorInner => {
-                this.achSubmitted = false;
-                this.handleDonorError();
-                if (errorInner.status === 400) {
-                  this.gift.systemException = true;
-                  return false;
-                } else {
-                  this.gift.stripeException = true;
-                  this.gift.resetExistingPaymentInfo();
-                  this.gift.resetPaymentDetails();
-                  return false;
-                }
-              }
+              value => this.setValueMoveNext(value),
+              errorInner => this.handleDonorError(errorInner, false)
             );
           },
           error => {
             this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
-               value => {
-                 this.adv();
-              },
-              errorInner => {
-                this.achSubmitted = false;
-                this.handleDonorError();
-                if (errorInner.status === 400) {
-                  this.gift.systemException = true;
-                  return false;
-                } else {
-                  this.gift.stripeException = true;
-                  this.gift.resetExistingPaymentInfo();
-                  this.gift.resetPaymentDetails();
-                  return false;
-                }
-              }
+              value => this.setValueMoveNext(value),
+              errorInner => this.handleDonorError(errorInner, false)
             );
           }
       );
@@ -166,67 +126,41 @@ export class BillingComponent implements OnInit {
     return false;
   }
 
-  ccNext() {
-    this.ccSubmitted = true;
-    this.gift.stripeException = false;
-    this.gift.systemException = false;
+  public ccNext() {
+
+    this.setCCSubmitted(true);
+    this.gift.resetErrors();
+
     if (this.ccForm.valid) {
       this.gift.paymentType = 'cc';
 
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
       let expYear = this.ccForm.value.expDate.split(' / ')[1];
-
       let email = this.gift.email;
+      let userCard: CustomerCard = new CustomerCard(this.gift.email,
+        this.ccForm.value.ccNumber,
+        expMonth,
+        expYear,
+        this.ccForm.value.cvc,
+        this.ccForm.value.zipCode);
 
-      let userCard: CustomerCard = new CustomerCard(this.gift.email, this.ccForm.value.ccNumber, expMonth, expYear,
-                                                    this.ccForm.value.cvc, this.ccForm.value.zipCode);
+      let firstName = '';
+      let lastName = '';
 
       this.gift.userCc = userCard;
-
-      let firstName = 'placeholder'; // not used by API, except for guest donations
-      let lastName = 'placeholder';  // not used by API, except for guest donations
-
-      this.stateManagerService.is_loading = true;
-      this.stateManagerService.watchState();
+      this.state.setLoading(true);
+      this.state.watchState();
       this.pmtService.getDonor().subscribe(
           donor => {
             this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
-               value => {
-                 this.adv();
-              },
-              errorInner => {
-                this.ccSubmitted = false;
-                this.handleDonorError();
-                if (errorInner.status === 400) {
-                  this.gift.systemException = true;
-                  return false;
-                } else {
-                  this.gift.stripeException = true;
-                  this.gift.resetExistingPaymentInfo();
-                  this.gift.resetPaymentDetails();
-                  return false;
-                }
-              }
+              value => this.setValueMoveNext(value),
+              errorInner => this.handleDonorError(errorInner, true)
             );
           },
           error => {
             this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
-               value => {
-                 this.adv();
-              },
-              errorInner => {
-                this.ccSubmitted = false;
-                this.handleDonorError();
-                if (errorInner.status === 400) {
-                  this.gift.systemException = true;
-                  return false;
-                } else {
-                  this.gift.stripeException = true;
-                  this.gift.resetExistingPaymentInfo();
-                  this.gift.resetPaymentDetails();
-                  return false;
-                }
-              }
+              value => this.setValueMoveNext(value),
+              errorInner => this.handleDonorError(errorInner, true)
             );
           }
       );
@@ -235,13 +169,48 @@ export class BillingComponent implements OnInit {
     return false;
   }
 
-  adv() {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.billingIndex));
+  private adv() {
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.billingIndex));
     return false;
   }
 
-  handleDonorError() {
-    this.stateManagerService.is_loading = false;
+  private handleDonorError(errResponse: any, isCC = false): boolean {
+    if ( isCC === true ) {
+      this.setCCSubmitted(false);
+    } else {
+      this.setACHSubmitted(false);
+    }
+    this.state.setLoading(false);
+    if (errResponse.status === 400 || errResponse.status === 500) {
+      this.gift.systemException = true;
+      return false;
+    } else {
+      this.gift.stripeException = true;
+      this.gift.resetExistingPaymentInfo();
+      this.gift.resetPaymentDetails();
+      return false;
+    }
+  }
+
+  private setValueMoveNext(value) {
+    this.gift.donor = value;
+    this.adv();
+  }
+
+  private setCCSubmitted(val: boolean) {
+    this.ccSubmitted = val;
+  }
+
+  private setACHSubmitted(val: boolean) {
+     this.achSubmitted = val;
+  }
+
+  public switchMessage(errors: any): string {
+    let ret = `is <em>invalid</em>`;
+    if ( errors.required !==  undefined ) {
+      ret = `is <u>required</u>`;
+    }
+    return ret;
   }
 
 }

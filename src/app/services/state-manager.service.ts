@@ -50,7 +50,7 @@ export class StateManagerService {
   }
 
   public hidePage(pageIndex: number) {
-      this.paymentState[pageIndex].show = false;
+    this.paymentState[pageIndex].show = false;
   }
 
   public unhidePage(pageIndex: number) {
@@ -63,6 +63,10 @@ export class StateManagerService {
 
   public stopWatchingState() {
     clearInterval(this.watcherInterval);
+  }
+
+  public setLoading(val: boolean) {
+    this.is_loading = val;
   }
 
 }

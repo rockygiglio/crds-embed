@@ -42,5 +42,9 @@
 
 <footer class="page-footer">
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-  <input type="button" class="btn btn-next pull-right" (click)="next()" [disabled]="!form.valid || !gift.start_date" value="Next">
+  <input type="button"
+         class="btn btn-next pull-right"
+         (click)="next()"
+         [disabled]="!form.valid || gift.isRecurringGiftWithNoStartDate()"
+         value="Next">
 </footer>

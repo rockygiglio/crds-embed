@@ -29,9 +29,8 @@ export class DonationFundService implements Resolve<any> {
   }
 
   getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
-    let urlParamFund: any = funds.find(fund => fund.ProgramId == paramFundId); // need == not ===
+    let urlParamFund: any = funds.find(fund => Number(fund.ProgramId) === Number(paramFundId));
     let fund: Program = urlParamFund ? urlParamFund : defaultFund;
-console.log('Fund set via param or default fund: ' + fund.ProgramId);  // console log added to validate AC for US5625
     return fund;
   }
 

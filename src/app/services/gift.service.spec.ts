@@ -84,5 +84,23 @@ describe('Service: Gift', () => {
     expect(srvc.isOneTimeGift()).toBe(false);
   }));
 
+  it('should return false if one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'One Time';
+    srvc.start_date = new Date();
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
+  }));
+
+  it('should return true if recurring gift w/ missing date', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    srvc.start_date = undefined;
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(true);
+  }));
+
+  it('should return false if recurring and date is set', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    srvc.start_date = new Date();
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
+  }));
+
 
 });

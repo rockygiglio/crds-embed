@@ -16,11 +16,12 @@
       <td *ngIf="gift.isPayment()" class="text-right">{{ gift.title }}</td>
     </tr>
     <tr>
-      <td *ngIf="gift.isDonation()"><a routerLink="/auth">From:</a></td>
+      <td *ngIf="gift.isDonation()"><a routerLink="/auth" (click)="changeUser()">From:</a></td>
       <td *ngIf="gift.isPayment()">From:</td>
       <td class="text-right">
         {{ gift.email }}<br>
-        <small *ngIf="gift.isDonation()"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
+        <small *ngIf="gift.isDonation() && !gift.isGuest"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
+        <small *ngIf="gift.isDonation() && gift.isGuest"><a routerLink="/auth">change</a></small>
       </td>
     </tr>
     <tr *ngIf="!gift.isPayment()">
@@ -46,6 +47,17 @@
 
 <footer class="page-footer page-footer--pt-1">
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-  <input type="button" *ngIf="gift.isDonation()" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="submitDonation()" value="Give {{ gift.amount | currency:'USD':true }}">
-  <input type="button" *ngIf="gift.isPayment()" [disabled]="paymentSubmitted" class="btn btn-next pull-right" (click)="submitPayment()" value="Pay {{ gift.amount | currency:'USD':true }}">
+  <input type="button"
+         *ngIf="gift.isDonation()"
+         [disabled]="isSubmitInProgress"
+         class="btn btn-next pull-right"
+         (click)="submitDonation()"
+         value="Give {{ gift.amount | currency:'USD':true }}">
+
+  <input type="button"
+         *ngIf="gift.isPayment()"
+         [disabled]="isSubmitInProgress"
+         class="btn btn-next pull-right"
+         (click)="submitPayment()"
+         value="Pay {{ gift.amount | currency:'USD':true }}">
 </footer>
