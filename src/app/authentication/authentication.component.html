@@ -1,81 +1,88 @@
-<div id="login-exception" class="alert alert-danger" *ngIf="loginException">
-  Oops! Sign in failed. Please try again or use <a href="https://www.crossroads.net/forgot-password">Forgot Password</a>
-</div>
-<div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.isDonation()">
+<div (keydown.enter)="onEnterKey()" >
 
-  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
-  <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
-</div>
+  <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
+    Oops! Sign in failed. Please try again or use
+    <a href="https://www.crossroads.net/forgot-password">Forgot Password</a>
+  </div>
+  <div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.isDonation()">
 
-<div *ngIf="signinOption == 'Sign In'" heading="Sign In">
-  <header class="page-header page-header--border-btm">
-    <h2>Sign In</h2>
-  </header>
+    <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
+    <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="submitLogin()">
-    <div class="form-group">
-      <label class="sr-only" for="email">Email</label>
-      <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
-    </div>
+  <div *ngIf="signinOption == 'Sign In'" heading="Sign In">
+    <header class="page-header page-header--border-btm">
+      <h2>Sign In</h2>
+    </header>
 
-    <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('email')">
-      <p>Email <span [innerHTML]="formatErrorMessage(form.controls['email'].errors)"></span></p>
-    </div>
-
-    <div class="form-group">
-      <label class="sr-only" for="password">Password</label>
-      <input type="password" class="form-control" placeholder="Password" name="password" [formControl]="form.get('password')">
-    </div>
-
-    <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('password')">
-      <p>Password <span [innerHTML]="formatErrorMessage(form.controls['password'].errors)"></span></p>
-    </div>
-
-    <div class="row form__helpers">
-      <div class="form__helpers--full">
-        <p class="pull-right text-left text-block">
-          <a class="text-block__link" [href]="forgotPasswordUrl" target="_blank">Forgot password?</a><br>
-          <a class="text-block__link" [href]="helpUrl" target="_blank">Need help?</a>
-        </p>
+    <form [formGroup]="form" (ngSubmit)="submitLogin()">
+      <div class="form-group">
+        <label class="sr-only" for="email">Email</label>
+        <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
       </div>
-    </div>
 
-    <hr>
+      <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('email')">
+        <p>Email <span [innerHTML]="formatErrorMessage(form.controls['email'].errors)"></span></p>
+      </div>
 
-    <p class="text-block">Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
-    <footer class="page-footer">
-      <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
-      <input type="button" class="btn btn-next pull-right" (click)="submitLogin()" value="Sign In">
-    </footer>
-  </form>
-</div>
+      <div class="form-group">
+        <label class="sr-only" for="password">Password</label>
+        <input type="password" class="form-control" placeholder="Password" name="password"
+               [formControl]="form.get('password')">
+      </div>
 
-<div *ngIf="signinOption == 'Guest' && gift.frequency == 'One Time' && gift.isDonation()" heading="Give as a Guest">
-  <header class="page-header">
-    <h2>Guest</h2>
-  </header>
+      <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('password')">
+        <p>Password <span [innerHTML]="formatErrorMessage(form.controls['password'].errors)"></span></p>
+      </div>
 
-  <form [formGroup]="formGuest" (ngSubmit)="submitGuest()">
-    
-    <div class="form-group">
-      <input type="email" 
-          class="form-control" 
-          [class.ng-invalid]="guestEmail" 
-          [class.ng-valid]="!guestEmail" 
-          placeholder="Email" 
-          name="email" 
-          [(ngModel)]="email" 
-          [formControl]="formGuest.get('email')" />
-    </div>
+      <div class="row form__helpers">
+        <div class="form__helpers--full">
+          <p class="pull-right text-left text-block">
+            <a class="text-block__link" [href]="forgotPasswordUrl" target="_blank">Forgot password?</a><br>
+            <a class="text-block__link" [href]="helpUrl" target="_blank">Need help?</a>
+          </p>
+        </div>
+      </div>
 
-    <div *ngIf="guestEmail">
-      <div class="alert alert-danger">Looks like that email is already taken</div>
-    </div>
+      <hr>
+
+      <p class="text-block">Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
+      <footer class="page-footer">
+        <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
+        <input type="button" class="btn btn-next pull-right" (click)="submitLogin()" value="Sign In">
+      </footer>
+    </form>
+  </div>
+
+  <div *ngIf="signinOption == 'Guest' && gift.frequency == 'One Time' && gift.isDonation()" heading="Give as a Guest">
+    <header class="page-header">
+      <h2>Guest</h2>
+    </header>
+
+    <form [formGroup]="formGuest" (ngSubmit)="submitGuest()">
+
+      <div class="form-group">
+        <input type="email"
+            class="form-control"
+            [class.ng-invalid]="guestEmail"
+            [class.ng-valid]="!guestEmail"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="email"
+            [formControl]="formGuest.get('email')" />
+      </div>
+
+      <div *ngIf="guestEmail">
+        <div class="alert alert-danger">Looks like that email is already taken</div>
+      </div>
 
 
-    <footer class="page-footer">
-      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">      
-      <input type="button" class="btn btn-next pull-right" (click)="submitGuest()" [ngClass]="{ disabled: !formGuest.valid }" value="Next">
-    </footer>
-  </form>
+      <footer class="page-footer">
+        <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+        <input type="button" class="btn btn-next pull-right" (click)="submitGuest()"
+               [ngClass]="{ disabled: !formGuest.valid }" value="Next">
+      </footer>
+    </form>
+  </div>
+
 </div>

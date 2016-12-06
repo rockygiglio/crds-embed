@@ -74,6 +74,14 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
+  public onEnterKey() {
+    let isOnLoginTab: boolean = this.signinOption === 'Sign In';
+
+    if (isOnLoginTab) {
+      this.submitLogin();
+    }
+  }
+
   public submitGuest(): boolean {
     if ( this.formGuest.valid ) {
       this.gift.isGuest = true;
