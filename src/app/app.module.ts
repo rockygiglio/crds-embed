@@ -20,6 +20,7 @@ import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-freque
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PaymentComponent } from './payment/payment.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
+import { RegisterComponent} from './register/register.component';
 
 import { DonationService } from './services/donation.service';
 import { DonationFundService } from './services/donation-fund.service';
@@ -33,6 +34,7 @@ import { PreviousGiftAmountService } from './services/previous-gift-amount.servi
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { StateManagerService } from './services/state-manager.service';
 import { StripeService } from './services/stripe.service';
+import { RegistrationService } from './services/registration.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -70,7 +72,8 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     PageNotFoundComponent,
     PaymentComponent,
     SimpleCreditCardFormatDirective,
-    SummaryComponent
+    SummaryComponent,
+    RegisterComponent
   ],
   providers:    [
     appRoutingProviders,
@@ -87,6 +90,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     QuickDonationAmountsService,
     StateManagerService,
     StripeService,
+    RegistrationService,
     {provide: WindowToken, useFactory: _window},
   ],
   bootstrap:    [AppComponent]
