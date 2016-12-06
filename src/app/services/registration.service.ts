@@ -16,12 +16,8 @@ export class RegistrationService {
 
         let url: string = this.baseUrl + 'api/user';
 
-        let a = this.httpClient.post(url, user)
+        return this.httpClient.post(url, user)
             .catch(this.handleError);
-
-        console.log(a);
-
-        return a;
     };
 
     private handleError (res: Response) {

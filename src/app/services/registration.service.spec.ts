@@ -38,20 +38,13 @@ describe('Service: Registration', () => {
         TestBed.compileComponents();
     }));
 
-    fit('should pass', inject([RegistrationService], (registrationService) => {
-        expect(true).toBe(true);
-    }));
-
-  /*    it('it should create new MP user',
-        
+   it('it should create new MP user',
         async(inject([RegistrationService], (registrationService) => {
-            expect(true).toBeTruthy();
-          console.log('running');
             mockBackend.connections.subscribe(
                 (connection: MockConnection) => {
                     connection.mockRespond(new Response(
                         new ResponseOptions({
-                                body: [{firstname: 'Greg', lastname: 'McGregson', email: 'greg@a.com', password: 'pass1234'}]
+                                body: {firstname: 'Greg', lastname: 'McGregson', email: 'greg@a.com', password: 'pass1234'}
                             }
                         )));
                 });
@@ -61,10 +54,11 @@ describe('Service: Registration', () => {
 
             registrationService.postUser(newUser).subscribe(
                 (data) => {
-                    expect(data).toBeNull();
+                    expect(data).not.toBeNull();
+                    expect(data['firstname']).toBe('Greg');
+                    expect(data['lastname']).toBe('McGregson');
+                    expect(data['email']).toBe('greg@a.com');
+                    expect(data['password']).toBe('pass1234');
                 });
-        }))
-    
-})));*/
-
+        })));
 });
