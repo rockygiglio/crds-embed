@@ -75,32 +75,36 @@ export class SummaryComponent implements OnInit {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
                                                 pymt_type, 'DONATION', this.gift.invoiceId );
-      this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
-        value => {
-          if ( this.gift.isGuest === true ) {
-            donationDetails.donor_id = value.id;
-            donationDetails.email_address = this.gift.email;
-          }
-          this.paymentService.postPayment(donationDetails).subscribe(
+
+      if(this.gift.donor){
+        this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
+            value => {
+              if ( this.gift.isGuest === true ) {
+                donationDetails.donor_id = value.id;
+                donationDetails.email_address = this.gift.email;
+              }
+              this.paymentService.postPayment(donationDetails).subscribe(
+                  success => this.handleSuccess(success),
+                  innerError => this.handleInnerError(innerError)
+              );
+            },
+            error => this.handleOuterError(error)
+        );
+      } else {
+        this.paymentService.postPayment(donationDetails).subscribe(
             success => this.handleSuccess(success),
             innerError => this.handleInnerError(innerError)
-          );
-        },
-        error => this.handleOuterError(error)
-      );
+        );
+      }
+
     } else {
 
       let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
       let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
 
-      this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
-        value => {
-          this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
-            success => this.handleSuccess(success),
-            innerError => this.handleInnerError(innerError)
-          );
-        },
-        error => this.handleOuterError(error)
+      this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+        success => this.handleSuccess(success),
+        innerError => this.handleInnerError(innerError)
       );
     }
   }
