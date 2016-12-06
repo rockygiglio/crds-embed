@@ -1,6 +1,5 @@
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { Angulartics2GoogleTagManager } from 'angulartics2/dist/providers';
-import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
