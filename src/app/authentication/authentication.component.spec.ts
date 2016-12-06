@@ -58,14 +58,14 @@ describe('Component: Authentication', () => {
   });
 
   describe('#adv', () => {
-    it('calls the router to move to the next step', () => {
+    it('should call the router to move to the next step', () => {
       fixture.adv();
       expect(router.navigateByUrl).toHaveBeenCalled();
     });
   });
 
   describe('#back', () => {
-    it('calls the router to move to the previous step', () => {
+    it('should call the router to move to the previous step', () => {
       fixture.back();
       expect(router.navigateByUrl).toHaveBeenCalled();
     });
@@ -102,7 +102,7 @@ describe('Component: Authentication', () => {
 
   });
 
-  it('#formInvalid(field) check to see if field is invalid', () => {
+  it('#formInvalid(field) should check to see if field is invalid', () => {
 
     fixture.form.setValue({ email: 's@s.com', password: 'test' });
     let isInvalid = fixture.formInvalid('email');
@@ -115,14 +115,14 @@ describe('Component: Authentication', () => {
   });
 
   describe('#formatErrorMessage', () => {
-    it('returns <u>required</u> when errors.required !== undefined', () => {
+    it('should return <u>required</u> when errors.required !== undefined', () => {
       let errors = { required: true };
 
       let res = fixture.formatErrorMessage(errors);
       expect(res).toBe('is <u>required</u>');
     });
 
-    it('returns <em>invalid</em> when errors.required === undefined', () => {
+    it('should return <em>invalid</em> when errors.required === undefined', () => {
       let errors = { require: undefined };
 
       let res = fixture.formatErrorMessage(errors);
@@ -136,14 +136,14 @@ describe('Component: Authentication', () => {
         setForm('good@', 'foobar');
       });
 
-      it('does not call #adv', () => {
+      it('should not call #adv', () => {
         spyOn(fixture, 'adv');
 
         fixture.submitLogin();
         expect(fixture.adv).not.toHaveBeenCalled();
       });
 
-      it('loginException gets set to true', () => {
+      it('loginException should get set to true', () => {
         expect(fixture.loginException).toBeFalsy();
         fixture.submitLogin();
         expect(fixture.loginException).toBeTruthy();
@@ -156,21 +156,21 @@ describe('Component: Authentication', () => {
         (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
       });
 
-      it('#adv does not get called', () => {
+      it('#adv should not get called', () => {
         spyOn(fixture, 'adv');
 
         fixture.submitLogin();
         expect(fixture.adv).not.toHaveBeenCalled();
       });
 
-      it('loginException gets set to true', () => {
+      it('loginException should get set to true', () => {
         expect(fixture.loginException).toBeFalsy();
         fixture.submitLogin();
         expect(fixture.loginException).toBeTruthy();
       });
     });
 
-    it('calls #adv when valid auth credentials are submitted', () => {
+    it('should call #adv when valid auth credentials are submitted', () => {
       setForm('good@good.com', 'foobar');
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
       spyOn(fixture, 'adv');
@@ -179,7 +179,7 @@ describe('Component: Authentication', () => {
       expect(fixture.adv).toHaveBeenCalled();
     });
 
-    it('provides an error message when invalid auth credentials are provided', () => {
+    it('should provide an error message', () => {
       setForm('bad@bad.com', 'reallynotgood');
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
       spyOn(fixture, 'adv');

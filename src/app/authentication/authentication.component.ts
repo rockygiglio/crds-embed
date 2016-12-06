@@ -25,6 +25,8 @@ export class AuthenticationComponent implements OnInit {
   public guestEmail: boolean;
   public loginException: boolean;
   public userPmtInfo: any;
+  private helpUrl: string;
+  private forgotPasswordUrl: string;
 
   constructor( private router: Router,
     private state: StateManagerService,
@@ -37,6 +39,9 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+
+    this.helpUrl = `//${process.env.CRDS_ENV}.crossroads.net/help`;
+    this.forgotPasswordUrl = `//${process.env.CRDS_ENV}.crossroads.net/forgot-password`;
 
     if ( this.gift.isGuest === true && this.gift.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
