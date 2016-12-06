@@ -9,18 +9,20 @@ export interface PageState {
 export class StateManagerService {
 
   public authenticationIndex: number = 2;
-  public billingIndex: number = 3;
-  public confirmationIndex: number = 5;
+  public billingIndex: number = 4;
+  public confirmationIndex: number = 6;
   public fundIndex: number = 1;
   public is_loading: boolean = false;
   public paymentIndex: number = 0;
-  public summaryIndex: number = 4;
+  public registrationIndex: number = 3;
+  public summaryIndex: number = 5;
   public watcherInterval: any = undefined;
 
   public paymentState: PageState[] = [
     { path: '/payment', show: true },
     { path: '/fund', show: false },
     { path: '/auth', show: true },
+    { path: '/registration', show: false },
     { path: '/billing', show: true },
     { path: '/summary', show: true },
     { path: '/confirmation', show: true}
