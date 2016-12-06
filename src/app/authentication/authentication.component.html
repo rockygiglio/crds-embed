@@ -73,7 +73,10 @@
       </div>
 
       <div *ngIf="guestEmail">
-        <div class="alert alert-danger">Looks like that email is already taken</div>
+        <div class="alert alert-danger"><strong>Heads up!</strong> 
+        This email is associated with a registered account. If you’d 
+        like to save your payment or see it on your statement, 
+        please <a (click)="switchToSignIn()">sign in</a>.</div>
       </div>
 
 
