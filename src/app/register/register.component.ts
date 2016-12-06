@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { RegistrationService } from '../services/registration.service';
 import { CrdsUser } from '../models/crds-user';
-import { Response } from '@angular/http';
+import { GiftService } from '../services/gift.service';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +22,8 @@ export class RegisterComponent implements OnInit {
               private fb: FormBuilder,
               private stateManagerService: StateManagerService,
               private loginService: LoginService,
-              private registrationService: RegistrationService) {
+              private registrationService: RegistrationService,
+              private giftService: GiftService) {
 
     const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
     this.regForm = this.fb.group({
@@ -59,6 +60,9 @@ export class RegisterComponent implements OnInit {
 
         .subscribe(
           user => {
+            if ( !this.loginService.isLoggedIn()){
+              this.loginNewUser(newUser.email, newUser.password);
+            }
             this.adv();
           },
           error => {
@@ -71,6 +75,17 @@ export class RegisterComponent implements OnInit {
 
     this.submitted = true;
     return false;
+  }
+
+  loginNewUser(email, password) {
+    this.loginService.login(email, password)
+      .subscribe(
+        (user) => {
+          this.giftService.loadUserData();
+        },
+        (error) => {
+          this.stateManagerService.is_loading = false;
+        });
   }
 
   emailMessage(errors: any): string {
