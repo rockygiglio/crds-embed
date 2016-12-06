@@ -2,7 +2,9 @@ import {TestBed, getTestBed, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Response, HttpModule, Http, XHRBackend} from '@angular/http';
 
 import {ResponseOptions} from '@angular/http';
-import {MockBackend, MockConnection} from '@angular/http/testing';
+import { CookieService } from 'angular2-cookie/core';
+import { HttpClientService } from './http-client.service';
+import { MockBackend, MockConnection} from '@angular/http/testing';
 import { RegistrationService } from './registration.service';
 import { CrdsUser } from '../models/crds-user';
 
@@ -14,6 +16,8 @@ describe('Service: Registration', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                CookieService,
+                HttpClientService,
                 RegistrationService,
                 MockBackend,
                 BaseRequestOptions,
@@ -34,7 +38,7 @@ describe('Service: Registration', () => {
         TestBed.compileComponents();
     }));
 
-    xit('should pass', inject([RegistrationService], (registrationService) => {
+    fit('should pass', inject([RegistrationService], (registrationService) => {
         expect(true).toBe(true);
     }));
 
