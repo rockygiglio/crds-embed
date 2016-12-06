@@ -548,34 +548,21 @@
   }
 
   .custom-input-payment__input {
+    .form-control.ng-touched {
+      &.ng-valid, &.ng-invalid {      
+        border: none;
+      }
+    }
     &.ng-touched {
       &.ng-invalid {
-        .form-control,
-        .input-group-addon {
+        .input-group {
           border: 1px solid $danger-state-border;
-        }
-
-        .form-control {
-          border-left: none;
-        }
-
-        .input-group-addon {
-          border-right: none;
         }
       }
 
       &.ng-valid {
-        .form-control,
-        .input-group-addon {
+        .input-group {
           border: 1px solid $success-state;
-        }
-
-        .form-control {
-          border-left: none;
-        }
-
-        .input-group-addon {
-          border-right: none;
         }
       }
     }
