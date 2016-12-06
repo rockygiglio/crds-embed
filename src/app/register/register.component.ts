@@ -57,16 +57,15 @@ export class RegisterComponent implements OnInit {
                                 this.regForm.get('email').value,
                                  this.regForm.get('password').value);
       this.registrationService.postUser(newUser)
-
         .subscribe(
           user => {
-            if ( !this.loginService.isLoggedIn()){
+            if (!this.loginService.isLoggedIn()){
               this.loginNewUser(newUser.email, newUser.password);
             }
             this.adv();
           },
           error => {
-            if ( error === 'Duplicate User') {
+            if (error === 'Duplicate User') {
               this.stateManagerService.is_loading = false;
               this.duplicateUser = true;
             }
