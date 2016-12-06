@@ -137,4 +137,8 @@ export class AuthenticationComponent implements OnInit {
     let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
     return ret;
   }
+
+  public switchToSignIn() {
+    this.signinOption = 'Sign In';
+  }
 }
