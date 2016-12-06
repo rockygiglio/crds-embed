@@ -3,6 +3,9 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HttpClientService } from './http-client.service';
 
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
 @Injectable()
 export class LoginService {
 
@@ -17,6 +20,9 @@ export class LoginService {
     };
 
     return this.http.post(this.loginUrl, body)
+      .map((res: Response) => {
+        return res || null;
+      })
       .catch(this.handleError);
   }
 
@@ -39,8 +45,8 @@ export class LoginService {
       });
   }
 
-  private handleError(res: Response | any) {
-    return [res.json()];
+  public handleError(res: Response | any) {
+    return Observable.throw([res.json()]);
   }
 
 }

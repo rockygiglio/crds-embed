@@ -8,7 +8,9 @@ $cr-teal: #56AFA9;
 $cr-white: #FFF;
 
 // Bootstrap Overrides
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+// $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$bootstrap-sass-asset-helper: true;
+$icon-font-path: if($bootstrap-sass-asset-helper, "bootstrap/", "../fonts/bootstrap/") !default;
 
 // To be changed with Typekit tranfer
 $fontface-header: "acumin-pro-extra-condensed", sans-serif;

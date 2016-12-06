@@ -38,8 +38,8 @@ class MockGiftService {
       return false;
     }
   }
+  public validateRoute(router: any) { }
 }
-class MockRouter { public navigate() {}; }
 class MockPrototypeStore { public subscribe() {}; }
 
 describe('Component: Confirmation', () => {
@@ -62,8 +62,8 @@ describe('Component: Confirmation', () => {
         { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
         { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
         { provide: GiftService, useClass: MockGiftService },
-        ParamValidationService,
-        StateManagerService
+        StateManagerService,
+        ParamValidationService
       ]
     });
     this.fixture = TestBed.createComponent(ConfirmationComponent);

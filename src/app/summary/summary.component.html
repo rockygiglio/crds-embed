@@ -16,11 +16,12 @@
       <td *ngIf="gift.isPayment()" class="text-right">{{ gift.title }}</td>
     </tr>
     <tr>
-      <td *ngIf="gift.isDonation()"><a routerLink="/auth">From:</a></td>
+      <td *ngIf="gift.isDonation()"><a routerLink="/auth" (click)="changeUser()">From:</a></td>
       <td *ngIf="gift.isPayment()">From:</td>
       <td class="text-right">
         {{ gift.email }}<br>
-        <small *ngIf="gift.isDonation()"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
+        <small *ngIf="gift.isDonation() && !gift.isGuest"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
+        <small *ngIf="gift.isDonation() && gift.isGuest"><a routerLink="/auth">change</a></small>
       </td>
     </tr>
     <tr *ngIf="!gift.isPayment()">

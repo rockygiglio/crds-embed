@@ -29,7 +29,7 @@ export class DonationFundService implements Resolve<any> {
   }
 
   getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
-    let urlParamFund: any = funds.find(fund => fund.ProgramId == paramFundId); // need == not ===
+    let urlParamFund: any = funds.find(fund => Number(fund.ProgramId) === Number(paramFundId));
     let fund: Program = urlParamFund ? urlParamFund : defaultFund;
     return fund;
   }
