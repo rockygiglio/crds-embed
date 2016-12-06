@@ -4,14 +4,12 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
 var Dotenv = require('dotenv-webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var StringReplacePlugin = require("string-replace-webpack-plugin");
 
 module.exports = {
   entry: {
     'polyfills': ['./src/polyfills.ts'],
     'vendor': ['./src/vendor.ts'],
-    'app': ['./src/main.ts'],
-    'apache_site': ['./apache_site.conf']
+    'app': ['./src/main.ts']
   },
 
   resolve: {
@@ -54,29 +52,15 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         loaders: ['raw-loader', 'sass-loader']
-      },
-      {
-        test: /apache_site\.conf$/,
-        loader: StringReplacePlugin.replace({
-          replacements: [
-            {
-              pattern: /\${(.*)}/g,
-              replacement: function (match, p1, offset, string) {
-                console.log(eval('process.env.' + p1).toString());
-                return eval('process.env.' + p1).toString();
-              }
-            }
-          ]
-        })
       }
     ]
   },
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills', 'apache_site']
+      name: ['app', 'vendor', 'polyfills']
     }),
-
+    
     new Dotenv({
       systemvars: true
     }),
@@ -93,8 +77,11 @@ module.exports = {
     new CopyWebpackPlugin([{
       from: './apache_site.conf',
       to: 'apache_site.conf',
-    }]),
-
-    new StringReplacePlugin()
+      transform: function (content, path) {
+        return content.toString().replace(/\${(.*?)}/g, function(match, p1, offset, string) {          
+          return process.env[p1];
+        });
+      }
+    }])
   ]
 };
