@@ -483,6 +483,8 @@
     &__input {
       &--half {
         @include make-xs-column(6);
+        padding-left: 0px;
+        padding-right: 0px;
       }
     }
   }

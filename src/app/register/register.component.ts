@@ -102,4 +102,8 @@ export class RegisterComponent implements OnInit {
     }
     return ret;
   }
+
+  public onEnterKey() {
+      this.next();
+  }
 }
