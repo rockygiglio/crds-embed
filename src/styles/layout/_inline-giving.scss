@@ -547,9 +547,12 @@
 
   .custom-input-payment__input {
     .form-control.ng-touched {
-      &.ng-valid, &.ng-invalid {      
-        border: none;
+      &.ng-valid, &.ng-invalid {
+        border: 1px solid transparent;
       }
+    }
+    .input-group {
+      border: 1px solid transparent;
     }
     &.ng-touched {
       &.ng-invalid {
