@@ -40,6 +40,13 @@ export class SummaryComponent implements OnInit {
     this.isSubmitInProgress = false;
   }
 
+  /**
+   * Submits the payment to gateway for processing. 
+   * Stripe tokens created previously on billing
+   * 
+   * @method submitPayment
+   * @return void
+   */
   public submitPayment() {
 
     if (this.isSubmitInProgress) {
@@ -47,22 +54,34 @@ export class SummaryComponent implements OnInit {
     }
 
     this.beginProcessing();
-    this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
-        value => {
 
-          let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-          let paymentDetail = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId);
+    let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+    let paymentDetails = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId);
 
-          this.paymentService.postPayment(paymentDetail).subscribe(
-            info => this.handleSuccess(info),
-            innerError => this.handleInnerError(innerError)
-          );
-        },
-        error => this.handleOuterError(error)
-    );
-    return false;
+    // adding a new payment method (must use donor token to create saved payment method)
+    if (this.gift.isNewPaymentMethod()) {
+      this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
+          value => this.postTransaction(paymentDetails),
+          error => this.handleOuterError()
+      );
+
+    // using an existing payment method (payment method already exists. auth token handles the payment)
+    } else if (this.gift.isExistingPaymentMethod()) {
+        this.postTransaction(paymentDetails);
+
+    // somehow not having an existing method AND no donor created from new payment method
+    } else {
+      this.handleOuterError();
+    }
   }
 
+  /**
+   * Submits the donation to gateway for processing. 
+   * Stripe tokens created previously on billing
+   * 
+   * @method submitDonation
+   * @return void
+   */
   public submitDonation() {
 
     if (this.isSubmitInProgress) {
@@ -71,41 +90,60 @@ export class SummaryComponent implements OnInit {
 
     this.beginProcessing();
 
+    // one time gifts
     if (this.gift.isOneTimeGift()) {
       let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-      let donationDetails = new PaymentCallBody(this.gift.fund.ProgramId.toString(), this.gift.amount,
-                                                pymt_type, 'DONATION', this.gift.invoiceId );
+      let donationDetails = new PaymentCallBody(
+        this.gift.fund.ProgramId.toString(),
+        this.gift.amount,
+        pymt_type,
+        'DONATION',
+        this.gift.invoiceId
+      );
 
-      if(this.gift.donor){
+      // adding a new payment method (must use donor token to create saved payment method)
+      if (this.gift.isNewPaymentMethod()) {
         this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
             value => {
               if ( this.gift.isGuest === true ) {
                 donationDetails.donor_id = value.id;
                 donationDetails.email_address = this.gift.email;
               }
-              this.paymentService.postPayment(donationDetails).subscribe(
-                  success => this.handleSuccess(success),
-                  innerError => this.handleInnerError(innerError)
-              );
+              this.postTransaction(donationDetails);
             },
-            error => this.handleOuterError(error)
+            error => this.handleOuterError()
         );
+
+      // using an existing payment method (payment method already exists. auth token handles the payment)
+      } else if (this.gift.isExistingPaymentMethod()) {
+        this.postTransaction(donationDetails);
+
+      // somehow not having an existing method AND no donor created from new payment method
       } else {
-        this.paymentService.postPayment(donationDetails).subscribe(
-            success => this.handleSuccess(success),
-            innerError => this.handleInnerError(innerError)
-        );
+        this.handleOuterError();
       }
 
+    // recurring gifts
+    } else if (this.gift.isRecurringGift()) {
+
+      // must use a new paymenth method (can't use existing)
+      if (this.gift.isNewPaymentMethod()) {
+        let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
+        let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
+
+        this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+          success => this.handleSuccess(success),
+          innerError => this.handleInnerError(innerError)
+        );
+
+      // error out if somehow existing payment info rings true (should never be the case)
+      } else {
+        this.handleOuterError();
+      }
+
+    // neither a one time gift or recurring. What is it?
     } else {
-
-      let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
-      let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
-
-      this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
-        success => this.handleSuccess(success),
-        innerError => this.handleInnerError(innerError)
-      );
+      this.handleOuterError();
     }
   }
 
@@ -135,6 +173,13 @@ export class SummaryComponent implements OnInit {
     this.state.watchState();
   }
 
+  public postTransaction(details) {
+    this.paymentService.postPayment(details).subscribe(
+      success => this.handleSuccess(success),
+      innerError => this.handleInnerError(innerError)
+    );
+  }
+
   private addParamsToRedirectUrl() {
     let delimiter = '?';
     this.redirectParams.forEach((value, key) => {
@@ -154,24 +199,20 @@ export class SummaryComponent implements OnInit {
   private handleInnerError(error) {
     if (error.status === 400 || error.status === 500) {
       this.gift.systemException = true;
-      this.state.setLoading(false);
       this.gift.clearUserPmtInfo();
       this.isSubmitInProgress = false;
-      return false;
+      this.state.setLoading(false);
     } else {
       this.gift.stripeException = true;
       this.changePayment();
       this.router.navigateByUrl('/billing');
-      this.state.setLoading(false);
       this.isSubmitInProgress = false;
-      return false;
     }
   }
 
-  private handleOuterError(error) {
+  private handleOuterError() {
     this.gift.systemException = true;
     this.state.setLoading(false);
-    return false;
   }
 
   private changePayment() {
@@ -191,10 +232,6 @@ export class SummaryComponent implements OnInit {
     } catch (event) {
       return undefined;
     }
-  }
-
-  isGuest() {
-    return this.gift.isGuest;
   }
 
 }
