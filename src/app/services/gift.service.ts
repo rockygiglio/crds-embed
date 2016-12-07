@@ -86,7 +86,7 @@ export class GiftService {
 
   public loadExistingPaymentData(): void {
 
-    if ( !this.isOneTimeGift() && this.isFrequencySelected() ) {
+    if ( this.isFrequencySetAndNotOneTime() ) {
       this.resetExistingPaymentInfo();
       this.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
