@@ -74,19 +74,20 @@ describe('Component: Authentication', () => {
   describe('#submitGuest', () => {
 
     it('should not process if form is invalid', () => {
-      let didSubmit = fixture.submitGuest();
-      expect(didSubmit).toBe(false);
+      fixture.submitGuest();
+      expect(fixture.formGuest.valid).toBe(false);
     });
 
     it('should process if form is valid', () => {
       fixture.formGuest.setValue({ email: 's@s.com' });
       (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of({}));
-      let didSubmit = fixture.submitGuest();
-      expect(didSubmit).toBe(true);
+      fixture.submitGuest();
+      expect(fixture.formGuest.valid).toBe(true);
     });
 
     it('should throw error if email address is used', () => {
       fixture.formGuest.setValue({ email: 's@s.com' });
+      fixture.formGuest.markAsDirty();
       (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(true));
       fixture.submitGuest();
       expect(fixture.guestEmail).toBe(true);
@@ -94,6 +95,7 @@ describe('Component: Authentication', () => {
 
     it('should process if email address is not used', () => {
       fixture.formGuest.setValue({ email: 's@s.com' });
+      fixture.formGuest.markAsDirty();
       (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(false));
       fixture.submitGuest();
       expect(fixture.guestEmail).toBe(false);
@@ -134,6 +136,7 @@ describe('Component: Authentication', () => {
     describe('when form is invalid', () => {
       beforeEach(() => {
         setForm('good@', 'foobar');
+        fixture.form.markAsDirty();
       });
 
       it('should not call #adv', () => {
@@ -153,6 +156,7 @@ describe('Component: Authentication', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('bad@bad.com', 'reallynotgood');
+        fixture.form.markAsDirty();
         (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
       });
 
@@ -172,6 +176,7 @@ describe('Component: Authentication', () => {
 
     it('should call #adv when valid auth credentials are submitted', () => {
       setForm('good@good.com', 'foobar');
+      fixture.form.markAsDirty();
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
       spyOn(fixture, 'adv');
 
@@ -181,6 +186,7 @@ describe('Component: Authentication', () => {
 
     it('should provide an error message', () => {
       setForm('bad@bad.com', 'reallynotgood');
+      fixture.form.markAsDirty();
       (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
       spyOn(fixture, 'adv');
 
