@@ -225,9 +225,9 @@ describe('Component: Summary', () => {
 
   it('should reset payment info on link to billing page', () => {
     this.component.gift.paymentType = 'cc';
-    spyOn(this.component.gift, 'resetExistingPaymentInfo');
+    spyOn(this.component.gift, 'resetExistingPmtInfo');
     this.component.changePayment();
-    expect(this.component.gift.resetExistingPaymentInfo).toHaveBeenCalled();
+    expect(this.component.gift.resetExistingPmtInfo).toHaveBeenCalled();
     expect(this.component.gift.paymentType).toBeUndefined();
   });
 

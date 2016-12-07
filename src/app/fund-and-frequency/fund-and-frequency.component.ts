@@ -65,16 +65,22 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   next(): boolean {
+    if( this.gift.isFrequencySetAndNotOneTime() ) {
+      this.gift.resetExistingPmtInfo();
+      this.gift.clearUserPmtInfo();
+      this.state.unhidePage(this.state.billingIndex);
+    }
+
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
     return false;
   }
 
   onClickChangeDate(): void {
-        this.gift.start_date = undefined;
+    this.gift.start_date = undefined;
   }
 
   onClickDate(newValue: any): void {
-        this.gift.start_date = newValue;
+    this.gift.start_date = newValue;
   }
 
   onClickFrequency(frequency: any): void {

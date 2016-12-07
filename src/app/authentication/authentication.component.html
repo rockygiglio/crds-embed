@@ -72,18 +72,21 @@
             [formControl]="formGuest.get('email')" />
       </div>
 
-      <div *ngIf="guestEmail">
+      <div *ngIf="guestEmail && formGuestSubmitted">
         <div class="alert alert-danger"><strong>Heads up!</strong> 
         This email is associated with a registered account. If you’d 
         like to save your payment or see it on your statement, 
         please <a (click)="switchToSignIn()">sign in</a>.</div>
       </div>
+      <div *ngIf="!formGuest.valid && formGuestSubmitted">
+        <div class="alert alert-danger" *ngIf="formGuest.controls.email.value">Email address entered does not appear to be valid.</div>
+        <div class="alert alert-danger" *ngIf="!formGuest.controls.email.value">Please enter a value.</div>
+      </div>
 
 
       <footer class="page-footer">
         <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-        <input type="button" class="btn btn-next pull-right" (click)="submitGuest()"
-               [ngClass]="{ disabled: !formGuest.valid }" value="Next">
+        <input type="button" class="btn btn-next pull-right" (click)="submitGuest()" value="Next">
       </footer>
     </form>
   </div>
