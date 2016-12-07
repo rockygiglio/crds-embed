@@ -279,14 +279,14 @@ export class GiftService {
     return !this.isOneTimeGift() && !this.start_date;
   }
 
-  public isExistingPaymentMethod(): boolean {
+  public isUsingExistingPaymentMethod(): boolean {
     if (!this.donor && this.accountLast4) {
       return true;
     }
     return false;
   }
 
-  public isNewPaymentMethod(): boolean {
+  public isUsingNewPaymentMethod(): boolean {
     if (this.donor && !this.accountLast4) {
       return true;
     }

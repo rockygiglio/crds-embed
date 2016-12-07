@@ -55,18 +55,23 @@ export class SummaryComponent implements OnInit {
 
     this.beginProcessing();
 
-    let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-    let paymentDetails = new PaymentCallBody('', this.gift.amount, pymt_type, 'PAYMENT', this.gift.invoiceId);
+    let paymentType = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+    let paymentDetails = new PaymentCallBody(
+      '',
+      this.gift.amount,
+      paymentType, 'PAYMENT',
+      this.gift.invoiceId
+    );
 
     // adding a new payment method (must use donor token to create saved payment method)
-    if (this.gift.isNewPaymentMethod()) {
+    if (this.gift.isUsingNewPaymentMethod()) {
       this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
           value => this.postTransaction(paymentDetails),
           error => this.handleOuterError()
       );
 
     // using an existing payment method (payment method already exists. auth token handles the payment)
-    } else if (this.gift.isExistingPaymentMethod()) {
+    } else if (this.gift.isUsingExistingPaymentMethod()) {
         this.postTransaction(paymentDetails);
 
     // somehow not having an existing method AND no donor created from new payment method
@@ -92,17 +97,17 @@ export class SummaryComponent implements OnInit {
 
     // one time gifts
     if (this.gift.isOneTimeGift()) {
-      let pymt_type = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
+      let paymentType = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new PaymentCallBody(
         this.gift.fund.ProgramId.toString(),
         this.gift.amount,
-        pymt_type,
+        paymentType,
         'DONATION',
         this.gift.invoiceId
       );
 
       // adding a new payment method (must use donor token to create saved payment method)
-      if (this.gift.isNewPaymentMethod()) {
+      if (this.gift.isUsingNewPaymentMethod()) {
         this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
             value => {
               if ( this.gift.isGuest === true ) {
@@ -115,7 +120,7 @@ export class SummaryComponent implements OnInit {
         );
 
       // using an existing payment method (payment method already exists. auth token handles the payment)
-      } else if (this.gift.isExistingPaymentMethod()) {
+      } else if (this.gift.isUsingExistingPaymentMethod()) {
         this.postTransaction(donationDetails);
 
       // somehow not having an existing method AND no donor created from new payment method
@@ -127,11 +132,11 @@ export class SummaryComponent implements OnInit {
     } else if (this.gift.isRecurringGift()) {
 
       // must use a new paymenth method (can't use existing)
-      if (this.gift.isNewPaymentMethod()) {
-        let userPmtInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
+      if (this.gift.isUsingNewPaymentMethod()) {
+        let userPaymentInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
         let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
 
-        this.donationService.getTokenAndPostRecurringGift(userPmtInfo, stripeMethodName).subscribe(
+        this.donationService.getTokenAndPostRecurringGift(userPaymentInfo, stripeMethodName).subscribe(
           success => this.handleSuccess(success),
           innerError => this.handleInnerError(innerError)
         );
