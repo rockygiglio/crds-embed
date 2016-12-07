@@ -1,13 +1,15 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
-import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
+
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
 import { DonationService } from '../services/donation.service';
+import { GiftFrequency } from '../models/gift-frequency';
 import { GiftService } from '../services/gift.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
 import { PaymentCallBody } from '../models/payment-call-body';
+import { StateManagerService } from '../services/state-manager.service';
 
 export const WindowToken = new OpaqueToken('Window');
 export function _window(): Window {
@@ -24,6 +26,7 @@ export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
   private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
+  private giftFrequency: GiftFrequency = new GiftFrequency('','');
 
   constructor(private router: Router,
               private state: StateManagerService,

@@ -27,7 +27,7 @@
     <tr *ngIf="!gift.isPayment()">
       <td><a routerLink="/fund">Frequency:</a></td>
       <td class="text-right">
-        {{ gift.frequency }}<br>
+        {{ giftFrequency.getDisplayNameByValue(gift.frequency) }}<br>
         <small *ngIf="gift.frequency != 'One Time'">Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}</small>
       </td>
     </tr>
