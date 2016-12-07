@@ -272,6 +272,10 @@ export class GiftService {
     }
   }
 
+  isFrequencySetAndNotOneTime() {
+    return this.isFrequencySelected() && !this.isOneTimeGift();
+  }
+
   isFrequencySelected(): boolean {
     return this.frequency !== '' && this.frequency !== null;
   }

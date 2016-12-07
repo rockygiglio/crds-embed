@@ -56,7 +56,7 @@ export class BillingComponent implements OnInit {
 
   ngOnInit() {
 
-    if( !this.gift.isOneTimeGift() && this.gift.isFrequencySelected() ){
+    if( this.gift.isFrequencySetAndNotOneTime() ){
 
       this.gift.resetExistingPaymentInfo();
       this.gift.clearUserPmtInfo();

@@ -65,7 +65,7 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   next(): boolean {
-    if( !this.gift.isOneTimeGift() && this.gift.isFrequencySelected() ) {
+    if( this.gift.isFrequencySetAndNotOneTime() ) {
       this.gift.resetExistingPaymentInfo();
       this.gift.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
