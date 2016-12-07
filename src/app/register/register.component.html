@@ -4,29 +4,33 @@
   </header>
 
   <form [formGroup]="regForm" (ngSubmit)="next()">
-    <!-- First Name -->
-    <div class="inline-form__input--half">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" [(ngModel)]="firstName" >
+
+    <div class="row inline-form">
+      <!-- First Name -->
+      <div class="inline-form__input--half">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" [(ngModel)]="firstName" >
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="inline-form__input--half">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" [(ngModel)]="lastName" >
+        </div>
       </div>
     </div>
 
-    <div class="errors" *ngIf="(submitted) && !regForm.controls['firstName'].valid">
+    <div class="errors" *ngIf="(submitted) && (!regForm.controls['firstName'].valid || !regForm.controls['lastName'].valid)">
       <div class="alert alert-danger">
-        <p>First Name <span [innerHTML]="switchMessage(regForm.controls['firstName'].errors)"></span></p>
-      </div>
-    </div>
-
-    <!-- Last Name -->
-    <div class="inline-form__input--half">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" [(ngModel)]="lastName" >
-      </div>
-    </div>
-
-    <div class="errors" *ngIf="(submitted) && !regForm.controls['lastName'].valid">
-      <div class="alert alert-danger">
-        <p>Last Name <span [innerHTML]="switchMessage(regForm.controls['lastName'].errors)"></span></p>
+        <ul>
+          <li *ngIf="!regForm.controls['firstName'].valid">
+            First Name <span [innerHTML]="switchMessage(regForm.controls['firstName'].errors)"></span>
+          </li>
+          <li *ngIf="!regForm.controls['lastName'].valid">
+            Last Name <span [innerHTML]="switchMessage(regForm.controls['lastName'].errors)"></span>
+          </li>
+        </ul>
       </div>
     </div>
 
