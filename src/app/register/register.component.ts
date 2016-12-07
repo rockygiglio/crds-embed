@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
       this.registrationService.postUser(newUser)
         .subscribe(
           user => {
-            if (!this.loginService.isLoggedIn()){
+            if (!this.loginService.isLoggedIn()) {
               this.loginNewUser(newUser.email, newUser.password);
             }
             this.adv();

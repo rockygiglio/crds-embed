@@ -284,8 +284,26 @@ export class GiftService {
     return this.frequency === 'One Time';
   }
 
-  public isRecurringGiftWithNoStartDate() {
+  public isRecurringGift(): boolean {
+    return (this.frequency === 'week' || this.frequency === 'month');
+  }
+
+  public isRecurringGiftWithNoStartDate(): boolean {
     return !this.isOneTimeGift() && !this.start_date;
+  }
+
+  public isUsingExistingPaymentMethod(): boolean {
+    if (!this.donor && this.accountLast4) {
+      return true;
+    }
+    return false;
+  }
+
+  public isUsingNewPaymentMethod(): boolean {
+    if (this.donor && !this.accountLast4) {
+      return true;
+    }
+    return false;
   }
 
   public resetErrors() {
