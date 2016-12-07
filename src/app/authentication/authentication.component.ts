@@ -84,9 +84,6 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public submitGuest() {
-    if (this.formGuest.pristine) {
-      return;
-    }
     this.formGuestSubmitted = true;
     if ( this.formGuest.valid ) {
       this.gift.isGuest = true;
@@ -106,9 +103,6 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public submitLogin(): boolean {
-    if (this.form.pristine) {
-      return;
-    }
     this.formSubmitted = true;
     this.gift.isGuest = false;
     this.state.setLoading(true);
