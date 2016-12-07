@@ -85,9 +85,14 @@ export class GiftService {
   }
 
   public loadExistingPaymentData(): void {
-    if ( !this.isOneTimeGift() ) {
+
+    if ( !this.isOneTimeGift() && this.isFrequencySelected() ) {
+      this.resetExistingPaymentInfo();
+      this.clearUserPmtInfo();
+      this.state.unhidePage(this.state.billingIndex);
       return;
     }
+
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
         info => {
@@ -265,6 +270,10 @@ export class GiftService {
     } else {
       return false;
     }
+  }
+
+  isFrequencySelected(): boolean {
+    return this.frequency !== '' && this.frequency !== null;
   }
 
   public isOneTimeGift(): boolean {

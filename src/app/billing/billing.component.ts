@@ -55,26 +55,32 @@ export class BillingComponent implements OnInit {
     }
 
   ngOnInit() {
-    if ( this.gift.existingPaymentInfo ) {
-      this.gift.existingPaymentInfo.subscribe(
-        info => {
-          this.state.setLoading(false);
-          if ( info !== null ) {
-            this.gift.setBillingInfo(info);
-            if (this.gift.accountLast4) {
-              this.state.hidePage(this.state.billingIndex);
-              this.adv();
-            }
-          }
-        },
-        error => this.state.setLoading(false)
-      );
-    } else {
-      this.state.setLoading(false);
-    }
 
-    if ( this.gift.accountLast4) {
-      this.adv();
+    if( !this.gift.isOneTimeGift() && this.gift.isFrequencySelected() ){
+
+      this.gift.resetExistingPaymentInfo();
+      this.gift.clearUserPmtInfo();
+      this.state.setLoading(false);
+
+    } else {
+
+      if ( this.gift.existingPaymentInfo ) {
+        this.gift.existingPaymentInfo.subscribe(
+            info => {
+              this.state.setLoading(false);
+              if ( info !== null ) {
+                this.gift.setBillingInfo(info);
+                if (this.gift.accountLast4) {
+                  this.state.hidePage(this.state.billingIndex);
+                  this.adv();
+                }
+              }
+            },
+            error => this.state.setLoading(false)
+        );
+      } else {
+        this.state.setLoading(false);
+      }
     }
 
     this.gift.validateRoute(this.router);
