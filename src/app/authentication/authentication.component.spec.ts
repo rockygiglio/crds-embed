@@ -74,15 +74,15 @@ describe('Component: Authentication', () => {
   describe('#submitGuest', () => {
 
     it('should not process if form is invalid', () => {
-      let didSubmit = fixture.submitGuest();
-      expect(didSubmit).toBe(false);
+      fixture.submitGuest();
+      expect(fixture.formGuest.valid).toBe(false);
     });
 
     it('should process if form is valid', () => {
       fixture.formGuest.setValue({ email: 's@s.com' });
       (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of({}));
-      let didSubmit = fixture.submitGuest();
-      expect(didSubmit).toBe(true);
+      fixture.submitGuest();
+      expect(fixture.formGuest.valid).toBe(true);
     });
 
     it('should throw error if email address is used', () => {
