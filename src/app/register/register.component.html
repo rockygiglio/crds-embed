@@ -3,11 +3,11 @@
     <h2>Register An Account</h2>
   </header>
 
-  <form [formGroup]="regForm" [class.submitted]="submitted" (ngSubmit)="next()">
+  <form [formGroup]="regForm" (ngSubmit)="next()">
     <!-- First Name -->
     <div class="inline-form__input--half">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" [(ngModel)]="firstName" pattern=".*">
+        <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" [(ngModel)]="firstName" >
       </div>
     </div>
 
@@ -20,7 +20,7 @@
     <!-- Last Name -->
     <div class="inline-form__input--half">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" [(ngModel)]="lastName" pattern=".*">
+        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" [(ngModel)]="lastName" >
       </div>
     </div>
 
@@ -32,7 +32,7 @@
 
     <!-- Email -->
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Email" formControlName="email" name="email" [(ngModel)]="email" pattern=".*" >
+      <input type="text" class="form-control" placeholder="Email" formControlName="email" name="email" [(ngModel)]="email" >
     </div>
 
     <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
@@ -43,7 +43,7 @@
 
     <!-- Password -->
     <div class="form-group">
-      <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password" [(ngModel)]="password" pattern=".*" >
+      <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password" [(ngModel)]="password" >
     </div>
 
     <div class="errors" *ngIf="(submitted) && !regForm.controls['password'].valid">
@@ -54,9 +54,9 @@
     
      <p class="text-block"><small class="text-muted">By registering, you agree to our <a href="#" class="text-block__link--underline">terms of service</a> and <a href="#" class="text-block__link--underline">privacy policy</a>. You will begin receiving email communications. Preferences can be managed in your profile.</small></p>
 
-    <footer class="page-footer page-footer--border-top">
+    <footer class="page-footer">
       <a href="#" class="btn pull-left" (click)="back()">Already have an account? Sign In</a>
-      <input type="button" class="btn btn-next pull-right" (click)="next()" [ngClass]="{ disabled: !regForm.valid }" value="Register">
+      <input type="button" class="btn btn-next pull-right" (click)="next()"  value="Register">
     </footer>
 
   </form>
