@@ -58,7 +58,7 @@ export class BillingComponent implements OnInit {
 
     if( this.gift.isFrequencySetAndNotOneTime() ){
 
-      this.gift.resetExistingPaymentInfo();
+      this.gift.resetExistingPmtInfo();
       this.gift.clearUserPmtInfo();
       this.state.setLoading(false);
 
@@ -192,7 +192,7 @@ export class BillingComponent implements OnInit {
       return false;
     } else {
       this.gift.stripeException = true;
-      this.gift.resetExistingPaymentInfo();
+      this.gift.resetExistingPmtInfo();
       this.gift.resetPaymentDetails();
       return false;
     }

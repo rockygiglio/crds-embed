@@ -87,7 +87,7 @@ export class GiftService {
   public loadExistingPaymentData(): void {
 
     if ( this.isFrequencySetAndNotOneTime() ) {
-      this.resetExistingPaymentInfo();
+      this.resetExistingPmtInfo();
       this.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
       return;
@@ -126,7 +126,7 @@ export class GiftService {
     }
   }
 
-  public resetExistingPaymentInfo(): void {
+  public resetExistingPmtInfo(): void {
     this.state.unhidePage(this.state.billingIndex);
     this.accountLast4 = null;
 
