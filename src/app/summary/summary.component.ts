@@ -175,7 +175,7 @@ export class SummaryComponent implements OnInit {
   }
 
   private changePayment() {
-    this.gift.resetExistingPaymentInfo();
+    this.gift.resetExistingPmtInfo();
     this.gift.resetPaymentDetails();
   }
 
