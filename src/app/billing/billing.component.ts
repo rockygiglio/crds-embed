@@ -71,6 +71,7 @@ export class BillingComponent implements OnInit {
               if ( info !== null ) {
                 this.gift.setBillingInfo(info);
                 if (this.gift.accountLast4) {
+                  this.gift.donor = null;
                   this.state.hidePage(this.state.billingIndex);
                   this.adv();
                 }
