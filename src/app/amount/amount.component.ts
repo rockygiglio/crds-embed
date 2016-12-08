@@ -65,6 +65,7 @@ export class AmountComponent implements OnInit {
       customAmount: ['', [<any>Validators.required, this.validateAmount.bind(this)]],
       selectedAmount: ['']
     });
+
   }
 
   public getPredefinedDonationAmounts() {

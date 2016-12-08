@@ -29,15 +29,12 @@ export class AuthenticationComponent implements OnInit {
   private helpUrl: string;
   private forgotPasswordUrl: string;
 
-  constructor( private router: Router,
+  constructor(private router: Router,
     private state: StateService,
     private store: StoreService,
     private _fb: FormBuilder,
-    private checkGuestEmailService: CheckGuestEmailService,
-    private loginService: LoginService,
-    private httpClientService: HttpClientService,
-    private existingPaymentInfoService: ExistingPaymentInfoService,
-  ) { }
+    private emailService: CheckGuestEmailService,
+    private loginService: LoginService) { }
 
   public ngOnInit(): void {
 
@@ -66,29 +63,12 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  public adv(): void {
-    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
-  }
-
-  public back(): boolean {
-    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
-    return false;
-  }
-
-  public onEnterKey() {
-    let isOnLoginTab: boolean = this.signinOption === 'Sign In';
-
-    if (isOnLoginTab) {
-      this.submitLogin();
-    }
-  }
-
   public submitGuest() {
     this.formGuestSubmitted = true;
     if ( this.formGuest.valid ) {
       this.store.isGuest = true;
       this.state.setLoading(true);
-      this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
+      this.emailService.guestEmailExists(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
           if ( resp === false ) {
@@ -126,6 +106,15 @@ export class AuthenticationComponent implements OnInit {
       this.form.controls['password'].markAsTouched();
       this.state.setLoading(false);
     }
+    return false;
+  }
+
+  public adv(): void {
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
+  }
+
+  public back(): boolean {
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
     return false;
   }
 

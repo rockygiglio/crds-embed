@@ -27,20 +27,35 @@ describe('Component: Authentication', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateService>('stateManagerService', ['getNextPageToShow',
-                                                                                            'getPrevPageToShow',
-                                                                                            'hidePage',
-                                                                                            'setLoading']);
-    store = jasmine.createSpyObj<StoreService>('storeService', ['loadUserData', 'validateRoute']);
+    stateManagerService = jasmine.createSpyObj<StateService>(
+      'stateManagerService',
+      [
+        'getNextPageToShow',
+        'getPrevPageToShow',
+        'hidePage',
+        'setLoading'
+      ]
+    );
+    store = jasmine.createSpyObj<StoreService>(
+      'storeService', [
+        'loadUserData',
+        'validateRoute'
+      ]
+    );
     _fb = new FormBuilder();
     checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
     httpClientService = jasmine.createSpyObj<HttpClientService>('httpClientService', ['get']);
     existingPaymentInfoService = jasmine.createSpyObj<ExistingPaymentInfoService>('existingPaymentInfoService', ['resolve']);
 
-    fixture = new AuthenticationComponent(router, stateManagerService, store, _fb,
-                                          checkGuestEmailService, loginService, httpClientService,
-                                          existingPaymentInfoService);
+    fixture = new AuthenticationComponent(
+      router,
+      stateManagerService,
+      store,
+      _fb,
+      checkGuestEmailService,
+      loginService
+    );
     fixture.ngOnInit();
   });
 

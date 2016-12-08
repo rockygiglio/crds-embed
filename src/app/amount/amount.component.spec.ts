@@ -132,14 +132,14 @@ describe('Component: Donation', () => {
   it('should expect a valid amount to validate', () => {
 
     this.component.onCustomAmount('300.01');
-    expect(this.component.isValid()).toBeTruthy();
+    expect(this.component.store.validAmount()).toBeTruthy();
 
   });
 
   it('should expect an invalid amount to invalidate', () => {
 
     this.component.onCustomAmount('300.01adfdf');
-    expect(this.component.isValid()).toBeFalsy();
+    expect(this.component.store.validAmount()).toBeFalsy();
 
   });
 
