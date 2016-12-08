@@ -9,7 +9,7 @@ import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Program } from '../models/program';
 import { StateManagerService } from './state-manager.service';
-import { CrdsDonor } from '../models/crds-donor';
+import { Donor } from '../models/donor';
 
 declare var _;
 
@@ -47,7 +47,7 @@ export class StoreService {
   public email: string = '';
   public isGuest: boolean = false;
   public previousGiftAmount: string = '';
-  public donor: CrdsDonor;
+  public donor: Donor;
 
   // ACH Information
   public accountName: string;

@@ -6,7 +6,7 @@ import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { PaymentCallBody } from '../models/payment-call-body';
 import { StripeService } from './stripe.service';
-import { CrdsDonor } from '../models/crds-donor';
+import { Donor } from '../models/donor';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -79,7 +79,7 @@ export class PaymentService {
     let observable = new Observable(observer => {
       this.stripeService[stripeFunction](BankOrCcPmtInfo).subscribe(
         stripeEncryptedPmtInfo => {
-          observer.next(new CrdsDonor(stripeEncryptedPmtInfo.id, email, firstName, lastName, restMethod));
+          observer.next(new Donor(stripeEncryptedPmtInfo.id, email, firstName, lastName, restMethod));
         },
         error => {
           observer.error(error);
@@ -89,7 +89,7 @@ export class PaymentService {
     return observable;
   };
 
-  makeApiDonorCall(donorInfo: CrdsDonor): Observable<any> {
+  makeApiDonorCall(donorInfo: Donor): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
     let requestOptions: any = this.httpClient.getRequestOption();
 

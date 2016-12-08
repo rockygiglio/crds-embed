@@ -1,5 +1,5 @@
 
-export class CrdsDonor {
+export class Donor {
 
     stripe_token_id: number;
     email_address: string;
