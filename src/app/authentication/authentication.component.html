@@ -1,9 +1,5 @@
 <div (keydown.enter)="onEnterKey()" >
 
-  <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
-    Oops! Sign in failed. Please try again or use
-    <a href="https://www.crossroads.net/forgot-password">Forgot Password</a>
-  </div>
   <div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.isDonation()">
 
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
@@ -33,6 +29,11 @@
 
       <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('password')">
         <p>Password <span [innerHTML]="formatErrorMessage(form.controls['password'].errors)"></span></p>
+      </div>
+
+      <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
+        Oops! Sign in failed. Please try again or use
+        <a class="text-block__link" [href]="forgotPasswordUrl" target="_blank">Forgot password</a>
       </div>
 
       <div class="row form__helpers">
