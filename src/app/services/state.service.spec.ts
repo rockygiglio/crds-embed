@@ -18,7 +18,7 @@ describe('Service: StateManagerSession', () => {
   it('should set state to hide', inject([StateService], (service: any) => {
       service.paymentState = [
           { path: '/payment', show: true },
-          { path: '/auth', show: true },
+          { path: '/authentication', show: true },
           { path: '/billing', show: true },
           { path: '/summary', show: true },
           { path: '/confirmation', show: true }
@@ -30,7 +30,7 @@ describe('Service: StateManagerSession', () => {
   it('should set state to show', inject([StateService], (service: any) => {
       service.paymentState = [
           { path: '/payment', show: true },
-          { path: '/auth', show: false },
+          { path: '/authentication', show: false },
           { path: '/billing', show: true },
           { path: '/summary', show: true },
           { path: '/confirmation', show: true }
@@ -42,7 +42,7 @@ describe('Service: StateManagerSession', () => {
   it('should get next page to show', inject([StateService], (service: any) => {
       service.paymentState = [
           { path: '/payment', show: true },
-          { path: '/auth', show: false },
+          { path: '/authentication', show: false },
           { path: '/billing', show: false },
           { path: '/summary', show: true },
           { path: '/confirmation', show: true }
@@ -53,7 +53,7 @@ describe('Service: StateManagerSession', () => {
   it('should get prev page to show', inject([StateService], (service: any) => {
       service.paymentState = [
           { path: '/payment', show: true },
-          { path: '/auth', show: false },
+          { path: '/authentication', show: false },
           { path: '/billing', show: false },
           { path: '/summary', show: true },
           { path: '/confirmation', show: true }
@@ -64,7 +64,7 @@ describe('Service: StateManagerSession', () => {
   it('should get page', inject([StateService], (service: any) => {
       service.paymentState = [
           { path: '/payment', show: true },
-          { path: '/auth', show: false },
+          { path: '/authentication', show: false },
           { path: '/billing', show: false },
           { path: '/summary', show: true },
           { path: '/confirmation', show: true }

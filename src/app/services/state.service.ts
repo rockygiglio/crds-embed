@@ -21,7 +21,7 @@ export class StateService {
   public paymentState: PageState[] = [
     { path: '/payment', show: true },
     { path: '/fund', show: false },
-    { path: '/auth', show: true },
+    { path: '/authentication', show: true },
     { path: '/registration', show: false },
     { path: '/billing', show: true },
     { path: '/summary', show: true },

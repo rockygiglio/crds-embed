@@ -16,12 +16,12 @@
       <td *ngIf="store.isPayment()" class="text-right">{{ store.title }}</td>
     </tr>
     <tr>
-      <td *ngIf="store.isDonation()"><a routerLink="/auth" (click)="changeUser()">From:</a></td>
+      <td *ngIf="store.isDonation()"><a routerLink="/authentication" (click)="changeUser()">From:</a></td>
       <td *ngIf="store.isPayment()">From:</td>
       <td class="text-right">
         {{ store.email }}<br>
-        <small *ngIf="store.isDonation() && !store.isGuest"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
-        <small *ngIf="store.isDonation() && store.isGuest"><a routerLink="/auth">change</a></small>
+        <small *ngIf="store.isDonation() && !store.isGuest"><a routerLink="/authentication" (click)="changeUser()">log out</a></small>
+        <small *ngIf="store.isDonation() && store.isGuest"><a routerLink="/authentication">change</a></small>
       </td>
     </tr>
     <tr *ngIf="!store.isPayment()">

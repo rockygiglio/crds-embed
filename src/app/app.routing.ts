@@ -18,7 +18,7 @@ const appRoutes: Routes = [
       giveTo: DonationFundService
     }
   },
-  { path: 'auth', component: AuthenticationComponent },
+  { path: 'authentication', component: AuthenticationComponent },
   { path: 'billing', component: BillingComponent },
   { path: 'summary', component: SummaryComponent },
   { path: 'confirmation', component: ConfirmationComponent },
