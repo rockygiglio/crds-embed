@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
-import { GiftService } from './gift.service';
+import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
 import { RecurringGiftDto } from '../models/recurring-gift-dto';
 import { StripeService } from './stripe.service';
@@ -17,7 +17,7 @@ export class DonationService {
 
   private baseUrl: string = process.env.CRDS_API_ENDPOINT;
 
-  constructor(private gift: GiftService,
+  constructor(private gift: StoreService,
               private http: HttpClientService,
               private stripe: StripeService) { }
 

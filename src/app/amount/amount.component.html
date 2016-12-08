@@ -1,20 +1,20 @@
-<div *ngIf="gift.errors.length > 0" id="error">
+<div *ngIf="store.errors.length > 0" id="error">
   <div class="page-header">
     <h2>Errors:</h2>
   </div>
-  <alert *ngFor="let error of gift.errors">{{ error }}</alert>
+  <alert *ngFor="let error of store.errors">{{ error }}</alert>
 </div>
-<div *ngIf="gift.errors.length <= 0">
+<div *ngIf="store.errors.length <= 0">
   <div class="page-header page-header--border-btm">
     <h2>Amount</h2>
   </div>
 
-  <div *ngIf="gift.isDonation()">
+  <div *ngIf="store.isDonation()">
     <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount(amount)"
-              [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
+              [ngClass]="{ active: (!customAmount && store.amount == amount) }">
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
     </div>
@@ -43,13 +43,13 @@
     </form>
   </div>
 
-  <div *ngIf="gift.isPayment()">
+  <div *ngIf="store.isPayment()">
     <div class="btn-group btn-group--flex-col btn-group--underline">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
               (click)="onSelectAmount(item.amount)"
-              [ngClass]="{ active: (!customAmtSelected && gift.amount == item.amount) }">
+              [ngClass]="{ active: (!customAmtSelected && store.amount == item.amount) }">
         <div class="row">
           <div>
             <span class="btn-payment__icon">

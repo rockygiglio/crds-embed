@@ -2,7 +2,7 @@ import { Component, OnInit, animate, state, style, transition, trigger } from '@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { StateManagerService } from '../services/state-manager.service';
@@ -33,7 +33,7 @@ export class AmountComponent implements OnInit {
   public customAmtSelected: boolean = false;
 
   constructor(private fb: FormBuilder,
-              private gift: GiftService,
+              private store: StoreService,
               private previousGiftAmountService: PreviousGiftAmountService,
               private quickDonationAmountsService: QuickDonationAmountsService,
               private router: Router,
@@ -42,11 +42,11 @@ export class AmountComponent implements OnInit {
 
   ngOnInit() {
     this.state.setLoading(true);
-    if (this.gift.isDonation()) {
-      if ( !this.gift.predefinedAmounts ) {
+    if (this.store.isDonation()) {
+      if ( !this.store.predefinedAmounts ) {
         this.getPredefinedDonationAmounts();
       } else {
-        this.predefinedAmounts = this.gift.predefinedAmounts;
+        this.predefinedAmounts = this.store.predefinedAmounts;
         this.state.setLoading(false);
       }
     } else {
@@ -56,17 +56,17 @@ export class AmountComponent implements OnInit {
     this.amountDue = [
       {
         label: 'Minimum Payment',
-        amount: this.gift.minPayment
+        amount: this.store.minPayment
       },
       {
         label: 'Full Balance',
-        amount: this.gift.totalCost
+        amount: this.store.totalCost
       }
     ];
 
     // set these for returning values
-    this.selectedAmount = this.gift.selectedAmount;
-    this.customAmount = this.gift.customAmount;
+    this.selectedAmount = this.store.selectedAmount;
+    this.customAmount = this.store.customAmount;
 
     this.form = this.fb.group({
       customAmount: ['', [<any>Validators.required, this.validateAmount.bind(this)]],
@@ -78,7 +78,7 @@ export class AmountComponent implements OnInit {
     this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
       amounts => {
         this.predefinedAmounts = amounts;
-        this.gift.predefinedAmounts = amounts;
+        this.store.predefinedAmounts = amounts;
         this.state.setLoading(false);
       },
       error => this.errorMessage = <any>error
@@ -86,7 +86,7 @@ export class AmountComponent implements OnInit {
   }
 
   isValid() {
-    return this.gift.validAmount();
+    return this.store.validAmount();
   }
 
   next() {
@@ -102,15 +102,15 @@ export class AmountComponent implements OnInit {
   }
 
   setErrorMessage() {
-    if (this.gift.amount === undefined || this.gift.amount === null) {
+    if (this.store.amount === undefined || this.store.amount === null) {
       this.errorMessage = 'Please select or provide an amount.';
-    } else if ( isNaN(this.gift.amount) || !this.gift.validDollarAmount(this.gift.amount) ) {
+    } else if ( isNaN(this.store.amount) || !this.store.validDollarAmount(this.store.amount) ) {
       this.errorMessage = 'The amount you provided is not a valid number.';
-    } else if (Number(this.gift.amount) > this.gift.totalCost) {
+    } else if (Number(this.store.amount) > this.store.totalCost) {
       this.errorMessage = 'The amount you provided is higher than the total cost.';
-    } else if (Number(this.gift.amount) < this.gift.minPayment) {
+    } else if (Number(this.store.amount) < this.store.minPayment) {
       this.errorMessage = 'The amount you provided is less than the minimum payment allowed.';
-    } else if (Number(this.gift.amount) > 999999.99) {
+    } else if (Number(this.store.amount) > 999999.99) {
       this.errorMessage = 'You can not charge more than 1 million dollars.';
     }else {
       this.errorMessage = 'An unknown error has occurred.';
@@ -123,7 +123,7 @@ export class AmountComponent implements OnInit {
       this.setAmount(value);
       this.setErrorMessage();
     }
-    this.gift.customAmount = value;
+    this.store.customAmount = value;
   }
 
   onSelectAmount(value) {
@@ -131,12 +131,12 @@ export class AmountComponent implements OnInit {
     this.submitted = false;
     this.customAmtSelected = false;
     delete(this.customAmount);
-    this.gift.selectedAmount = value;
+    this.store.selectedAmount = value;
     this.setAmount(value);
   }
 
   setAmount(value) {
-    this.gift.amount = value;
+    this.store.amount = value;
   }
 
   selectedCustom() {
@@ -145,7 +145,7 @@ export class AmountComponent implements OnInit {
   }
 
   private validateAmount(control) {
-    if (this.gift.validAmount()) {
+    if (this.store.validAmount()) {
       return null;
     } else {
       return {

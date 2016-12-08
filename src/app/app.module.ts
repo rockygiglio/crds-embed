@@ -25,7 +25,7 @@ import { RegisterComponent} from './register/register.component';
 import { DonationService } from './services/donation.service';
 import { DonationFundService } from './services/donation-fund.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
-import { GiftService } from './services/gift.service';
+import { StoreService } from './services/store.service';
 import { HttpClientService } from './services/http-client.service';
 import { LoginService } from './services/login.service';
 import { ParamValidationService } from './services/param-validation.service';
@@ -81,7 +81,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     DonationService,
     DonationFundService,
     ExistingPaymentInfoService,
-    GiftService,
+    StoreService,
     HttpClientService,
     LoginService,
     ParamValidationService,

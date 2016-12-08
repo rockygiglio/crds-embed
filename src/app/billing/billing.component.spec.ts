@@ -2,7 +2,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BillingComponent } from './billing.component';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
@@ -22,7 +22,7 @@ import { StripeService } from '../services/stripe.service';
 class MockDonationFundService { }
 class MockQuickDonationAboutsService { }
 class MockPreviousGiftAmountService { }
-class MockGiftService { }
+class MockStoreService { }
 class MockActivatedRoute {
   public snapshot = {
     queryParams: []
@@ -50,7 +50,7 @@ describe('Component: Billing', () => {
         { provide: DonationFundService, useClass: MockDonationFundService },
         { provide: QuickDonationAmountsService, useClass: MockQuickDonationAboutsService },
         { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
-        { provide: GiftService, useClass: MockGiftService },
+        { provide: StoreService, useClass: MockStoreService },
         ExistingPaymentInfoService,
         FormBuilder,
         HttpClientService,

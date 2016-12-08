@@ -14,7 +14,7 @@ import { CrdsDonor } from '../models/crds-donor';
 declare var _;
 
 @Injectable()
-export class GiftService {
+export class StoreService {
 
   public errors: Array<string> = [];
   public fundId: number = 0;

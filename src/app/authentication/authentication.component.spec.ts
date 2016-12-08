@@ -6,7 +6,7 @@ import { AuthenticationComponent } from './authentication.component';
 import { CheckGuestEmailService } from '../../app/services/check-guest-email.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FormBuilder } from '@angular/forms';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { StateManagerService } from '../services/state-manager.service';
@@ -17,7 +17,7 @@ describe('Component: Authentication', () => {
   let fixture: AuthenticationComponent,
       router: Router,
       stateManagerService: StateManagerService,
-      gift: GiftService,
+      store: StoreService,
       _fb: FormBuilder,
       checkGuestEmailService: CheckGuestEmailService,
       loginService: LoginService,
@@ -31,14 +31,14 @@ describe('Component: Authentication', () => {
                                                                                             'getPrevPageToShow',
                                                                                             'hidePage',
                                                                                             'setLoading']);
-    gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData', 'validateRoute']);
+    store = jasmine.createSpyObj<StoreService>('storeService', ['loadUserData', 'validateRoute']);
     _fb = new FormBuilder();
     checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
     httpClientService = jasmine.createSpyObj<HttpClientService>('httpClientService', ['get']);
     existingPaymentInfoService = jasmine.createSpyObj<ExistingPaymentInfoService>('existingPaymentInfoService', ['resolve']);
 
-    fixture = new AuthenticationComponent(router, stateManagerService, gift, _fb,
+    fixture = new AuthenticationComponent(router, stateManagerService, store, _fb,
                                           checkGuestEmailService, loginService, httpClientService,
                                           existingPaymentInfoService);
     fixture.ngOnInit();
@@ -91,7 +91,7 @@ describe('Component: Authentication', () => {
 
       it('formGuest.valid should be true', () => {
         setGuestEmailExists({});
-        fixture.submitGuest()
+        fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(true);
       });
 

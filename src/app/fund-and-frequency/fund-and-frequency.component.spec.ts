@@ -12,7 +12,7 @@ import { DonationFundService } from '../services/donation-fund.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { GiftFrequency } from '../models/gift-frequency';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { ParamValidationService } from '../services/param-validation.service';
@@ -73,7 +73,7 @@ describe('Component: FundAndFrequency', () => {
         CookieService,
         DonationFundService,
         ExistingPaymentInfoService,
-        GiftService,
+        StoreService,
         HttpClientService,
         LoginService,
         ParamValidationService,
@@ -90,44 +90,44 @@ describe('Component: FundAndFrequency', () => {
 
   it('should reset the date to the current date time', () => {
     currentDateTime2 = new Date();
-    this.component.gift.start_date = undefined;
+    this.component.store.start_date = undefined;
     this.component.resetDate();
 
-    expect(this.component.gift.start_date.toString()).toBe(currentDateTime2.toString());
+    expect(this.component.store.start_date.toString()).toBe(currentDateTime2.toString());
   });
 
   it('should set the gift fund object to whatever fund is passed in', () => {
-    this.component.gift.fund = undefined;
+    this.component.store.fund = undefined;
     this.component.onClickFund(mockFund);
 
-    expect(this.component.gift.fund.ProgramId).toBe(mockFund.ProgramId);
+    expect(this.component.store.fund.ProgramId).toBe(mockFund.ProgramId);
   });
 
   it('should set frequency for the fund IF it allows re-occurring gifts', () => {
     this.component.onClickFund(mockFund);
     this.component.onClickFrequency(giveFrequencies.weekly);
 
-    expect(this.component.gift.frequency).toBe(giveFrequencies.weekly);
+    expect(this.component.store.frequency).toBe(giveFrequencies.weekly);
   });
 
   it('should NOT set frequency for the fund to anything other than "One Time" if it does not allow reoccurring', () => {
     this.component.onClickFund(mockOneTimeGiftFund);
     this.component.onClickFrequency(giveFrequencies.weekly);
 
-    expect(this.component.gift.frequency).toBe(giveFrequencies.oneTime);
+    expect(this.component.store.frequency).toBe(giveFrequencies.oneTime);
   });
 
   it('should set date to undefined', () => {
     this.component.onClickChangeDate();
 
-    expect(this.component.gift.start_date ).toBe(undefined);
+    expect(this.component.store.start_date ).toBe(undefined);
   });
 
   it('should set date to whatever date is passed in from the datepicker', () => {
     this.component.onClickChangeDate();
     this.component.onClickDate(currentDateTime);
 
-    expect(this.component.gift.start_date ).toBe(currentDateTime);
+    expect(this.component.store.start_date ).toBe(currentDateTime);
   });
 
   describe('#GiftFrequency model', () => {

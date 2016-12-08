@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CreditCardValidator } from '../validators/credit-card.validator';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { StripeService } from '../services/stripe.service';
 import { PaymentService } from '../services/payment.service';
 import { StateManagerService } from '../services/state-manager.service';
@@ -29,7 +29,7 @@ export class BillingComponent implements OnInit {
 
   constructor( private router: Router,
     private state: StateManagerService,
-    private gift: GiftService,
+    private store: StoreService,
     private fb: FormBuilder,
     private pmtService: PaymentService,
     private stripeService: StripeService,
@@ -50,28 +50,28 @@ export class BillingComponent implements OnInit {
       });
 
       this.ccForm.controls['expDate'].valueChanges.subscribe(
-          value => this.gift.expDate = value
+          value => this.store.expDate = value
       );
     }
 
   ngOnInit() {
 
-    if ( this.gift.isFrequencySetAndNotOneTime() ) {
+    if ( this.store.isFrequencySetAndNotOneTime() ) {
 
-      this.gift.resetExistingPmtInfo();
-      this.gift.clearUserPmtInfo();
+      this.store.resetExistingPmtInfo();
+      this.store.clearUserPmtInfo();
       this.state.setLoading(false);
 
     } else {
 
-      if ( this.gift.existingPaymentInfo ) {
-        this.gift.existingPaymentInfo.subscribe(
+      if ( this.store.existingPaymentInfo ) {
+        this.store.existingPaymentInfo.subscribe(
             info => {
               this.state.setLoading(false);
               if ( info !== null ) {
-                this.gift.setBillingInfo(info);
-                if (this.gift.accountLast4) {
-                  this.gift.donor = null;
+                this.store.setBillingInfo(info);
+                if (this.store.accountLast4) {
+                  this.store.donor = null;
                   this.state.hidePage(this.state.billingIndex);
                   this.adv();
                 }
@@ -84,11 +84,11 @@ export class BillingComponent implements OnInit {
       }
     }
 
-    this.gift.validateRoute(this.router);
+    this.store.validateRoute(this.router);
   }
 
   public back() {
-    this.gift.resetErrors();
+    this.store.resetErrors();
     this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.billingIndex));
     return false;
   }
@@ -96,19 +96,19 @@ export class BillingComponent implements OnInit {
   public achNext() {
 
     this.setACHSubmitted(true);
-    this.gift.resetErrors();
+    this.store.resetErrors();
 
     if (this.achForm.valid) {
-      this.gift.paymentType = 'ach';
-      this.gift.accountNumber = this.gift.accountNumber.trim();
-      let email = this.gift.email;
+      this.store.paymentType = 'ach';
+      this.store.accountNumber = this.store.accountNumber.trim();
+      let email = this.store.email;
 
       let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber,
         this.achForm.value.accountNumber,
         this.achForm.value.accountName,
         this.achForm.value.accountType);
 
-      this.gift.userBank = userBank;
+      this.store.userBank = userBank;
 
       let firstName = ''; // not used by API, except for guest donations
       let lastName = '';  // not used by API, except for guest donations
@@ -136,15 +136,15 @@ export class BillingComponent implements OnInit {
   public ccNext() {
 
     this.setCCSubmitted(true);
-    this.gift.resetErrors();
+    this.store.resetErrors();
 
     if (this.ccForm.valid) {
-      this.gift.paymentType = 'cc';
+      this.store.paymentType = 'cc';
 
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
       let expYear = this.ccForm.value.expDate.split(' / ')[1];
-      let email = this.gift.email;
-      let userCard: CustomerCard = new CustomerCard(this.gift.email,
+      let email = this.store.email;
+      let userCard: CustomerCard = new CustomerCard(this.store.email,
         this.ccForm.value.ccNumber,
         expMonth,
         expYear,
@@ -154,7 +154,7 @@ export class BillingComponent implements OnInit {
       let firstName = '';
       let lastName = '';
 
-      this.gift.userCc = userCard;
+      this.store.userCc = userCard;
       this.state.setLoading(true);
       this.state.watchState();
       this.pmtService.getDonor().subscribe(
@@ -189,18 +189,18 @@ export class BillingComponent implements OnInit {
     }
     this.state.setLoading(false);
     if (errResponse.status === 400 || errResponse.status === 500) {
-      this.gift.systemException = true;
+      this.store.systemException = true;
       return false;
     } else {
-      this.gift.stripeException = true;
-      this.gift.resetExistingPmtInfo();
-      this.gift.resetPaymentDetails();
+      this.store.stripeException = true;
+      this.store.resetExistingPmtInfo();
+      this.store.resetPaymentDetails();
       return false;
     }
   }
 
   private setValueMoveNext(value) {
-    this.gift.donor = value;
+    this.store.donor = value;
     this.adv();
   }
 

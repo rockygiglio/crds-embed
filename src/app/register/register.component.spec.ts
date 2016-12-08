@@ -7,7 +7,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { RegistrationService } from '../services/registration.service';
 import { StateManagerService } from '../services/state-manager.service';
 import { LoginService } from '../services/login.service';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 
 describe('Component: Registration', () => {
   let fixture: RegisterComponent,
@@ -16,7 +16,7 @@ describe('Component: Registration', () => {
       stateManagerService: StateManagerService,
       loginService: LoginService,
       registrationService: RegistrationService,
-      giftService: GiftService;
+      store: StoreService;
 
   beforeEach(() => {
 
@@ -29,7 +29,7 @@ describe('Component: Registration', () => {
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
     registrationService = jasmine.createSpyObj<RegistrationService>('registrationService', ['postUser']);
 
-    fixture = new RegisterComponent(router, _fb, stateManagerService, loginService, registrationService, giftService);
+    fixture = new RegisterComponent(router, _fb, stateManagerService, loginService, registrationService, store);
     fixture.ngOnInit();
   });
 

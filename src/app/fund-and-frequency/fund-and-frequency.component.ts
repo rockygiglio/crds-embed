@@ -5,15 +5,14 @@ import { Router } from '@angular/router';
 
 import { DonationFundService } from '../services/donation-fund.service';
 import { GiftFrequency } from '../models/gift-frequency';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { Program } from '../interfaces/program';
 import { StateManagerService } from '../services/state-manager.service';
 
 
 @Component({
   selector: 'app-prototype-details',
-  templateUrl: 'fund-and-frequency.component.html',
-  styleUrls: ['fund-and-frequency.component.css']
+  templateUrl: 'fund-and-frequency.component.html'
 })
 export class FundAndFrequencyComponent implements OnInit {
 
@@ -33,7 +32,7 @@ export class FundAndFrequencyComponent implements OnInit {
   };
 
   constructor(private fundsHlpr: DonationFundService,
-              private gift: GiftService,
+              private store: StoreService,
               private route: ActivatedRoute,
               private router: Router,
               private state: StateManagerService,
@@ -42,21 +41,21 @@ export class FundAndFrequencyComponent implements OnInit {
   ngOnInit(): void {
 
     this.funds = this.route.snapshot.data['giveTo'];
-    this.fundIdParam = this.gift.fundId;
-    if (!this.gift.fund) {
-      this.gift.fund = this.fundsHlpr.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
+    this.fundIdParam = this.store.fundId;
+    if (!this.store.fund) {
+      this.store.fund = this.fundsHlpr.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     }
-    if (!this.gift.frequency) {
-      this.gift.frequency  = 'One Time';
+    if (!this.store.frequency) {
+      this.store.frequency  = 'One Time';
     }
     this.isFundSelectShown = !this.funds.find(fund => Number(fund.ProgramId) === Number(this.fundIdParam));
-    this.gift.start_date = this.gift.start_date ? new Date(this.gift.start_date) : new Date();
+    this.store.start_date = this.store.start_date ? new Date(this.store.start_date) : new Date();
     this.form = this._fb.group({
-      fund: [this.gift.fund, [<any>Validators.required]],
-      frequency: [this.gift.frequency, [<any>Validators.required]],
+      fund: [this.store.fund, [<any>Validators.required]],
+      frequency: [this.store.frequency, [<any>Validators.required]],
     });
 
-    this.gift.validateRoute(this.router);
+    this.store.validateRoute(this.router);
     this.state.setLoading(false);
   }
 
@@ -66,9 +65,9 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   next(): boolean {
-    if ( this.gift.isFrequencySetAndNotOneTime() ) {
-      this.gift.resetExistingPmtInfo();
-      this.gift.clearUserPmtInfo();
+    if ( this.store.isFrequencySetAndNotOneTime() ) {
+      this.store.resetExistingPmtInfo();
+      this.store.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
     }
 
@@ -77,28 +76,28 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   onClickChangeDate(): void {
-    this.gift.start_date = undefined;
+    this.store.start_date = undefined;
   }
 
   onClickDate(newValue: any): void {
-    this.gift.start_date = newValue;
+    this.store.start_date = newValue;
   }
 
   onClickFrequency(frequency: any): void {
-    if (this.gift.fund.AllowRecurringGiving) {
-        this.gift.frequency = frequency;
+    if (this.store.fund.AllowRecurringGiving) {
+        this.store.frequency = frequency;
     }
   }
 
   onClickFund(fund: any): void {
-    this.gift.fund = fund;
+    this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
-        this.gift.frequency = 'One Time';
+        this.store.frequency = 'One Time';
         this.resetDate();
     }
   }
 
   resetDate(): void {
-    this.gift.start_date = new Date();
+    this.store.start_date = new Date();
   }
 }

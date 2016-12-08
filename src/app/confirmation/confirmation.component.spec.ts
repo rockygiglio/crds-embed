@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { Program } from '../interfaces/program';
 import { DonationFundService } from '../services/donation-fund.service';
@@ -21,7 +21,7 @@ class MockDonationService { }
 class MockQuickDonationAmountsService { }
 class MockPreviousGiftAmountService { }
 class MockExistingPaymentInfoService { }
-class MockGiftService {
+class MockStoreService {
   public type: string = '';
   public isDonation() {
     if ( this.type === 'donation' ) {
@@ -61,15 +61,15 @@ describe('Component: Confirmation', () => {
         { provide: QuickDonationAmountsService, useClass: MockQuickDonationAmountsService },
         { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
         { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
-        { provide: GiftService, useClass: MockGiftService },
+        { provide: StoreService, useClass: MockStoreService },
         StateManagerService,
         ParamValidationService
       ]
     });
     this.fixture = TestBed.createComponent(ConfirmationComponent);
     this.component = this.fixture.componentInstance;
-    this.component.gift.email = 'user@test.com';
-    this.component.gift.fund = {
+    this.component.store.email = 'user@test.com';
+    this.component.store.fund = {
       'ProgramId': 12,
       'Name': 'Programmer Caffination Fund',
       'ProgramType': 1,
@@ -79,19 +79,19 @@ describe('Component: Confirmation', () => {
   });
 
   it('should show thank you for payment', () => {
-    this.component.gift.type = 'payment';
-    this.component.gift.amount = 12.34;
-    this.component.gift.title = 'frankincense and myrrh';
+    this.component.store.type = 'payment';
+    this.component.store.amount = 12.34;
+    this.component.store.title = 'frankincense and myrrh';
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(`Thank you for the $12.34 payment for frankincense and myrrh.`);
   });
 
   it('should show thank you for monthly recurring gift', () => {
-    this.component.gift.type = 'donation';
-    this.component.gift.amount = 56.78;
-    this.component.gift.frequency = 'month';
-    this.component.gift.start_date = new Date('December 6, 2016');
+    this.component.store.type = 'donation';
+    this.component.store.amount = 56.78;
+    this.component.store.frequency = 'month';
+    this.component.store.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(
@@ -109,10 +109,10 @@ describe('Component: Confirmation', () => {
   });
 
   it('should show thank you for weekly recurring gift', () => {
-    this.component.gift.type = 'donation';
-    this.component.gift.amount = 56.78;
-    this.component.gift.frequency = 'Weekly';
-    this.component.gift.start_date = new Date('December 6, 2016');
+    this.component.store.type = 'donation';
+    this.component.store.amount = 56.78;
+    this.component.store.frequency = 'Weekly';
+    this.component.store.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(
@@ -130,9 +130,9 @@ describe('Component: Confirmation', () => {
   });
 
   it('should show thank you for one time gift', () => {
-    this.component.gift.type = 'donation';
-    this.component.gift.amount = 90;
-    this.component.gift.frequency  = 'One Time';
+    this.component.store.type = 'donation';
+    this.component.store.amount = 90;
+    this.component.store.frequency  = 'One Time';
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(`Thank you for your $90.00 gift to Programmer Caffination Fund.`);

@@ -11,3 +11,8 @@ tbody > tr > td {
 a:focus {
   outline-color: $cr-light-blue;
 }
+
+
+.word-wrapped {
+  word-wrap: break-word;
+}

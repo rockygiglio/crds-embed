@@ -4,12 +4,9 @@ import { BaseRequestOptions, Response, HttpModule, Http, XHRBackend } from '@ang
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { ResponseOptions } from '@angular/http';
 import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
-
-import { GiftService } from './gift.service';
+import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
-
-
 
 describe('Service: Previous Gift Amount', () => {
 
@@ -22,7 +19,7 @@ describe('Service: Previous Gift Amount', () => {
         MockBackend,
         HttpClientService,
         BaseRequestOptions,
-        GiftService,
+        StoreService,
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],

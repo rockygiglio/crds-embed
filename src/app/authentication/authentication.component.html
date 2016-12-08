@@ -4,7 +4,7 @@
     Oops! Sign in failed. Please try again or use
     <a href="https://www.crossroads.net/forgot-password">Forgot Password</a>
   </div>
-  <div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.isDonation()">
+  <div class="btn-group form-nav" *ngIf="store.frequency == 'One Time' && store.isDonation()">
 
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
@@ -54,7 +54,7 @@
     </form>
   </div>
 
-  <div *ngIf="signinOption == 'Guest' && gift.frequency == 'One Time' && gift.isDonation()" heading="Give as a Guest">
+  <div *ngIf="signinOption == 'Guest' && store.frequency == 'One Time' && store.isDonation()" heading="Give as a Guest">
     <header class="page-header">
       <h2>Guest</h2>
     </header>

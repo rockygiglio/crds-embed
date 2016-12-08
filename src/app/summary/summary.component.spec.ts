@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 
 import { SummaryComponent, WindowToken } from './summary.component';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientService } from '../services/http-client.service';
@@ -61,7 +61,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        GiftService, ExistingPaymentInfoService, DonationService,
+        StoreService, ExistingPaymentInfoService, DonationService,
         HttpClientService, CookieService,
         { provide: StateManagerService, useClass: MockStateManagerService},
         { provide: WindowToken, useValue: mockWindow},
@@ -79,14 +79,14 @@ describe('Component: Summary', () => {
   });
 
   it('should get last 4 digits of cc account number', () => {
-    this.component.gift.paymentType = 'cc';
-    this.component.gift.ccNumber = '1212343456567878';
+    this.component.store.paymentType = 'cc';
+    this.component.store.ccNumber = '1212343456567878';
     expect(this.component.getLastFourOfAccountNumber()).toBe('7878');
   });
 
   it('should get last 4 digits of bank account number', () => {
-    this.component.gift.paymentType = 'ach';
-    this.component.gift.accountNumber = '123456789';
+    this.component.store.paymentType = 'ach';
+    this.component.store.accountNumber = '123456789';
     expect(this.component.getLastFourOfAccountNumber()).toBe('6789');
   });
 
@@ -97,19 +97,19 @@ describe('Component: Summary', () => {
   });
 
   it('should navigate to passed in url after submit', () => {
-      this.component.gift.overrideParent = true;
-      this.component.gift.url = 'http://www.redirecturl.com';
+      this.component.store.overrideParent = true;
+      this.component.store.url = 'http://www.redirecturl.com';
       this.component.next();
-      expect(this.component.window.top.location.href).toBe(this.component.gift.url);
+      expect(this.component.window.top.location.href).toBe(this.component.store.url);
     }
   );
 
   it('should submit PAYMENT with cc', () => {
-    this.component.gift.paymentType = 'cc';
-    this.component.gift.amount = 12.34;
-    this.component.gift.invoiceId = 1234;
-    this.component.gift.donor = new CrdsDonor(123, 'test@test.com', 'John', 'Doe', 'post');
-    let paymentBody = new PaymentCallBody('', this.component.gift.amount, 'cc', 'PAYMENT', this.component.gift.invoiceId );
+    this.component.store.paymentType = 'cc';
+    this.component.store.amount = 12.34;
+    this.component.store.invoiceId = 1234;
+    this.component.store.donor = new CrdsDonor(123, 'test@test.com', 'John', 'Doe', 'post');
+    let paymentBody = new PaymentCallBody('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -119,11 +119,11 @@ describe('Component: Summary', () => {
   });
 
   it('should submit PAYMENT with bank', () => {
-    this.component.gift.paymentType = 'ach';
-    this.component.gift.amount = 12.34;
-    this.component.gift.invoiceId = 1234;
-    this.component.gift.donor = new CrdsDonor(123, 'test@test.com', 'John', 'Doe', 'post');
-    let paymentBody = new PaymentCallBody('', this.component.gift.amount, 'bank', 'PAYMENT', this.component.gift.invoiceId );
+    this.component.store.paymentType = 'ach';
+    this.component.store.amount = 12.34;
+    this.component.store.invoiceId = 1234;
+    this.component.store.donor = new CrdsDonor(123, 'test@test.com', 'John', 'Doe', 'post');
+    let paymentBody = new PaymentCallBody('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -134,21 +134,21 @@ describe('Component: Summary', () => {
 
   it('should submit ONE TIME DONATION with cc', () => {
 
-    this.component.gift.paymentType = 'cc';
-    this.component.gift.amount = 12.34;
-    this.component.gift.fund = {
+    this.component.store.paymentType = 'cc';
+    this.component.store.amount = 12.34;
+    this.component.store.fund = {
       'ProgramId': 1,
       'Name': 'Programmer Caffination Fund',
       'ProgramType': 1,
       'AllowRecurringGiving': false
     };
-    this.component.gift.fund_id = 1;
-    this.component.gift.frequency = 'One Time';
-    this.component.gift.email = 'test@test.com';
-    this.component.gift.donor = new CrdsDonor(123, this.component.gift.email, 'John', 'Doe', 'post');
+    this.component.store.fund_id = 1;
+    this.component.store.frequency = 'One Time';
+    this.component.store.email = 'test@test.com';
+    this.component.store.donor = new CrdsDonor(123, this.component.store.email, 'John', 'Doe', 'post');
 
-    let paymentBody = new PaymentCallBody(this.component.gift.fund.ProgramId.toString(),
-      this.component.gift.amount,
+    let paymentBody = new PaymentCallBody(this.component.store.fund.ProgramId.toString(),
+      this.component.store.amount,
       'cc',
       'DONATION',
       0);
@@ -163,21 +163,21 @@ describe('Component: Summary', () => {
 
   it('should submit ONE TIME DONATION with bank', () => {
 
-    this.component.gift.paymentType = 'ach';
-    this.component.gift.amount = 12.34;
-    this.component.gift.fund = {
+    this.component.store.paymentType = 'ach';
+    this.component.store.amount = 12.34;
+    this.component.store.fund = {
       'ProgramId': 1,
       'Name': 'Programmer Caffination Fund',
       'ProgramType': 1,
       'AllowRecurringGiving': false
     };
-    this.component.gift.fund_id = 1;
-    this.component.gift.frequency = 'One Time';
-    this.component.gift.email = 'test@test.com';
-    this.component.gift.donor = new CrdsDonor(123, this.component.gift.email, 'John', 'Doe', 'post');
+    this.component.store.fund_id = 1;
+    this.component.store.frequency = 'One Time';
+    this.component.store.email = 'test@test.com';
+    this.component.store.donor = new CrdsDonor(123, this.component.store.email, 'John', 'Doe', 'post');
 
-    let paymentBody = new PaymentCallBody(this.component.gift.fund.ProgramId.toString(),
-      this.component.gift.amount,
+    let paymentBody = new PaymentCallBody(this.component.store.fund.ProgramId.toString(),
+      this.component.store.amount,
       'bank',
       'DONATION',
       0);
@@ -192,27 +192,27 @@ describe('Component: Summary', () => {
 
   it('should submit GUEST ONE TIME DONATION', () => {
 
-    this.component.gift.paymentType = 'ach';
-    this.component.gift.amount = 12.34;
-    this.component.gift.fund = {
+    this.component.store.paymentType = 'ach';
+    this.component.store.amount = 12.34;
+    this.component.store.fund = {
       'ProgramId': 1,
       'Name': 'Programmer Caffination Fund',
       'ProgramType': 1,
       'AllowRecurringGiving': false
     };
-    this.component.gift.fund_id = 1;
-    this.component.gift.frequency = 'One Time';
-    this.component.gift.email = 'test@test.com';
-    this.component.gift.donor = new CrdsDonor(123, this.component.gift.email, 'John', 'Doe', 'post');
-    this.component.gift.isGuest = true;
+    this.component.store.fund_id = 1;
+    this.component.store.frequency = 'One Time';
+    this.component.store.email = 'test@test.com';
+    this.component.store.donor = new CrdsDonor(123, this.component.store.email, 'John', 'Doe', 'post');
+    this.component.store.isGuest = true;
 
-    let paymentBody = new PaymentCallBody(this.component.gift.fund.ProgramId.toString(),
-      this.component.gift.amount,
+    let paymentBody = new PaymentCallBody(this.component.store.fund.ProgramId.toString(),
+      this.component.store.amount,
       'bank',
       'DONATION',
       0);
 
-    paymentBody.email_address = this.component.gift.email;
+    paymentBody.email_address = this.component.store.email;
     paymentBody.donor_id = 1;
 
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({ id: 1 }));
@@ -224,11 +224,11 @@ describe('Component: Summary', () => {
   });
 
   it('should reset payment info on link to billing page', () => {
-    this.component.gift.paymentType = 'cc';
-    spyOn(this.component.gift, 'resetExistingPmtInfo');
+    this.component.store.paymentType = 'cc';
+    spyOn(this.component.store, 'resetExistingPmtInfo');
     this.component.changePayment();
-    expect(this.component.gift.resetExistingPmtInfo).toHaveBeenCalled();
-    expect(this.component.gift.paymentType).toBeUndefined();
+    expect(this.component.store.resetExistingPmtInfo).toHaveBeenCalled();
+    expect(this.component.store.paymentType).toBeUndefined();
   });
 
   it('should logout user on link to auth page', () => {
@@ -238,11 +238,11 @@ describe('Component: Summary', () => {
   });
 
   it('should add redirect params to redirect url', () => {
-    this.component.gift.url = 'http://www.redirecturl.com';
+    this.component.store.url = 'http://www.redirecturl.com';
     this.component.redirectParams.set('param1', 1);
     this.component.redirectParams.set('param2', 'two');
     this.component.addParamsToRedirectUrl();
-    expect(this.component.gift.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
+    expect(this.component.store.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
   });
 
 });

@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { DonationFundService } from '../services/donation-fund.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { AmountComponent } from './amount.component';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
@@ -34,7 +34,7 @@ describe('Component: Payment', () => {
         PreviousGiftAmountService,
         QuickDonationAmountsService,
         DonationFundService,
-        GiftService,
+        StoreService,
         ParamValidationService,
         StateManagerService,
         LoginService,
@@ -45,9 +45,9 @@ describe('Component: Payment', () => {
     this.fixture = TestBed.createComponent(AmountComponent);
     this.component = this.fixture.componentInstance;
 
-    this.component.gift.type = 'payment';
-    this.component.gift.minPayment = 1;
-    this.component.gift.totalCost = 400;
+    this.component.store.type = 'payment';
+    this.component.store.minPayment = 1;
+    this.component.store.totalCost = 400;
 
   });
 
@@ -58,35 +58,35 @@ describe('Component: Payment', () => {
   it('should expect non-numeric values to invalidate', () => {
 
     this.component.onCustomAmount('034adfdf');
-    expect(this.component.gift.validAmount()).toBeFalsy();
+    expect(this.component.store.validAmount()).toBeFalsy();
 
   });
 
   it('should expect amounts higher than the total cost to invalidate', () => {
 
     this.component.onCustomAmount('400.01');
-    expect(this.component.gift.validAmount()).toBeFalsy();
+    expect(this.component.store.validAmount()).toBeFalsy();
 
   });
 
   it('should expect amounts lower than the total cost to validate', () => {
 
     this.component.onCustomAmount('399.99');
-    expect(this.component.gift.validAmount()).toBeTruthy();
+    expect(this.component.store.validAmount()).toBeTruthy();
 
   });
 
   it('should expect amounts higher than 999,999.99 to invalidate', () => {
 
     this.component.onCustomAmount('1000000');
-    expect(this.component.gift.validAmount()).toBeFalsy();
+    expect(this.component.store.validAmount()).toBeFalsy();
 
   });
 
   it('should expect amounts with leading zeros to invalidate', () => {
 
     this.component.onCustomAmount('01');
-    expect(this.component.gift.validAmount()).toBeFalsy();
+    expect(this.component.store.validAmount()).toBeFalsy();
 
   });
 
@@ -108,7 +108,7 @@ describe('Component: Donation', () => {
         PreviousGiftAmountService,
         QuickDonationAmountsService,
         DonationFundService,
-        GiftService,
+        StoreService,
         ParamValidationService,
         StateManagerService,
         LoginService,
@@ -119,9 +119,9 @@ describe('Component: Donation', () => {
     this.fixture = TestBed.createComponent(AmountComponent);
     this.component = this.fixture.componentInstance;
 
-    this.component.gift.type = 'donation';
-    this.component.gift.previousAmount = 53.17;
-    this.component.gift.fundId = 1;
+    this.component.store.type = 'donation';
+    this.component.store.previousAmount = 53.17;
+    this.component.store.fundId = 1;
 
   });
 
@@ -129,14 +129,14 @@ describe('Component: Donation', () => {
     expect(this.component).toBeTruthy();
   });
 
-  it('should expect a valid gift amount to validate', () => {
+  it('should expect a valid amount to validate', () => {
 
     this.component.onCustomAmount('300.01');
     expect(this.component.isValid()).toBeTruthy();
 
   });
 
-  it('should expect an invalid gift amount to invalidate', () => {
+  it('should expect an invalid amount to invalidate', () => {
 
     this.component.onCustomAmount('300.01adfdf');
     expect(this.component.isValid()).toBeFalsy();

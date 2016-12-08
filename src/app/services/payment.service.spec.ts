@@ -8,7 +8,7 @@ import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { ExistingPaymentInfoService } from './existing-payment-info.service';
-import { GiftService } from './gift.service';
+import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { Observable } from 'rxjs/Observable';
@@ -98,7 +98,7 @@ describe('Service: Payment', () => {
                 ParamValidationService,
                 PaymentService,
                 StateManagerService,
-                GiftService,
+                StoreService,
                 { provide: StripeService, useClass: MockStripeService},
                 CookieService,
                 {

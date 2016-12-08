@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-confirmation',
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss']
+  templateUrl: './confirmation.component.html'
 })
 export class ConfirmationComponent implements OnInit {
 
-  constructor(private gift: GiftService,
+  constructor(private store: StoreService,
     private state: StateManagerService,
     private router: Router) {
-    this.gift.validateRoute(router);
+    this.store.validateRoute(router);
     this.state.setLoading(false);
   }
 
@@ -24,9 +23,9 @@ export class ConfirmationComponent implements OnInit {
   }
 
   frequencyCalculation(): string {
-    let startDate = moment(this.gift.start_date);
+    let startDate = moment(this.store.start_date);
 
-    if (this.gift.frequency === 'month') {
+    if (this.store.frequency === 'month') {
       return 'the ' + startDate.format('Do') + ' of the Month';
     }
 

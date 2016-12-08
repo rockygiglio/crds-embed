@@ -9,7 +9,7 @@ import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { DonationService } from './donation.service';
 import { ExistingPaymentInfoService } from './existing-payment-info.service';
-import { GiftService } from './gift.service';
+import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { Observable } from 'rxjs/Observable';
@@ -64,7 +64,7 @@ describe('Service: Previous Gift Amount', () => {
                 BaseRequestOptions,
                 DonationService,
                 ExistingPaymentInfoService,
-                GiftService,
+                StoreService,
                 HttpClientService,
                 LoginService,
                 MockBackend,
