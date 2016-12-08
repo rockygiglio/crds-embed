@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { AuthenticationComponent } from './authentication.component';
 import { CheckGuestEmailService } from '../../app/services/check-guest-email.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { GiftService } from '../services/gift.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
@@ -45,10 +45,11 @@ describe('Component: Authentication', () => {
   });
 
   function setForm( email, password ) {
-    fixture.form = new FormGroup({
-      email: new FormControl(email, Validators.minLength(8)),
-      password: new FormControl(password)
-    });
+    fixture.form.setValue({ email: email, password: password});
+  }
+
+  function setGuestForm( email ) {
+    fixture.formGuest.setValue({ email: email });
   }
 
   describe('#ngOnInit', () => {
@@ -72,61 +73,71 @@ describe('Component: Authentication', () => {
   });
 
   describe('#submitGuest', () => {
-
-    it('should not process if form is invalid', () => {
-      fixture.submitGuest();
-      expect(fixture.formGuest.valid).toBe(false);
+    describe('when form is invalid', () => {
+      it('formGuest.valid should be false', () => {
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
     });
 
-    it('should process if form is valid', () => {
-      fixture.formGuest.setValue({ email: 's@s.com' });
-      (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of({}));
-      fixture.submitGuest();
-      expect(fixture.formGuest.valid).toBe(true);
-    });
+    describe('when form is valid', () => {
+      function setGuestEmailExists(state: any): void {
+        (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(state));
+      }
 
-    it('should throw error if email address is used', () => {
-      fixture.formGuest.setValue({ email: 's@s.com' });
-      fixture.formGuest.markAsDirty();
-      (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(true));
-      fixture.submitGuest();
-      expect(fixture.guestEmail).toBe(true);
-    });
+      beforeEach(() => {
+        setGuestForm( 's@s.com' );
+      });
 
-    it('should process if email address is not used', () => {
-      fixture.formGuest.setValue({ email: 's@s.com' });
-      fixture.formGuest.markAsDirty();
-      (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(false));
-      fixture.submitGuest();
-      expect(fixture.guestEmail).toBe(false);
-      expect(router.navigateByUrl).toHaveBeenCalled();
-    });
+      it('formGuest.valid should be true', () => {
+        setGuestEmailExists({});
+        fixture.submitGuest()
+        expect(fixture.formGuest.valid).toBe(true);
+      });
 
+      it('guestEmail should get set to true if email guest provides exists', () => {
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.guestEmail).toBe(true);
+      });
+
+      it('guestEmail should get set to false if email guest provides does not exist', () => {
+        setGuestEmailExists(false);
+        fixture.submitGuest();
+        expect(fixture.guestEmail).toBe(false);
+      });
+
+      it('should navigate to the next step', () => {
+        setGuestEmailExists(false);
+        fixture.submitGuest();
+        expect(router.navigateByUrl).toHaveBeenCalled();
+      });
+    });
   });
 
-  it('#formInvalid(field) should check to see if field is invalid', () => {
+  describe('#formInvalid(field)', () => {
+    it('should check to see if field is valid when valid credentials are provided', () => {
+      setForm('s@s.com', 'test');
+      let isInvalid = fixture.formInvalid('email');
+      expect(isInvalid).toBe(false);
+    });
 
-    fixture.form.setValue({ email: 's@s.com', password: 'test' });
-    let isInvalid = fixture.formInvalid('email');
-    expect(isInvalid).toBe(false);
-
-    fixture.form.setValue({ email: 'sm', password: 'test' });
-    isInvalid = fixture.formInvalid('email');
-    expect(isInvalid).toBe(true);
-
+    it('should check to see if field is invalid when invalid credentials are provided', () => {
+      setForm('sm', 'test');
+      let isInvalid = fixture.formInvalid('email');
+      expect(isInvalid).toBe(true);
+    });
   });
 
   describe('#formatErrorMessage', () => {
     it('should return <u>required</u> when errors.required !== undefined', () => {
       let errors = { required: true };
-
       let res = fixture.formatErrorMessage(errors);
       expect(res).toBe('is <u>required</u>');
     });
 
     it('should return <em>invalid</em> when errors.required === undefined', () => {
       let errors = { require: undefined };
-
       let res = fixture.formatErrorMessage(errors);
       expect(res).toBe('is <em>invalid</em>');
     });
@@ -137,27 +148,6 @@ describe('Component: Authentication', () => {
       beforeEach(() => {
         setForm('good@', 'foobar');
         fixture.form.markAsDirty();
-      });
-
-      it('should not call #adv', () => {
-        spyOn(fixture, 'adv');
-
-        fixture.submitLogin();
-        expect(fixture.adv).not.toHaveBeenCalled();
-      });
-
-      it('loginException should get set to true', () => {
-        expect(fixture.loginException).toBeFalsy();
-        fixture.submitLogin();
-        expect(fixture.loginException).toBeTruthy();
-      });
-    });
-
-    describe('when invalid credentials are submitted', () => {
-      beforeEach(() => {
-        setForm('bad@bad.com', 'reallynotgood');
-        fixture.form.markAsDirty();
-        (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {
@@ -174,25 +164,35 @@ describe('Component: Authentication', () => {
       });
     });
 
-    it('should call #adv when valid auth credentials are submitted', () => {
-      setForm('good@good.com', 'foobar');
-      fixture.form.markAsDirty();
-      (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
-      spyOn(fixture, 'adv');
+    describe('when invalid auth credentials are submitted', () => {
+      beforeEach(() => {
+        setForm('bad@bad.com', 'reallynotgood');
+        fixture.form.markAsDirty();
+        (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
+      });
 
-      fixture.submitLogin();
-      expect(fixture.adv).toHaveBeenCalled();
+      it('#adv should not get called', () => {
+        spyOn(fixture, 'adv');
+        fixture.submitLogin();
+        expect(fixture.adv).not.toHaveBeenCalled();
+      });
+
+      it('loginException should get set to true', () => {
+        expect(fixture.loginException).toBeFalsy();
+        fixture.submitLogin();
+        expect(fixture.loginException).toBeTruthy();
+      });
     });
 
-    it('should provide an error message', () => {
-      setForm('bad@bad.com', 'reallynotgood');
-      fixture.form.markAsDirty();
-      (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
-      spyOn(fixture, 'adv');
-
-      expect(fixture.loginException).toBeFalsy();
-      fixture.submitLogin();
-      expect(fixture.loginException).toBeTruthy();
+    describe('when valid auth credentials are submitted', () => {
+      it('should call #adv when valid auth credentials are submitted', () => {
+        setForm('good@good.com', 'foobar');
+        fixture.form.markAsDirty();
+        (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
+        spyOn(fixture, 'adv');
+        fixture.submitLogin();
+        expect(fixture.adv).toHaveBeenCalled();
+      });
     });
   });
 });
