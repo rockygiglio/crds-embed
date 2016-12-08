@@ -90,7 +90,7 @@ describe('Component: Confirmation', () => {
   it('should show thank you for monthly recurring gift', () => {
     this.component.gift.type = 'donation';
     this.component.gift.amount = 56.78;
-    this.component.gift.frequency = 'Monthly';
+    this.component.gift.frequency = 'month';
     this.component.gift.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
