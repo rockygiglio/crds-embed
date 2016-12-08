@@ -84,5 +84,51 @@ describe('Service: Gift', () => {
     expect(srvc.isOneTimeGift()).toBe(false);
   }));
 
+  it('should return false if one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'One Time';
+    srvc.start_date = new Date();
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
+  }));
+
+  it('should return true if recurring gift w/ missing date', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    srvc.start_date = undefined;
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(true);
+  }));
+
+  it('should return false if recurring and date is set', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    srvc.start_date = new Date();
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
+  }));
+
+  describe('#isFrequencySelected', () => {
+    it('should return false if frequency is NOT set', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = '';
+      expect(srvc.isFrequencySelected()).toBe(false);
+    }));
+
+    it('should return true if frequency IS set', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = 'week';
+      expect(srvc.isFrequencySelected()).toBe(true);
+    }));
+  });
+
+  describe('#isFrequencySetAndNotOneTime', () => {
+    it('should return false if frequency is NOT set', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = '';
+      expect(srvc.isFrequencySetAndNotOneTime()).toBe(false);
+    }));
+
+    it('should return true if frequency IS set to recurring', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = 'week';
+      expect(srvc.isFrequencySetAndNotOneTime()).toBe(true);
+    }));
+
+    it('should return false if frequency is set to "One Time"', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = 'One Time';
+      expect(srvc.isFrequencySetAndNotOneTime()).toBe(false);
+    }));
+  });
 
 });

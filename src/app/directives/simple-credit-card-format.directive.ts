@@ -47,7 +47,9 @@ export class SimpleCreditCardFormatDirective {
 
   private inputData(target): void {
     this.position = target.selectionStart;
-    target.value = target.value.replace(/[^0-9]/g, '');
-    target.selectionEnd = this.position
+    if ( target.value ) {
+      target.value = target.value.replace(/[^0-9]/g, '');
+    }
+    target.selectionEnd = this.position;
   }
 }

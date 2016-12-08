@@ -10,10 +10,12 @@ import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service';
+import { Program } from '../interfaces/program';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { StateManagerService } from '../services/state-manager.service';
 
 class MockDonationService { }
 class MockQuickDonationAmountsService { }
@@ -36,8 +38,8 @@ class MockGiftService {
       return false;
     }
   }
+  public validateRoute(router: any) { }
 }
-class MockRouter { public navigate() {}; }
 class MockPrototypeStore { public subscribe() {}; }
 
 describe('Component: Confirmation', () => {
@@ -60,12 +62,19 @@ describe('Component: Confirmation', () => {
         { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
         { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
         { provide: GiftService, useClass: MockGiftService },
+        StateManagerService,
         ParamValidationService
       ]
     });
     this.fixture = TestBed.createComponent(ConfirmationComponent);
     this.component = this.fixture.componentInstance;
     this.component.gift.email = 'user@test.com';
+    this.component.gift.fund = {
+      'ProgramId': 12,
+      'Name': 'Programmer Caffination Fund',
+      'ProgramType': 1,
+      'AllowRecurringGiving': true
+    };
 
   });
 
@@ -81,7 +90,6 @@ describe('Component: Confirmation', () => {
   it('should show thank you for monthly recurring gift', () => {
     this.component.gift.type = 'donation';
     this.component.gift.amount = 56.78;
-    this.component.gift.fund = 'Programmer Caffination fund';
     this.component.gift.frequency = 'Monthly';
     this.component.gift.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
@@ -93,7 +101,7 @@ describe('Component: Confirmation', () => {
       `We will process your Recurring Gift of $56.78 for`
     );
     expect(de.nativeElement.textContent).toContain(
-      `Programmer Caffination fund on the 6th of the Month.`
+      `Programmer Caffination Fund on the 6th of the Month.`
     );
     expect(de.nativeElement.textContent).toContain(
       `Your statement will be sent to user@test.com.`
@@ -103,7 +111,6 @@ describe('Component: Confirmation', () => {
   it('should show thank you for weekly recurring gift', () => {
     this.component.gift.type = 'donation';
     this.component.gift.amount = 56.78;
-    this.component.gift.fund = 'Programmer Caffination fund';
     this.component.gift.frequency = 'Weekly';
     this.component.gift.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
@@ -115,7 +122,7 @@ describe('Component: Confirmation', () => {
       `We will process your Recurring Gift of $56.78 for`
     );
     expect(de.nativeElement.textContent).toContain(
-      `Programmer Caffination fund on Every Tuesday.`
+      `Programmer Caffination Fund on Every Tuesday.`
     );
     expect(de.nativeElement.textContent).toContain(
       `Your statement will be sent to user@test.com.`
@@ -125,11 +132,10 @@ describe('Component: Confirmation', () => {
   it('should show thank you for one time gift', () => {
     this.component.gift.type = 'donation';
     this.component.gift.amount = 90;
-    this.component.gift.fund = 'Onetime fund';
     this.component.gift.frequency  = 'One Time';
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
-    expect(de.nativeElement.textContent).toContain(`Thank you for your $90.00 gift to Onetime fund.`);
+    expect(de.nativeElement.textContent).toContain(`Thank you for your $90.00 gift to Programmer Caffination Fund.`);
   });
 
 });

@@ -38,15 +38,20 @@ export class PaymentComponent implements OnInit {
               private previousGiftAmountService: PreviousGiftAmountService,
               private quickDonationAmountsService: QuickDonationAmountsService,
               private router: Router,
-              private stateManagerService: StateManagerService) {
+              private state: StateManagerService) {
   }
 
   ngOnInit() {
-    this.stateManagerService.is_loading = true;
+    this.state.setLoading(true);
     if (this.gift.isDonation()) {
-      this.getPredefinedDonationAmounts();
+      if ( !this.gift.predefinedAmounts ) {
+        this.getPredefinedDonationAmounts();
+      } else {
+        this.predefinedAmounts = this.gift.predefinedAmounts;
+        this.state.setLoading(false);
+      }
     } else {
-      this.stateManagerService.is_loading = false;
+      this.state.setLoading(false);
     }
 
     this.amountDue = [
@@ -74,7 +79,8 @@ export class PaymentComponent implements OnInit {
     this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
       amounts => {
         this.predefinedAmounts = amounts;
-        this.stateManagerService.is_loading = false;
+        this.gift.predefinedAmounts = amounts;
+        this.state.setLoading(false);
       },
       error => this.errorMessage = <any>error
     );
@@ -86,9 +92,10 @@ export class PaymentComponent implements OnInit {
 
   next() {
     if ( this.isValid() ) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
+      this.state.setLoading(true);
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.paymentIndex));
     } else {
+      this.form.controls['customAmount'].markAsTouched();
       this.setErrorMessage();
     }
     this.submitted = true;
@@ -121,6 +128,7 @@ export class PaymentComponent implements OnInit {
   }
 
   onSelectAmount(value) {
+    this.form.controls['customAmount'].markAsUntouched();
     this.submitted = false;
     this.customAmtSelected = false;
     delete(this.customAmount);

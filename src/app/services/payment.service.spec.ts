@@ -56,11 +56,11 @@ class MockStripeService {
     };
 }
 
-describe('Service: Previous Gift Amount', () => {
+describe('Service: Payment', () => {
 
     let mockBackend: MockBackend;
 
-    let mockCrdsDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe"}';
+    let mockCrdsDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe", "rest_method":"post"}';
     let mockBank =  new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
     let mockPaymentTypeBody = new PaymentCallBody('', 1, 'bank', 'PAYMENT', 123);
     let mockPostPaymentResp = '{"amount":1,"email":"scrudgemcduckcrds@mailinator.com","status":0,"include_on_giving_h'
@@ -182,7 +182,7 @@ describe('Service: Previous Gift Amount', () => {
     );
 
 
-    it('it should post a new donor with a bank account',
+    it('it should create a new donor object for later saving',
         async(inject([PaymentService, MockBackend], (srvc) => {
 
             mockBackend.connections.subscribe(
@@ -196,7 +196,11 @@ describe('Service: Previous Gift Amount', () => {
 
             srvc.createDonorWithBankAcct(mockBank, 'test@test.com', 'John', 'Doe').subscribe(
                 (data) => {
-                    expect(JSON.parse(data._body).default_source.bank_account.last4).toBe('0987');
+                    expect(data).toBeDefined();
+                    expect(data.stripe_token_id).toBe('tok_u5dg20Gra');
+                    expect(data.email_address).toBe('test@test.com');
+                    expect(data.first_name).toBe('John');
+                    expect(data.last_name).toBe('Doe');
                 }
             );
         }))

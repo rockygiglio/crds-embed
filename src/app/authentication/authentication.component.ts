@@ -18,13 +18,19 @@ import { StateManagerService } from '../services/state-manager.service';
 export class AuthenticationComponent implements OnInit {
   public signinOption: string = 'Sign In';
 
-  form: FormGroup;
-  email: string;
-  guestEmail: boolean;
-  userPmtInfo: any;
+  public email: string;
+  public form: FormGroup;
+  public formGuest: FormGroup;
+  public formGuestSubmitted: boolean;
+  public formSubmitted: boolean;
+  public guestEmail: boolean;
+  public loginException: boolean;
+  public userPmtInfo: any;
+  private helpUrl: string;
+  private forgotPasswordUrl: string;
 
   constructor( private router: Router,
-    private stateManagerService: StateManagerService,
+    private state: StateManagerService,
     private gift: GiftService,
     private _fb: FormBuilder,
     private checkGuestEmailService: CheckGuestEmailService,
@@ -33,61 +39,55 @@ export class AuthenticationComponent implements OnInit {
     private existingPaymentInfoService: ExistingPaymentInfoService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
 
-    if ( this.gift.isGuest === true ) {
+    this.helpUrl = `//${process.env.CRDS_ENV}.crossroads.net/help`;
+    this.forgotPasswordUrl = `//${process.env.CRDS_ENV}.crossroads.net/forgot-password`;
+
+    if ( this.gift.isGuest === true && this.gift.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
       this.email = this.gift.email;
     }
 
     this.form = this._fb.group({
       email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
-      password: ['']
+      password: ['', <any>Validators.required]
+    });
+
+    this.formGuest = this._fb.group({
+      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]]
     });
 
     this.form.valueChanges.subscribe((value: any) => {
       this.gift.email = value.email;
     });
 
-    if (!this.gift.type) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl('/payment');
-    }
-
-    this.stateManagerService.is_loading = false;
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
-  back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.authenticationIndex));
+  public adv(): void {
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
+  }
+
+  public back(): boolean {
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
     return false;
   }
 
-  adv(): void {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.authenticationIndex));
-  }
+  public onEnterKey() {
+    let isOnLoginTab: boolean = this.signinOption === 'Sign In';
 
-  next(): boolean {
-    this.gift.isGuest = false;
-    if (this.form.valid) {
-      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
-      .subscribe(
-        user => {
-          this.gift.loadUserData();
-          this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
-          this.adv();
-        },
-        error => {
-          this.adv();
-        }
-      );
+    if (isOnLoginTab) {
+      this.submitLogin();
     }
-    return false;
   }
 
-  checkEmail(): void {
-    if ( this.form.valid ) {
+  public submitGuest() {
+    this.formGuestSubmitted = true;
+    if ( this.formGuest.valid ) {
       this.gift.isGuest = true;
-      this.stateManagerService.is_loading = true;
+      this.state.setLoading(true);
       this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
@@ -95,11 +95,50 @@ export class AuthenticationComponent implements OnInit {
             this.gift.email = this.email;
             this.adv();
           } else {
-            this.stateManagerService.is_loading = false;
+            this.state.setLoading(false);
           }
         }
       );
     }
   }
 
+  public submitLogin(): boolean {
+    this.formSubmitted = true;
+    this.gift.isGuest = false;
+    this.state.setLoading(true);
+    this.loginException = false;
+    if (this.form.valid) {
+      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
+      .subscribe(
+        (user) => {
+          this.gift.loadUserData();
+          this.state.hidePage(this.state.authenticationIndex);
+          this.adv();
+        },
+        (error) => {
+          this.loginException = true;
+          this.state.setLoading(false);
+        }
+      );
+    } else {
+      this.loginException = true;
+      this.form.controls['email'].markAsTouched();
+      this.form.controls['password'].markAsTouched();
+      this.state.setLoading(false);
+    }
+    return false;
+  }
+
+  public formInvalid(field): boolean {
+    return !this.form.controls[field].valid;
+  }
+
+  public formatErrorMessage(errors: any): string {
+    let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
+    return ret;
+  }
+
+  public switchToSignIn() {
+    this.signinOption = 'Sign In';
+  }
 }
