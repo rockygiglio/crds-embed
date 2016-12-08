@@ -4,7 +4,6 @@ export class GiftFrequency {
   displayName: string;
   value: string;
 
-
   constructor(displayName: string, value: string) {
     this.displayName = displayName;
     this.value = value;
