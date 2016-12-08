@@ -21,7 +21,11 @@ describe('App: CrdsEmbed', () => {
     TestBed.configureTestingModule({
       declarations: [ AppComponent ],
       imports: [
-        PreloaderModule, RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
+        PreloaderModule,
+        RouterTestingModule.withRoutes([]),
+        HttpModule,
+        JsonpModule,
+        ReactiveFormsModule
       ],
       providers: [
         QuickDonationAmountsService,

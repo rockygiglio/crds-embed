@@ -9,7 +9,7 @@ import { StateManagerService } from './services/state-manager.service';
   selector: 'app-root',
   template: `
     <div class="container" [ngClass]="{'loading': state.is_loading}">
-      <preloader></preloader>
+      <app-preloader></app-preloader>
       <div class="outlet-wrapper">
         <router-outlet></router-outlet>
       </div>
