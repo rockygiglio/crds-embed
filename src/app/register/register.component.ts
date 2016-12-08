@@ -14,7 +14,7 @@ import { StoreService } from '../services/store.service';
 export class RegisterComponent implements OnInit {
   public errorMessage: string = '';
   public submitted: boolean = false;
-  regForm: FormGroup;
+  public regForm: FormGroup;
   public duplicateUser: boolean = false;
   private termsOfServiceUrl: string;
   private privacyPolicyUrl: string;
@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
     this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.registrationIndex));
   }
 
-  next() {
+  submitRegistration() {
     this.submitted = true;
     if ( this.regForm.valid ) {
       this.stateManagerService.is_loading = true;
@@ -101,7 +101,4 @@ export class RegisterComponent implements OnInit {
     return ret;
   }
 
-  public onEnterKey() {
-      this.next();
-  }
 }

@@ -59,7 +59,7 @@ describe('Component: Registration', () => {
   describe('#submit User', () => {
 
     it('should not process if form is invalid', () => {
-      let didSubmit = fixture.next();
+      let didSubmit = fixture.submitRegistration();
       expect(didSubmit).toBe(false);
     });
   });
@@ -90,7 +90,7 @@ describe('Component: Registration', () => {
       it('should not call #adv', () => {
         spyOn(fixture, 'adv');
 
-        fixture.next();
+        fixture.submitRegistration();
         expect(fixture.adv).not.toHaveBeenCalled();
       });
     });
