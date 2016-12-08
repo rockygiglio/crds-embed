@@ -8,7 +8,7 @@ import { DonationFundService } from '../services/donation-fund.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { GiftService } from '../services/gift.service';
 import { ParamValidationService } from '../services/param-validation.service';
-import { PaymentComponent } from './payment.component';
+import { AmountComponent } from './amount.component';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { StateManagerService } from '../services/state-manager.service';
@@ -25,7 +25,7 @@ describe('Component: Payment', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaymentComponent ],
+      declarations: [ AmountComponent ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
@@ -42,7 +42,7 @@ describe('Component: Payment', () => {
         CookieService
       ]
     });
-    this.fixture = TestBed.createComponent(PaymentComponent);
+    this.fixture = TestBed.createComponent(AmountComponent);
     this.component = this.fixture.componentInstance;
 
     this.component.gift.type = 'payment';
@@ -99,7 +99,7 @@ describe('Component: Donation', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaymentComponent ],
+      declarations: [ AmountComponent ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
@@ -116,7 +116,7 @@ describe('Component: Donation', () => {
         CookieService
       ]
     });
-    this.fixture = TestBed.createComponent(PaymentComponent);
+    this.fixture = TestBed.createComponent(AmountComponent);
     this.component = this.fixture.componentInstance;
 
     this.component.gift.type = 'donation';

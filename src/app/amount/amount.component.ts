@@ -12,8 +12,7 @@ import { StateManagerService } from '../services/state-manager.service';
 
 @Component({
   selector: 'app-payment',
-  templateUrl: 'payment.component.html',
-  styleUrls: ['payment.component.scss'],
+  templateUrl: 'amount.component.html',
   animations: [
     trigger('customAmountForm', [
       state('expanded', style({ height: '*' })),
@@ -23,7 +22,7 @@ import { StateManagerService } from '../services/state-manager.service';
     ])
   ]
 })
-export class PaymentComponent implements OnInit {
+export class AmountComponent implements OnInit {
   public amountDue: Array<Object>;
   public customAmount: number;
   public form: FormGroup;

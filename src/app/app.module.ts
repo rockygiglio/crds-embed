@@ -18,7 +18,7 @@ import { BillingComponent } from './billing/billing.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { PaymentComponent } from './payment/payment.component';
+import { AmountComponent } from './amount/amount.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
 import { RegisterComponent} from './register/register.component';
 
@@ -70,7 +70,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     OnlyTheseKeysDirective,
     CurrencyFormatDirective,
     PageNotFoundComponent,
-    PaymentComponent,
+    AmountComponent,
     SimpleCreditCardFormatDirective,
     SummaryComponent,
     RegisterComponent
