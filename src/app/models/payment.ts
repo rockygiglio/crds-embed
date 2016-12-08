@@ -1,10 +1,10 @@
 
-export class PaymentCallBody {
+export class Payment {
 
-    program_id: string; // emptyString for payments, required for donations
+    program_id: string;
     amount: number;
-    pymt_type: string; // 'bank' or 'cc'
-    transaction_type: string; // 'DONATION' or 'PAYMENT'
+    pymt_type: string;
+    transaction_type: string;
     invoice_id: number;
     donor_id: number;
     email_address: string;
@@ -18,4 +18,3 @@ export class PaymentCallBody {
     }
 
 }
-

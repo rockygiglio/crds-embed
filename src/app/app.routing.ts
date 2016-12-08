@@ -11,8 +11,6 @@ import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequen
 import { DonationFundService } from './services/donation-fund.service';
 
 const appRoutes: Routes = [
-  { path: 'payment', redirectTo: '/', pathMatch: 'full' },
-  { path: 'donation', redirectTo: '/', pathMatch: 'full' },
   { path: '', component: AmountComponent },
   { path: 'fund',
     component: FundAndFrequencyComponent,

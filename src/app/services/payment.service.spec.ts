@@ -13,7 +13,7 @@ import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { Observable } from 'rxjs/Observable';
 import { ParamValidationService } from './param-validation.service';
-import { PaymentCallBody} from '../models/payment-call-body';
+import { Payment} from '../models/payment';
 import { PaymentService } from './payment.service';
 import { StateManagerService } from './state-manager.service';
 import { StripeService } from './stripe.service';
@@ -62,7 +62,7 @@ describe('Service: Payment', () => {
 
     let mockDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe", "rest_method":"post"}';
     let mockBank =  new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
-    let mockPaymentTypeBody = new PaymentCallBody('', 1, 'bank', 'PAYMENT', 123);
+    let mockPaymentTypeBody = new Payment('', 1, 'bank', 'PAYMENT', 123);
     let mockPostPaymentResp = '{"amount":1,"email":"scrudgemcduckcrds@mailinator.com","status":0,"include_on_giving_h'
     + 'istory":false,"include_on_printed_statement":false,"date":"0001-01-01T00:00:00","fee":0.0,"payment_id":125,"'
     + 'source":{"type":0},"distributions":[]}';

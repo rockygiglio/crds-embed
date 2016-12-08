@@ -23,7 +23,7 @@ import { StripeService } from '../services/stripe.service';
 import { DonationService } from '../services/donation.service';
 
 import { Donor } from '../models/donor';
-import { PaymentCallBody } from '../models/payment-call-body';
+import { Payment } from '../models/payment';
 import { Frequency } from '../models/frequency';
 
 class MockStateManagerService {
@@ -110,7 +110,7 @@ describe('Component: Summary', () => {
     this.component.store.amount = 12.34;
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'John', 'Doe', 'post');
-    let paymentBody = new PaymentCallBody('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
+    let paymentBody = new Payment('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -124,7 +124,7 @@ describe('Component: Summary', () => {
     this.component.store.amount = 12.34;
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'John', 'Doe', 'post');
-    let paymentBody = new PaymentCallBody('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
+    let paymentBody = new Payment('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
     spyOn(this.component.paymentService, 'makeApiDonorCall').and.returnValue(Observable.of({}));
     spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -148,7 +148,7 @@ describe('Component: Summary', () => {
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
 
-    let paymentBody = new PaymentCallBody(this.component.store.fund.ProgramId.toString(),
+    let paymentBody = new Payment(this.component.store.fund.ProgramId.toString(),
       this.component.store.amount,
       'cc',
       'DONATION',
@@ -177,7 +177,7 @@ describe('Component: Summary', () => {
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
 
-    let paymentBody = new PaymentCallBody(this.component.store.fund.ProgramId.toString(),
+    let paymentBody = new Payment(this.component.store.fund.ProgramId.toString(),
       this.component.store.amount,
       'bank',
       'DONATION',
@@ -207,7 +207,7 @@ describe('Component: Summary', () => {
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
     this.component.store.isGuest = true;
 
-    let paymentBody = new PaymentCallBody(this.component.store.fund.ProgramId.toString(),
+    let paymentBody = new Payment(this.component.store.fund.ProgramId.toString(),
       this.component.store.amount,
       'bank',
       'DONATION',

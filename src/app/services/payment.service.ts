@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
-import { PaymentCallBody } from '../models/payment-call-body';
+import { Payment } from '../models/payment';
 import { StripeService } from './stripe.service';
 import { Donor } from '../models/donor';
 
@@ -104,7 +104,7 @@ export class PaymentService {
     }
   };
 
-  postPayment(paymentInfo: PaymentCallBody): Observable<any> {
+  postPayment(paymentInfo: Payment): Observable<any> {
     let url: string = this.baseUrl + 'api/donation';
     return this.httpClient.post(url, paymentInfo)
       .map(this.extractData)

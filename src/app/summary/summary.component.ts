@@ -7,7 +7,7 @@ import { DonationService } from '../services/donation.service';
 import { StoreService } from '../services/store.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
-import { PaymentCallBody } from '../models/payment-call-body';
+import { Payment } from '../models/payment';
 import { StateManagerService } from '../services/state-manager.service';
 
 export const WindowToken = new OpaqueToken('Window');
@@ -57,7 +57,7 @@ export class SummaryComponent implements OnInit {
     this.beginProcessing();
 
     let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
-    let paymentDetails = new PaymentCallBody(
+    let paymentDetails = new Payment(
       '',
       this.store.amount,
       paymentType, 'PAYMENT',
@@ -99,7 +99,7 @@ export class SummaryComponent implements OnInit {
     // one time gifts
     if (this.store.isOneTimeGift()) {
       let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
-      let donationDetails = new PaymentCallBody(
+      let donationDetails = new Payment(
         this.store.fund.ProgramId.toString(),
         this.store.amount,
         paymentType,
