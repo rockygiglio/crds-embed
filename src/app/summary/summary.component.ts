@@ -26,7 +26,9 @@ export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
   private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
-  private giftFrequency: GiftFrequency = new GiftFrequency('','');
+  /* tslint:disable */
+  private giftFrequency: GiftFrequency = new GiftFrequency('', ''); //used in html template only
+  /* tslint:enable */
 
   constructor(private router: Router,
               private state: StateManagerService,

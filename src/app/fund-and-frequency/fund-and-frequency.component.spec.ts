@@ -132,14 +132,14 @@ describe('Component: FundAndFrequency', () => {
 
   describe('#GiftFrequency model', () => {
     it('should create an array of default frequencies for recurring giving', () => {
-      let giftFrequency: GiftFrequency = new GiftFrequency('','');
+      let giftFrequency: GiftFrequency = new GiftFrequency('', '');
       let defaultFrequencies: GiftFrequency[] = giftFrequency.getDefaultFrequencies();
       let weeklyFrequency = defaultFrequencies.find(f => f.value === 'week');
       expect(weeklyFrequency.displayName).toBe('Weekly');
     });
 
     it('should find the frequency name by value', () => {
-      let giftFrequency: GiftFrequency = new GiftFrequency('','');
+      let giftFrequency: GiftFrequency = new GiftFrequency('', '');
       let freqValue = 'month';
       let expectedFreqName = 'Monthly';
       let freqNameByValue = giftFrequency.getDisplayNameByValue(freqValue);

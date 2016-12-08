@@ -15,11 +15,11 @@ export class GiftFrequency {
       new GiftFrequency('One Time', 'One Time'),
       new GiftFrequency('Weekly', 'week'),
       new GiftFrequency('Monthly', 'month'),
-    ]
+    ];
   }
 
   getDisplayNameByValue(value: string): string {
-    let freq: GiftFrequency = this.getDefaultFrequencies().find(freq => freq.value === value);
+    let freq: GiftFrequency = this.getDefaultFrequencies().find(f => f.value === value);
     return freq.displayName;
   }
 
