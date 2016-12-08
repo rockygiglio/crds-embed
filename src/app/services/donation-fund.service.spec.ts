@@ -3,7 +3,7 @@
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { DonationFundService } from './donation-fund.service';
 import { MockBackend } from '@angular/http/testing';
-import { Program } from '../interfaces/program';
+import { Program } from '../models/program';
 import { TestBed, async, inject } from '@angular/core/testing';
 
 describe('Service: DonationFund', () => {

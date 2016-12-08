@@ -18,7 +18,7 @@ import { LoginService } from '../services/login.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { PaymentService } from '../services/payment.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { Program } from '../interfaces/program';
+import { Program } from '../models/program';
 import { StateManagerService } from '../services/state-manager.service';
 import { StripeService } from '../services/stripe.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';

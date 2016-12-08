@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { DonationFundService } from '../services/donation-fund.service';
 import { GiftFrequency } from '../models/gift-frequency';
 import { StoreService } from '../services/store.service';
-import { Program } from '../interfaces/program';
+import { Program } from '../models/program';
 import { StateManagerService } from '../services/state-manager.service';
 
 

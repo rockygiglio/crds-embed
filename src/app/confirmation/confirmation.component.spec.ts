@@ -10,7 +10,7 @@ import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
-import { Program } from '../interfaces/program';
+import { Program } from '../models/program';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';

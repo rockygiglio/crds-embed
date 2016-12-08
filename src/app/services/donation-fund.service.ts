@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
-import { Program } from '../interfaces/program';
+import { Program } from '../models/program';
 
 export interface Program {
   Name: string;

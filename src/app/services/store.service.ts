@@ -7,7 +7,7 @@ import { CustomerCard} from '../models/customer-card';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
-import { Program } from '../interfaces/program';
+import { Program } from '../models/program';
 import { StateManagerService } from './state-manager.service';
 import { CrdsDonor } from '../models/crds-donor';
 
