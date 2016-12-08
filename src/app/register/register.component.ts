@@ -17,6 +17,9 @@ export class RegisterComponent implements OnInit {
   public submitted: boolean = false;
   regForm: FormGroup;
   public duplicateUser: boolean = false;
+  private termsOfServiceUrl: string;
+  private privacyPolicyUrl: string;
+  private forgotPasswordUrl: string;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -35,6 +38,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.privacyPolicyUrl = `//${process.env.CRDS_ENV}.crossroads.net/privacypolicy`;
+    this.forgotPasswordUrl = `//${process.env.CRDS_ENV}.crossroads.net/forgot-password`;
+    this.termsOfServiceUrl = `//${process.env.CRDS_ENV}.crossroads.net/terms-of-service`;
+
     this.stateManagerService.is_loading = false;
   }
 
