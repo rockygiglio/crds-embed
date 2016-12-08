@@ -14,7 +14,7 @@ export class GiftFrequency {
     return [
       new GiftFrequency('One Time', 'One Time'),
       new GiftFrequency('Weekly', 'week'),
-      new GiftFrequency('Monthly', 'monthly'),
+      new GiftFrequency('Monthly', 'month'),
     ]
   }
 
