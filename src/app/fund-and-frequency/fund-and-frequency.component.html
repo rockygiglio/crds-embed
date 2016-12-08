@@ -19,9 +19,10 @@
     <div class="btn-group">
       <button *ngFor="let frequency of defaultFrequencies"
               class="btn btn-option btn-option--mb-8"
-              (click)="onClickFrequency(frequency)"
-              [ngClass]="{ active: (gift.frequency == frequency),
-                          disabled: (!gift.fund.AllowRecurringGiving && frequency != 'One Time') }">{{frequency}}
+              (click)="onClickFrequency(frequency.value)"
+              [ngClass]="{ active: (gift.frequency == frequency.value),
+                          disabled: (!gift.fund.AllowRecurringGiving && frequency.value != 'One Time') }">
+        {{frequency.displayName}}
       </button>
     </div>
   </div>

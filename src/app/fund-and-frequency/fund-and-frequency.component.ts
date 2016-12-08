@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { DonationFundService } from '../services/donation-fund.service';
+import { GiftFrequency } from '../models/gift-frequency';
 import { GiftService } from '../services/gift.service';
 import { Program } from '../interfaces/program';
 import { StateManagerService } from '../services/state-manager.service';
@@ -17,7 +18,7 @@ import { StateManagerService } from '../services/state-manager.service';
 export class FundAndFrequencyComponent implements OnInit {
 
   funds: Array<Program>;
-  defaultFrequencies: Array<string> = ['One Time', 'week', 'month'];
+  defaultFrequencies: Array<GiftFrequency> = new GiftFrequency('', '').getDefaultFrequencies();
   form: FormGroup;
   minDate: Date = new Date();
   maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
@@ -65,7 +66,7 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   next(): boolean {
-    if( this.gift.isFrequencySetAndNotOneTime() ) {
+    if ( this.gift.isFrequencySetAndNotOneTime() ) {
       this.gift.resetExistingPmtInfo();
       this.gift.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
