@@ -91,7 +91,7 @@ describe('Component: Authentication', () => {
 
       it('formGuest.valid should be true', () => {
         setGuestEmailExists({});
-        fixture.submitGuest()
+        fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(true);
       });
 
