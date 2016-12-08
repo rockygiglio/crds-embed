@@ -43,7 +43,7 @@
 
     <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
       <div class="alert alert-danger" *ngIf="duplicateUser">
-        <p>This email address is already in use. <a href="#" (click)="back()">Sign In</a> or try <a class="text-block__link" [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
+        <p>This email address is already in use. <a href="#" (click)="back()">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
       </div>
       <div class="alert alert-danger" *ngIf="!duplicateUser">
         <p><span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
@@ -61,7 +61,7 @@
       </div>
     </div>
     
-     <p class="text-block"><small class="text-muted">By registering, you agree to our <a class="text-block__link" [href]="termsOfServiceUrl" target="_blank">terms of service </a> and <a class="text-block__link" [href]="privacyPolicyUrl" target="_blank">privacy policy </a>. You will begin receiving email communications. Preferences can be managed in your profile.</small></p>
+     <p class="text-block"><small class="text-muted">By registering, you agree to our <a [href]="termsOfServiceUrl" target="_blank">terms of service </a> and <a [href]="privacyPolicyUrl" target="_blank">privacy policy </a>. You will begin receiving email communications. Preferences can be managed in your profile.</small></p>
 
     <footer class="page-footer">
       <a href="#" class="pull-left" (click)="back()">Already have an account? Sign In</a>
