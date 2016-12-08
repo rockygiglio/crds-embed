@@ -1,4 +1,4 @@
-import { Component, OnInit, animate, state, style, transition, trigger } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -12,17 +12,10 @@ import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-payment',
-  templateUrl: 'amount.component.html',
-  animations: [
-    trigger('customAmountForm', [
-      state('expanded', style({ height: '*' })),
-      state('collapsed', style({ height: '0px' })),
-      transition('collapsed => expanded', animate('200ms ease-in')),
-      transition('expanded => collapsed', animate('200ms 200ms ease-out'))
-    ])
-  ]
+  templateUrl: 'amount.component.html'
 })
 export class AmountComponent implements OnInit {
+
   public amountDue: Array<Object>;
   public customAmount: number;
   public form: FormGroup;
@@ -33,17 +26,17 @@ export class AmountComponent implements OnInit {
   public customAmtSelected: boolean = false;
 
   constructor(private fb: FormBuilder,
-              private store: StoreService,
-              private previousGiftAmountService: PreviousGiftAmountService,
-              private quickDonationAmountsService: QuickDonationAmountsService,
-              private router: Router,
-              private state: StateService) {
+    private store: StoreService,
+    private previousGiftAmountService: PreviousGiftAmountService,
+    private quickDonationAmountsService: QuickDonationAmountsService,
+    private router: Router,
+    private state: StateService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.state.setLoading(true);
     if (this.store.isDonation()) {
-      if ( !this.store.predefinedAmounts ) {
+      if (!this.store.predefinedAmounts) {
         this.getPredefinedDonationAmounts();
       } else {
         this.predefinedAmounts = this.store.predefinedAmounts;
@@ -74,7 +67,7 @@ export class AmountComponent implements OnInit {
     });
   }
 
-  getPredefinedDonationAmounts() {
+  public getPredefinedDonationAmounts() {
     this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
       amounts => {
         this.predefinedAmounts = amounts;
@@ -85,12 +78,8 @@ export class AmountComponent implements OnInit {
     );
   }
 
-  isValid() {
-    return this.store.validAmount();
-  }
-
-  next() {
-    if ( this.isValid() ) {
+  public submitAmount() {
+    if (this.store.validAmount()) {
       this.state.setLoading(true);
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.paymentIndex));
     } else {
@@ -101,10 +90,10 @@ export class AmountComponent implements OnInit {
     return false;
   }
 
-  setErrorMessage() {
+  public setErrorMessage() {
     if (this.store.amount === undefined || this.store.amount === null) {
       this.errorMessage = 'Please select or provide an amount.';
-    } else if ( isNaN(this.store.amount) || !this.store.validDollarAmount(this.store.amount) ) {
+    } else if (isNaN(this.store.amount) || !this.store.validDollarAmount(this.store.amount)) {
       this.errorMessage = 'The amount you provided is not a valid number.';
     } else if (Number(this.store.amount) > this.store.totalCost) {
       this.errorMessage = 'The amount you provided is higher than the total cost.';
@@ -112,34 +101,34 @@ export class AmountComponent implements OnInit {
       this.errorMessage = 'The amount you provided is less than the minimum payment allowed.';
     } else if (Number(this.store.amount) > 999999.99) {
       this.errorMessage = 'You can not charge more than 1 million dollars.';
-    }else {
+    } else {
       this.errorMessage = 'An unknown error has occurred.';
     }
   }
 
-  onCustomAmount(value) {
-    if ( value !== undefined ) {
-      delete(this.selectedAmount);
+  public onCustomAmount(value) {
+    if (value !== undefined) {
+      delete (this.selectedAmount);
       this.setAmount(value);
       this.setErrorMessage();
     }
     this.store.customAmount = value;
   }
 
-  onSelectAmount(value) {
+  public onSelectAmount(value) {
     this.form.controls['customAmount'].markAsUntouched();
     this.submitted = false;
     this.customAmtSelected = false;
-    delete(this.customAmount);
+    delete (this.customAmount);
     this.store.selectedAmount = value;
     this.setAmount(value);
   }
 
-  setAmount(value) {
+  public setAmount(value) {
     this.store.amount = value;
   }
 
-  selectedCustom() {
+  public selectedCustom() {
     this.onSelectAmount(null);
     this.customAmtSelected = true;
   }

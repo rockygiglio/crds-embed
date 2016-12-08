@@ -12,6 +12,7 @@ import { DonationFundService } from './services/donation-fund.service';
 
 const appRoutes: Routes = [
   { path: '', component: AmountComponent },
+  { path: 'amount', component: AmountComponent },
   { path: 'fund',
     component: FundAndFrequencyComponent,
     resolve: {

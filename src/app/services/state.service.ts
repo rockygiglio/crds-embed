@@ -19,7 +19,7 @@ export class StateService {
   public watcherInterval: any = undefined;
 
   public paymentState: PageState[] = [
-    { path: '/payment', show: true },
+    { path: '/amount', show: true },
     { path: '/fund', show: false },
     { path: '/authentication', show: true },
     { path: '/registration', show: false },

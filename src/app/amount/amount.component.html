@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div class="errors" *ngIf="( !isValid() && submitted )">
+      <div class="errors" *ngIf="( !store.validAmount() && submitted )">
         <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
       </div>
     </form>
@@ -79,7 +79,7 @@
         </div>
       </button>
 
-      <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
+      <div class="custom-input-payment">
         <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
 
         <form class="custom-input-payment__input" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
@@ -110,7 +110,7 @@
   </div>
 
   <footer class="page-footer">
-    <input type="button" class="btn btn-next btn-block" (click)="next()" value="Next">
+    <input type="button" class="btn btn-next btn-block" (click)="submitAmount()" value="Next">
   </footer>
 </div>
 
