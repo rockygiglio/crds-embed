@@ -87,14 +87,6 @@ export class RegisterComponent implements OnInit {
         });
   }
 
-  emailMessage(errors: any): string {
-    if (this.duplicateUser) {
-      this.duplicateUser = false;
-      return ('This email address is currently in use. <a href="https://www.crossroads.net/forgot-password">Forgot password.</a> ');
-    }
-    return 'Email ' + this.switchMessage(errors);
-  }
-
   switchMessage(errors: any): string {
     let ret = `is <em>invalid</em>`;
     if ( errors.required !==  undefined ) {
