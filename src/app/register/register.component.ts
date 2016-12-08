@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { RegistrationService } from '../services/registration.service';
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private stateManagerService: StateManagerService,
+              private stateManagerService: StateService,
               private loginService: LoginService,
               private registrationService: RegistrationService,
               private store: StoreService) {

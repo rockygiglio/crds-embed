@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { ParamValidationService } from './param-validation.service';
 import { PaymentService } from './payment.service';
 import { RecurringDonor } from '../models/recurring-donor';
-import { StateManagerService } from './state-manager.service';
+import { StateService } from './state.service';
 import { StripeService } from './stripe.service';
 
 class MockActivatedRoute {
@@ -70,7 +70,7 @@ describe('Service: Previous Gift Amount', () => {
                 MockBackend,
                 ParamValidationService,
                 PaymentService,
-                StateManagerService,
+                StateService,
                 { provide: StripeService, useClass: MockStripeService},
                 {
                     provide: Http,

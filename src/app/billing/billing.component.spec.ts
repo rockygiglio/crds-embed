@@ -15,7 +15,7 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
 import { StripeService } from '../services/stripe.service';
 
@@ -58,7 +58,7 @@ describe('Component: Billing', () => {
         ParamValidationService,
         PaymentService,
         StripeService,
-        StateManagerService
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(BillingComponent);

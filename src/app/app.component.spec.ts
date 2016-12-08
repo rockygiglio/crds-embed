@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
-import { StateManagerService } from './services/state-manager.service';
+import { StateService } from './services/state.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,7 +32,7 @@ describe('App: CrdsEmbed', () => {
         HttpClientService,
         PreviousGiftAmountService,
         CookieService,
-        StateManagerService,
+        StateService,
         Angulartics2,
         Angulartics2GoogleTagManager,
         ParamValidationService

@@ -9,14 +9,14 @@ import { FormBuilder } from '@angular/forms';
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 
 
 
 describe('Component: Authentication', () => {
   let fixture: AuthenticationComponent,
       router: Router,
-      stateManagerService: StateManagerService,
+      stateManagerService: StateService,
       store: StoreService,
       _fb: FormBuilder,
       checkGuestEmailService: CheckGuestEmailService,
@@ -27,7 +27,7 @@ describe('Component: Authentication', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
+    stateManagerService = jasmine.createSpyObj<StateService>('stateManagerService', ['getNextPageToShow',
                                                                                             'getPrevPageToShow',
                                                                                             'hidePage',
                                                                                             'setLoading']);

@@ -32,7 +32,7 @@ import { ParamValidationService } from './services/param-validation.service';
 import { PaymentService } from './services/payment.service';
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
-import { StateManagerService } from './services/state-manager.service';
+import { StateService } from './services/state.service';
 import { StripeService } from './services/stripe.service';
 import { RegistrationService } from './services/registration.service';
 
@@ -88,7 +88,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     PaymentService,
     PreviousGiftAmountService,
     QuickDonationAmountsService,
-    StateManagerService,
+    StateService,
     StripeService,
     RegistrationService,
     {provide: WindowToken, useFactory: _window},

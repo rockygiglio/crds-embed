@@ -7,7 +7,7 @@ import { ExistingPaymentInfoService } from '../services/existing-payment-info.se
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-authentication',
@@ -30,7 +30,7 @@ export class AuthenticationComponent implements OnInit {
   private forgotPasswordUrl: string;
 
   constructor( private router: Router,
-    private state: StateManagerService,
+    private state: StateService,
     private store: StoreService,
     private _fb: FormBuilder,
     private checkGuestEmailService: CheckGuestEmailService,

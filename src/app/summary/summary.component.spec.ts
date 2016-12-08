@@ -13,7 +13,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { CookieService } from 'angular2-cookie/core';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
@@ -26,7 +26,7 @@ import { Donor } from '../models/donor';
 import { Payment } from '../models/payment';
 import { Frequency } from '../models/frequency';
 
-class MockStateManagerService {
+class MockStateService {
   public getNextPageToShow(currentPage: number): string {
     return '/confirmation';
   }
@@ -64,7 +64,7 @@ describe('Component: Summary', () => {
       providers:    [
         StoreService, ExistingPaymentInfoService, DonationService,
         HttpClientService, CookieService,
-        { provide: StateManagerService, useClass: MockStateManagerService},
+        { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},
         ParamValidationService, DonationFundService, LoginService,
         QuickDonationAmountsService, PreviousGiftAmountService,

@@ -11,7 +11,7 @@ import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
-import { StateManagerService } from './state-manager.service';
+import { StateService } from './state.service';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -39,7 +39,7 @@ describe('Service: Gift', () => {
         QuickDonationAmountsService,
         HttpClientService,
         LoginService,
-        StateManagerService,
+        StateService,
         CookieService,
         MockBackend,
         BaseRequestOptions,

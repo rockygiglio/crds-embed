@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { StoreService } from '../services/store.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
@@ -13,7 +13,7 @@ export class ConfirmationComponent implements OnInit {
 
   constructor(
     private store: StoreService,
-    private state: StateManagerService,
+    private state: StateService,
     private router: Router) {
     this.store.validateRoute(router);
     this.state.setLoading(false);

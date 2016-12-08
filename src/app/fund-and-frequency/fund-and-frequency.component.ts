@@ -7,7 +7,7 @@ import { DonationFundService } from '../services/donation-fund.service';
 import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
 import { Program } from '../models/program';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class FundAndFrequencyComponent implements OnInit {
               private store: StoreService,
               private route: ActivatedRoute,
               private router: Router,
-              private state: StateManagerService,
+              private state: StateService,
               private _fb: FormBuilder) {}
 
   ngOnInit(): void {

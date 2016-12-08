@@ -11,7 +11,7 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { AmountComponent } from './amount.component';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { LoginService } from '../services/login.service';
 import { HttpClientService } from '../services/http-client.service';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
@@ -36,7 +36,7 @@ describe('Component: Payment', () => {
         DonationFundService,
         StoreService,
         ParamValidationService,
-        StateManagerService,
+        StateService,
         LoginService,
         HttpClientService,
         CookieService
@@ -110,7 +110,7 @@ describe('Component: Donation', () => {
         DonationFundService,
         StoreService,
         ParamValidationService,
-        StateManagerService,
+        StateService,
         LoginService,
         HttpClientService,
         CookieService

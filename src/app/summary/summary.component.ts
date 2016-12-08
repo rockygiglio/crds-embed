@@ -8,7 +8,7 @@ import { StoreService } from '../services/store.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
 import { Payment } from '../models/payment';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 
 export const WindowToken = new OpaqueToken('Window');
 export function _window(): Window {
@@ -27,7 +27,7 @@ export class SummaryComponent implements OnInit {
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
-              private state: StateManagerService,
+              private state: StateService,
               private donationService: DonationService,
               private store: StoreService,
               private loginService: LoginService,

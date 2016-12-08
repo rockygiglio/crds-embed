@@ -7,7 +7,7 @@ import { CustomerCard} from '../models/customer-card';
 import { StoreService } from '../services/store.service';
 import { StripeService } from '../services/stripe.service';
 import { PaymentService } from '../services/payment.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-billing',
@@ -28,7 +28,7 @@ export class BillingComponent implements OnInit {
   errorMessageCC: string = '';
 
   constructor( private router: Router,
-    private state: StateManagerService,
+    private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
     private pmtService: PaymentService,

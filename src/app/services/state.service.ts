@@ -6,7 +6,7 @@ export interface PageState {
 }
 
 @Injectable()
-export class StateManagerService {
+export class StateService {
 
   public authenticationIndex: number = 2;
   public billingIndex: number = 4;

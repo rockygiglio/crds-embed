@@ -8,7 +8,7 @@ import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Program } from '../models/program';
-import { StateManagerService } from './state-manager.service';
+import { StateService } from './state.service';
 import { Donor } from '../models/donor';
 import { Frequency } from '../models/frequency';
 
@@ -75,7 +75,7 @@ export class StoreService {
     private helper: ParamValidationService,
     private loginService: LoginService,
     private route: ActivatedRoute,
-    private state: StateManagerService) {
+    private state: StateService) {
     this.processQueryParams();
     this.preloadData();
     this.preloadFrequencies();

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { RegisterComponent } from './register.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../services/registration.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { LoginService } from '../services/login.service';
 import { StoreService } from '../services/store.service';
 
@@ -13,7 +13,7 @@ describe('Component: Registration', () => {
   let fixture: RegisterComponent,
       router: Router,
       _fb: FormBuilder,
-      stateManagerService: StateManagerService,
+      stateManagerService: StateService,
       loginService: LoginService,
       registrationService: RegistrationService,
       store: StoreService;
@@ -21,7 +21,7 @@ describe('Component: Registration', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
+    stateManagerService = jasmine.createSpyObj<StateService>('stateManagerService', ['getNextPageToShow',
                                                                                             'getPrevPageToShow',
                                                                                             'hidePage',
                                                                                             'setLoading']);

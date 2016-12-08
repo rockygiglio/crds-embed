@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 
-import { StateManagerService } from './services/state-manager.service';
+import { StateService } from './services/state.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +28,7 @@ export class AppComponent {
     private route: ActivatedRoute,
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-    private state: StateManagerService) {
+    private state: StateService) {
 
     if ( this.iFrameResizerCW === undefined ) {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');

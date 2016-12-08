@@ -16,7 +16,7 @@ import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { StateService } from '../services/state.service';
 import { HttpClientService } from '../services/http-client.service';
 import { Frequency } from '../models/frequency';
 import { LoginService } from '../services/login.service';
@@ -41,7 +41,7 @@ describe('Component: Confirmation', () => {
         PreviousGiftAmountService,
         ExistingPaymentInfoService,
         StoreService,
-        StateManagerService,
+        StateService,
         ParamValidationService,
         HttpClientService,
         CookieService,

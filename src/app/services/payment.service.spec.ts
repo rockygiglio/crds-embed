@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/Observable';
 import { ParamValidationService } from './param-validation.service';
 import { Payment} from '../models/payment';
 import { PaymentService } from './payment.service';
-import { StateManagerService } from './state-manager.service';
+import { StateService } from './state.service';
 import { StripeService } from './stripe.service';
 
 class MockActivatedRoute {
@@ -97,7 +97,7 @@ describe('Service: Payment', () => {
                 BaseRequestOptions,
                 ParamValidationService,
                 PaymentService,
-                StateManagerService,
+                StateService,
                 StoreService,
                 { provide: StripeService, useClass: MockStripeService},
                 CookieService,
