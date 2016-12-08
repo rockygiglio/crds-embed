@@ -55,7 +55,7 @@
     </form>
   </div>
 
-  <div *ngIf="signinOption == 'Guest' && store.frequency == 'One Time' && store.isDonation()" heading="Give as a Guest">
+  <div *ngIf="signinOption == 'Guest' && store.isOneTimeGift() && store.isDonation()" heading="Give as a Guest">
     <header class="page-header">
       <h2>Guest</h2>
     </header>

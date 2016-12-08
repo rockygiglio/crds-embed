@@ -1,5 +1,5 @@
 
-export class CrdsUser {
+export class User {
 
     firstname: string;
     lastname: string;

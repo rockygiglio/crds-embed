@@ -30,8 +30,13 @@ export class DonationService {
       this.stripe[stripeApiMethodName](pmtInfo).subscribe(
         token => {
 
-        let giftDto: RecurringGiftDto = new RecurringGiftDto( token['id'], this.gift.amount,
-            this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+          let giftDto: RecurringGiftDto = new RecurringGiftDto(
+              token['id'],
+              this.gift.amount,
+              this.gift.fund.ProgramId.toString(),
+              this.gift.frequency.value,
+              recurrenceDate
+          );
 
           this.postRecurringGift(giftDto).subscribe(
               recurringGiftResp => {

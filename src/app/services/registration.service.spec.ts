@@ -6,7 +6,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { HttpClientService } from './http-client.service';
 import { MockBackend, MockConnection} from '@angular/http/testing';
 import { RegistrationService } from './registration.service';
-import { CrdsUser } from '../models/crds-user';
+import { User } from '../models/user';
 
 
 describe('Service: Registration', () => {
@@ -50,7 +50,7 @@ describe('Service: Registration', () => {
                 });
 
 
-            let newUser = new CrdsUser('Greg', 'McGregson', 'greg@a.com', 'pass1234');
+            let newUser = new User('Greg', 'McGregson', 'greg@a.com', 'pass1234');
 
             registrationService.postUser(newUser).subscribe(
                 (data) => {

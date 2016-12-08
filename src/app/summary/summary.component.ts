@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
 import { DonationService } from '../services/donation.service';
-import { GiftFrequency } from '../models/gift-frequency';
 import { StoreService } from '../services/store.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
@@ -26,9 +25,6 @@ export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
   private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
-  /* tslint:disable */
-  private giftFrequency: GiftFrequency = new GiftFrequency('', ''); //used in html template only
-  /* tslint:enable */
 
   constructor(private router: Router,
               private state: StateManagerService,

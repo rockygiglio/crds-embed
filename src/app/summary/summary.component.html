@@ -27,8 +27,8 @@
     <tr *ngIf="!store.isPayment()">
       <td><a routerLink="/fund">Frequency:</a></td>
       <td class="text-right">
-        {{ giftFrequency.getDisplayNameByValue(store.frequency) }}<br>
-        <small *ngIf="store.frequency != 'One Time'">Starting on {{ store.start_date | date: 'MM/dd/yyyy' }}</small>
+        {{ store.frequency.display }}<br>
+        <small *ngIf="store.isRecurringGift() === false">Starting on {{ store.start_date | date: 'MM/dd/yyyy' }}</small>
       </td>
     </tr>
     <tr>

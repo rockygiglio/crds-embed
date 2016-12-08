@@ -11,7 +11,8 @@ import * as moment from 'moment';
 })
 export class ConfirmationComponent implements OnInit {
 
-  constructor(private store: StoreService,
+  constructor(
+    private store: StoreService,
     private state: StateManagerService,
     private router: Router) {
     this.store.validateRoute(router);
@@ -25,7 +26,7 @@ export class ConfirmationComponent implements OnInit {
   frequencyCalculation(): string {
     let startDate = moment(this.store.start_date);
 
-    if (this.store.frequency === 'month') {
+    if (this.store.frequency.value === 'month') {
       return 'the ' + startDate.format('Do') + ' of the Month';
     }
 

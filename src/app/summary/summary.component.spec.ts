@@ -24,6 +24,7 @@ import { DonationService } from '../services/donation.service';
 
 import { Donor } from '../models/donor';
 import { PaymentCallBody } from '../models/payment-call-body';
+import { Frequency } from '../models/frequency';
 
 class MockStateManagerService {
   public getNextPageToShow(currentPage: number): string {
@@ -143,7 +144,7 @@ describe('Component: Summary', () => {
       'AllowRecurringGiving': false
     };
     this.component.store.fund_id = 1;
-    this.component.store.frequency = 'One Time';
+    this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
 
@@ -172,7 +173,7 @@ describe('Component: Summary', () => {
       'AllowRecurringGiving': false
     };
     this.component.store.fund_id = 1;
-    this.component.store.frequency = 'One Time';
+    this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
 
@@ -201,7 +202,7 @@ describe('Component: Summary', () => {
       'AllowRecurringGiving': false
     };
     this.component.store.fund_id = 1;
-    this.component.store.frequency = 'One Time';
+    this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
     this.component.store.isGuest = true;

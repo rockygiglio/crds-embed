@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { DonationFundService } from '../services/donation-fund.service';
-import { GiftFrequency } from '../models/gift-frequency';
+import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
 import { Program } from '../models/program';
 import { StateManagerService } from '../services/state-manager.service';
@@ -17,7 +17,6 @@ import { StateManagerService } from '../services/state-manager.service';
 export class FundAndFrequencyComponent implements OnInit {
 
   funds: Array<Program>;
-  defaultFrequencies: Array<GiftFrequency> = new GiftFrequency('', '').getDefaultFrequencies();
   form: FormGroup;
   minDate: Date = new Date();
   maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
@@ -46,7 +45,7 @@ export class FundAndFrequencyComponent implements OnInit {
       this.store.fund = this.fundsHlpr.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     }
     if (!this.store.frequency) {
-      this.store.frequency  = 'One Time';
+      this.store.frequency  = this.store.frequencies[0];
     }
     this.isFundSelectShown = !this.funds.find(fund => Number(fund.ProgramId) === Number(this.fundIdParam));
     this.store.start_date = this.store.start_date ? new Date(this.store.start_date) : new Date();
@@ -83,7 +82,7 @@ export class FundAndFrequencyComponent implements OnInit {
     this.store.start_date = newValue;
   }
 
-  onClickFrequency(frequency: any): void {
+  onClickFrequency(frequency: Frequency): void {
     if (this.store.fund.AllowRecurringGiving) {
         this.store.frequency = frequency;
     }
@@ -92,7 +91,7 @@ export class FundAndFrequencyComponent implements OnInit {
   onClickFund(fund: any): void {
     this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
-        this.store.frequency = 'One Time';
+        this.store.frequency = this.store.getFirstNonRecurringFrequency();
         this.resetDate();
     }
   }

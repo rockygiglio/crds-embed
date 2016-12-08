@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { CustomerBank } from '../models/customer-bank';
-import { CustomerCard} from '../models/customer-card';
+import { CustomerCard } from '../models/customer-card';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Program } from '../models/program';
 import { StateManagerService } from './state-manager.service';
 import { Donor } from '../models/donor';
+import { Frequency } from '../models/frequency';
 
 declare var _;
 
@@ -64,18 +65,20 @@ export class StoreService {
   // Fund and frequency information
   public fund: Program = undefined;
   public start_date: any = '';
-  public frequency: any = '';
+  public frequency: Frequency;
+  public frequencies: Array<Frequency>;
 
   public userBank: CustomerBank = undefined;
-  public userCc: CustomerCard  = undefined;
+  public userCc: CustomerCard = undefined;
 
   constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
-              private helper: ParamValidationService,
-              private loginService: LoginService,
-              private route: ActivatedRoute,
-              private state: StateManagerService) {
+    private helper: ParamValidationService,
+    private loginService: LoginService,
+    private route: ActivatedRoute,
+    private state: StateManagerService) {
     this.processQueryParams();
     this.preloadData();
+    this.preloadFrequencies();
     this.isInitialized = true;
   }
 
@@ -86,7 +89,7 @@ export class StoreService {
 
   public loadExistingPaymentData(): void {
 
-    if ( this.isFrequencySetAndNotOneTime() ) {
+    if (this.isFrequencySetAndNotOneTime()) {
       this.resetExistingPmtInfo();
       this.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
@@ -95,14 +98,14 @@ export class StoreService {
 
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
-        info => {
-          if ( info !== null ) {
-            this.setBillingInfo(info);
-            if (this.accountLast4) {
-              this.state.hidePage(this.state.billingIndex);
-            }
+      info => {
+        if (info !== null) {
+          this.setBillingInfo(info);
+          if (this.accountLast4) {
+            this.state.hidePage(this.state.billingIndex);
           }
         }
+      }
     );
   }
 
@@ -110,7 +113,7 @@ export class StoreService {
     this.loadExistingPaymentData();
     this.loginService.authenticate().subscribe(
       (info) => {
-        if ( info !== null ) {
+        if (info !== null) {
           this.email = info.userEmail;
         } else {
           this.loginService.logOut();
@@ -126,14 +129,32 @@ export class StoreService {
     }
   }
 
+  public preloadFrequencies() {
+    this.frequencies = Array(
+      new Frequency('One Time', 'once', false),
+      new Frequency('Weekly', 'week', true),
+      new Frequency('Monthly', 'month', true)
+    );
+
+    this.frequency = this.getFirstNonRecurringFrequency();
+  }
+
+  public getFirstNonRecurringFrequency(): Frequency {
+    for (let i = 0; i < this.frequencies.length; i++) {
+      if ( this.frequencies[i].recurring === false) {
+        return this.frequencies[i];
+      }
+    }
+  }
+
   public resetExistingPmtInfo(): void {
     this.state.unhidePage(this.state.billingIndex);
     this.accountLast4 = null;
 
     let emptyPaymentInfo: any = {
       default_source: {
-        credit_card: { last4: null},
-        bank_account: { last4: null}
+        credit_card: { last4: null },
+        bank_account: { last4: null }
       }
     };
     this.existingPaymentInfo = Observable.of(emptyPaymentInfo);
@@ -159,7 +180,7 @@ export class StoreService {
   public validDollarAmount(amount: any): boolean {
     let str = String(amount);
     let pattern = new RegExp('(^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{2})$)|(^(|0)\.[0-9]{2}$)');
-    if ( pattern.test(str) ) {
+    if (pattern.test(str)) {
       return true;
     }
     return false;
@@ -180,7 +201,7 @@ export class StoreService {
       if (f === 'accountType') {
         this[f] = 'individual';
       } else {
-        delete(this[f]);
+        delete (this[f]);
       }
     });
   }
@@ -202,8 +223,8 @@ export class StoreService {
 
   private parseParamOrSetError(paramName, queryParams): any {
     let isValid: boolean = queryParams[paramName] ?
-        this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
-    let isRequired: boolean =  this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
+      this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
+    let isRequired: boolean = this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
     let parsedParam: any = undefined;
 
     if (isValid && isRequired) {
@@ -227,7 +248,7 @@ export class StoreService {
       this.setTheme('dark-theme');
     }
 
-    if ( this.queryParams[this.helper.params.override_parent] === 'false' ) {
+    if (this.queryParams[this.helper.params.override_parent] === 'false') {
       this.overrideParent = false;
       console.log('override parent!');
     }
@@ -257,7 +278,7 @@ export class StoreService {
   }
 
   public isDonation() {
-    if ( this.type === 'donation' ) {
+    if (this.type === 'donation') {
       return true;
     } else {
       return false;
@@ -265,27 +286,27 @@ export class StoreService {
   }
 
   public isPayment() {
-    if ( this.type === 'payment' ) {
+    if (this.type === 'payment') {
       return true;
     } else {
       return false;
     }
   }
 
-  isFrequencySetAndNotOneTime() {
+  public isFrequencySetAndNotOneTime() {
     return this.isFrequencySelected() && !this.isOneTimeGift();
   }
 
-  isFrequencySelected(): boolean {
-    return this.frequency !== '' && this.frequency !== null;
+  public isFrequencySelected(): boolean {
+    return (this.frequency !== null && this.frequency !== undefined);
   }
 
   public isOneTimeGift(): boolean {
-    return this.frequency === 'One Time';
+    return (this.frequency.recurring === false);
   }
 
   public isRecurringGift(): boolean {
-    return (this.frequency === 'week' || this.frequency === 'month');
+    return (this.frequency.recurring === true);
   }
 
   public isRecurringGiftWithNoStartDate(): boolean {

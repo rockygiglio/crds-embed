@@ -5,6 +5,7 @@ import { By }              from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'angular2-cookie/core';
 
 import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
@@ -16,31 +17,9 @@ import { QuickDonationAmountsService } from '../services/quick-donation-amounts.
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { StateManagerService } from '../services/state-manager.service';
-
-class MockDonationService { }
-class MockQuickDonationAmountsService { }
-class MockPreviousGiftAmountService { }
-class MockExistingPaymentInfoService { }
-class MockStoreService {
-  public type: string = '';
-  public isDonation() {
-    if ( this.type === 'donation' ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isPayment() {
-    if ( this.type === 'payment' ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  public validateRoute(router: any) { }
-}
-class MockPrototypeStore { public subscribe() {}; }
+import { HttpClientService } from '../services/http-client.service';
+import { Frequency } from '../models/frequency';
+import { LoginService } from '../services/login.service';
 
 describe('Component: Confirmation', () => {
 
@@ -57,13 +36,16 @@ describe('Component: Confirmation', () => {
         RouterTestingModule.withRoutes([]), HttpModule
       ],
       providers:    [
-        { provide: DonationFundService, useClass: MockDonationService },
-        { provide: QuickDonationAmountsService, useClass: MockQuickDonationAmountsService },
-        { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
-        { provide: ExistingPaymentInfoService, useClass: MockExistingPaymentInfoService },
-        { provide: StoreService, useClass: MockStoreService },
+        DonationFundService,
+        QuickDonationAmountsService,
+        PreviousGiftAmountService,
+        ExistingPaymentInfoService,
+        StoreService,
         StateManagerService,
-        ParamValidationService
+        ParamValidationService,
+        HttpClientService,
+        CookieService,
+        LoginService
       ]
     });
     this.fixture = TestBed.createComponent(ConfirmationComponent);
@@ -90,7 +72,7 @@ describe('Component: Confirmation', () => {
   it('should show thank you for monthly recurring gift', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 56.78;
-    this.component.store.frequency = 'month';
+    this.component.store.frequency = new Frequency('month', 'month', true);
     this.component.store.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
@@ -111,7 +93,7 @@ describe('Component: Confirmation', () => {
   it('should show thank you for weekly recurring gift', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 56.78;
-    this.component.store.frequency = 'Weekly';
+    this.component.store.frequency = new Frequency('weekly', 'week', true);
     this.component.store.start_date = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
@@ -132,7 +114,7 @@ describe('Component: Confirmation', () => {
   it('should show thank you for one time gift', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 90;
-    this.component.store.frequency  = 'One Time';
+    this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(`Thank you for your $90.00 gift to Programmer Caffination Fund.`);

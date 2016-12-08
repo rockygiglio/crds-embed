@@ -11,7 +11,7 @@ import { TestBed } from '@angular/core/testing';
 import { DonationFundService } from '../services/donation-fund.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
-import { GiftFrequency } from '../models/gift-frequency';
+import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
@@ -38,9 +38,9 @@ describe('Component: FundAndFrequency', () => {
   let fixture: any;
 
   let giveFrequencies: any = {
-    oneTime: 'One Time',
-    weekly: 'week',
-    monthly: 'month'
+    oneTime: new Frequency('One Time', 'once', false),
+    weekly: new Frequency('Weekly', 'week', true),
+    monthly: new Frequency('Monthly', 'month', true)
   };
 
   let mockFund: Program = {
@@ -107,14 +107,14 @@ describe('Component: FundAndFrequency', () => {
     this.component.onClickFund(mockFund);
     this.component.onClickFrequency(giveFrequencies.weekly);
 
-    expect(this.component.store.frequency).toBe(giveFrequencies.weekly);
+    expect(this.component.store.frequency.value).toBe(giveFrequencies.weekly.value);
   });
 
-  it('should NOT set frequency for the fund to anything other than "One Time" if it does not allow reoccurring', () => {
+  it('should NOT set frequency for the fund to anything other than "once" if it does not allow reoccurring', () => {
     this.component.onClickFund(mockOneTimeGiftFund);
     this.component.onClickFrequency(giveFrequencies.weekly);
 
-    expect(this.component.store.frequency).toBe(giveFrequencies.oneTime);
+    expect(this.component.store.frequency.value).toBe(giveFrequencies.oneTime.value);
   });
 
   it('should set date to undefined', () => {
@@ -130,21 +130,12 @@ describe('Component: FundAndFrequency', () => {
     expect(this.component.store.start_date ).toBe(currentDateTime);
   });
 
-  describe('#GiftFrequency model', () => {
+  describe('#Frequency model', () => {
     it('should create an array of default frequencies for recurring giving', () => {
-      let giftFrequency: GiftFrequency = new GiftFrequency('', '');
-      let defaultFrequencies: GiftFrequency[] = giftFrequency.getDefaultFrequencies();
-      let weeklyFrequency = defaultFrequencies.find(f => f.value === 'week');
-      expect(weeklyFrequency.displayName).toBe('Weekly');
+      expect(this.component.store.frequencies.length).toBeGreaterThan(0);
+      expect(this.component.store.getFirstNonRecurringFrequency().value).toBe('once');
     });
 
-    it('should find the frequency name by value', () => {
-      let giftFrequency: GiftFrequency = new GiftFrequency('', '');
-      let freqValue = 'month';
-      let expectedFreqName = 'Monthly';
-      let freqNameByValue = giftFrequency.getDisplayNameByValue(freqValue);
-      expect(freqNameByValue).toBe(expectedFreqName);
-    });
   });
 
 });

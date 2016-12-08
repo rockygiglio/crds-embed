@@ -4,7 +4,7 @@ import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { RegistrationService } from '../services/registration.service';
-import { CrdsUser } from '../models/crds-user';
+import { User } from '../models/user';
 import { StoreService } from '../services/store.service';
 
 @Component({
@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
     if ( this.regForm.valid ) {
       this.stateManagerService.is_loading = true;
       // register the user
-      let newUser = new CrdsUser(this.regForm.get('firstName').value,
+      let newUser = new User(this.regForm.get('firstName').value,
                                  this.regForm.get('lastName').value,
                                 this.regForm.get('email').value,
                                  this.regForm.get('password').value);
