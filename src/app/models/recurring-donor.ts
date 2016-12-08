@@ -1,10 +1,10 @@
 
-export class RecurringGiftDto {
+export class RecurringDonor {
 
     stripe_token_id: string;
     amount: number;
-    program: string; // actually the programId
-    interval: string; // 'week' or 'month'
+    program: string;
+    interval: string;
     start_date: string;
 
     constructor(stripe_token_id: string, amount: number, program: string, interval: string, start_date: string) {
@@ -14,5 +14,4 @@ export class RecurringGiftDto {
         this.interval = interval;
         this.start_date = start_date;
     }
-
 }

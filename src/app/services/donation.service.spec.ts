@@ -15,7 +15,7 @@ import { LoginService } from './login.service';
 import { Observable } from 'rxjs/Observable';
 import { ParamValidationService } from './param-validation.service';
 import { PaymentService } from './payment.service';
-import { RecurringGiftDto } from '../models/recurring-gift-dto';
+import { RecurringDonor } from '../models/recurring-donor';
 import { StateManagerService } from './state-manager.service';
 import { StripeService } from './stripe.service';
 
@@ -55,7 +55,7 @@ describe('Service: Previous Gift Amount', () => {
 
     let mockBackend: MockBackend;
 
-    let mockRecurringDonation: RecurringGiftDto = new RecurringGiftDto('tok_123', 25, '12', 'week', '2017-02-05');
+    let mockRecurringDonation: RecurringDonor = new RecurringDonor('tok_123', 25, '12', 'week', '2017-02-05');
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

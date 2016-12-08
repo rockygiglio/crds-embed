@@ -6,7 +6,7 @@ import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
 import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
-import { RecurringGiftDto } from '../models/recurring-gift-dto';
+import { RecurringDonor } from '../models/recurring-donor';
 import { StripeService } from './stripe.service';
 
 import 'rxjs/add/operator/catch';
@@ -30,7 +30,7 @@ export class DonationService {
       this.stripe[stripeApiMethodName](pmtInfo).subscribe(
         token => {
 
-          let giftDto: RecurringGiftDto = new RecurringGiftDto(
+          let giftDto: RecurringDonor = new RecurringDonor(
               token['id'],
               this.gift.amount,
               this.gift.fund.ProgramId.toString(),
@@ -55,7 +55,7 @@ export class DonationService {
 
   }
 
-  postRecurringGift(giftData: RecurringGiftDto): Observable<any> {
+  postRecurringGift(giftData: RecurringDonor): Observable<any> {
 
     let recurringGiftUrl: string = this.baseUrl + 'api/donor/recurrence/';
 
