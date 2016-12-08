@@ -30,7 +30,7 @@
   &.active {
     &:focus,
     &.focus {
-      outline-color: $cr-light-blue;
+      outline: none;
     }
   }
 
