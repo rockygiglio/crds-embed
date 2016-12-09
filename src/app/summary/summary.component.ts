@@ -80,7 +80,7 @@ export class SummaryComponent implements OnInit {
     if (this.store.isOneTimeGift()) {
       let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new Payment(
-        this.store.fund.ProgramId.toString(),
+        this.store.fund.ID.toString(),
         this.store.amount,
         paymentType,
         'DONATION',

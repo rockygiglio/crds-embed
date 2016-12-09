@@ -10,7 +10,7 @@
       <button *ngFor="let fund of funds"
               class="btn btn-option btn-option--mb-8"
               (click)="onClickFund(fund)"
-              [ngClass]="{ active: (store.fund.Name == fund.Name) }">{{fund.Name}}</button>
+              [ngClass]="{ active: (store.fund.ID === fund.ID) }">{{fund.Name}}</button>
     </div>
   </div>
 

@@ -25,6 +25,7 @@ import { DonationService } from '../services/donation.service';
 import { Donor } from '../models/donor';
 import { Payment } from '../models/payment';
 import { Frequency } from '../models/frequency';
+import { Fund } from '../models/fund';
 
 class MockStateService {
   public getNextPageToShow(currentPage: number): string {
@@ -137,18 +138,12 @@ describe('Component: Summary', () => {
 
     this.component.store.paymentType = 'cc';
     this.component.store.amount = 12.34;
-    this.component.store.fund = {
-      'ProgramId': 1,
-      'Name': 'Programmer Caffination Fund',
-      'ProgramType': 1,
-      'AllowRecurringGiving': false
-    };
-    this.component.store.fund_id = 1;
+    this.component.store.fund = new Fund(1, 'Programmer Caffination Fund', 1, false);
     this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
 
-    let paymentBody = new Payment(this.component.store.fund.ProgramId.toString(),
+    let paymentBody = new Payment(this.component.store.fund.ID.toString(),
       this.component.store.amount,
       'cc',
       'DONATION',
@@ -166,18 +161,12 @@ describe('Component: Summary', () => {
 
     this.component.store.paymentType = 'ach';
     this.component.store.amount = 12.34;
-    this.component.store.fund = {
-      'ProgramId': 1,
-      'Name': 'Programmer Caffination Fund',
-      'ProgramType': 1,
-      'AllowRecurringGiving': false
-    };
-    this.component.store.fund_id = 1;
+    this.component.store.fund = new Fund(1, 'mer Caffination Fund', 1, false);
     this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
 
-    let paymentBody = new Payment(this.component.store.fund.ProgramId.toString(),
+    let paymentBody = new Payment(this.component.store.fund.ID.toString(),
       this.component.store.amount,
       'bank',
       'DONATION',
@@ -195,19 +184,13 @@ describe('Component: Summary', () => {
 
     this.component.store.paymentType = 'ach';
     this.component.store.amount = 12.34;
-    this.component.store.fund = {
-      'ProgramId': 1,
-      'Name': 'Programmer Caffination Fund',
-      'ProgramType': 1,
-      'AllowRecurringGiving': false
-    };
-    this.component.store.fund_id = 1;
+    this.component.store.fund = new Fund(1, 'Programmer Caffination Fund', 1, false);
     this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'John', 'Doe', 'post');
     this.component.store.isGuest = true;
 
-    let paymentBody = new Payment(this.component.store.fund.ProgramId.toString(),
+    let paymentBody = new Payment(this.component.store.fund.ID.toString(),
       this.component.store.amount,
       'bank',
       'DONATION',

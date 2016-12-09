@@ -11,15 +11,16 @@ import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
-import { Program } from '../models/program';
 import { DonationFundService } from '../services/donation-fund.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { StateService } from '../services/state.service';
 import { HttpClientService } from '../services/http-client.service';
-import { Frequency } from '../models/frequency';
 import { LoginService } from '../services/login.service';
+
+import { Frequency } from '../models/frequency';
+import { Fund } from '../models/fund';
 
 describe('Component: Confirmation', () => {
 
@@ -51,12 +52,7 @@ describe('Component: Confirmation', () => {
     this.fixture = TestBed.createComponent(ConfirmationComponent);
     this.component = this.fixture.componentInstance;
     this.component.store.email = 'user@test.com';
-    this.component.store.fund = {
-      'ProgramId': 12,
-      'Name': 'Programmer Caffination Fund',
-      'ProgramType': 1,
-      'AllowRecurringGiving': true
-    };
+    this.component.store.fund = new Fund(12, 'Programmer Caffination Fund', 1, true);
 
   });
 

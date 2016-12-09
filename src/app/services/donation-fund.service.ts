@@ -2,14 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
-import { Program } from '../models/program';
-
-export interface Program {
-  Name: string;
-  ProgramId: number;
-  ProgramType: number;
-  AllowRecurringGiving: boolean;
-}
+import { Fund } from '../models/fund';
 
 @Injectable()
 export class DonationFundService implements Resolve<any> {
@@ -28,24 +21,36 @@ export class DonationFundService implements Resolve<any> {
       .catch(this.handleError);
   }
 
-  getUrlParamFundOrDefault(paramFundId: number, funds: Array<Program>, defaultFund: Program): Program {
-    let urlParamFund: any = funds.find(fund => Number(fund.ProgramId) === Number(paramFundId));
-    let fund: Program = urlParamFund ? urlParamFund : defaultFund;
+  getUrlParamFundOrDefault(paramFundId: number, funds: Array<Fund>, defaultFund: Fund): Fund {
+    let urlParamFund: any = funds.find(fund => Number(fund.ID) === Number(paramFundId));
+    let fund: Fund = urlParamFund ? urlParamFund : defaultFund;
     return fund;
   }
 
   private extractData(res: Response) {
     let body = res.json();
-    return body || {};
+    let funds: Array<Fund> = new Array();
+    if (Array.isArray(body) && body.length > 0) {
+      for (let i = 0; i < body.length; i++) {
+        funds.push(
+          new Fund(
+            body[i].ProgramId,
+            body[i].Name,
+            body[i].ProgramType,
+            body[i].AllowRecurringGiving
+          )
+        );
+      }
+    }
+    return funds;
+  }
+
+  public getDefaultFund() {
+    return new Fund(3, 'General Giving', 1, true);
   }
 
   private handleError(res: Response | any) {
-    return [[{
-      'ProgramId': 3,
-      'Name': 'General Giving',
-      'ProgramType': 1,
-      'AllowRecurringGiving': true
-    }]];
+    return [[ this.getDefaultFund() ]];
   }
 
 }

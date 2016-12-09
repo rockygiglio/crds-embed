@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomerBank } from '../models/customer-bank';
 import { Frequency } from '../models/frequency';
 import { ParamValidationService } from './param-validation.service';
-import { DonationFundService, Program } from './donation-fund.service';
+import { DonationFundService } from './donation-fund.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
 import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { HttpClientService } from './http-client.service';

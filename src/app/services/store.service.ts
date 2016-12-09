@@ -7,7 +7,7 @@ import { CustomerCard } from '../models/customer-card';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
-import { Program } from '../models/program';
+import { Fund } from '../models/fund';
 import { StateService } from './state.service';
 import { Donor } from '../models/donor';
 import { Frequency } from '../models/frequency';
@@ -63,7 +63,8 @@ export class StoreService {
   public zipCode: string = '';
 
   // Fund and frequency information
-  public fund: Program = undefined;
+  public fund: Fund = undefined;
+  public funds: Array<Fund>;
   public start_date: any = '';
   public frequency: Frequency;
   public frequencies: Array<Frequency>;

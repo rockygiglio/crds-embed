@@ -33,7 +33,7 @@ export class DonationService {
           let giftDto: RecurringDonor = new RecurringDonor(
               token['id'],
               this.gift.amount,
-              this.gift.fund.ProgramId.toString(),
+              this.gift.fund.ID.toString(),
               this.gift.frequency.value,
               recurrenceDate
           );

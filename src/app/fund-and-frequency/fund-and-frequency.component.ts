@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { DonationFundService } from '../services/donation-fund.service';
 import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
-import { Program } from '../models/program';
+import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
 
 
@@ -16,19 +16,14 @@ import { StateService } from '../services/state.service';
 })
 export class FundAndFrequencyComponent implements OnInit {
 
-  public funds: Array<Program>;
+  public funds: Array<Fund>;
   public form: FormGroup;
   public minDate: Date = new Date();
   public maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
   public startDate: any;
   public fundIdParam: number;
   public isFundSelectShown: boolean = undefined;
-  public defaultFund: Program = {
-    'ProgramId': 3,
-    'Name': 'General Giving',
-    'ProgramType': 1,
-    'AllowRecurringGiving': true
-  };
+  public defaultFund: Fund;
 
   constructor(private fundService: DonationFundService,
               private store: StoreService,
@@ -39,15 +34,21 @@ export class FundAndFrequencyComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    this.funds = this.route.snapshot.data['giveTo'];
+    if ( this.funds === undefined || this.funds.length <= 0 ) {
+      this.funds = this.route.snapshot.data['giveTo'];
+      this.store.funds = this.funds;
+    } else {
+      this.funds = this.store.funds;
+    }
     this.fundIdParam = this.store.fundId;
+    this.defaultFund = this.fundService.getDefaultFund();
     if (!this.store.fund) {
       this.store.fund = this.fundService.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     }
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];
     }
-    this.isFundSelectShown = !this.funds.find(fund => Number(fund.ProgramId) === Number(this.fundIdParam));
+    this.isFundSelectShown = !this.funds.find(fund => Number(fund.ID) === Number(this.fundIdParam));
     this.store.start_date = this.store.start_date ? new Date(this.store.start_date) : new Date();
     this.form = this._fb.group({
       fund: [this.store.fund, [<any>Validators.required]],
@@ -78,6 +79,7 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   public onClickFund(fund: any) {
+    console.log(fund);
     this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
         this.store.frequency = this.store.getFirstNonRecurringFrequency();

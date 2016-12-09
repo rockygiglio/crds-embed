@@ -18,7 +18,7 @@ import { LoginService } from '../services/login.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { PaymentService } from '../services/payment.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { Program } from '../models/program';
+import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
 import { StripeService } from '../services/stripe.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
@@ -43,19 +43,8 @@ describe('Component: FundAndFrequency', () => {
     monthly: new Frequency('Monthly', 'month', true)
   };
 
-  let mockFund: Program = {
-    'ProgramId': 5,
-    'Name': 'General Giving',
-    'ProgramType': 1,
-    'AllowRecurringGiving': true
-  };
-
-  let mockOneTimeGiftFund: Program = {
-    'ProgramId': 5,
-    'Name': 'General Giving',
-    'ProgramType': 1,
-    'AllowRecurringGiving': false
-  };
+  let mockFund: Fund = new Fund(5, 'General Giving', 1, true);
+  let mockOneTimeGiftFund: Fund = new Fund(5, 'General Giving', 1, false);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,7 +88,7 @@ describe('Component: FundAndFrequency', () => {
     this.component.store.fund = undefined;
     this.component.onClickFund(mockFund);
 
-    expect(this.component.store.fund.ProgramId).toBe(mockFund.ProgramId);
+    expect(this.component.store.fund.ID).toBe(mockFund.ID);
   });
 
   it('should set frequency for the fund IF it allows re-occurring gifts', () => {
