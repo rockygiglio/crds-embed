@@ -3,21 +3,16 @@
     <h2>Thanks!</h2>
   </header>
 
-  <p *ngIf="gift.isDonation() && gift.frequency === 'One Time'" class="text-block--lg-font word-wrapped ">
-     Thank you for your <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> gift to <strong>{{ gift.fund.Name }}</strong>.
-    A receipt has been sent to <strong>{{ gift.email }}</strong>.
+  <p *ngIf="gift.isDonation() && gift.frequency === 'One Time'" class="text-block--lg text-block--thin">Thank you for your {{ gift.amount | currency:'USD':true | lowercase }} gift to {{ gift.fund.Name }}.
   </p>
 
-  <p *ngIf="gift.isDonation() && gift.frequency != 'One Time'" class="text-block--lg-font word-wrapped ">
-    Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift.
-    We will process your Recurring Gift of <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> for
-    <strong>{{ gift.fund.Name }}</strong> on <strong>{{ frequencyCalculation() }}</strong>.
-    Your statement will be sent to <strong>{{ gift.email }}</strong>.
-  </p>
+  <p *ngIf="gift.isDonation() && gift.frequency != 'One Time'" class="text-block--lg text-block--thin">Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift. We will process your Recurring Gift of {{ gift.amount | currency:'USD':true | lowercase }} for {{ gift.fund.Name }} on {{ frequencyCalculation() }}.</p>
 
-  <p *ngIf="gift.isPayment()" class="text-block--lg-font word-wrapped ">
-    Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> payment<span *ngIf="gift.title"> for <strong>{{ gift.title }}</strong></span>.
-    A receipt has been sent to <strong>{{ gift.email }}</strong>.
-  </p>
+  <p *ngIf="gift.isPayment()" class="text-block--lg text-block--thin">Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} payment<span *ngIf="gift.title"> for {{ gift.title }}</span>.</p>
 
+  <p class="text-block--sm">
+    <span *ngIf="(gift.isDonation() && gift.frequency === 'One Time') || gift.isPayment()">A receipt has been</span>
+    <span *ngIf="gift.isDonation() && gift.frequency != 'One Time'">Your statement will be</span>
+     sent to {{ gift.email }}.
+  </p>
 </div>

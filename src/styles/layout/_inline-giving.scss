@@ -2,7 +2,7 @@
   background-color: $bg-color;
   font-family: $fontface-body;
   font-size: 16px;
-  
+
   a {
     cursor: pointer;
   }
@@ -323,7 +323,7 @@
   .text-block {
     font-size: 14px;
 
-   &__link {
+    &__link {
       color: $text-color;
 
       &:hover {
@@ -343,11 +343,18 @@
       text-decoration: underline;
     }
 
-    &--lg-font {
-      font-size: 1.75em;
-      font-weight: 300;
+    &--lg {
+      font-size: 1.375em;
 
       padding-top: 1em;
+    }
+
+    &--sm {
+      font-size: .875em;
+    }
+
+    &--thin {
+      font-weight: 100;
     }
 
     &--pb-2 {
