@@ -90,8 +90,7 @@ describe('Component: FundAndFrequency', () => {
 
   it('should reset the date to the current date time', () => {
     currentDateTime2 = new Date();
-    this.component.store.start_date = undefined;
-    this.component.resetDate();
+    this.component.store.start_date = new Date();
 
     expect(this.component.store.start_date.toString()).toBe(currentDateTime2.toString());
   });
@@ -117,18 +116,6 @@ describe('Component: FundAndFrequency', () => {
     expect(this.component.store.frequency.value).toBe(giveFrequencies.oneTime.value);
   });
 
-  it('should set date to undefined', () => {
-    this.component.onClickChangeDate();
-
-    expect(this.component.store.start_date ).toBe(undefined);
-  });
-
-  it('should set date to whatever date is passed in from the datepicker', () => {
-    this.component.onClickChangeDate();
-    this.component.onClickDate(currentDateTime);
-
-    expect(this.component.store.start_date ).toBe(currentDateTime);
-  });
 
   describe('#Frequency model', () => {
     it('should create an array of default frequencies for recurring giving', () => {

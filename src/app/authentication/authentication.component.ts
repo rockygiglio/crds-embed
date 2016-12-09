@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { CheckGuestEmailService } from '../services/check-guest-email.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { StoreService } from '../services/store.service';
-import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { StateService } from '../services/state.service';
 

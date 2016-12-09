@@ -28,7 +28,7 @@
   </div>
 
   <div class="alert alert-warning" *ngIf="store.start_date && store.isRecurringGift()">
-    Starting on {{ store.start_date | date: 'MM/dd/yyyy' }}. <button (click)="onClickChangeDate()">Change</button>
+    Starting on {{ store.start_date | date: 'MM/dd/yyyy' }}. <button (click)="resetDate();">Change</button>
   </div>
 </form>
 
@@ -45,7 +45,7 @@
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
   <input type="button"
          class="btn btn-next pull-right"
-         (click)="next()"
+         (click)="submitFrequency()"
          [disabled]="!form.valid || store.isRecurringGiftWithNoStartDate()"
          value="Next">
 </footer>

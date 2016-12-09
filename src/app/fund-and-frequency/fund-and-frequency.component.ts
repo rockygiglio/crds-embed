@@ -16,33 +16,33 @@ import { StateService } from '../services/state.service';
 })
 export class FundAndFrequencyComponent implements OnInit {
 
-  funds: Array<Program>;
-  form: FormGroup;
-  minDate: Date = new Date();
-  maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
-  startDate: any;
-  fundIdParam: number;
-  isFundSelectShown: boolean = undefined;
-  defaultFund: Program = {
+  public funds: Array<Program>;
+  public form: FormGroup;
+  public minDate: Date = new Date();
+  public maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
+  public startDate: any;
+  public fundIdParam: number;
+  public isFundSelectShown: boolean = undefined;
+  public defaultFund: Program = {
     'ProgramId': 3,
     'Name': 'General Giving',
     'ProgramType': 1,
     'AllowRecurringGiving': true
   };
 
-  constructor(private fundsHlpr: DonationFundService,
+  constructor(private fundService: DonationFundService,
               private store: StoreService,
               private route: ActivatedRoute,
               private router: Router,
               private state: StateService,
               private _fb: FormBuilder) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
 
     this.funds = this.route.snapshot.data['giveTo'];
     this.fundIdParam = this.store.fundId;
     if (!this.store.fund) {
-      this.store.fund = this.fundsHlpr.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
+      this.store.fund = this.fundService.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
     }
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];
@@ -58,45 +58,34 @@ export class FundAndFrequencyComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  back(): boolean {
+  public back() {
     this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.fundIndex));
-    return false;
   }
 
-  next(): boolean {
+  public submitFrequency() {
     if ( this.store.isFrequencySetAndNotOneTime() ) {
       this.store.resetExistingPmtInfo();
       this.store.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
     }
-
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
-    return false;
   }
 
-  onClickChangeDate(): void {
-    this.store.start_date = undefined;
-  }
-
-  onClickDate(newValue: any): void {
-    this.store.start_date = newValue;
-  }
-
-  onClickFrequency(frequency: Frequency): void {
+  public onClickFrequency(frequency: Frequency) {
     if (this.store.fund.AllowRecurringGiving) {
         this.store.frequency = frequency;
     }
   }
 
-  onClickFund(fund: any): void {
+  public onClickFund(fund: any) {
     this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
         this.store.frequency = this.store.getFirstNonRecurringFrequency();
-        this.resetDate();
+        this.store.start_date = new Date();
     }
   }
 
-  resetDate(): void {
-    this.store.start_date = new Date();
+  public resetDate() {
+    this.store.start_date = undefined;
   }
 }
