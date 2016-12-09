@@ -10,7 +10,7 @@
 <div *ngIf="store.paymentMethod == 'Bank Account'" heading="Bank Account">
   <h3 class="radio-form__header">Account Type:</h3>
 
-  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achNext()">
+  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achSubmit();$event.preventDefault();">
     <div class="radio-group">
       <ul>
         <li>
@@ -116,7 +116,7 @@
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-      <input type="button" class="btn btn-next pull-right" (click)="achNext()" value="Next">
+      <input type="submit" class="btn btn-next pull-right" (click)="achSubmit();$event.preventDefault();" value="Next">
     </footer>
   </form>
 </div>
@@ -126,7 +126,7 @@
   <alert *ngIf="store.isDonation()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
   <alert *ngIf="store.isPayment()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
-  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
+  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccSubmit();$event.preventDefault();">
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
@@ -221,7 +221,7 @@
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-      <input type="button" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
+      <input type="submit" class="btn btn-next pull-right" (click)="ccSubmit();$event.preventDefault();" value="Next">
     </footer>
   </form>
 </div>

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CreditCardValidator } from '../validators/credit-card.validator';
 import { CustomerBank } from '../models/customer-bank';
-import { CustomerCard} from '../models/customer-card';
+import { CustomerCard } from '../models/customer-card';
 import { StoreService } from '../services/store.service';
 import { StripeService } from '../services/stripe.service';
 import { PaymentService } from '../services/payment.service';
@@ -15,48 +15,50 @@ import { StateService } from '../services/state.service';
   styleUrls: ['./billing.component.scss']
 })
 export class BillingComponent implements OnInit {
-  achForm: FormGroup;
-  ccForm: FormGroup;
-  hideCheck: boolean = true;
-  achSubmitted = false;
-  ccSubmitted  = false;
-  userToken = null;
-  accountNumberPlaceholder = 'Account Number';
 
-  errorMessage: string = 'The following fields are in error:';
-  errorMessageACH: string = '';
-  errorMessageCC: string = '';
+  public achForm: FormGroup;
+  public ccForm: FormGroup;
+  public hideCheck: boolean = true;
+  public achSubmitted = false;
+  public ccSubmitted = false;
+  public userToken = null;
+  public accountNumberPlaceholder = 'Account Number';
 
-  constructor( private router: Router,
+  public errorMessage: string = 'The following fields are in error:';
+  public errorMessageACH: string = '';
+  public errorMessageCC: string = '';
+
+  constructor(private router: Router,
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
     private pmtService: PaymentService,
-    private stripeService: StripeService,
-    ) {
-      this.state.setLoading(true);
-      this.achForm = this.fb.group({
-        accountName: ['', [<any>Validators.required]],
-        routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
-        accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4), <any>Validators.maxLength(30)]],
-        accountType:   ['', [<any>Validators.required]]
-      });
+    private stripeService: StripeService) {
 
-      this.ccForm = this.fb.group({
-        ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
-        expDate:  ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
-        cvv:      ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
-        zipCode:  ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
-      });
+    this.state.setLoading(true);
 
-      this.ccForm.controls['expDate'].valueChanges.subscribe(
-          value => this.store.expDate = value
-      );
-    }
+    this.achForm = this.fb.group({
+      accountName: ['', [<any>Validators.required]],
+      routingNumber: ['', [<any>Validators.required, <any>Validators.minLength(9), <any>Validators.maxLength(9)]],
+      accountNumber: ['', [<any>Validators.required, <any>Validators.minLength(4), <any>Validators.maxLength(30)]],
+      accountType: ['', [<any>Validators.required]]
+    });
 
-  ngOnInit() {
+    this.ccForm = this.fb.group({
+      ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
+      expDate: ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
+      cvv: ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]],
+      zipCode: ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
+    });
 
-    if ( this.store.isFrequencySetAndNotOneTime() ) {
+    this.ccForm.controls['expDate'].valueChanges.subscribe(
+      value => this.store.expDate = value
+    );
+  }
+
+  public ngOnInit() {
+
+    if (this.store.isFrequencySetAndNotOneTime()) {
 
       this.store.resetExistingPmtInfo();
       this.store.clearUserPmtInfo();
@@ -64,20 +66,20 @@ export class BillingComponent implements OnInit {
 
     } else {
 
-      if ( this.store.existingPaymentInfo ) {
+      if (this.store.existingPaymentInfo) {
         this.store.existingPaymentInfo.subscribe(
-            info => {
-              this.state.setLoading(false);
-              if ( info !== null ) {
-                this.store.setBillingInfo(info);
-                if (this.store.accountLast4) {
-                  this.store.donor = null;
-                  this.state.hidePage(this.state.billingIndex);
-                  this.adv();
-                }
+          info => {
+            this.state.setLoading(false);
+            if (info !== null) {
+              this.store.setBillingInfo(info);
+              if (this.store.accountLast4) {
+                this.store.donor = null;
+                this.state.hidePage(this.state.billingIndex);
+                this.adv();
               }
-            },
-            error => this.state.setLoading(false)
+            }
+          },
+          error => this.state.setLoading(false)
         );
       } else {
         this.state.setLoading(false);
@@ -93,7 +95,7 @@ export class BillingComponent implements OnInit {
     return false;
   }
 
-  public achNext() {
+  public achSubmit() {
 
     this.setACHSubmitted(true);
     this.store.resetErrors();
@@ -116,24 +118,24 @@ export class BillingComponent implements OnInit {
       this.state.setLoading(true);
       this.state.watchState();
       this.pmtService.getDonor().subscribe(
-          donor => {
-            this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
-              value => this.setValueMoveNext(value),
-              errorInner => this.handleDonorError(errorInner, false)
-            );
-          },
-          error => {
-            this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
-              value => this.setValueMoveNext(value),
-              errorInner => this.handleDonorError(errorInner, false)
-            );
-          }
+        donor => {
+          this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
+            value => this.setValueMoveNext(value),
+            errorInner => this.handleDonorError(errorInner, false)
+          );
+        },
+        error => {
+          this.pmtService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
+            value => this.setValueMoveNext(value),
+            errorInner => this.handleDonorError(errorInner, false)
+          );
+        }
       );
     }
     return false;
   }
 
-  public ccNext() {
+  public ccSubmit() {
 
     this.setCCSubmitted(true);
     this.store.resetErrors();
@@ -158,22 +160,20 @@ export class BillingComponent implements OnInit {
       this.state.setLoading(true);
       this.state.watchState();
       this.pmtService.getDonor().subscribe(
-          donor => {
-            this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
-              value => this.setValueMoveNext(value),
-              errorInner => this.handleDonorError(errorInner, true)
-            );
-          },
-          error => {
-            this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
-              value => this.setValueMoveNext(value),
-              errorInner => this.handleDonorError(errorInner, true)
-            );
-          }
+        donor => {
+          this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
+            value => this.setValueMoveNext(value),
+            errorInner => this.handleDonorError(errorInner, true)
+          );
+        },
+        error => {
+          this.pmtService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
+            value => this.setValueMoveNext(value),
+            errorInner => this.handleDonorError(errorInner, true)
+          );
+        }
       );
     }
-
-    return false;
   }
 
   private adv() {
@@ -182,7 +182,7 @@ export class BillingComponent implements OnInit {
   }
 
   private handleDonorError(errResponse: any, isCC = false): boolean {
-    if ( isCC === true ) {
+    if (isCC === true) {
       this.setCCSubmitted(false);
     } else {
       this.setACHSubmitted(false);
@@ -209,12 +209,12 @@ export class BillingComponent implements OnInit {
   }
 
   private setACHSubmitted(val: boolean) {
-     this.achSubmitted = val;
+    this.achSubmitted = val;
   }
 
   public switchMessage(errors: any): string {
     let ret = `is <em>invalid</em>`;
-    if ( errors.required !==  undefined ) {
+    if (errors.required !== undefined) {
       ret = `is <u>required</u>`;
     }
     return ret;
