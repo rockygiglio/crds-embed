@@ -2,22 +2,18 @@
   <header class="page-header page-header--no-btm-space">
     <h2>Thanks!</h2>
   </header>
-
   <p *ngIf="store.isDonation() && store.isOneTimeGift()" class="text-block--lg-font word-wrapped ">
      Thank you for your <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> gift to <strong>{{ store.fund.Name }}</strong>.
     A receipt has been sent to <strong>{{ store.email }}</strong>.
   </p>
-
   <p *ngIf="store.isDonation() && store.isRecurringGift()" class="text-block--lg-font word-wrapped ">
     Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift.
     We will process your Recurring Gift of <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> for
     <strong>{{ store.fund.Name }}</strong> on <strong>{{ frequencyCalculation() }}</strong>.
     Your statement will be sent to <strong>{{ store.email }}</strong>.
   </p>
-
   <p *ngIf="store.isPayment()" class="text-block--lg-font word-wrapped ">
     Thank you for the <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> payment<span *ngIf="store.title"> for <strong>{{ store.title }}</strong></span>.
     A receipt has been sent to <strong>{{ store.email }}</strong>.
   </p>
-
 </div>

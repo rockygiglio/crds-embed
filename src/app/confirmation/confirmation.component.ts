@@ -19,17 +19,15 @@ export class ConfirmationComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.state.is_loading = false;
   }
 
-  frequencyCalculation(): string {
+  public frequencyCalculation(): string {
     let startDate = moment(this.store.start_date);
-
     if (this.store.frequency.value === 'month') {
       return 'the ' + startDate.format('Do') + ' of the Month';
     }
-
     return 'Every ' + startDate.format('dddd');
   }
 
