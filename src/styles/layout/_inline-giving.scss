@@ -547,6 +547,10 @@
     }
   }
 
+  .background-filled-for-alignment {
+    background-color: $input-bg-color;
+  }
+
   .custom-input-payment__input {
     .form-control.ng-touched {
       &.ng-valid, &.ng-invalid {
