@@ -23,7 +23,11 @@ import { StripeService } from '../services/stripe.service';
 class MockDonationFundService { }
 class MockQuickDonationAboutsService { }
 class MockPreviousGiftAmountService { }
-class MockGiftService { }
+class MockGiftService { 
+  public resetErrors() {
+    return {};
+  }
+}
 class MockActivatedRoute {
   public snapshot = {
     queryParams: []
@@ -32,22 +36,25 @@ class MockActivatedRoute {
 
 export class TestHelper {
   static setAchForm(achForm: any, name: string, routing: number, account: number) {
-    achForm.setValue({accountName: name});
+    achForm.controls['accountName'].setValue(name);
     achForm.controls['accountName'].markAsTouched();
-    achForm.setValue({accountNumber: account});
+    achForm.controls['accountName'].markAsDirty();
+    achForm.controls['accountNumber'].setValue(account);
     achForm.controls['accountNumber'].markAsTouched();
-    achForm.setValue({routingNumber: routing});
+    achForm.controls['accountNumber'].markAsDirty();
+    achForm.controls['routingNumber'].setValue(routing);
     achForm.controls['routingNumber'].markAsTouched();
+    achForm.controls['routingNumber'].markAsDirty();
   }
 
   static setCcForm(ccForm: any, ccNumber: number, exp: string, cvv: number, zip: number) {
-    ccForm.setValue({ccNumber: ccNumber});
+    ccForm.controls['ccNumber'].setValue(ccNumber);
     ccForm.controls['ccNumber'].markAsTouched();
-    ccForm.setValue({expDate: exp});
+    ccForm.controls['expDate'].setValue(exp);
     ccForm.controls['expDate'].markAsTouched();
-    ccForm.setValue({cvv: cvv});
+    ccForm.controls['cvv'].setValue(cvv);
     ccForm.controls['cvv'].markAsTouched();
-    ccForm.setValue({zipCode: zip});
+    ccForm.controls['zipCode'].setValue(zip);
     ccForm.controls['zipCode'].markAsTouched();
   }
 }
@@ -92,43 +99,44 @@ describe('Component: Billing', () => {
     expect(this.component).toBeTruthy();
   });
 
-  describe('ACH Form', () => {
-    it('should be valid with required parameters provided', () => {
-      TestHelper.setAchForm(this.component.achForm, 'Bob Dillinger', 110000000, 123123456789);
-      this.component.achNext();
-      expect(this.component.achForm.valid).toBe(true);
+  describe('Form validations', () => {
+     describe('for ACH Form', () => {
+      fit('should be valid with required parameters provided', () => {
+        TestHelper.setAchForm(this.component.achForm, 'Bob Dillinger', 110000000, 123123456789);
+        this.component.achNext();
+        expect(this.component.achForm.valid).toBe(true);
+      });
+
+      it('should be invalid with required parameters not provided', () => {
+        TestHelper.setAchForm(this.component.achForm, '', null, null);
+        this.component.achNext();
+        expect(this.component.achForm.valid).toBe(true);
+      });
+
+      it('should be invalid with required parameters partially provided', () => {
+        TestHelper.setAchForm(this.component.achForm, 'Bob Dillinger', 1100, 12345); 
+        this.component.achNext();
+        expect(this.component.achForm.valid).toBe(true);
+      });
     });
 
-    it('should be invalid with required parameters not provided', () => {
-      TestHelper.setAchForm(this.component.achForm, '', null, null);
-      this.component.achNext();
-      expect(this.component.achForm.valid).toBe(false);
-    });
+    describe('for CC Form', () => {
+      it('should be valid with required parameters provided', () => {
+        TestHelper.setCcForm(this.component.ccForm, 4242424242424242, '09/31', 345, 34567);
+        expect(this.component.ccForm.valid).toBe(true);
+      });
 
-    it('should be invalid with required parameters partially provided', () => {
-      TestHelper.setAchForm(this.component.achForm, 'Bob Dillinger', 1100, 12345); 
-      this.component.achNext();
-      expect(this.component.achForm.valid).toBe(false);
-    });
-  });
+      it('should be invalid with required parameters not provided', () => {
+        TestHelper.setCcForm(this.component.ccForm, null, null, null, null);
+        this.component.ccNext();
+        expect(this.component.ccForm.valid).toBe(false);
+      });
 
-  describe('CC Form', () => {
-    fit('should be valid with required parameters provided', () => {
-      TestHelper.setCcForm(this.component.ccForm, 4242424242424242, '09/31', 345, 34567);
-      console.log("HELLO?>>>>>>????????????????????????");
-      expect(this.component.ccForm.valid).toBe(true);
-    });
-
-    it('should be invalid with required parameters not provided', () => {
-      TestHelper.setCcForm(this.component.ccForm, null, null, null, null);
-      this.component.ccNext();
-      expect(this.component.ccForm.valid).toBe(false);
-    });
-
-    it('should be invalid with required parameters partially provided', () => {
-      TestHelper.setCcForm(this.component.ccForm, 424242, '02/', 34, 234);
-      this.component.ccNext();
-      expect(this.component.ccForm.valid).toBe(false);
+      it('should be invalid with required parameters partially provided', () => {
+        TestHelper.setCcForm(this.component.ccForm, 424242, '02/', 34, 234);
+        this.component.ccNext();
+        expect(this.component.ccForm.valid).toBe(false);
+      });
     });
   });
 });
