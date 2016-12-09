@@ -41,13 +41,6 @@ export class SummaryComponent implements OnInit {
     this.isSubmitInProgress = false;
   }
 
-  /**
-   * Submits the payment to gateway for processing. 
-   * Stripe tokens created previously on billing
-   * 
-   * @method submitPayment
-   * @return void
-   */
   public submitPayment() {
 
     if (this.isSubmitInProgress) {
@@ -64,30 +57,18 @@ export class SummaryComponent implements OnInit {
       this.store.invoiceId
     );
 
-    // adding a new payment method (must use donor token to create saved payment method)
     if (this.store.isUsingNewPaymentMethod()) {
       this.paymentService.makeApiDonorCall(this.store.donor).subscribe(
           value => this.postTransaction(paymentDetails),
           error => this.handleOuterError()
       );
-
-    // using an existing payment method (payment method already exists. auth token handles the payment)
     } else if (this.store.isUsingExistingPaymentMethod()) {
         this.postTransaction(paymentDetails);
-
-    // somehow not having an existing method AND no donor created from new payment method
     } else {
       this.handleOuterError();
     }
   }
 
-  /**
-   * Submits the donation to gateway for processing. 
-   * Stripe tokens created previously on billing
-   * 
-   * @method submitDonation
-   * @return void
-   */
   public submitDonation() {
 
     if (this.isSubmitInProgress) {
@@ -96,7 +77,6 @@ export class SummaryComponent implements OnInit {
 
     this.beginProcessing();
 
-    // one time gifts
     if (this.store.isOneTimeGift()) {
       let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new Payment(
@@ -106,8 +86,6 @@ export class SummaryComponent implements OnInit {
         'DONATION',
         this.store.invoiceId
       );
-
-      // adding a new payment method (must use donor token to create saved payment method)
       if (this.store.isUsingNewPaymentMethod()) {
         this.paymentService.makeApiDonorCall(this.store.donor).subscribe(
             value => {
@@ -119,20 +97,12 @@ export class SummaryComponent implements OnInit {
             },
             error => this.handleOuterError()
         );
-
-      // using an existing payment method (payment method already exists. auth token handles the payment)
       } else if (this.store.isUsingExistingPaymentMethod()) {
         this.postTransaction(donationDetails);
-
-      // somehow not having an existing method AND no donor created from new payment method
       } else {
         this.handleOuterError();
       }
-
-    // recurring gifts
     } else if (this.store.isRecurringGift()) {
-
-      // must use a new paymenth method (can't use existing)
       if (this.store.isUsingNewPaymentMethod()) {
         let userPaymentInfo: CustomerBank | CustomerCard  = this.store.userCc || this.store.userBank;
         let stripeMethodName: string = this.store.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
@@ -141,13 +111,9 @@ export class SummaryComponent implements OnInit {
           success => this.handleSuccess(success),
           innerError => this.handleInnerError(innerError)
         );
-
-      // error out if somehow existing payment info rings true (should never be the case)
       } else {
         this.handleOuterError();
       }
-
-    // neither a one time gift or recurring. What is it?
     } else {
       this.handleOuterError();
     }
@@ -159,7 +125,7 @@ export class SummaryComponent implements OnInit {
     return false;
   }
 
-  private next() {
+  private adv() {
     if (this.store.url) {
       this.addParamsToRedirectUrl();
       if (this.store.overrideParent === true && this.window.top !== undefined) {
@@ -199,7 +165,7 @@ export class SummaryComponent implements OnInit {
     this.redirectParams.set('invoiceId', this.store.invoiceId);
     this.redirectParams.set('paymentId', info.payment_id);
     this.store.clearUserPmtInfo();
-    this.next();
+    this.adv();
   }
 
   private handleInnerError(error) {

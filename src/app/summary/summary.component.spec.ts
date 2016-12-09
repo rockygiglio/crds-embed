@@ -100,7 +100,7 @@ describe('Component: Summary', () => {
   it('should navigate to passed in url after submit', () => {
       this.component.store.overrideParent = true;
       this.component.store.url = 'http://www.redirecturl.com';
-      this.component.next();
+      this.component.adv();
       expect(this.component.window.top.location.href).toBe(this.component.store.url);
     }
   );
