@@ -115,7 +115,6 @@ export class SummaryComponent implements OnInit {
       if (this.gift.isUsingNewPaymentMethod()) {
         this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
             value => {
-              console.log(value);
               if ( this.gift.isGuest === true ) {
                 donationDetails.donor_id = value.id;
                 donationDetails.email_address = this.gift.email;
