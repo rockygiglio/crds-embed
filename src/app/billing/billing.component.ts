@@ -118,7 +118,6 @@ export class BillingComponent implements OnInit {
 
             if (this.gift.isGuest === true) {
               this.createDonorWithBank(userBank, email, firstName, lastName);
-              console.log('creating new donor with bank');
             } else {
               this.pmtService.getDonor().subscribe(
                   donor => {
@@ -170,7 +169,6 @@ export class BillingComponent implements OnInit {
 
             if (this.gift.isGuest === true) {
               this.createDonorWithCard(userCard, email, firstName, lastName);
-              console.log('creating new donor with card');
             } else {
                 this.pmtService.getDonor().subscribe(
                     donor => {
@@ -219,7 +217,6 @@ export class BillingComponent implements OnInit {
     }
 
     private setValueMoveNext(value) {
-      console.log(value);
         this.gift.donor = value;
         this.adv();
     }
