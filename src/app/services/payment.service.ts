@@ -40,7 +40,7 @@ export class PaymentService {
       firstName,
       lastName,
       this.stripeService.methodNames.bankAccount,
-      this.restMethodNames.post);
+      this.restMethodNames.put);
   };
 
   createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string): Observable<any> {
@@ -49,7 +49,7 @@ export class PaymentService {
       firstName,
       lastName,
       this.stripeService.methodNames.card,
-      this.restMethodNames.post);
+      this.restMethodNames.put);
   };
 
   updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string): Observable<any> {
@@ -58,7 +58,7 @@ export class PaymentService {
       null,
       null,
       this.stripeService.methodNames.bankAccount,
-      this.restMethodNames.put);
+      this.restMethodNames.post);
   };
 
   updateDonorWithCard(donorId: number, card: CustomerCard, email: string): Observable<any> {
@@ -67,7 +67,7 @@ export class PaymentService {
       null,
       null,
       this.stripeService.methodNames.card,
-      this.restMethodNames.put);
+      this.restMethodNames.post);
   };
 
   createdDonorToken(BankOrCcPmtInfo: CustomerBank | CustomerCard,
