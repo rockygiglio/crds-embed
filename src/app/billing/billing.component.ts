@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { CreditCardValidator } from '../validators/credit-card.validator';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
@@ -116,23 +117,25 @@ export class BillingComponent implements OnInit {
             this.state.setLoading(true);
             this.state.watchState();
 
+            let donor: Observable<any>;
             if (this.gift.isGuest === true) {
-              this.createDonorWithBank(userBank, email, firstName, lastName);
+                donor = this.pmtService.getDonorByEmail(email);
             } else {
-              this.pmtService.getDonor().subscribe(
-                  donor => {
-                      this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
-                          value => this.setValueMoveNext(value),
-                          errorInner => this.handleDonorError(errorInner, false)
-                      );
-                  },
-                  error => {
-                      this.createDonorWithBank(userBank, email, firstName, lastName);
-                  }
-              );
+                donor = this.pmtService.getDonor();
             }
+            donor.subscribe(
+                donor => this.updateDonorWithBankAcct(donor.id, userBank, email),
+                error => this.createDonorWithBank(userBank, email, firstName, lastName)
+            );
         }
         return false;
+    }
+
+    private updateDonorWithBankAcct(donorId, userBank, email) {
+        this.pmtService.updateDonorWithBankAcct(donorId, userBank, email).subscribe(
+            value => this.setValueMoveNext(value),
+            errorInner => this.handleDonorError(errorInner, false)
+        );
     }
 
     private createDonorWithBank(userBank, email, firstName, lastName) {
@@ -167,23 +170,26 @@ export class BillingComponent implements OnInit {
             this.state.setLoading(true);
             this.state.watchState();
 
+            let donor: Observable<any>;
             if (this.gift.isGuest === true) {
-              this.createDonorWithCard(userCard, email, firstName, lastName);
+                donor = this.pmtService.getDonorByEmail(email);
             } else {
-                this.pmtService.getDonor().subscribe(
-                    donor => {
-                        this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
-                            value => this.setValueMoveNext(value),
-                            errorInner => this.handleDonorError(errorInner, true)
-                        );
-                    },
-                    error => this.createDonorWithCard(userCard, email, firstName, lastName)
-                );
+                donor = this.pmtService.getDonor();
             }
-
+            donor.subscribe(
+                donor => this.updateDonorWithCard(donor.id, userCard, email),
+                error => this.createDonorWithCard(userCard, email, firstName, lastName)
+            );
         }
 
         return false;
+    }
+
+    private updateDonorWithCard(donorId, userCard, email) {
+        this.pmtService.updateDonorWithCard(donorId, userCard, email).subscribe(
+            value => this.setValueMoveNext(value),
+            errorInner => this.handleDonorError(errorInner, true)
+        );
     }
 
     private createDonorWithCard(userCard, email, firstName, lastName) {

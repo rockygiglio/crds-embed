@@ -27,6 +27,13 @@ export class PaymentService {
     };
   }
 
+  getDonorByEmail(email: string): Observable<any> {
+    let donorUrl = this.baseUrl + 'api/donor?email=' + encodeURIComponent(email);
+    return this.http.get(donorUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
+  };
+
   getDonor(): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
     return this.httpClient.get(donorUrl)
@@ -40,7 +47,7 @@ export class PaymentService {
       firstName,
       lastName,
       this.stripeService.methodNames.bankAccount,
-      this.restMethodNames.put);
+      this.restMethodNames.post);
   };
 
   createDonorWithCard(card: CustomerCard, email: string, firstName: string, lastName: string): Observable<any> {
@@ -49,7 +56,7 @@ export class PaymentService {
       firstName,
       lastName,
       this.stripeService.methodNames.card,
-      this.restMethodNames.put);
+      this.restMethodNames.post);
   };
 
   updateDonorWithBankAcct(donorId: number, bankAcct: CustomerBank, email: string): Observable<any> {
@@ -58,7 +65,7 @@ export class PaymentService {
       null,
       null,
       this.stripeService.methodNames.bankAccount,
-      this.restMethodNames.post);
+      this.restMethodNames.put);
   };
 
   updateDonorWithCard(donorId: number, card: CustomerCard, email: string): Observable<any> {
@@ -67,7 +74,7 @@ export class PaymentService {
       null,
       null,
       this.stripeService.methodNames.card,
-      this.restMethodNames.post);
+      this.restMethodNames.put);
   };
 
   createdDonorToken(BankOrCcPmtInfo: CustomerBank | CustomerCard,
