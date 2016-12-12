@@ -117,7 +117,17 @@ export class BillingComponent implements OnInit {
             this.state.watchState();
 
             if (this.gift.isGuest === true) {
-              this.createDonorWithBank(userBank, email, firstName, lastName);
+              this.pmtService.getDonorByEmail(email).subscribe(
+                  donor => {
+                      this.pmtService.updateDonorWithBankAcct(donor.id, userBank, email).subscribe(
+                          value => this.setValueMoveNext(value),
+                          errorInner => this.handleDonorError(errorInner, false)
+                      );
+                  },
+                  error => {
+                      this.createDonorWithBank(userBank, email, firstName, lastName);
+                  }
+              );
             } else {
               this.pmtService.getDonor().subscribe(
                   donor => {
@@ -168,7 +178,15 @@ export class BillingComponent implements OnInit {
             this.state.watchState();
 
             if (this.gift.isGuest === true) {
-              this.createDonorWithCard(userCard, email, firstName, lastName);
+                this.pmtService.getDonorByEmail(email).subscribe(
+                    donor => {
+                        this.pmtService.updateDonorWithCard(donor.id, userCard, email).subscribe(
+                            value => this.setValueMoveNext(value),
+                            errorInner => this.handleDonorError(errorInner, true)
+                        );
+                    },
+                    error => this.createDonorWithCard(userCard, email, firstName, lastName)
+                );
             } else {
                 this.pmtService.getDonor().subscribe(
                     donor => {
