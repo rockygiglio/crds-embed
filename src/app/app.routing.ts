@@ -6,7 +6,8 @@ import { BillingComponent } from './billing/billing.component';
 import { SummaryComponent } from './summary/summary.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component'
+import { RegisterComponent } from './register/register.component';
+import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component';
 import { DonationFundService } from './services/donation-fund.service';
 
 const appRoutes: Routes = [
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   { path: 'billing', component: BillingComponent },
   { path: 'summary', component: SummaryComponent },
   { path: 'confirmation', component: ConfirmationComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

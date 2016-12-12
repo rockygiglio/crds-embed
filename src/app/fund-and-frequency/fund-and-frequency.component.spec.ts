@@ -11,6 +11,7 @@ import { TestBed } from '@angular/core/testing';
 import { DonationFundService } from '../services/donation-fund.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
+import { GiftFrequency } from '../models/gift-frequency';
 import { GiftService } from '../services/gift.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
@@ -38,8 +39,8 @@ describe('Component: FundAndFrequency', () => {
 
   let giveFrequencies: any = {
     oneTime: 'One Time',
-    weekly: 'Weekly',
-    monthly: 'Monthly'
+    weekly: 'week',
+    monthly: 'month'
   };
 
   let mockFund: Program = {
@@ -127,6 +128,23 @@ describe('Component: FundAndFrequency', () => {
     this.component.onClickDate(currentDateTime);
 
     expect(this.component.gift.start_date ).toBe(currentDateTime);
+  });
+
+  describe('#GiftFrequency model', () => {
+    it('should create an array of default frequencies for recurring giving', () => {
+      let giftFrequency: GiftFrequency = new GiftFrequency('', '');
+      let defaultFrequencies: GiftFrequency[] = giftFrequency.getDefaultFrequencies();
+      let weeklyFrequency = defaultFrequencies.find(f => f.value === 'week');
+      expect(weeklyFrequency.displayName).toBe('Weekly');
+    });
+
+    it('should find the frequency name by value', () => {
+      let giftFrequency: GiftFrequency = new GiftFrequency('', '');
+      let freqValue = 'month';
+      let expectedFreqName = 'Monthly';
+      let freqNameByValue = giftFrequency.getDisplayNameByValue(freqValue);
+      expect(freqNameByValue).toBe(expectedFreqName);
+    });
   });
 
 });

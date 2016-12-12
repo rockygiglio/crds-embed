@@ -3,13 +3,17 @@
   font-family: $fontface-body;
   font-size: 16px;
 
+  a {
+    cursor: pointer;
+  }
+
   .page-header {
     @include header-font($fontface-header, 1.25em);
-
     border: none;
 
     &--border-btm {
       border-bottom: 1px solid $underline-color;
+      margin: 0 0 8px;
     }
 
     &--mb-0 {
@@ -28,6 +32,15 @@
 
   .page-footer {
     padding-top: 1em;
+
+    .text-block__inline-link {
+      font-size: .875em;
+      line-height: 1.43em;
+    }
+
+    &--pt-0 {
+      padding-top: 0;
+    }
   }
 
   .btn-form {
@@ -58,6 +71,10 @@
     .btn-option {
       background-color: transparent;
 
+      &--mb-8 {
+        margin-bottom: 8px;
+      }
+
       :hover,
       :active {
         background-color: $secondary-color;
@@ -65,15 +82,7 @@
 
       &--no-outline {
         border: none;
-      }
-
-      &--flex-item {
-        min-height: 37px;
-
-        &:not(:last-child):not(.dropdown-toggle) {
-          margin-right: 0;
-          margin-bottom: .5em;
-        }
+        box-shadow: none;
       }
     }
 
@@ -112,14 +121,6 @@
 
         & > div {
           @include make-xs-column(6);
-
-          &:first-child {
-            /*text-align: left;*/
-          }
-
-          &:last-child {
-            /*text-align: right;*/
-          }
         }
 
         .payment--lg {
@@ -145,10 +146,57 @@
       }
     }
 
-    &--flex {
+    &--flex-col {
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
+
+      .btn-option--flex-item {
+        flex: 1 1 auto;
+        min-height: 37px;
+        margin: 4px 0;
+
+        &:last-of-type {
+          margin-bottom: 8px;
+        }
+      }
+
+      &.btn-group {
+        > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+        > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+          margin-right: 0;
+        }
+      }
+
+      &.btn-group--underline {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+
+    &--flex-row {
+      border-bottom: 1px solid $underline-color;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+
+      .btn-option {
+        &--flex-item {
+          flex: 1 1 50%;
+          min-height: 37px;
+
+          &:not(:last-child):not(.dropdown-toggle) {
+            margin-right: 8px;
+
+            @media (min-width: $screen-xs) {
+              margin-right: .5em;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
     }
 
     &--underline {
@@ -171,6 +219,10 @@
       flex-basis: 30px;
       font-size: 22px;
       padding: 5px 20px 0;
+    }
+
+    &__input {
+      flex-basis: calc(100% - 30px);
     }
   }
 
@@ -216,12 +268,6 @@
 
       a {
         color: $text-color-link;
-      }
-    }
-
-    td {
-      a {
-        cursor: pointer;
       }
     }
   }
@@ -276,6 +322,10 @@
       &--half {
         @include make-xs-column(6);
       }
+    }
+
+    &--underline {
+      border-bottom: 1px solid $underline-color;
     }
   }
 
@@ -351,6 +401,71 @@
 
   .radio-group {
     padding: 1em 0 2em;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        color: $text-color;
+        display: inline-block;
+        position: relative;
+
+        input[type=radio] {
+          position: absolute;
+          visibility: hidden;
+          display: none;
+
+          &:checked {
+            ~ .check {
+              border: 2px solid $cr-teal;
+              background: $cr-teal;
+
+              &::before {
+                background: $cr-white;
+              }
+            }
+          }
+        }
+
+        label {
+          display: block;
+          position: relative;
+          font-size: 14px;
+          padding: 8px 2px 17px 43px;
+          padding: 0 8px 0 25px;
+          margin: 0 auto;
+          height: 22px;
+          z-index: 9;
+          cursor: pointer;
+        }
+
+        .check {
+          display: block;
+          position: absolute;
+          border: 2px solid $cr-grey;
+          border-radius: 100%;
+          height: 15px;
+          width: 15px;
+          top: 3px;
+          left: 5px;
+          z-index: 5;
+
+          &::before {
+            display: block;
+            position: absolute;
+            content: '';
+            border-radius: 100%;
+            height: 5px;
+            width: 5px;
+            top: 3px;
+            left: 3px;
+            margin: auto;
+          }
+        }
+      }
+    }
   }
 
   .row {
@@ -377,6 +492,8 @@
     &__input {
       &--half {
         @include make-xs-column(6);
+        padding-left: 0px;
+        padding-right: 0px;
       }
     }
   }
@@ -423,7 +540,6 @@
 
   form {
     .form-control {
-      &.ng-dirty,
       &.ng-touched {
         &.ng-invalid {
           border: 1px solid $danger-state-border;
@@ -432,7 +548,6 @@
     }
 
     .form-control {
-      &.ng-dirty,
       &.ng-touched {
         &.ng-valid {
           border: 1px solid $success-state;
@@ -441,36 +556,29 @@
     }
   }
 
-  .custom-amount {
-    &.ng-dirty,
+  .background-filled-for-alignment {
+    background-color: $input-bg-color;
+  }
+
+  .custom-input-payment__input {
+    .form-control.ng-touched {
+      &.ng-valid, &.ng-invalid {
+        border: 1px solid transparent;
+      }
+    }
+    .input-group {
+      border: 1px solid transparent;
+    }
     &.ng-touched {
       &.ng-invalid {
-        .form-control,
-        .input-group-addon {
+        .input-group {
           border: 1px solid $danger-state-border;
-        }
-
-        .form-control {
-          border-left: none;
-        }
-
-        .input-group-addon {
-          border-right: none;
         }
       }
 
       &.ng-valid {
-        .form-control,
-        .input-group-addon {
+        .input-group {
           border: 1px solid $success-state;
-        }
-
-        .form-control {
-          border-left: none;
-        }
-
-        .input-group-addon {
-          border-right: none;
         }
       }
     }
@@ -485,12 +593,12 @@
       border-color: $danger-state-border;
       color: $danger-state-text;
       margin-top: -15px;
-      padding: 5px 0;
+      padding: 5px 15px;
       text-align: center;
 
       p {
         line-height: 10px;
-        margin-bottom: 9px;
+        margin: 7px 0 10px;
       }
 
       ul {

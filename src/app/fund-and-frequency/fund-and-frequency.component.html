@@ -4,30 +4,32 @@
 
 <form [formGroup]="form">
 
-  <div *ngIf="isFundSelectShown">
-    <h4>Give To:</h4>
-    <div class="btn-group btn-group--flex btn-group--underline">
-      <template ngFor let-fund [ngForOf]="funds" let-i="index">
-        <button class="btn btn-option btn-option--flex-item"
-                (click)="onClickFund(fund)"
-                [ngClass]="{ active: (gift.fund.Name == fund.Name) }">{{fund.Name}}</button>
-      </template>
-    </div>
-  </div>
-
-  <h4>Frequency:</h4>
-  <div class="btn-group btn-group--flex btn-group--underline">
+  <div class="btn-group--underline" *ngIf="isFundSelectShown">
+    <h3 class="btn-form__header">Give To:</h3>
     <div class="btn-group">
-    <template ngFor let-frequency [ngForOf]="defaultFrequencies" let-i="index">
-      <button class="btn btn-option btn-option--flex-item"
-             (click)="onClickFrequency(frequency)"
-             [ngClass]="{ active: (gift.frequency == frequency),
-                          disabled: (!gift.fund.AllowRecurringGiving && frequency != 'One Time') }">{{frequency}}
-      </button>
-    </template>
+      <button *ngFor="let fund of funds"
+              class="btn btn-option btn-option--mb-8"
+              (click)="onClickFund(fund)"
+              [ngClass]="{ active: (gift.fund.Name == fund.Name) }">{{fund.Name}}</button>
     </div>
   </div>
 
+  <div class="btn-group--underline">
+    <h3 class="btn-form__header">Frequency:</h3>
+    <div class="btn-group">
+      <button *ngFor="let frequency of defaultFrequencies"
+              class="btn btn-option btn-option--mb-8"
+              (click)="onClickFrequency(frequency.value)"
+              [ngClass]="{ active: (gift.frequency == frequency.value),
+                          disabled: (!gift.fund.AllowRecurringGiving && frequency.value != 'One Time') }">
+        {{frequency.displayName}}
+      </button>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" *ngIf="gift.start_date && gift.frequency !== 'One Time'">
+    Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}. <button (click)="onClickChangeDate()">Change</button>
+  </div>
 </form>
 
 <div *ngIf="gift.frequency !== 'One Time' && !gift.start_date">
@@ -39,11 +41,11 @@
   </datepicker>
 </div>
 
-<div class="alert alert-warning" *ngIf="gift.start_date && gift.frequency !== 'One Time'">
-  Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}. <button (click)="onClickChangeDate()">Change</button>
-</div>
-
 <footer class="page-footer">
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-  <input type="button" class="btn btn-next pull-right" (click)="next()" [disabled]="!form.valid || !gift.start_date" value="Next">
+  <input type="button"
+         class="btn btn-next pull-right"
+         (click)="next()"
+         [disabled]="!form.valid || gift.isRecurringGiftWithNoStartDate()"
+         value="Next">
 </footer>

@@ -2,11 +2,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard} from '../models/customer-card';
 import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Program } from '../interfaces/program';
 import { StateManagerService } from './state-manager.service';
+import { CrdsDonor } from '../models/crds-donor';
 
 declare var _;
 
@@ -29,6 +32,7 @@ export class GiftService {
   private queryParams: Object;
 
   // Form options
+  public predefinedAmounts: number[];
   public existingPaymentInfo: Observable<any>;
   public paymentMethod: string = 'Bank Account';
 
@@ -43,6 +47,7 @@ export class GiftService {
   public email: string = '';
   public isGuest: boolean = false;
   public previousGiftAmount: string = '';
+  public donor: CrdsDonor;
 
   // ACH Information
   public accountName: string;
@@ -61,24 +66,40 @@ export class GiftService {
   public start_date: any = '';
   public frequency: any = '';
 
+  public userBank: CustomerBank = undefined;
+  public userCc: CustomerCard  = undefined;
+
   constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
               private helper: ParamValidationService,
               private loginService: LoginService,
               private route: ActivatedRoute,
-              private stateManagerService: StateManagerService) {
+              private state: StateManagerService) {
     this.processQueryParams();
     this.preloadData();
     this.isInitialized = true;
   }
 
+  public clearUserPmtInfo() {
+    this.userBank = undefined;
+    this.userCc = undefined;
+  }
+
   public loadExistingPaymentData(): void {
+
+    if ( this.isFrequencySetAndNotOneTime() ) {
+      this.resetExistingPmtInfo();
+      this.clearUserPmtInfo();
+      this.state.unhidePage(this.state.billingIndex);
+      return;
+    }
+
     this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
         info => {
           if ( info !== null ) {
             this.setBillingInfo(info);
             if (this.accountLast4) {
-              this.stateManagerService.hidePage(this.stateManagerService.billingIndex);
+              this.state.hidePage(this.state.billingIndex);
             }
           }
         }
@@ -100,13 +121,13 @@ export class GiftService {
 
   public preloadData(): void {
     if (this.loginService.isLoggedIn()) {
-      this.stateManagerService.hidePage(this.stateManagerService.authenticationIndex);
+      this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }
   }
 
-  public resetExistingPaymentInfo(): void {
-    this.stateManagerService.unhidePage(this.stateManagerService.billingIndex);
+  public resetExistingPmtInfo(): void {
+    this.state.unhidePage(this.state.billingIndex);
     this.accountLast4 = null;
 
     let emptyPaymentInfo: any = {
@@ -120,12 +141,12 @@ export class GiftService {
 
   public validAmount() {
     let result = false;
-    if (this.type === 'payment') {
+    if (this.isPayment()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
         && Number(this.amount) >= this.minPayment
         && Number(this.amount) <= this.totalCost;
-    } else if (this.type === 'donation') {
+    } else if (this.isDonation()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
         && Number(this.amount) > 0
@@ -226,13 +247,75 @@ export class GiftService {
     }
 
     if (this.type === this.helper.types.donation) {
-      this.stateManagerService.unhidePage(this.stateManagerService.fundIndex);
+      this.state.unhidePage(this.state.fundIndex);
     }
 
   }
 
   private setTheme(theme): void {
     document.body.classList.add(theme);
+  }
+
+  public isDonation() {
+    if ( this.type === 'donation' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isPayment() {
+    if ( this.type === 'payment' ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isFrequencySetAndNotOneTime() {
+    return this.isFrequencySelected() && !this.isOneTimeGift();
+  }
+
+  isFrequencySelected(): boolean {
+    return this.frequency !== '' && this.frequency !== null;
+  }
+
+  public isOneTimeGift(): boolean {
+    return this.frequency === 'One Time';
+  }
+
+  public isRecurringGift(): boolean {
+    return (this.frequency === 'week' || this.frequency === 'month');
+  }
+
+  public isRecurringGiftWithNoStartDate(): boolean {
+    return !this.isOneTimeGift() && !this.start_date;
+  }
+
+  public isUsingExistingPaymentMethod(): boolean {
+    if (!this.donor && this.accountLast4) {
+      return true;
+    }
+    return false;
+  }
+
+  public isUsingNewPaymentMethod(): boolean {
+    if (this.donor && !this.accountLast4) {
+      return true;
+    }
+    return false;
+  }
+
+  public resetErrors() {
+    this.stripeException = false;
+    this.systemException = false;
+  }
+
+  public validateRoute(router) {
+    if (!this.type) {
+      this.state.setLoading(true);
+      router.navigateByUrl('/');
+    }
   }
 
 }
