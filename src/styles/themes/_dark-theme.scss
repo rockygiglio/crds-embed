@@ -42,6 +42,16 @@ $dt-page-bg-color: #222222;
     }
   }
 
+  .btn-previous {
+    background-color: rgba(77,77,77,0.75);
+    border: none;
+
+    &:hover,
+    &:focus {
+      background-color: lighten(rgba(77,77,77,0.75), 10);
+    }
+  }
+
   hr {
     border-top-color: $underline-color;
   }
