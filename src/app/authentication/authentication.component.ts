@@ -49,13 +49,14 @@ export class AuthenticationComponent implements OnInit {
       this.email = this.gift.email;
     }
 
+    let emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
     this.form = this._fb.group({
-      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
-      password: ['', <any>Validators.required]
+      email: ['', [Validators.required, Validators.pattern(emailRegex)]],
+      password: ['', Validators.required]
     });
 
     this.formGuest = this._fb.group({
-      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]]
+      email: ['', [Validators.required, Validators.pattern(emailRegex)]]
     });
 
     this.form.valueChanges.subscribe((value: any) => {
