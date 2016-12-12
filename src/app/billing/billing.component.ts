@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { CreditCardValidator } from '../validators/credit-card.validator';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
@@ -116,7 +117,7 @@ export class BillingComponent implements OnInit {
             this.state.setLoading(true);
             this.state.watchState();
 
-            let donor;
+            let donor: Observable<any>;
             if (this.gift.isGuest === true) {
                 donor = this.pmtService.getDonorByEmail(email);
             } else {
@@ -169,7 +170,7 @@ export class BillingComponent implements OnInit {
             this.state.setLoading(true);
             this.state.watchState();
 
-            let donor;
+            let donor: Observable<any>;
             if (this.gift.isGuest === true) {
                 donor = this.pmtService.getDonorByEmail(email);
             } else {
