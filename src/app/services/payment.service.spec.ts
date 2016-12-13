@@ -128,7 +128,7 @@ describe('Service: Payment', () => {
     it('it should create an observable with stripe token response',
         async(inject([PaymentService, MockBackend], (srvc, backend) => {
 
-            let stripeObservable = srvc.getStripeToken('bankAccount', mockBank);
+            let stripeObservable = srvc.createStripeToken('bankAccount', mockBank);
             expect(stripeObservable.catch).toBeDefined();
 
         }))

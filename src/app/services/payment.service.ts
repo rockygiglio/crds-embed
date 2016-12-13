@@ -26,9 +26,36 @@ export class PaymentService {
     ach: 'bankAccount'
   };
 
-  constructor(private http: Http,
-    private httpClient: HttpClientService,
-    private zone: NgZone) { }
+  constructor(private http: Http, private httpClient: HttpClientService, private zone: NgZone) { }
+
+  public createOrUpdateDonor(donorInfo: Donor): Observable<any> {
+    let donorUrl = this.baseUrl + 'api/donor';
+    let requestOptions: any = this.httpClient.getRequestOption();
+
+    if (donorInfo.rest_method === this.restVerbs.post) {
+      return this.http.post(donorUrl, donorInfo, requestOptions)
+        .map(this.extractData)
+        .catch(this.handleError);
+    } else if (donorInfo.rest_method === this.restVerbs.put) {
+      return this.http.put(donorUrl, donorInfo, requestOptions)
+        .map(this.extractData)
+        .catch(this.handleError);
+    }
+  };
+
+  public createStripeToken(method: string, body: CustomerBank | CustomerCard): Observable<any> {
+    return new Observable(observer => {
+      (<any>window).Stripe[method].createToken(body, (status, response) => {
+        this.zone.run(() => {
+          if (status === 200) {
+            observer.next(response);
+          } else {
+            observer.error(new Error(response));
+          }
+        });
+      });
+    });
+  };
 
   public getDonor(): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
@@ -43,20 +70,6 @@ export class PaymentService {
       .map(this.extractData)
       .catch(this.handleError);
   };
-
-  public getQuickDonationAmounts(): Observable<number[]> {
-    return this.http.get(this.baseUrl + 'api/donations/predefinedamounts')
-      .map(this.extractData)
-      .catch((error) => {
-        return [[5, 10, 25, 100, 500]];
-      });
-  }
-
-  public getRegisteredUser(email: string): Observable<boolean> {
-    return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
-      .map(res => { return false; })
-      .catch(res => { return [true]; });
-  }
 
   public getPreviousGiftAmount(): Observable<string> {
     let options = new RequestOptions({
@@ -78,37 +91,21 @@ export class PaymentService {
       .catch((error) => {
         return [null];
       });
-  }
-
-  public createOrUpdateDonor(donorInfo: Donor): Observable<any> {
-    let donorUrl = this.baseUrl + 'api/donor';
-    let requestOptions: any = this.httpClient.getRequestOption();
-
-    if (donorInfo.rest_method === this.restVerbs.post) {
-      return this.http.post(donorUrl, donorInfo, requestOptions)
-        .map(this.extractData)
-        .catch(this.handleError);
-    } else if (donorInfo.rest_method === this.restVerbs.put) {
-      return this.http.put(donorUrl, donorInfo, requestOptions)
-        .map(this.extractData)
-        .catch(this.handleError);
-    }
   };
 
-  public getStripeToken(method: string, body: CustomerBank | CustomerCard): Observable<any> {
-    return new Observable(observer => {
-      (<any>window).Stripe[method].createToken(body, (status, response) => {
-        this.zone.run(() => {
-          if (status === 200) {
-            observer.next(response);
-          } else {
-            observer.error(new Error(response));
-          }
-        });
+  public getQuickDonationAmounts(): Observable<number[]> {
+    return this.http.get(this.baseUrl + 'api/donations/predefinedamounts')
+      .map(this.extractData)
+      .catch((error) => {
+        return [[5, 10, 25, 100, 500]];
       });
-    });
   }
 
+  public getRegisteredUser(email: string): Observable<boolean> {
+    return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
+      .map(res => { return false; })
+      .catch(res => { return [true]; });
+  };
   public postPayment(paymentInfo: Payment): Observable<any> {
     let url: string = this.baseUrl + 'api/donation';
     return this.httpClient.post(url, paymentInfo)
@@ -122,6 +119,8 @@ export class PaymentService {
       .map(this.extractData)
       .catch(this.handleError);
   };
+
+  // HELPER FUNCTIONS BELOW HERE
 
   private extractData(res: Response) {
     let body: any = res;

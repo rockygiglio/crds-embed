@@ -159,7 +159,7 @@ export class BillingComponent implements OnInit {
   }
 
   public process(donor: any, callBody: CustomerBank | CustomerCard, stripeMethod: string, restMethod: string) {
-    this.paymentService.getStripeToken(stripeMethod, callBody).subscribe(
+    this.paymentService.createStripeToken(stripeMethod, callBody).subscribe(
       token => this.storeToken(donor, token, stripeMethod, restMethod),
       error => this.handleError(error, stripeMethod)
     );
