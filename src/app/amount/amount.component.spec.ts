@@ -9,7 +9,6 @@ import { ExistingPaymentInfoService } from '../services/existing-payment-info.se
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { AmountComponent } from './amount.component';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
 import { LoginService } from '../services/login.service';
@@ -31,7 +30,6 @@ describe('Component: Amount', () => {
       ],
       providers: [
         ExistingPaymentInfoService,
-        PreviousGiftAmountService,
         DonationFundService,
         StoreService,
         ParamValidationService,
@@ -105,7 +103,6 @@ describe('Component: Donation', () => {
       ],
       providers: [
         ExistingPaymentInfoService,
-        PreviousGiftAmountService,
         DonationFundService,
         StoreService,
         ParamValidationService,

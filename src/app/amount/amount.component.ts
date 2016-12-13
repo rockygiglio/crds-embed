@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { StoreService } from '../services/store.service';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
 
@@ -27,7 +26,6 @@ export class AmountComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private store: StoreService,
-    private previousGiftAmountService: PreviousGiftAmountService,
     private paymentService: PaymentService,
     private router: Router,
     private state: StateService) {

@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientService } from './http-client.service';
 
@@ -47,17 +47,37 @@ export class PaymentService {
   public getQuickDonationAmounts(): Observable<number[]> {
     return this.http.get(this.baseUrl + 'api/donations/predefinedamounts')
       .map(this.extractData)
-      .catch(this.defaultDonationAmounts);
+      .catch((error) => {
+        return [[5, 10, 25, 100, 500]];
+      });
   }
 
-  private defaultDonationAmounts() {
-    return [[5, 10, 25, 100, 500]];
-  }
-
-  public getRegisteredUser(email: string) {
+  public getRegisteredUser(email: string): Observable<boolean> {
     return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
       .catch(res => { return [true]; });
+  }
+
+  public getPreviousGiftAmount(): Observable<string> {
+    let options = new RequestOptions({
+      body: { limit: 1, includeRecurring: false }
+    });
+    return this.httpClient.get(this.baseUrl + 'api/donations', options)
+      .map((res) => {
+        let amount: string;
+        if ( res.donations !== undefined && Array.isArray(res.donations) && res.donations.length > 0 ) {
+            let last = parseInt(res.donations.length, 10) - 1;
+            if ( last < 0 ) {
+                last = 0;
+            }
+            amount =  res.donations[last].amount.toString();
+            amount = amount.substr(0, amount.length - 2) + '.' + amount.substr(amount.length - 2);
+        }
+        return amount;
+      })
+      .catch((error) => {
+        return [null];
+      });
   }
 
   public createOrUpdateDonor(donorInfo: Donor): Observable<any> {

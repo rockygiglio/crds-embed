@@ -13,12 +13,10 @@ import { HttpClientService } from '../services/http-client.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
 
 class MockDonationFundService { }
-class MockPreviousGiftAmountService { }
 class MockStoreService { }
 class MockActivatedRoute {
   public snapshot = {
@@ -45,7 +43,6 @@ describe('Component: Billing', () => {
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: DonationFundService, useClass: MockDonationFundService },
-        { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
         { provide: StoreService, useClass: MockStoreService },
         ExistingPaymentInfoService,
         FormBuilder,

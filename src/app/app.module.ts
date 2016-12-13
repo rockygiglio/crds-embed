@@ -29,7 +29,6 @@ import { HttpClientService } from './services/http-client.service';
 import { LoginService } from './services/login.service';
 import { ParamValidationService } from './services/param-validation.service';
 import { PaymentService } from './services/payment.service';
-import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { StateService } from './services/state.service';
 import { RegistrationService } from './services/registration.service';
 
@@ -82,7 +81,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     LoginService,
     ParamValidationService,
     PaymentService,
-    PreviousGiftAmountService,
     StateService,
     RegistrationService,
     {provide: WindowToken, useFactory: _window},

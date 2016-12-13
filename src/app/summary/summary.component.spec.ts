@@ -16,7 +16,6 @@ import { CookieService } from 'angular2-cookie/core';
 import { StateService } from '../services/state.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { PaymentService } from '../services/payment.service';
 
 import { Donor } from '../models/donor';
@@ -61,12 +60,15 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
-        StoreService, ExistingPaymentInfoService,
-        HttpClientService, CookieService,
+        StoreService,
+        ExistingPaymentInfoService,
+        HttpClientService,
+        CookieService,
         { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},
-        ParamValidationService, DonationFundService, LoginService,
-        PreviousGiftAmountService,
+        ParamValidationService,
+        DonationFundService,
+        LoginService,
         PaymentService
       ]
     });

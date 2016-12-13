@@ -17,7 +17,6 @@ import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { PaymentService } from '../services/payment.service';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
 
@@ -65,7 +64,6 @@ describe('Component: FundAndFrequency', () => {
         LoginService,
         ParamValidationService,
         PaymentService,
-        PreviousGiftAmountService,
         StateService
       ]
     });
