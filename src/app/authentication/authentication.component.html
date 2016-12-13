@@ -18,7 +18,8 @@
       </div>
 
       <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('email')">
-        <p>Email <span [innerHTML]="formatErrorMessage(form.controls['email'].errors)"></span></p>
+        <p *ngIf="this.form.controls['email'].errors.required">Email is required</p>
+        <p *ngIf="this.form.controls['email'].errors.pattern">Email is invalid</p>
       </div>
 
       <div class="form-group">
@@ -28,7 +29,7 @@
       </div>
 
       <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('password')">
-        <p>Password <span [innerHTML]="formatErrorMessage(form.controls['password'].errors)"></span></p>
+        <p>Password is required</p>
       </div>
 
       <div id="login-exception" class="alert alert-danger" *ngIf="loginException">

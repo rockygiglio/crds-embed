@@ -120,11 +120,6 @@ export class AuthenticationComponent implements OnInit {
     return !this.form.controls[field].valid;
   }
 
-  public formatErrorMessage(errors: any): string {
-    let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
-    return ret;
-  }
-
   public switchToSignIn() {
     this.signinOption = 'Sign In';
   }
