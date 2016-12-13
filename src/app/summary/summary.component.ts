@@ -37,13 +37,10 @@ export class SummaryComponent implements OnInit {
   }
 
   public submitPayment() {
-
     if (this.isSubmitInProgress) {
       return;
     }
-
     this.beginProcessing();
-
     let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
     let paymentDetails = new Payment(
       '',
@@ -51,7 +48,6 @@ export class SummaryComponent implements OnInit {
       paymentType, 'PAYMENT',
       this.store.invoiceId
     );
-
     if (this.store.isUsingNewPaymentMethod()) {
       this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
           value => this.postTransaction(paymentDetails),
@@ -65,13 +61,10 @@ export class SummaryComponent implements OnInit {
   }
 
   public submitDonation() {
-
     if (this.isSubmitInProgress) {
       return;
     }
-
     this.beginProcessing();
-
     if (this.store.isOneTimeGift()) {
       let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
       let donationDetails = new Payment(
@@ -83,14 +76,14 @@ export class SummaryComponent implements OnInit {
       );
       if (this.store.isUsingNewPaymentMethod()) {
         this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
-            value => {
+            donor => {
               if ( this.store.isGuest === true ) {
                 donationDetails.donor_id = this.store.donor.donor_id;
                 donationDetails.email_address = this.store.email;
               }
               this.postTransaction(donationDetails);
             },
-            error => this.handleOuterError()
+            error => this.handleInnerError(error)
         );
       } else if (this.store.isUsingExistingPaymentMethod()) {
         this.postTransaction(donationDetails);
@@ -101,7 +94,7 @@ export class SummaryComponent implements OnInit {
       if (this.store.isUsingNewPaymentMethod()) {
         this.paymentService.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
-          innerError => this.handleInnerError(innerError)
+          error => this.handleInnerError(error)
         );
 
       } else {
@@ -161,6 +154,7 @@ export class SummaryComponent implements OnInit {
   }
 
   private handleInnerError(error) {
+    console.log(error);
     if (error.status === 400 || error.status === 500) {
       this.store.systemException = true;
       this.store.clearUserPmtInfo();
