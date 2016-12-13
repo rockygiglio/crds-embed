@@ -31,10 +31,10 @@ import { ValidationService } from './services/validation.service';
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
+import { NoSpacesDirective } from './directives/no-spaces.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card-format.directive';
-import { NoSpacesDirective } from './directives/no-spaces.directive';
 
 @NgModule({
   imports: [
@@ -62,12 +62,12 @@ import { NoSpacesDirective } from './directives/no-spaces.directive';
     CvvFormatDirective,
     ExpiryFormatDirective,
     FundAndFrequencyComponent,
+    NoSpacesDirective,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     RegisterComponent,
     SimpleCreditCardFormatDirective,
     SummaryComponent,
-    NoSpacesDirective,
   ],
   providers: [
     appRoutingProviders,
