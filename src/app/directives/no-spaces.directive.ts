@@ -13,19 +13,17 @@ export class NoSpacesDirective {
   }
 
   @HostListener('paste', ['$event']) onPaste(e) {
-    this.reformatCvv(e);
+    this.removeSpaces(e);
   }
   @HostListener('input', ['$event']) onInput(e) {
-    this.reformatCvv(e);
+    this.removeSpaces(e);
   }
 
-
-  private reformatCvv(e) {
+  private removeSpaces(e) {
     setTimeout(() => {
       let val = this.target.value;
       val = val.replace(/\D/g, '');
       this.target.value = val;
     });
   }
-
 }
