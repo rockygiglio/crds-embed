@@ -116,7 +116,7 @@
 
 
     <footer class="page-footer page-footer--border-top">
-      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
       <input type="submit" class="btn btn-next pull-right" (click)="achSubmit();$event.preventDefault();" value="Next">
     </footer>
   </form>
@@ -221,7 +221,7 @@
     </div>
 
     <footer class="page-footer page-footer--border-top">
-      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
       <input type="submit" class="btn btn-next pull-right" (click)="ccSubmit();$event.preventDefault();" value="Next">
     </footer>
   </form>

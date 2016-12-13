@@ -192,4 +192,12 @@ export class SummaryComponent implements OnInit {
     }
   }
 
+  public hideBack() {
+    if ( this.store.isPayment() && this.store.accountLast4 && this.store.amountLocked) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

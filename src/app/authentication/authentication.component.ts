@@ -122,4 +122,11 @@ export class AuthenticationComponent implements OnInit {
   public switchToSignIn() {
     this.signinOption = 'Sign In';
   }
+
+  private hideBack() {
+    if (this.store.isPayment() && this.store.amountLocked) {
+      return true;
+    }
+    return false;
+  }
 }
