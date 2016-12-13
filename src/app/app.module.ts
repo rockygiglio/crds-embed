@@ -27,7 +27,6 @@ import { HttpClientService } from './services/http-client.service';
 import { ParamValidationService } from './services/param-validation.service';
 import { PaymentService } from './services/payment.service';
 import { StateService } from './services/state.service';
-import { RegistrationService } from './services/registration.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -76,7 +75,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     ParamValidationService,
     PaymentService,
     StateService,
-    RegistrationService,
     {provide: WindowToken, useFactory: _window},
   ],
   bootstrap:    [AppComponent]

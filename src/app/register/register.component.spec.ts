@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Rx';
 
 import { RegisterComponent } from './register.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { RegistrationService } from '../services/registration.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { PaymentService } from '../services/payment.service';
@@ -14,7 +13,6 @@ describe('Component: Registration', () => {
       router: Router,
       _fb: FormBuilder,
       state: StateService,
-      registrationService: RegistrationService,
       paymentService: PaymentService,
       store: StoreService;
 
@@ -31,10 +29,8 @@ describe('Component: Registration', () => {
       ]
     );
     _fb = new FormBuilder();
-    paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['postLogin']);
-    registrationService = jasmine.createSpyObj<RegistrationService>('registrationService', ['postUser']);
-
-    fixture = new RegisterComponent(router, _fb, state, registrationService, paymentService, store);
+    paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['postLogin', 'postUser']);
+    fixture = new RegisterComponent(router, _fb, state, paymentService, store);
     fixture.ngOnInit();
   });
 

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StateService } from '../services/state.service';
 import { Router } from '@angular/router';
-import { RegistrationService } from '../services/registration.service';
 import { User } from '../models/user';
 import { StoreService } from '../services/store.service';
 import { PaymentService } from '../services/payment.service';
@@ -23,7 +22,6 @@ export class RegisterComponent implements OnInit {
   constructor(private router: Router,
               private fb: FormBuilder,
               private state: StateService,
-              private registrationService: RegistrationService,
               private paymentService: PaymentService,
               private store: StoreService) {
 
@@ -63,7 +61,7 @@ export class RegisterComponent implements OnInit {
         this.regForm.get('email').value,
         this.regForm.get('password').value
       );
-      this.registrationService.postUser(newUser).subscribe(
+      this.paymentService.postUser(newUser).subscribe(
         user => {
           if (!this.paymentService.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);

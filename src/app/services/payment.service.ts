@@ -9,6 +9,7 @@ import { Donor } from '../models/donor';
 import { Fund } from '../models/fund';
 import { Payment } from '../models/payment';
 import { RecurringDonor } from '../models/recurring-donor';
+import { User } from '../models/user';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -185,6 +186,12 @@ export class PaymentService {
   public postRecurringGift(recurringDonor: RecurringDonor): Observable<any> {
     let url: string = this.baseUrl + 'api/donor/recurrence/';
     return this.httpClient.post(url, recurringDonor)
+      .map(this.extractData)
+      .catch(this.handleError);
+  };
+
+  public postUser(user: User): Observable<any> {
+    return this.httpClient.post(this.baseUrl + 'api/user', user)
       .map(this.extractData)
       .catch(this.handleError);
   };
