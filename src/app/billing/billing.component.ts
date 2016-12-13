@@ -98,14 +98,21 @@ export class BillingComponent implements OnInit {
         this.achForm.value.accountType
       );
       this.store.userBank = userBank;
-      let stripeMethod = this.paymentService.stripeMethods.ach;
-      let restMethods = this.paymentService.restMethods;
-      this.getDonorCallback(this.store.email).subscribe(
-        donor => this.process(userBank, stripeMethod, restMethods.put),
-        error => this.process(userBank, stripeMethod, restMethods.post)
+      this.getDonor(this.store.email).subscribe(
+        donor => this.process(
+          donor,
+          userBank,
+          this.paymentService.stripeMethods.ach,
+          this.paymentService.restVerbs.put
+        ),
+        noDonor => this.process(
+          noDonor,
+          userBank,
+          this.paymentService.stripeMethods.ach,
+          this.paymentService.restVerbs.post
+        )
       );
     }
-    return false;
   }
 
   public ccSubmit() {
@@ -124,18 +131,24 @@ export class BillingComponent implements OnInit {
         this.ccForm.value.zipCode
       );
       this.store.userCc = userCard;
-      let stripeMethod = this.paymentService.stripeMethods.card;
-      let restMethods = this.paymentService.restMethods;
-      this.getDonorCallback(this.store.email).subscribe(
-        donor => this.process(userCard, stripeMethod, restMethods.put),
-        error => this.process(userCard, stripeMethod, restMethods.post)
+      this.getDonor(this.store.email).subscribe(
+        donor => this.process(
+          donor,
+          userCard,
+          this.paymentService.stripeMethods.card,
+          this.paymentService.restVerbs.put
+        ),
+        noDonor => this.process(
+          noDonor,
+          userCard,
+          this.paymentService.stripeMethods.card,
+          this.paymentService.restVerbs.post
+        )
       );
     }
-
-    return false;
   }
 
-  private getDonorCallback(email: string): Observable<any> {
+  private getDonor(email: string): Observable<any> {
     let donor: Observable<any>;
     if (this.store.isGuest === true) {
       donor = this.paymentService.getDonorByEmail(email);
@@ -145,14 +158,14 @@ export class BillingComponent implements OnInit {
     return donor;
   }
 
-  public process(callBody: CustomerBank | CustomerCard, stripeMethod: string, restMethod: string) {
+  public process(donor: any, callBody: CustomerBank | CustomerCard, stripeMethod: string, restMethod: string) {
     this.paymentService.getStripeToken(stripeMethod, callBody).subscribe(
-      value => this.storeToken(value, stripeMethod, restMethod),
+      token => this.storeToken(donor, token, stripeMethod, restMethod),
       error => this.handleError(error, stripeMethod)
     );
   }
 
-  private storeToken(value: any, stripeMethod: string, restMethod: string) {
+  private storeToken(donor: any, value: any, stripeMethod: string, restMethod: string) {
     if (this.store.isRecurringGift()) {
       let recurrenceDate: string = this.store.start_date.toISOString().slice(0, 10);
       this.store.recurringDonor = new RecurringDonor(
@@ -168,6 +181,7 @@ export class BillingComponent implements OnInit {
         this.store.email,
         restMethod
       );
+      this.store.donor.donor_id = donor.id;
     } else {
       this.handleError({ status: 500}, stripeMethod);
     }

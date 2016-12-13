@@ -1,6 +1,7 @@
 
 export class Donor {
 
+  donor_id: number;
   stripe_token_id: number;
   email_address: string;
   rest_method: string;

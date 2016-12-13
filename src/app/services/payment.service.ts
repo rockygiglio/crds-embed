@@ -17,7 +17,7 @@ export class PaymentService {
 
   private baseUrl = process.env.CRDS_API_ENDPOINT;
 
-  public restMethods = {
+  public restVerbs = {
     post: 'POST',
     put: 'PUT'
   };
@@ -48,11 +48,11 @@ export class PaymentService {
     let donorUrl = this.baseUrl + 'api/donor';
     let requestOptions: any = this.httpClient.getRequestOption();
 
-    if (donorInfo.rest_method === this.restMethods.post) {
+    if (donorInfo.rest_method === this.restVerbs.post) {
       return this.http.post(donorUrl, donorInfo, requestOptions)
         .map(this.extractData)
         .catch(this.handleError);
-    } else if (donorInfo.rest_method === this.restMethods.put) {
+    } else if (donorInfo.rest_method === this.restVerbs.put) {
       return this.http.put(donorUrl, donorInfo, requestOptions)
         .map(this.extractData)
         .catch(this.handleError);

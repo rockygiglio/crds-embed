@@ -85,7 +85,7 @@ export class SummaryComponent implements OnInit {
         this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
             value => {
               if ( this.store.isGuest === true ) {
-                donationDetails.donor_id = value.id;
+                donationDetails.donor_id = this.store.donor.donor_id;
                 donationDetails.email_address = this.store.email;
               }
               this.postTransaction(donationDetails);
