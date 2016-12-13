@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthenticationComponent } from './authentication.component';
-import { CheckGuestEmailService } from '../../app/services/check-guest-email.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FormBuilder } from '@angular/forms';
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
 import { StateService } from '../services/state.service';
+import { PaymentService } from '../services/payment.service';
 
 
 
@@ -19,9 +19,9 @@ describe('Component: Authentication', () => {
       stateManagerService: StateService,
       store: StoreService,
       _fb: FormBuilder,
-      checkGuestEmailService: CheckGuestEmailService,
       loginService: LoginService,
       httpClientService: HttpClientService,
+      paymentService: PaymentService,
       existingPaymentInfoService: ExistingPaymentInfoService;
 
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('Component: Authentication', () => {
       ]
     );
     _fb = new FormBuilder();
-    checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
+    paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['getRegisteredUser']);
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
     httpClientService = jasmine.createSpyObj<HttpClientService>('httpClientService', ['get']);
     existingPaymentInfoService = jasmine.createSpyObj<ExistingPaymentInfoService>('existingPaymentInfoService', ['resolve']);
@@ -53,7 +53,7 @@ describe('Component: Authentication', () => {
       stateManagerService,
       store,
       _fb,
-      checkGuestEmailService,
+      paymentService,
       loginService
     );
     fixture.ngOnInit();
@@ -97,7 +97,7 @@ describe('Component: Authentication', () => {
 
     describe('when form is valid', () => {
       function setGuestEmailExists(state: any): void {
-        (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(state));
+        (<jasmine.Spy>paymentService.getRegisteredUser).and.returnValue(Observable.of(state));
       }
 
       beforeEach(() => {
@@ -141,20 +141,6 @@ describe('Component: Authentication', () => {
       setForm('sm', 'test');
       let isInvalid = fixture.formInvalid('email');
       expect(isInvalid).toBe(true);
-    });
-  });
-
-  describe('#formatErrorMessage', () => {
-    it('should return <u>required</u> when errors.required !== undefined', () => {
-      let errors = { required: true };
-      let res = fixture.formatErrorMessage(errors);
-      expect(res).toBe('is <u>required</u>');
-    });
-
-    it('should return <em>invalid</em> when errors.required === undefined', () => {
-      let errors = { require: undefined };
-      let res = fixture.formatErrorMessage(errors);
-      expect(res).toBe('is <em>invalid</em>');
     });
   });
 

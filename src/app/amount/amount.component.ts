@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { StoreService } from '../services/store.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
+import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
 
 // NOTE, RE: US5801 – See previous previousGiftAmount implementation in
@@ -28,7 +28,7 @@ export class AmountComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private store: StoreService,
     private previousGiftAmountService: PreviousGiftAmountService,
-    private quickDonationAmountsService: QuickDonationAmountsService,
+    private paymentService: PaymentService,
     private router: Router,
     private state: StateService) {
   }
@@ -57,7 +57,6 @@ export class AmountComponent implements OnInit {
       }
     ];
 
-    // set these for returning values
     this.selectedAmount = this.store.selectedAmount;
     this.customAmount = this.store.customAmount;
 
@@ -69,13 +68,12 @@ export class AmountComponent implements OnInit {
   }
 
   public getPredefinedDonationAmounts() {
-    this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
+    this.paymentService.getQuickDonationAmounts().subscribe(
       amounts => {
         this.predefinedAmounts = amounts;
         this.store.predefinedAmounts = amounts;
         this.state.setLoading(false);
-      },
-      error => this.errorMessage = <any>error
+      }
     );
   }
 

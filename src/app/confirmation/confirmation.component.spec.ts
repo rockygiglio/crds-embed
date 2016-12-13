@@ -12,7 +12,6 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { StateService } from '../services/state.service';
@@ -38,7 +37,6 @@ describe('Component: Confirmation', () => {
       ],
       providers:    [
         DonationFundService,
-        QuickDonationAmountsService,
         PreviousGiftAmountService,
         ExistingPaymentInfoService,
         StoreService,

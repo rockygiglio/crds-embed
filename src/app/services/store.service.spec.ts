@@ -8,7 +8,6 @@ import { Frequency } from '../models/frequency';
 import { ParamValidationService } from './param-validation.service';
 import { DonationFundService } from './donation-fund.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
-import { QuickDonationAmountsService } from './quick-donation-amounts.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { StateService } from './state.service';
@@ -36,7 +35,6 @@ describe('Service: Gift', () => {
         DonationFundService,
         PreviousGiftAmountService,
         ExistingPaymentInfoService,
-        QuickDonationAmountsService,
         HttpClientService,
         LoginService,
         StateService,

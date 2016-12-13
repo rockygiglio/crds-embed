@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CheckGuestEmailService } from '../services/check-guest-email.service';
+import { PaymentService } from '../services/payment.service';
 import { StoreService } from '../services/store.service';
 import { LoginService } from '../services/login.service';
 import { StateService } from '../services/state.service';
@@ -10,8 +10,7 @@ import { StateService } from '../services/state.service';
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.css'],
-  providers: [CheckGuestEmailService]
+  styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
   public signinOption: string = 'Sign In';
@@ -31,7 +30,7 @@ export class AuthenticationComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private _fb: FormBuilder,
-    private emailService: CheckGuestEmailService,
+    private paymentService: PaymentService,
     private loginService: LoginService) { }
 
   public ngOnInit(): void {
@@ -66,7 +65,7 @@ export class AuthenticationComponent implements OnInit {
     if ( this.formGuest.valid ) {
       this.store.isGuest = true;
       this.state.setLoading(true);
-      this.emailService.guestEmailExists(this.email).subscribe(
+      this.paymentService.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
           if ( resp === false ) {

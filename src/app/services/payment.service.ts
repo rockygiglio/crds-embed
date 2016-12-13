@@ -44,6 +44,22 @@ export class PaymentService {
       .catch(this.handleError);
   };
 
+  public getQuickDonationAmounts(): Observable<number[]> {
+    return this.http.get(this.baseUrl + 'api/donations/predefinedamounts')
+      .map(this.extractData)
+      .catch(this.defaultDonationAmounts);
+  }
+
+  private defaultDonationAmounts() {
+    return [[5, 10, 25, 100, 500]];
+  }
+
+  public getRegisteredUser(email: string) {
+    return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
+      .map(res => { return false; })
+      .catch(res => { return [true]; });
+  }
+
   public createOrUpdateDonor(donorInfo: Donor): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
     let requestOptions: any = this.httpClient.getRequestOption();
@@ -80,11 +96,11 @@ export class PaymentService {
       .catch(this.handleError);
   };
 
-  public postRecurringGift(recurringDonor:  RecurringDonor): Observable<any> {
+  public postRecurringGift(recurringDonor: RecurringDonor): Observable<any> {
     let url: string = this.baseUrl + 'api/donor/recurrence/';
     return this.httpClient.post(url, recurringDonor)
-        .map(this.extractData)
-        .catch(this.handleError);
+      .map(this.extractData)
+      .catch(this.handleError);
   };
 
   private extractData(res: Response) {

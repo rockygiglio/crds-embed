@@ -20,7 +20,6 @@ import { PaymentService } from '../services/payment.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 
 
 class MockActivatedRoute {
@@ -67,7 +66,6 @@ describe('Component: FundAndFrequency', () => {
         ParamValidationService,
         PaymentService,
         PreviousGiftAmountService,
-        QuickDonationAmountsService,
         StateService
       ]
     });

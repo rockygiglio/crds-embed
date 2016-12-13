@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
 import { StateService } from './services/state.service';
-import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientService } from './services/http-client.service';
@@ -28,7 +27,6 @@ describe('App: CrdsEmbed', () => {
         ReactiveFormsModule
       ],
       providers: [
-        QuickDonationAmountsService,
         HttpClientService,
         PreviousGiftAmountService,
         CookieService,

@@ -10,15 +10,15 @@ import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { AmountComponent } from './amount.component';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { StateService } from '../services/state.service';
+import { PaymentService } from '../services/payment.service';
 import { LoginService } from '../services/login.service';
 import { HttpClientService } from '../services/http-client.service';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
-describe('Component: Payment', () => {
+describe('Component: Amount', () => {
 
   let component;
   let fixture;
@@ -32,11 +32,11 @@ describe('Component: Payment', () => {
       providers: [
         ExistingPaymentInfoService,
         PreviousGiftAmountService,
-        QuickDonationAmountsService,
         DonationFundService,
         StoreService,
         ParamValidationService,
         StateService,
+        PaymentService,
         LoginService,
         HttpClientService,
         CookieService
@@ -106,12 +106,12 @@ describe('Component: Donation', () => {
       providers: [
         ExistingPaymentInfoService,
         PreviousGiftAmountService,
-        QuickDonationAmountsService,
         DonationFundService,
         StoreService,
         ParamValidationService,
         StateService,
         LoginService,
+        PaymentService,
         HttpClientService,
         CookieService
       ]
