@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { HttpClientService } from './http-client.service';
+import { SessionService } from './session.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
@@ -35,12 +35,11 @@ export class PaymentService {
     authorized: null
   };
 
-  constructor(private http: Http, private httpClient: HttpClientService, private zone: NgZone) { }
+  constructor(private http: Http, private session: SessionService, private zone: NgZone) { }
 
   public createOrUpdateDonor(donorInfo: Donor): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
-    let requestOptions: any = this.httpClient.getRequestOption();
-
+    let requestOptions: any = this.session.getRequestOption();
     if (donorInfo.rest_method === this.restVerbs.post) {
       return this.http.post(donorUrl, donorInfo, requestOptions)
         .map(this.extractData)
@@ -67,7 +66,7 @@ export class PaymentService {
   };
 
   public getAuthentication(): Observable<any> {
-    return this.httpClient.get(this.baseUrl + 'api/v1.0.0/authenticated')
+    return this.session.get(this.baseUrl + 'api/v1.0.0/authenticated')
       .map((res: Response) => {
         return res || this.defaults.authorized;
       })
@@ -78,7 +77,7 @@ export class PaymentService {
 
   public getDonor(): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
-    return this.httpClient.get(donorUrl)
+    return this.session.get(donorUrl)
       .map(this.extractData)
       .catch(this.handleError);
   };
@@ -91,7 +90,7 @@ export class PaymentService {
   };
 
   public getExistingPaymentInfo(): Observable<any> {
-    return this.httpClient.get(this.baseUrl + 'api/donor?email=')
+    return this.session.get(this.baseUrl + 'api/donor?email=')
       .map(this.extractData)
       .catch(() => {
         return [this.defaults.paymentInfo];
@@ -132,7 +131,7 @@ export class PaymentService {
     let options = new RequestOptions({
       body: { limit: 1, includeRecurring: false }
     });
-    return this.httpClient.get(this.baseUrl + 'api/donations', options)
+    return this.session.get(this.baseUrl + 'api/donations', options)
       .map((res) => {
         let amount: string;
         if ( res.donations !== undefined && Array.isArray(res.donations) && res.donations.length > 0 ) {
@@ -169,7 +168,7 @@ export class PaymentService {
       'username': email,
       'password': password
     };
-    return this.httpClient.post(this.baseUrl + 'api/login', body)
+    return this.session.post(this.baseUrl + 'api/login', body)
       .map((res: Response) => {
         return res || this.defaults.authorized;
       })
@@ -178,20 +177,20 @@ export class PaymentService {
 
   public postPayment(paymentInfo: Payment): Observable<any> {
     let url: string = this.baseUrl + 'api/donation';
-    return this.httpClient.post(url, paymentInfo)
+    return this.session.post(url, paymentInfo)
       .map(this.extractData)
       .catch(this.handleError);
   };
 
   public postRecurringGift(recurringDonor: RecurringDonor): Observable<any> {
     let url: string = this.baseUrl + 'api/donor/recurrence/';
-    return this.httpClient.post(url, recurringDonor)
+    return this.session.post(url, recurringDonor)
       .map(this.extractData)
       .catch(this.handleError);
   };
 
   public postUser(user: User): Observable<any> {
-    return this.httpClient.post(this.baseUrl + 'api/user', user)
+    return this.session.post(this.baseUrl + 'api/user', user)
       .map(this.extractData)
       .catch(this.handleError);
   };
@@ -220,11 +219,11 @@ export class PaymentService {
   }
 
   public isLoggedIn(): boolean {
-    return this.httpClient.hasToken();
+    return this.session.hasToken();
   }
 
   public logOut(): void {
-    this.httpClient.clearTokens();
+    this.session.clearTokens();
     return;
   }
 

@@ -7,7 +7,7 @@ import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 
 import { CustomerBank } from '../models/customer-bank';
 import { StoreService } from './store.service';
-import { HttpClientService } from './http-client.service';
+import { SessionService } from './session.service';
 import { ParamValidationService } from './param-validation.service';
 import { Payment} from '../models/payment';
 import { PaymentService } from './payment.service';
@@ -33,7 +33,7 @@ describe('Service: Payment', () => {
         TestBed.configureTestingModule({
             providers: [
                 MockBackend,
-                HttpClientService,
+                SessionService,
                 BaseRequestOptions,
                 ParamValidationService,
                 PaymentService,

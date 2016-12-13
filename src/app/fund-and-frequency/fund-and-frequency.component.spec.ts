@@ -11,7 +11,7 @@ import { TestBed } from '@angular/core/testing';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
-import { HttpClientService } from '../services/http-client.service';
+import { SessionService } from '../services/session.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { PaymentService } from '../services/payment.service';
 import { Fund } from '../models/fund';
@@ -55,7 +55,7 @@ describe('Component: FundAndFrequency', () => {
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         CookieService,
         StoreService,
-        HttpClientService,
+        SessionService,
         ParamValidationService,
         PaymentService,
         StateService

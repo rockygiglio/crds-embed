@@ -2,7 +2,7 @@ import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, HttpModule, Http, XHRBackend } from '@angular/http';
 
 import { MockBackend } from '@angular/http/testing';
-import { HttpClientService } from './http-client.service';
+import { SessionService } from './session.service';
 import { CookieService } from 'angular2-cookie/core';
 import { ParamValidationService } from './param-validation.service';
 
@@ -16,7 +16,7 @@ describe('Service: Param Validation', () => {
       providers: [
         MockBackend,
         BaseRequestOptions,
-        HttpClientService,
+        SessionService,
         CookieService,
         ParamValidationService,
         {

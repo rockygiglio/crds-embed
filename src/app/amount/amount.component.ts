@@ -57,6 +57,9 @@ export class AmountComponent implements OnInit {
 
     this.selectedAmount = this.store.selectedAmount;
     this.customAmount = this.store.customAmount;
+    if ( this.customAmount ) {
+      this.customAmtSelected = true;
+    }
 
     this.form = this.fb.group({
       customAmount: ['', [<any>Validators.required, this.validateAmount.bind(this)]],
@@ -117,6 +120,7 @@ export class AmountComponent implements OnInit {
     this.submitted = false;
     this.customAmtSelected = false;
     delete (this.customAmount);
+    delete (this.store.customAmount);
     this.store.selectedAmount = value;
     this.setAmount(value);
   }

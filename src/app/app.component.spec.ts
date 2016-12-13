@@ -6,7 +6,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
 import { StateService } from './services/state.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientService } from './services/http-client.service';
+import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ParamValidationService } from './services/param-validation.service';
@@ -26,7 +26,7 @@ describe('App: CrdsEmbed', () => {
         ReactiveFormsModule
       ],
       providers: [
-        HttpClientService,
+        SessionService,
         CookieService,
         StateService,
         Angulartics2,

@@ -23,7 +23,7 @@ import { SummaryComponent, WindowToken, _window } from './summary/summary.compon
 import { RegisterComponent} from './register/register.component';
 
 import { StoreService } from './services/store.service';
-import { HttpClientService } from './services/http-client.service';
+import { SessionService } from './services/session.service';
 import { ParamValidationService } from './services/param-validation.service';
 import { PaymentService } from './services/payment.service';
 import { StateService } from './services/state.service';
@@ -71,7 +71,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     appRoutingProviders,
     CookieService,
     StoreService,
-    HttpClientService,
+    SessionService,
     ParamValidationService,
     PaymentService,
     StateService,

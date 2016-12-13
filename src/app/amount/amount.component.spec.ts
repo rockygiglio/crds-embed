@@ -9,7 +9,7 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { AmountComponent } from './amount.component';
 import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
-import { HttpClientService } from '../services/http-client.service';
+import { SessionService } from '../services/session.service';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -30,7 +30,7 @@ describe('Component: Amount', () => {
         ParamValidationService,
         StateService,
         PaymentService,
-        HttpClientService,
+        SessionService,
         CookieService
       ]
     });
@@ -100,7 +100,7 @@ describe('Component: Donation', () => {
         ParamValidationService,
         StateService,
         PaymentService,
-        HttpClientService,
+        SessionService,
         CookieService
       ]
     });

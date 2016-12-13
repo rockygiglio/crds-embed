@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpClientService } from './http-client.service';
+import { SessionService } from './session.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
@@ -40,7 +40,7 @@ describe('Service: HttpClient', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        HttpClientService,
+        SessionService,
         MockBackend,
         BaseRequestOptions,
         CookieService,
@@ -52,12 +52,12 @@ describe('Service: HttpClient', () => {
     });
   });
 
-  it('should create an instance', inject([HttpClientService], (service: HttpClientService) => {
+  it('should create an instance', inject([SessionService], (service: SessionService) => {
     expect(service).toBeTruthy();
   }));
 
   it('should attach auth token to get request', inject(
-    [HttpClientService, MockBackend],
+    [SessionService, MockBackend],
     (service, mockBackend) => {
       let url = 'api/url';
 
@@ -79,7 +79,7 @@ describe('Service: HttpClient', () => {
   }));
 
   it('should refresh auth tokens from response', async(inject(
-    [HttpClientService, MockBackend],
+    [SessionService, MockBackend],
     (service, mockBackend) => {
       let url = 'api/url';
 
@@ -96,46 +96,46 @@ describe('Service: HttpClient', () => {
   })));
 
 
-  it('should set access token', inject([HttpClientService], (service: any) => {
+  it('should set access token', inject([SessionService], (service: any) => {
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'put');
     service.setAccessToken(accessToken);
     expect(service.cookieService.put).toHaveBeenCalledWith(service.accessToken, accessToken, service.cookieOptions);
   }));
 
-  it('should set refresh token', inject([HttpClientService], (service: any) => {
+  it('should set refresh token', inject([SessionService], (service: any) => {
     let refreshToken = 'zxcvbnm97654123';
     spyOn(service.cookieService, 'put');
     service.setRefreshToken(refreshToken);
     expect(service.cookieService.put).toHaveBeenCalledWith(service.refreshToken, refreshToken, service.cookieOptions);
   }));
 
-  it('should get access token', inject([HttpClientService], (service: any) => {
+  it('should get access token', inject([SessionService], (service: any) => {
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'get');
     service.getAccessToken(accessToken);
     expect(service.cookieService.get).toHaveBeenCalledWith(service.accessToken);
   }));
 
-  it('should get refresh token', inject([HttpClientService], (service: any) => {
+  it('should get refresh token', inject([SessionService], (service: any) => {
     let refreshToken = 'zxcvbnm97654123';
     spyOn(service.cookieService, 'get');
     service.getRefreshToken(refreshToken);
     expect(service.cookieService.get).toHaveBeenCalledWith(service.refreshToken);
   }));
 
-  it('should check if user is logged in', inject([HttpClientService], (service: any) => {
+  it('should check if user is logged in', inject([SessionService], (service: any) => {
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'get').and.returnValue(accessToken);
     expect(service.hasToken()).toBeTruthy();
   }));
 
-  it('should check if user is not logged in', inject([HttpClientService], (service: any) => {
+  it('should check if user is not logged in', inject([SessionService], (service: any) => {
     spyOn(service.cookieService, 'get').and.returnValue(undefined);
     expect(service.hasToken()).toBeFalsy();
   }));
 
-  it('should log a user out', inject([HttpClientService], (service: any) => {
+  it('should log a user out', inject([SessionService], (service: any) => {
     let accessToken = 'qwertyuio1234567890';
     service.setAccessToken(accessToken);
     service.clearTokens();

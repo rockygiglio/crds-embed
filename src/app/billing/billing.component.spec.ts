@@ -8,7 +8,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClientService } from '../services/http-client.service';
+import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { StateService } from '../services/state.service';
@@ -40,7 +40,7 @@ describe('Component: Billing', () => {
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         StoreService,
         FormBuilder,
-        HttpClientService,
+        SessionService,
         CookieService,
         ParamValidationService,
         PaymentService,

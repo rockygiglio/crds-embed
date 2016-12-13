@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Rx';
 import { SummaryComponent, WindowToken } from './summary.component';
 import { StoreService } from '../services/store.service';
 import { HttpModule } from '@angular/http';
-import { HttpClientService } from '../services/http-client.service';
+import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateService } from '../services/state.service';
 import { ParamValidationService } from '../services/param-validation.service';
@@ -58,7 +58,7 @@ describe('Component: Summary', () => {
       ],
       providers:    [
         StoreService,
-        HttpClientService,
+        SessionService,
         CookieService,
         { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},

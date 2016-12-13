@@ -13,7 +13,6 @@ export class ParamValidationService {
       payment:  'payment',
       donation: 'donation'
     };
-
     this.params = {
       type:        'type',
       invoice_id:  'invoice_id',
@@ -24,31 +23,27 @@ export class ParamValidationService {
       fund_id:     'fund_id',
       override_parent: 'override_parent'
     };
-
     this.requiredPmtParams = [
       this.params.invoice_id,
       this.params.total_cost,
       this.params.min_payment
     ];
-
     this.radix = 10;
   }
 
-  isInt(n) {
+  public isInt(n) {
     return n % 1 === 0;
   }
 
-  isIntGreaterThanZero(x) {
-    let isANumber: boolean         = !isNaN(x);
+  public isIntGreaterThanZero(x) {
+    let isANumber: boolean = !isNaN(x);
     let isGreaterThanZero: boolean = x > 0;
-    let isInteger                  = isANumber ? this.isInt(x) : false;
-
+    let isInteger = isANumber ? this.isInt(x) : false;
     let isIntGreaterThanZero: boolean = isANumber && isGreaterThanZero && isInteger;
-
     return isIntGreaterThanZero;
   }
 
-  isParamRequired(paramName, flowType) {
+  public isParamRequired(paramName, flowType) {
     if (flowType === this.types.donation) {
       return false;
     } else if (flowType === this.types.payment) {
@@ -58,62 +53,48 @@ export class ParamValidationService {
     }
   }
 
-
-  isTypeParamValid(typeParam: any) {
+  public isTypeParamValid(typeParam: any) {
     return typeParam === this.types.payment || typeParam === this.types.donation;
   }
 
-  isInvoiceIdValid(invoiceIdParam: any) {
+  public isInvoiceIdValid(invoiceIdParam: any) {
     return this.isIntGreaterThanZero(invoiceIdParam);
   }
 
-  isTotalCostValid(totalCostParam: any) {
-
+  public isTotalCostValid(totalCostParam: any) {
     let isGreaterThanZero: boolean = totalCostParam > 0;
     let isDecimal: boolean         = totalCostParam.match(/^(\d+\.?\d{0,9}|\.\d{1,9})$/);
-
     let isValid: boolean = isDecimal && isGreaterThanZero;
-
     return isValid;
   }
 
-  isMinPaymentValid(minPaymentParam: any, totalCostParam: any) {
-
+  public isMinPaymentValid(minPaymentParam: any, totalCostParam: any) {
     let isGreaterThanZero: boolean   = totalCostParam > 0;
     let isDecimal: boolean           = minPaymentParam.match(/^(\d+\.?\d{0,9}|\.\d{1,9})$/);
     let isLessThanOrEqualToTotalCost = parseInt(minPaymentParam, this.radix) <= parseInt(totalCostParam, this.radix);
-
     let isValid: boolean = isDecimal && isGreaterThanZero && isLessThanOrEqualToTotalCost;
-
     return isValid;
   }
 
-  isTitleValid(titleParam: any) {
-
+  public isTitleValid(titleParam: any) {
     let isAtLeastOneCharLong: boolean = titleParam.length > 0;
     let isValid: boolean              = isAtLeastOneCharLong;
-
     return isValid;
   }
 
-  isUrlValid(urlParam: any) {
-
-    let urlRegEx: any       = /^http(s|)\:\/\/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  public isUrlValid(urlParam: any) {
+    let urlRegEx: any = /^http(s|)\:\/\/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
     let isUrlValid: boolean = urlParam.match(urlRegEx);
-
     let isValid: boolean = isUrlValid;
-
     return isValid;
   }
 
-  isFundIdValid(fundIdParam: any) {
+  public isFundIdValid(fundIdParam: any) {
     return this.isIntGreaterThanZero(fundIdParam);
   }
 
-  castParamToProperType(paramName, paramValue) {
-
+  public castParamToProperType(paramName, paramValue) {
     let castParam = undefined;
-
     switch (paramName) {
       case this.params.type:
       case this.params.title:
@@ -131,11 +112,10 @@ export class ParamValidationService {
       default:
         castParam = null;
     }
-
     return castParam;
   }
 
-  isValidParam(paramName, param, queryParams) {
+  public isValidParam(paramName, param, queryParams) {
     let isValid = undefined;
     switch (paramName) {
       case this.params.type:
@@ -162,7 +142,6 @@ export class ParamValidationService {
       default:
         isValid = false;
     }
-
     return isValid;
   }
 }

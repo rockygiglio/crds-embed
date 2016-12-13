@@ -3,7 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 @Injectable()
-export class HttpClientService {
+export class SessionService {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
@@ -15,17 +15,17 @@ export class HttpClientService {
     }
   }
 
-  get(url: string, options?: RequestOptions) {
+  public get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
     return this.http.get(url, requestOptions).map(this.extractAuthToken);
   }
 
-  put(url: string, data: any, options?: RequestOptions) {
+  public put(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
     return this.http.put(url, data, requestOptions).map(this.extractAuthToken);
   }
 
-  post(url: string, data: any, options?: RequestOptions) {
+  public post(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
     return this.http.post(url, data, requestOptions).map(this.extractAuthToken);
   }
@@ -49,32 +49,32 @@ export class HttpClientService {
     return body || {};
   }
 
-  hasToken(): boolean {
+  public hasToken(): boolean {
     return !!this.cookieService.get(this.accessToken);
   }
 
-  clearTokens(): void {
+  public clearTokens(): void {
     this.cookieService.remove(this.accessToken, this.cookieOptions);
     this.cookieService.remove(this.refreshToken, this.cookieOptions);
   }
 
-  getAccessToken(): string {
+  public getAccessToken(): string {
     return this.cookieService.get(this.accessToken);
   }
 
-  getRefreshToken(): string {
+  public getRefreshToken(): string {
     return this.cookieService.get(this.refreshToken);
   }
 
-  setAccessToken(value: string): void {
+  public setAccessToken(value: string): void {
     this.cookieService.put(this.accessToken, value, this.cookieOptions);
   }
 
-  setRefreshToken(value: string): void {
+  public setRefreshToken(value: string): void {
     this.cookieService.put(this.refreshToken, value, this.cookieOptions);
   }
 
-  getRequestOption(options?: RequestOptions):  RequestOptions {
+  public getRequestOption(options?: RequestOptions):  RequestOptions {
     let reqOptions = options || new RequestOptions();
     reqOptions.headers = this.createAuthorizationHeader(reqOptions.headers);
     return reqOptions;
