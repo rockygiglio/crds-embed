@@ -229,6 +229,7 @@ describe('Component: Summary', () => {
     this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.email = 'test@test.com';
     this.component.store.donor = new Donor(123, this.component.store.email, 'post');
+    this.component.store.donor.donor_id = 1;
     this.component.store.isGuest = true;
 
     let paymentBody = new Payment(this.component.store.fund.ID.toString(),
