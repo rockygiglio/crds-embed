@@ -61,7 +61,7 @@ describe('Component: Confirmation', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 56.78;
     this.component.store.frequency = new Frequency('month', 'month', true);
-    this.component.store.start_date = new Date('December 6, 2016');
+    this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(
@@ -82,7 +82,7 @@ describe('Component: Confirmation', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 56.78;
     this.component.store.frequency = new Frequency('weekly', 'week', true);
-    this.component.store.start_date = new Date('December 6, 2016');
+    this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
     expect(de.nativeElement.textContent).toContain(

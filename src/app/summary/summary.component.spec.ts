@@ -180,13 +180,13 @@ describe('Component: Summary', () => {
     this.component.store.amount = 12.34;
     this.component.store.fund = new Fund(1, 'Programmer Caffination Fund', 1, false);
     this.component.store.frequency = new Frequency('Weekly', 'week', true);
-    this.component.store.start_date = new Date();
+    this.component.store.startDate = new Date();
     this.component.store.recurringDonor = new RecurringDonor(
       '123',
       this.component.store.amount,
       this.component.store.fund.ID.toString(),
       this.component.store.frequency.value,
-      this.component.store.start_date.toISOString().slice(0, 10)
+      this.component.store.startDate.toISOString().slice(0, 10)
     );
 
     spyOn(this.component.paymentService, 'postRecurringGift').and.returnValue(Observable.of({}));
@@ -201,13 +201,13 @@ describe('Component: Summary', () => {
     this.component.store.amount = 12.34;
     this.component.store.fund = new Fund(1, 'Programmer Caffination Fund', 1, false);
     this.component.store.frequency = new Frequency('Weekly', 'week', true);
-    this.component.store.start_date = new Date();
+    this.component.store.startDate = new Date();
     this.component.store.recurringDonor = new RecurringDonor(
       '123',
       this.component.store.amount,
       this.component.store.fund.ID.toString(),
       this.component.store.frequency.value,
-      this.component.store.start_date.toISOString().slice(0, 10)
+      this.component.store.startDate.toISOString().slice(0, 10)
     );
 
     spyOn(this.component.paymentService, 'postRecurringGift').and.returnValue(Observable.of({}));

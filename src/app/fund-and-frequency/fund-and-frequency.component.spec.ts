@@ -67,9 +67,9 @@ describe('Component: FundAndFrequency', () => {
 
   it('should reset the date to the current date time', () => {
     currentDateTime2 = new Date();
-    this.component.store.start_date = new Date();
+    this.component.store.startDate = new Date();
 
-    expect(this.component.store.start_date.toString()).toBe(currentDateTime2.toString());
+    expect(this.component.store.startDate.toString()).toBe(currentDateTime2.toString());
   });
 
   it('should set the gift fund object to whatever fund is passed in', () => {

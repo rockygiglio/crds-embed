@@ -27,14 +27,14 @@
     </div>
   </div>
 
-  <div class="alert alert-warning" *ngIf="store.start_date && store.isRecurringGift()">
-    Starting on {{ store.start_date | date: 'MM/dd/yyyy' }}. <button (click)="resetDate();">Change</button>
+  <div class="alert alert-warning" *ngIf="store.startDate && store.isRecurringGift()">
+    Starting on {{ store.startDate | date: 'MM/dd/yyyy' }}. <button (click)="resetDate();">Change</button>
   </div>
 </form>
 
-<div *ngIf="store.isRecurringGift() && !store.start_date">
+<div *ngIf="store.isRecurringGift() && !store.startDate">
   <h3 class="btn-form__header">Recurs On:</h3>
-  <datepicker [(ngModel)]="store.start_date"
+  <datepicker [(ngModel)]="store.startDate"
               [minDate]="minDate"
               [maxDate]="maxDate"
               [showWeeks]="false">

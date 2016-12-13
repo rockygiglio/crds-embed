@@ -171,7 +171,7 @@ export class BillingComponent implements OnInit {
 
   private storeToken(donor: any, token: any, stripeMethod: string, restMethod: string) {
     if (this.store.isRecurringGift()) {
-      let recurrenceDate: string = this.store.start_date.toISOString().slice(0, 10);
+      let recurrenceDate: string = this.store.startDate.toISOString().slice(0, 10);
       this.store.recurringDonor = new RecurringDonor(
         token.id,
         this.store.amount,

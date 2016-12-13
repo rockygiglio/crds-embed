@@ -44,6 +44,8 @@ export class PaymentService {
 
   constructor(private http: Http, private session: SessionService, private zone: NgZone) { }
 
+  // MP CALLS
+
   public createOrUpdateDonor(donorInfo: Donor): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
     let requestOptions: any = this.session.getRequestOption();

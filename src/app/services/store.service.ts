@@ -67,7 +67,7 @@ export class StoreService {
   // Fund and frequency information
   public fund: Fund = undefined;
   public funds: Array<Fund>;
-  public start_date: any = '';
+  public startDate: any = '';
   public frequency: Frequency;
   public frequencies: Array<Frequency>;
 
@@ -305,7 +305,7 @@ export class StoreService {
   }
 
   public isRecurringGiftWithNoStartDate(): boolean {
-    return this.isRecurringGift() && !this.start_date;
+    return this.isRecurringGift() && !this.startDate;
   }
 
   public isUsingExistingPaymentMethod(): boolean {

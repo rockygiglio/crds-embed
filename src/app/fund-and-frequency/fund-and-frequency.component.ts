@@ -64,7 +64,7 @@ export class FundAndFrequencyComponent implements OnInit {
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];
     }
-    this.store.start_date = this.store.start_date ? new Date(this.store.start_date) : new Date();
+    this.store.startDate = this.store.startDate ? new Date(this.store.startDate) : new Date();
     this.isFundSelectShown = !this.funds.find(fund => Number(fund.ID) === Number(this.fundIdParam));
     if (this.isFundSelectShown === false && this.store.fund.AllowRecurringGiving === false) {
       this.state.hidePage(this.state.fundIndex);
@@ -98,11 +98,11 @@ export class FundAndFrequencyComponent implements OnInit {
     this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
         this.store.frequency = this.store.getFirstNonRecurringFrequency();
-        this.store.start_date = new Date();
+        this.store.startDate = new Date();
     }
   }
 
   public resetDate() {
-    this.store.start_date = undefined;
+    this.store.startDate = undefined;
   }
 }

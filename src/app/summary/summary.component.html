@@ -28,7 +28,7 @@
       <td><a routerLink="/fund">Frequency:</a></td>
       <td class="text-right">
         {{ store.frequency.display }}<br>
-        <small *ngIf="store.isRecurringGift()">Starting on {{ store.start_date | date: 'MM/dd/yyyy' }}</small>
+        <small *ngIf="store.isRecurringGift()">Starting on {{ store.startDate | date: 'MM/dd/yyyy' }}</small>
       </td>
     </tr>
     <tr>
