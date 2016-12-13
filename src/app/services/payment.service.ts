@@ -8,6 +8,7 @@ import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { Donor } from '../models/donor';
 import { Fund } from '../models/fund';
+import { Frequency } from '../models/frequency';
 import { Payment } from '../models/payment';
 import { RecurringDonor } from '../models/recurring-donor';
 import { User } from '../models/user';
@@ -29,11 +30,16 @@ export class PaymentService {
     ach: 'bankAccount'
   };
   public defaults = {
+    authorized: null,
+    donationsAmounts: Array(5, 10, 25, 100, 500),
+    frequencies: Array(
+      new Frequency('One Time', 'once', false),
+      new Frequency('Weekly', 'week', true),
+      new Frequency('Monthly', 'month', true)
+    ),
     fund: new Fund(3, 'General Giving', 1, true),
     paymentInfo: null,
-    previousGift: null,
-    donationsAmounts: [5, 10, 25, 100, 500],
-    authorized: null
+    previousGift: null
   };
 
   constructor(private http: Http, private session: SessionService, private zone: NgZone) { }
@@ -96,6 +102,12 @@ export class PaymentService {
       .catch(() => {
         return [this.defaults.paymentInfo];
       });
+  }
+
+  public getFrequencies(): Observable<any> {
+    return new Observable(observer => {
+      observer.next(this.defaults.frequencies);
+    });
   }
 
   public getFunds(): Observable<any> {

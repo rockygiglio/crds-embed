@@ -31,11 +31,13 @@ export class BillingComponent implements OnInit {
   errorMessageACH: string = '';
   errorMessageCC: string = '';
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
-    private paymentService: PaymentService) {
+    private paymentService: PaymentService
+  ) {
     this.state.setLoading(true);
     this.achForm = this.fb.group({
       accountName: ['', [<any>Validators.required]],
@@ -167,11 +169,11 @@ export class BillingComponent implements OnInit {
     );
   }
 
-  private storeToken(donor: any, value: any, stripeMethod: string, restMethod: string) {
+  private storeToken(donor: any, token: any, stripeMethod: string, restMethod: string) {
     if (this.store.isRecurringGift()) {
       let recurrenceDate: string = this.store.start_date.toISOString().slice(0, 10);
       this.store.recurringDonor = new RecurringDonor(
-        value.id,
+        token.id,
         this.store.amount,
         this.store.fund.ID.toString(),
         this.store.frequency.value,
@@ -179,13 +181,13 @@ export class BillingComponent implements OnInit {
       );
     } else if (this.store.isOneTimeGift()) {
       this.store.donor = new Donor(
-        value.id,
+        token.id,
         this.store.email,
         restMethod
       );
       this.store.donor.donor_id = donor.id;
     } else {
-      this.handleError({ status: 500}, stripeMethod);
+      this.handleError({ status: 500 }, stripeMethod);
     }
     this.adv();
   }

@@ -134,13 +134,12 @@ export class StoreService {
   }
 
   public preloadFrequencies() {
-    this.frequencies = Array(
-      new Frequency('One Time', 'once', false),
-      new Frequency('Weekly', 'week', true),
-      new Frequency('Monthly', 'month', true)
+    this.paymentService.getFrequencies().subscribe(
+      (frequencies) => {
+        this.frequencies = frequencies;
+        this.frequency = this.getFirstNonRecurringFrequency();
+      }
     );
-
-    this.frequency = this.getFirstNonRecurringFrequency();
   }
 
   public getFirstNonRecurringFrequency(): Frequency {
