@@ -36,8 +36,8 @@ export class FundAndFrequencyComponent implements OnInit {
     this.fundIdParam = this.store.fundId;
     this.defaultFund = this.store.fund = this.paymentService.defaults.fund;
     this.form = this._fb.group({
-      fund: ['', [<any>Validators.required]],
-      frequency: ['', [<any>Validators.required]],
+      fund: [this.store.fund, [<any>Validators.required]],
+      frequency: [this.store.frequency, [<any>Validators.required]],
     });
   }
 

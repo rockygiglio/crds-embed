@@ -24,7 +24,6 @@ import { RegisterComponent} from './register/register.component';
 
 import { StoreService } from './services/store.service';
 import { HttpClientService } from './services/http-client.service';
-import { LoginService } from './services/login.service';
 import { ParamValidationService } from './services/param-validation.service';
 import { PaymentService } from './services/payment.service';
 import { StateService } from './services/state.service';
@@ -74,7 +73,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     CookieService,
     StoreService,
     HttpClientService,
-    LoginService,
     ParamValidationService,
     PaymentService,
     StateService,

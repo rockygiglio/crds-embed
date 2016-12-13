@@ -13,7 +13,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
-import { LoginService } from '../services/login.service';
 
 class MockActivatedRoute {
   public snapshot = {
@@ -45,8 +44,7 @@ describe('Component: Billing', () => {
         CookieService,
         ParamValidationService,
         PaymentService,
-        StateService,
-        LoginService
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(BillingComponent);

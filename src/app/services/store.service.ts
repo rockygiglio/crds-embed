@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { PaymentService } from './payment.service';
-import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Fund } from '../models/fund';
 import { StateService } from './state.service';
@@ -77,7 +76,6 @@ export class StoreService {
   constructor(
     private paymentService: PaymentService,
     private helper: ParamValidationService,
-    private loginService: LoginService,
     private route: ActivatedRoute,
     private state: StateService
     ) {
@@ -116,19 +114,19 @@ export class StoreService {
 
   public loadUserData(): void {
     this.loadExistingPaymentData();
-    this.loginService.authenticate().subscribe(
+    this.paymentService.getAuthentication().subscribe(
       (info) => {
         if (info !== null) {
           this.email = info.userEmail;
         } else {
-          this.loginService.logOut();
+          this.paymentService.logOut();
         }
       }
     );
   }
 
   public preloadData(): void {
-    if (this.loginService.isLoggedIn()) {
+    if (this.paymentService.isLoggedIn()) {
       this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }

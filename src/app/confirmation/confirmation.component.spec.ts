@@ -14,7 +14,6 @@ import { ParamValidationService } from '../services/param-validation.service';
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
 import { HttpClientService } from '../services/http-client.service';
-import { LoginService } from '../services/login.service';
 
 import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
@@ -39,8 +38,7 @@ describe('Component: Confirmation', () => {
         ParamValidationService,
         PaymentService,
         HttpClientService,
-        CookieService,
-        LoginService
+        CookieService
       ]
     });
     this.fixture = TestBed.createComponent(ConfirmationComponent);

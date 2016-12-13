@@ -10,7 +10,6 @@ import { SummaryComponent, WindowToken } from './summary.component';
 import { StoreService } from '../services/store.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientService } from '../services/http-client.service';
-import { LoginService } from '../services/login.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateService } from '../services/state.service';
 import { ParamValidationService } from '../services/param-validation.service';
@@ -64,7 +63,6 @@ describe('Component: Summary', () => {
         { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},
         ParamValidationService,
-        LoginService,
         PaymentService
       ]
     });
@@ -255,9 +253,9 @@ describe('Component: Summary', () => {
   });
 
   it('should logout user on link to auth page', () => {
-    spyOn(this.component.loginService, 'logOut');
+    spyOn(this.component.paymentService, 'logOut');
     this.component.changeUser();
-    expect(this.component.loginService.logOut).toHaveBeenCalled();
+    expect(this.component.paymentService.logOut).toHaveBeenCalled();
   });
 
   it('should add redirect params to redirect url', () => {

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { PaymentService } from '../services/payment.service';
 import { StoreService } from '../services/store.service';
-import { LoginService } from '../services/login.service';
 import { StateService } from '../services/state.service';
 
 @Component({
@@ -26,12 +25,13 @@ export class AuthenticationComponent implements OnInit {
   private helpUrl: string;
   private forgotPasswordUrl: string;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private state: StateService,
     private store: StoreService,
     private _fb: FormBuilder,
-    private paymentService: PaymentService,
-    private loginService: LoginService) { }
+    private paymentService: PaymentService
+  ) { }
 
   public ngOnInit(): void {
 
@@ -85,7 +85,7 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
-      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
+      this.paymentService.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
           this.store.loadUserData();

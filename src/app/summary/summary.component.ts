@@ -1,7 +1,6 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoreService } from '../services/store.service';
-import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
 import { Payment } from '../models/payment';
 import { StateService } from '../services/state.service';
@@ -25,7 +24,6 @@ export class SummaryComponent implements OnInit {
   constructor(private router: Router,
     private state: StateService,
     private store: StoreService,
-    private loginService: LoginService,
     private paymentService: PaymentService,
     @Inject(WindowToken) private window: Window) {}
 
@@ -178,7 +176,7 @@ export class SummaryComponent implements OnInit {
   }
 
   public changeUser() {
-    this.loginService.logOut();
+    this.paymentService.logOut();
     this.changePayment();
   }
 

@@ -6,30 +6,35 @@ import { RegisterComponent } from './register.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../services/registration.service';
 import { StateService } from '../services/state.service';
-import { LoginService } from '../services/login.service';
 import { StoreService } from '../services/store.service';
+import { PaymentService } from '../services/payment.service';
 
 describe('Component: Registration', () => {
   let fixture: RegisterComponent,
       router: Router,
       _fb: FormBuilder,
-      stateManagerService: StateService,
-      loginService: LoginService,
+      state: StateService,
       registrationService: RegistrationService,
+      paymentService: PaymentService,
       store: StoreService;
 
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateService>('stateManagerService', ['getNextPageToShow',
-                                                                                            'getPrevPageToShow',
-                                                                                            'hidePage',
-                                                                                            'setLoading']);
+    state = jasmine.createSpyObj<StateService>(
+      'state',
+      [
+        'getNextPageToShow',
+        'getPrevPageToShow',
+        'hidePage',
+        'setLoading'
+      ]
+    );
     _fb = new FormBuilder();
-    loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
+    paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['postLogin']);
     registrationService = jasmine.createSpyObj<RegistrationService>('registrationService', ['postUser']);
 
-    fixture = new RegisterComponent(router, _fb, stateManagerService, loginService, registrationService, store);
+    fixture = new RegisterComponent(router, _fb, state, registrationService, paymentService, store);
     fixture.ngOnInit();
   });
 
@@ -98,7 +103,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>paymentService.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {

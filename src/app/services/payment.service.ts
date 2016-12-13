@@ -30,7 +30,8 @@ export class PaymentService {
     fund: new Fund(3, 'General Giving', 1, true),
     paymentInfo: null,
     previousGift: null,
-    donationsAmounts: [5, 10, 25, 100, 500]
+    donationsAmounts: [5, 10, 25, 100, 500],
+    authorized: null
   };
 
   constructor(private http: Http, private httpClient: HttpClientService, private zone: NgZone) { }
@@ -63,6 +64,16 @@ export class PaymentService {
       });
     });
   };
+
+  public getAuthentication(): Observable<any> {
+    return this.httpClient.get(this.baseUrl + 'api/v1.0.0/authenticated')
+      .map((res: Response) => {
+        return res || this.defaults.authorized;
+      })
+      .catch((res: Response) => {
+        return [this.defaults.authorized];
+      });
+  }
 
   public getDonor(): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
@@ -151,6 +162,19 @@ export class PaymentService {
       .map(res => { return false; })
       .catch(res => { return [true]; });
   };
+
+  public postLogin(email: string, password: string): Observable<any> {
+    let body = {
+      'username': email,
+      'password': password
+    };
+    return this.httpClient.post(this.baseUrl + 'api/login', body)
+      .map((res: Response) => {
+        return res || this.defaults.authorized;
+      })
+      .catch(this.handleError);
+  }
+
   public postPayment(paymentInfo: Payment): Observable<any> {
     let url: string = this.baseUrl + 'api/donation';
     return this.httpClient.post(url, paymentInfo)
@@ -186,6 +210,15 @@ export class PaymentService {
       }
     }
     return false;
+  }
+
+  public isLoggedIn(): boolean {
+    return this.httpClient.hasToken();
+  }
+
+  public logOut(): void {
+    this.httpClient.clearTokens();
+    return;
   }
 
 }

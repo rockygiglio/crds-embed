@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StateService } from '../services/state.service';
 import { Router } from '@angular/router';
-import { LoginService } from '../services/login.service';
 import { RegistrationService } from '../services/registration.service';
 import { User } from '../models/user';
 import { StoreService } from '../services/store.service';
+import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-register',
@@ -22,9 +22,9 @@ export class RegisterComponent implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private stateManagerService: StateService,
-              private loginService: LoginService,
+              private state: StateService,
               private registrationService: RegistrationService,
+              private paymentService: PaymentService,
               private store: StoreService) {
 
     const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
@@ -41,41 +41,42 @@ export class RegisterComponent implements OnInit {
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV}.crossroads.net/forgot-password`;
     this.termsOfServiceUrl = `//${process.env.CRDS_ENV}.crossroads.net/terms-of-service`;
 
-    this.stateManagerService.is_loading = false;
+    this.state.setLoading(false);
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPage(this.stateManagerService.authenticationIndex));
+    this.router.navigateByUrl(this.state.getPage(this.state.authenticationIndex));
     return false;
   }
 
   adv(): void {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.registrationIndex));
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.registrationIndex));
   }
 
   submitRegistration() {
     this.submitted = true;
     if ( this.regForm.valid ) {
-      this.stateManagerService.is_loading = true;
-      // register the user
-      let newUser = new User(this.regForm.get('firstName').value,
-                                 this.regForm.get('lastName').value,
-                                this.regForm.get('email').value,
-                                 this.regForm.get('password').value);
-      this.registrationService.postUser(newUser)
-        .subscribe(
-          user => {
-            if (!this.loginService.isLoggedIn()) {
-              this.loginNewUser(newUser.email, newUser.password);
-            }
-            this.adv();
-          },
-          error => {
-            if (error === 'Duplicate User') {
-              this.stateManagerService.is_loading = false;
-              this.duplicateUser = true;
-            }
-          });
+      this.state.setLoading(true);
+      let newUser = new User(
+        this.regForm.get('firstName').value,
+        this.regForm.get('lastName').value,
+        this.regForm.get('email').value,
+        this.regForm.get('password').value
+      );
+      this.registrationService.postUser(newUser).subscribe(
+        user => {
+          if (!this.paymentService.isLoggedIn()) {
+            this.loginNewUser(newUser.email, newUser.password);
+          }
+          this.adv();
+        },
+        error => {
+          if (error === 'Duplicate User') {
+            this.state.setLoading(false);
+            this.duplicateUser = true;
+          }
+        }
+      );
     }
 
     this.submitted = true;
@@ -83,14 +84,11 @@ export class RegisterComponent implements OnInit {
   }
 
   loginNewUser(email, password) {
-    this.loginService.login(email, password)
+    this.paymentService.postLogin(email, password)
       .subscribe(
-        (user) => {
-          this.store.loadUserData();
-        },
-        (error) => {
-          this.stateManagerService.is_loading = false;
-        });
+        (user) => this.store.loadUserData(),
+        (error) => this.state.setLoading(false)
+      );
   }
 
   switchMessage(errors: any): string {

@@ -7,7 +7,6 @@ import { CustomerBank } from '../models/customer-bank';
 import { Frequency } from '../models/frequency';
 import { ParamValidationService } from './param-validation.service';
 import { HttpClientService } from './http-client.service';
-import { LoginService } from './login.service';
 import { StateService } from './state.service';
 import { PaymentService } from './payment.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
@@ -32,7 +31,6 @@ describe('Service: Store', () => {
         ParamValidationService,
         PaymentService,
         HttpClientService,
-        LoginService,
         StateService,
         CookieService,
         MockBackend,
