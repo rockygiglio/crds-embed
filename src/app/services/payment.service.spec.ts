@@ -6,17 +6,14 @@ import { ResponseOptions } from '@angular/http';
 import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 
 import { CustomerBank } from '../models/customer-bank';
-import { CustomerCard } from '../models/customer-card';
 import { ExistingPaymentInfoService } from './existing-payment-info.service';
 import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
-import { Observable } from 'rxjs/Observable';
 import { ParamValidationService } from './param-validation.service';
 import { Payment} from '../models/payment';
 import { PaymentService } from './payment.service';
 import { StateService } from './state.service';
-import { StripeService } from './stripe.service';
 
 class MockActivatedRoute {
     public snapshot = {
@@ -24,68 +21,15 @@ class MockActivatedRoute {
     };
 }
 
-
-class MockStripeService {
-
-    public methodNames = {
-        card: 'getCardInfoToken',
-        bankAccount: 'getBankInfoToken'
-    };
-
-    public getCardInfoToken(customerCard: CustomerCard ): Observable<any> {
-        return Observable.of({
-            id: 'tok_u5dg20Gra',
-            card: {last4: 0987},
-            created: 1479313527,
-            currency: 'usd',
-            livemode: false,
-            object: 'token',
-            used: false
-        });
-    };
-    public getBankInfoToken(customerBank: CustomerBank ): Observable<any> {
-        return Observable.of({
-            id: 'tok_u5dg20Gra',
-            bank: {last4: 0987},
-            created: 1479313527,
-            currency: 'usd',
-            livemode: false,
-            object: 'token',
-            used: false
-        });
-    };
-}
-
 describe('Service: Payment', () => {
 
     let mockBackend: MockBackend;
-
     let mockDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe", "rest_method":"post"}';
     let mockBank =  new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
     let mockPaymentTypeBody = new Payment('', 1, 'bank', 'PAYMENT', 123);
     let mockPostPaymentResp = '{"amount":1,"email":"scrudgemcduckcrds@mailinator.com","status":0,"include_on_giving_h'
     + 'istory":false,"include_on_printed_statement":false,"date":"0001-01-01T00:00:00","fee":0.0,"payment_id":125,"'
     + 'source":{"type":0},"distributions":[]}';
-    let mockDonorResp =  `{
-      "id": 1,
-      "Processor_ID": "string",
-      "default_source": {
-        "credit_card": {
-          "last4": "string",
-          "brand": "string",
-          "address_zip": "string",
-          "exp_date": "string"
-        },
-        "bank_account": {
-          "routing": "string",
-          "last4": "0987",
-          "accountHolderName": "string",
-          "accountHolderType": "string"
-        }
-      },
-      "Registered_User": true,
-      "email": "string"
-    }`;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -99,7 +43,6 @@ describe('Service: Payment', () => {
                 PaymentService,
                 StateService,
                 StoreService,
-                { provide: StripeService, useClass: MockStripeService},
                 CookieService,
                 {
                     provide: Http,
@@ -122,9 +65,9 @@ describe('Service: Payment', () => {
 
 
     it('it should get donor information when passed a donor email',
-        async(inject([PaymentService, MockBackend], (srvc) => {
+        async(inject([PaymentService, MockBackend], (srvc, backend) => {
 
-            mockBackend.connections.subscribe(
+            backend.connections.subscribe(
                 (connection: MockConnection) => {
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -142,9 +85,9 @@ describe('Service: Payment', () => {
     );
 
     it('it should make a post payment call',
-        async(inject([PaymentService, MockBackend], (srvc) => {
+        async(inject([PaymentService, MockBackend], (srvc, backend) => {
 
-            mockBackend.connections.subscribe(
+            backend.connections.subscribe(
                 (connection: MockConnection) => {
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -162,9 +105,9 @@ describe('Service: Payment', () => {
     );
 
     it('it should make an API call to post a donor',
-        async(inject([PaymentService, MockBackend], (srvc) => {
+        async(inject([PaymentService, MockBackend], (srvc, backend) => {
 
-            mockBackend.connections.subscribe(
+            backend.connections.subscribe(
                 (connection: MockConnection) => {
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -182,27 +125,12 @@ describe('Service: Payment', () => {
     );
 
 
-    it('it should create a new donor object for later saving',
-        async(inject([PaymentService, MockBackend], (srvc) => {
+    it('it should create an observable with stripe token response',
+        async(inject([PaymentService, MockBackend], (srvc, backend) => {
 
-            mockBackend.connections.subscribe(
-                (connection: MockConnection) => {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: mockDonorResp
-                        })
-                    ));
-                });
+            let stripeObservable = srvc.getStripeToken('bankAccount', mockBank);
+            expect(stripeObservable.catch).toBeDefined();
 
-            srvc.createDonorWithBankAcct(mockBank, 'test@test.com', 'John', 'Doe').subscribe(
-                (data) => {
-                    expect(data).toBeDefined();
-                    expect(data.stripe_token_id).toBe('tok_u5dg20Gra');
-                    expect(data.email_address).toBe('test@test.com');
-                    expect(data.first_name).toBe('John');
-                    expect(data.last_name).toBe('Doe');
-                }
-            );
         }))
     );
 

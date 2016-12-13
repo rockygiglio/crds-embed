@@ -22,7 +22,6 @@ import { AmountComponent } from './amount/amount.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
 import { RegisterComponent} from './register/register.component';
 
-import { DonationService } from './services/donation.service';
 import { DonationFundService } from './services/donation-fund.service';
 import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
 import { StoreService } from './services/store.service';
@@ -33,7 +32,6 @@ import { PaymentService } from './services/payment.service';
 import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
 import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
 import { StateService } from './services/state.service';
-import { StripeService } from './services/stripe.service';
 import { RegistrationService } from './services/registration.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
@@ -78,7 +76,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
   providers:    [
     appRoutingProviders,
     CookieService,
-    DonationService,
     DonationFundService,
     ExistingPaymentInfoService,
     StoreService,
@@ -89,7 +86,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     PreviousGiftAmountService,
     QuickDonationAmountsService,
     StateService,
-    StripeService,
     RegistrationService,
     {provide: WindowToken, useFactory: _window},
   ],

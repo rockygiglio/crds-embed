@@ -6,9 +6,10 @@ import { CreditCardValidator } from '../validators/credit-card.validator';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { StoreService } from '../services/store.service';
-import { StripeService } from '../services/stripe.service';
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
+import { Donor } from '../models/donor';
+import { RecurringDonor } from '../models/recurring-donor';
 
 @Component({
   selector: 'app-billing',
@@ -32,9 +33,7 @@ export class BillingComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
-    private paymentService: PaymentService,
-    private stripeService: StripeService,
-  ) {
+    private paymentService: PaymentService) {
     this.state.setLoading(true);
     this.achForm = this.fb.group({
       accountName: ['', [<any>Validators.required]],
@@ -56,15 +55,11 @@ export class BillingComponent implements OnInit {
   }
 
   public ngOnInit() {
-
     if (this.store.isFrequencySetAndNotOneTime()) {
-
       this.store.resetExistingPmtInfo();
       this.store.clearUserPmtInfo();
       this.state.setLoading(false);
-
     } else {
-
       if (this.store.existingPaymentInfo) {
         this.store.existingPaymentInfo.subscribe(
           info => {
@@ -84,20 +79,16 @@ export class BillingComponent implements OnInit {
         this.state.setLoading(false);
       }
     }
-
     this.store.validateRoute(this.router);
   }
 
   public achSubmit() {
-
     this.setACHSubmitted(true);
     this.store.resetErrors();
-
     if (this.achForm.valid) {
+      this.state.setLoading(true);
       this.store.paymentType = 'ach';
       this.store.accountNumber = this.store.accountNumber.trim();
-      let email = this.store.email;
-
       let userBank = new CustomerBank(
         'US',
         'USD',
@@ -106,86 +97,45 @@ export class BillingComponent implements OnInit {
         this.achForm.value.accountName,
         this.achForm.value.accountType
       );
-
       this.store.userBank = userBank;
-
-      let firstName = '';
-      let lastName = '';
-
-      this.state.setLoading(true);
-      this.state.watchState();
-
-      this.getDonorCallback(email).subscribe(
-        donor => this.updateDonorWithBankAcct(donor.id, userBank, email),
-        error => this.createDonorWithBank(userBank, email, firstName, lastName)
+      let stripeMethod = this.paymentService.stripeMethods.ach;
+      let restMethods = this.paymentService.restMethods;
+      this.getDonorCallback(this.store.email).subscribe(
+        donor => this.process(userBank, stripeMethod, restMethods.put),
+        error => this.process(userBank, stripeMethod, restMethods.post)
       );
     }
     return false;
   }
 
-  private updateDonorWithBankAcct(donorId, userBank, email) {
-    this.paymentService.updateDonorWithBankAcct(donorId, userBank, email).subscribe(
-      value => this.setValueMoveNext(value),
-      errorInner => this.handleDonorError(errorInner, false)
-    );
-  }
-
-  private createDonorWithBank(userBank, email, firstName, lastName) {
-    this.paymentService.createDonorWithBankAcct(userBank, email, firstName, lastName).subscribe(
-      value => this.setValueMoveNext(value),
-      errorInner => this.handleDonorError(errorInner, false)
-    );
-  }
-
   public ccSubmit() {
-
     this.setCCSubmitted(true);
     this.store.resetErrors();
-
     if (this.ccForm.valid) {
+      this.state.setLoading(true);
       this.store.paymentType = 'cc';
-
       let expMonth = this.ccForm.value.expDate.split(' / ')[0];
       let expYear = this.ccForm.value.expDate.split(' / ')[1];
-      let email = this.store.email;
       let userCard: CustomerCard = new CustomerCard(this.store.email,
         this.ccForm.value.ccNumber,
         expMonth,
         expYear,
         this.ccForm.value.cvc,
-        this.ccForm.value.zipCode);
-
-      let firstName = '';
-      let lastName = '';
-
+        this.ccForm.value.zipCode
+      );
       this.store.userCc = userCard;
-      this.state.setLoading(true);
-      this.state.watchState();
-
-      this.getDonorCallback(email).subscribe(
-        donor => this.updateDonorWithCard(donor.id, userCard, email),
-        error => this.createDonorWithCard(userCard, email, firstName, lastName)
+      let stripeMethod = this.paymentService.stripeMethods.card;
+      let restMethods = this.paymentService.restMethods;
+      this.getDonorCallback(this.store.email).subscribe(
+        donor => this.process(userCard, stripeMethod, restMethods.put),
+        error => this.process(userCard, stripeMethod, restMethods.post)
       );
     }
 
     return false;
   }
 
-  private updateDonorWithCard(donorId, userCard, email) {
-    this.paymentService.updateDonorWithCard(donorId, userCard, email).subscribe(
-      value => this.setValueMoveNext(value),
-      errorInner => this.handleDonorError(errorInner, true)
-    );
-  }
-
-  private createDonorWithCard(userCard, email, firstName, lastName) {
-    this.paymentService.createDonorWithCard(userCard, email, firstName, lastName).subscribe(
-      value => this.setValueMoveNext(value),
-      errorInner => this.handleDonorError(errorInner, true)
-    );
-  }
-
-  private getDonorCallback(email): Observable<any> {
+  private getDonorCallback(email: string): Observable<any> {
     let donor: Observable<any>;
     if (this.store.isGuest === true) {
       donor = this.paymentService.getDonorByEmail(email);
@@ -193,6 +143,53 @@ export class BillingComponent implements OnInit {
       donor = this.paymentService.getDonor();
     }
     return donor;
+  }
+
+  public process(callBody: CustomerBank | CustomerCard, stripeMethod: string, restMethod: string) {
+    this.paymentService.getStripeToken(stripeMethod, callBody).subscribe(
+      value => this.storeToken(value, stripeMethod, restMethod),
+      error => this.handleError(error, stripeMethod)
+    );
+  }
+
+  private storeToken(value: any, stripeMethod: string, restMethod: string) {
+    if (this.store.isRecurringGift()) {
+      let recurrenceDate: string = this.store.start_date.toISOString().slice(0, 10);
+      this.store.recurringDonor = new RecurringDonor(
+        value.id,
+        this.store.amount,
+        this.store.fund.ID.toString(),
+        this.store.frequency.value,
+        recurrenceDate
+      );
+    } else if (this.store.isOneTimeGift()) {
+      this.store.donor = new Donor(
+        value.id,
+        this.store.email,
+        restMethod
+      );
+    } else {
+      this.handleError({ status: 500}, stripeMethod);
+    }
+    this.adv();
+  }
+
+  private handleError(errResponse: any, stripeMethod: string): boolean {
+    let stripeMethods = this.paymentService.stripeMethods;
+    if (stripeMethod === stripeMethods.card) {
+      this.setCCSubmitted(false);
+    } else if (stripeMethod === stripeMethods.ach) {
+      this.setACHSubmitted(false);
+    }
+    if (errResponse.status === 400 || errResponse.status === 500) {
+      this.store.systemException = true;
+    } else {
+      this.store.stripeException = true;
+      this.store.resetExistingPmtInfo();
+      this.store.resetPaymentDetails();
+    }
+    this.state.setLoading(false);
+    return false;
   }
 
   public back() {
@@ -204,29 +201,6 @@ export class BillingComponent implements OnInit {
   private adv() {
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.billingIndex));
     return false;
-  }
-
-  private handleDonorError(errResponse: any, isCC = false): boolean {
-    if (isCC === true) {
-      this.setCCSubmitted(false);
-    } else {
-      this.setACHSubmitted(false);
-    }
-    this.state.setLoading(false);
-    if (errResponse.status === 400 || errResponse.status === 500) {
-      this.store.systemException = true;
-      return false;
-    } else {
-      this.store.stripeException = true;
-      this.store.resetExistingPmtInfo();
-      this.store.resetPaymentDetails();
-      return false;
-    }
-  }
-
-  private setValueMoveNext(value) {
-    this.store.donor = value;
-    this.adv();
   }
 
   private setCCSubmitted(val: boolean) {

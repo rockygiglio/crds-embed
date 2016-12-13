@@ -1,9 +1,5 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { CustomerBank } from '../models/customer-bank';
-import { CustomerCard} from '../models/customer-card';
-import { DonationService } from '../services/donation.service';
 import { StoreService } from '../services/store.service';
 import { LoginService } from '../services/login.service';
 import { PaymentService } from '../services/payment.service';
@@ -27,12 +23,11 @@ export class SummaryComponent implements OnInit {
   private redirectParams: Map<string, any> = new Map<string, any>();
 
   constructor(private router: Router,
-              private state: StateService,
-              private donationService: DonationService,
-              private store: StoreService,
-              private loginService: LoginService,
-              private paymentService: PaymentService,
-              @Inject(WindowToken) private window: Window) {}
+    private state: StateService,
+    private store: StoreService,
+    private loginService: LoginService,
+    private paymentService: PaymentService,
+    @Inject(WindowToken) private window: Window) {}
 
   public ngOnInit() {
     this.lastFourOfAcctNumber = this.store.accountLast4 ? this.store.accountLast4 : this.getLastFourOfAccountNumber();
@@ -58,7 +53,7 @@ export class SummaryComponent implements OnInit {
     );
 
     if (this.store.isUsingNewPaymentMethod()) {
-      this.paymentService.makeApiDonorCall(this.store.donor).subscribe(
+      this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
           value => this.postTransaction(paymentDetails),
           error => this.handleOuterError()
       );
@@ -87,7 +82,7 @@ export class SummaryComponent implements OnInit {
         this.store.invoiceId
       );
       if (this.store.isUsingNewPaymentMethod()) {
-        this.paymentService.makeApiDonorCall(this.store.donor).subscribe(
+        this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
             value => {
               if ( this.store.isGuest === true ) {
                 donationDetails.donor_id = value.id;
@@ -104,13 +99,11 @@ export class SummaryComponent implements OnInit {
       }
     } else if (this.store.isRecurringGift()) {
       if (this.store.isUsingNewPaymentMethod()) {
-        let userPaymentInfo: CustomerBank | CustomerCard  = this.store.userCc || this.store.userBank;
-        let stripeMethodName: string = this.store.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
-
-        this.donationService.getTokenAndPostRecurringGift(userPaymentInfo, stripeMethodName).subscribe(
+        this.paymentService.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
           innerError => this.handleInnerError(innerError)
         );
+
       } else {
         this.handleOuterError();
       }
@@ -139,16 +132,15 @@ export class SummaryComponent implements OnInit {
   }
 
   private beginProcessing() {
-    this.store.resetErrors();
     this.state.setLoading(true);
+    this.store.resetErrors();
     this.isSubmitInProgress = true;
-    this.state.watchState();
   }
 
-  public postTransaction(details) {
+  public postTransaction(details: Payment) {
     this.paymentService.postPayment(details).subscribe(
       success => this.handleSuccess(success),
-      innerError => this.handleInnerError(innerError)
+      error => this.handleInnerError(error)
     );
   }
 

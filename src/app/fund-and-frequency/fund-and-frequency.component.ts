@@ -79,7 +79,6 @@ export class FundAndFrequencyComponent implements OnInit {
   }
 
   public onClickFund(fund: any) {
-    console.log(fund);
     this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
         this.store.frequency = this.store.getFirstNonRecurringFrequency();

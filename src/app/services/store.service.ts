@@ -10,6 +10,7 @@ import { ParamValidationService } from './param-validation.service';
 import { Fund } from '../models/fund';
 import { StateService } from './state.service';
 import { Donor } from '../models/donor';
+import { RecurringDonor } from '../models/recurring-donor';
 import { Frequency } from '../models/frequency';
 
 declare var _;
@@ -49,6 +50,7 @@ export class StoreService {
   public isGuest: boolean = false;
   public previousGiftAmount: string = '';
   public donor: Donor;
+  public recurringDonor: RecurringDonor;
 
   // ACH Information
   public accountName: string;
@@ -311,7 +313,7 @@ export class StoreService {
   }
 
   public isRecurringGiftWithNoStartDate(): boolean {
-    return !this.isOneTimeGift() && !this.start_date;
+    return this.isRecurringGift() && !this.start_date;
   }
 
   public isUsingExistingPaymentMethod(): boolean {
@@ -322,7 +324,7 @@ export class StoreService {
   }
 
   public isUsingNewPaymentMethod(): boolean {
-    if (this.donor && !this.accountLast4) {
+    if ((this.donor || this.recurringDonor) && !this.accountLast4) {
       return true;
     }
     return false;

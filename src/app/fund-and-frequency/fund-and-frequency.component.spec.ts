@@ -20,7 +20,6 @@ import { PaymentService } from '../services/payment.service';
 import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
 import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
-import { StripeService } from '../services/stripe.service';
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 
 
@@ -69,8 +68,7 @@ describe('Component: FundAndFrequency', () => {
         PaymentService,
         PreviousGiftAmountService,
         QuickDonationAmountsService,
-        StateService,
-        StripeService
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(FundAndFrequencyComponent);

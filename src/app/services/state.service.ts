@@ -57,14 +57,6 @@ export class StateService {
       this.paymentState[pageIndex].show = true;
   }
 
-  public watchState() {
-    this.watcherInterval = setInterval(function(){}, 1000);
-  }
-
-  public stopWatchingState() {
-    clearInterval(this.watcherInterval);
-  }
-
   public setLoading(val: boolean) {
     this.is_loading = val;
   }
