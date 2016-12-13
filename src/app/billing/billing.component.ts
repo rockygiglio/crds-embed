@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { CreditCardValidator } from '../validators/credit-card.validator';
-import { CustomerBank } from '../models/customer-bank';
-import { CustomerCard } from '../models/customer-card';
-import { StoreService } from '../services/store.service';
+
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+
+import { CreditCardValidator } from '../validators/credit-card.validator';
+
+import { CustomerBank } from '../models/customer-bank';
+import { CustomerCard } from '../models/customer-card';
 import { Donor } from '../models/donor';
 import { RecurringDonor } from '../models/recurring-donor';
 

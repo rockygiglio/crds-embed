@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { StateService } from '../services/state.service';
 import { Router } from '@angular/router';
-import { User } from '../models/user';
-import { StoreService } from '../services/store.service';
+
 import { PaymentService } from '../services/payment.service';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-register',
@@ -19,19 +21,20 @@ export class RegisterComponent implements OnInit {
   private privacyPolicyUrl: string;
   private forgotPasswordUrl: string;
 
-  constructor(private router: Router,
-              private fb: FormBuilder,
-              private state: StateService,
-              private paymentService: PaymentService,
-              private store: StoreService) {
-
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private state: StateService,
+    private paymentService: PaymentService,
+    private store: StoreService
+  ) {
     const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
     this.regForm = this.fb.group({
-        firstName: ['', [<any>Validators.required]],
-        lastName:  ['', [<any>Validators.required]],
-        email:     ['', [<any>Validators.required, <any>Validators.pattern(emailRegex)]],
-        password:  ['', [<any>Validators.required, <any>Validators.minLength(8)]]
-      });
+      firstName: ['', [<any>Validators.required]],
+      lastName:  ['', [<any>Validators.required]],
+      email:     ['', [<any>Validators.required, <any>Validators.pattern(emailRegex)]],
+      password:  ['', [<any>Validators.required, <any>Validators.minLength(8)]]
+    });
   }
 
   ngOnInit() {

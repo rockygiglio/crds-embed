@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
 import { SessionService } from './session.service';
 
 import { CustomerBank } from '../models/customer-bank';

@@ -32,10 +32,10 @@ export class FundAndFrequencyComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,
-    private _fb: FormBuilder) {
+    private fb: FormBuilder) {
     this.fundIdParam = this.store.fundId;
     this.defaultFund = this.store.fund = this.paymentService.defaults.fund;
-    this.form = this._fb.group({
+    this.form = this.fb.group({
       fund: [this.store.fund, [<any>Validators.required]],
       frequency: [this.store.frequency, [<any>Validators.required]],
     });

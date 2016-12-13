@@ -7,7 +7,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { ValidationService } from './validation.service';
 
 
-describe('Service: Param Validation', () => {
+describe('Service: Validation', () => {
 
   let mockBackend: MockBackend;
 
@@ -205,7 +205,7 @@ describe('Service: Param Validation', () => {
 
       let isInoviceIdReq: any = srvc.isParamRequired(srvc.params.invoice_id, srvc.types.payment);
       let isTotalCostReq: any = srvc.isParamRequired(srvc.params.total_cost, srvc.types.payment);
-      let isMinPmtReq: any    = srvc.isParamRequired(srvc.params.min_payment, srvc.types.payment);
+      let isMinPmtReq: any = srvc.isParamRequired(srvc.params.min_payment, srvc.types.payment);
 
       let allRequiredParamsReturnTrue = isInoviceIdReq && isTotalCostReq && isMinPmtReq;
 

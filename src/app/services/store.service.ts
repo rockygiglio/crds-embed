@@ -1,16 +1,17 @@
-import { ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+
+import { PaymentService } from './payment.service';
+import { StateService } from './state.service';
+import { ValidationService } from './validation.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
-import { PaymentService } from './payment.service';
-import { ValidationService } from './validation.service';
+import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
-import { StateService } from './state.service';
 import { Donor } from '../models/donor';
 import { RecurringDonor } from '../models/recurring-donor';
-import { Frequency } from '../models/frequency';
 
 declare var _;
 

@@ -1,9 +1,10 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { StoreService } from '../services/store.service';
+
 import { PaymentService } from '../services/payment.service';
-import { Payment } from '../models/payment';
 import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { Payment } from '../models/payment';
 
 export const WindowToken = new OpaqueToken('Window');
 export function _window(): Window {
@@ -21,11 +22,13 @@ export class SummaryComponent implements OnInit {
   private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private state: StateService,
     private store: StoreService,
     private paymentService: PaymentService,
-    @Inject(WindowToken) private window: Window) {}
+    @Inject(WindowToken) private window: Window
+  ) {}
 
   public ngOnInit() {
     this.lastFourOfAcctNumber = this.store.accountLast4 ? this.store.accountLast4 : this.getLastFourOfAccountNumber();

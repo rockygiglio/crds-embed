@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { PaymentService } from '../services/payment.service';
-import { StoreService } from '../services/store.service';
 import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-authentication',
@@ -29,7 +29,7 @@ export class AuthenticationComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
-    private _fb: FormBuilder,
+    private fb: FormBuilder,
     private paymentService: PaymentService
   ) { }
 
@@ -43,12 +43,12 @@ export class AuthenticationComponent implements OnInit {
       this.email = this.store.email;
     }
 
-    this.form = this._fb.group({
+    this.form = this.fb.group({
       email: [this.store.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
       password: ['', <any>Validators.required]
     });
 
-    this.formGuest = this._fb.group({
+    this.formGuest = this.fb.group({
       email: [this.store.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]]
     });
 

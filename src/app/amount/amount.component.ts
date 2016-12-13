@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { StoreService } from '../services/store.service';
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
 
 // NOTE, RE: US5801 – See previous previousGiftAmount implementation in
 // SHA: f2f8b93ee6e5e0c2fed0f5d2f7dbf85b830c496a - Sarah Sachs, 11/30/2016
@@ -24,12 +24,13 @@ export class AmountComponent implements OnInit {
   public errorMessage: string = '';
   public customAmtSelected: boolean = false;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private store: StoreService,
     private paymentService: PaymentService,
     private router: Router,
-    private state: StateService) {
-  }
+    private state: StateService
+  ) {}
 
   public ngOnInit() {
     this.state.setLoading(true);
