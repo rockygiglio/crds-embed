@@ -253,7 +253,6 @@ export class StoreService {
 
     if (this.queryParams[this.helper.params.override_parent] === 'false') {
       this.overrideParent = false;
-      console.log('override parent!');
     }
 
     this.type = this.queryParams[this.helper.params.type];

@@ -154,7 +154,6 @@ export class SummaryComponent implements OnInit {
   }
 
   private handleInnerError(error) {
-    console.log(error);
     if (error.status === 400 || error.status === 500) {
       this.store.systemException = true;
       this.store.clearUserPmtInfo();
