@@ -237,7 +237,7 @@ export class BillingComponent implements OnInit {
     return ret;
   }
 
-  private hideBack() {
+  public hideBack() {
     if ( this.store.isPayment() && this.store.amountLocked ) {
       return true;
     }
