@@ -6,7 +6,7 @@ import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
 
-describe('Service: HttpClient', () => {
+describe('Service: Session', () => {
 
   const mockResponse = {
     'userToken': 'AAEAAKVu0E-usertoken',
