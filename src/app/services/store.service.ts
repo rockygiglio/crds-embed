@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
-import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { PaymentService } from './payment.service';
 import { LoginService } from './login.service';
 import { ParamValidationService } from './param-validation.service';
 import { Fund } from '../models/fund';
@@ -74,11 +74,13 @@ export class StoreService {
   public userBank: CustomerBank = undefined;
   public userCc: CustomerCard = undefined;
 
-  constructor(private existingPaymentInfoService: ExistingPaymentInfoService,
+  constructor(
+    private paymentService: PaymentService,
     private helper: ParamValidationService,
     private loginService: LoginService,
     private route: ActivatedRoute,
-    private state: StateService) {
+    private state: StateService
+    ) {
     this.processQueryParams();
     this.preloadData();
     this.preloadFrequencies();
@@ -99,7 +101,7 @@ export class StoreService {
       return;
     }
 
-    this.existingPaymentInfo = this.existingPaymentInfoService.getExistingPaymentInfo();
+    this.existingPaymentInfo = this.paymentService.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
       info => {
         if (info !== null) {
@@ -209,20 +211,16 @@ export class StoreService {
     });
   }
 
-  public setBillingInfo(pmtInfo: PaymentInfo): void {
-    if (pmtInfo.default_source.credit_card.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.credit_card.last4;
+  public setBillingInfo(paymentInfo: any): void {
+    if (paymentInfo.default_source.credit_card.last4 != null) {
+      this.accountLast4 = paymentInfo.default_source.credit_card.last4;
       this.paymentType = 'cc';
     }
-    if (pmtInfo.default_source.bank_account.last4 != null) {
-      this.accountLast4 = pmtInfo.default_source.bank_account.last4;
+    if (paymentInfo.default_source.bank_account.last4 != null) {
+      this.accountLast4 = paymentInfo.default_source.bank_account.last4;
       this.paymentType = 'ach';
     }
   }
-
-  /*******************
-   * PRIVATE FUNCTIONS
-   *******************/
 
   private parseParamOrSetError(paramName, queryParams): any {
     let isValid: boolean = queryParams[paramName] ?
@@ -246,11 +244,9 @@ export class StoreService {
 
   private processQueryParams(): void {
     this.queryParams = this.route.snapshot.queryParams;
-
     if (this.queryParams['theme'] === 'dark') {
       this.setTheme('dark-theme');
     }
-
     if (this.queryParams[this.helper.params.override_parent] === 'false') {
       this.overrideParent = false;
     }
@@ -261,7 +257,6 @@ export class StoreService {
       this.invoiceId = this.parseParamOrSetError(this.helper.params.invoice_id, this.queryParams);
       this.totalCost = this.parseParamOrSetError(this.helper.params.total_cost, this.queryParams);
       this.minPayment = this.parseParamOrSetError(this.helper.params.min_payment, this.queryParams);
-
       this.title = this.parseParamOrSetError(this.helper.params.title, this.queryParams);
       this.url = this.parseParamOrSetError(this.helper.params.url, this.queryParams);
       this.fundId = this.parseParamOrSetError(this.helper.params.fund_id, this.queryParams);

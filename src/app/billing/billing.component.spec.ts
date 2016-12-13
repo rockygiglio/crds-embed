@@ -6,7 +6,6 @@ import { StoreService } from '../services/store.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientService } from '../services/http-client.service';
@@ -44,7 +43,6 @@ describe('Component: Billing', () => {
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: DonationFundService, useClass: MockDonationFundService },
         { provide: StoreService, useClass: MockStoreService },
-        ExistingPaymentInfoService,
         FormBuilder,
         HttpClientService,
         CookieService,

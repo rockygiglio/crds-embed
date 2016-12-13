@@ -71,6 +71,14 @@ export class PaymentService {
       .catch(this.handleError);
   };
 
+  public getExistingPaymentInfo(): Observable<any> {
+    return this.httpClient.get(this.baseUrl + 'api/donor?email=')
+      .map(this.extractData)
+      .catch(() => {
+        return [null];
+      });
+  }
+
   public getPreviousGiftAmount(): Observable<string> {
     let options = new RequestOptions({
       body: { limit: 1, includeRecurring: false }

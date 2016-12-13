@@ -9,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { DonationFundService } from '../services/donation-fund.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
@@ -58,7 +57,6 @@ describe('Component: FundAndFrequency', () => {
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         CookieService,
         DonationFundService,
-        ExistingPaymentInfoService,
         StoreService,
         HttpClientService,
         LoginService,

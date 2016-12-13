@@ -6,7 +6,6 @@ import { ResponseOptions } from '@angular/http';
 import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 
 import { CustomerBank } from '../models/customer-bank';
-import { ExistingPaymentInfoService } from './existing-payment-info.service';
 import { StoreService } from './store.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
@@ -34,7 +33,6 @@ describe('Service: Payment', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                ExistingPaymentInfoService,
                 LoginService,
                 MockBackend,
                 HttpClientService,

@@ -12,7 +12,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { DonationFundService } from '../services/donation-fund.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
+import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
@@ -34,12 +34,12 @@ describe('Component: Confirmation', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([]), HttpModule
       ],
-      providers:    [
+      providers: [
         DonationFundService,
-        ExistingPaymentInfoService,
         StoreService,
         StateService,
         ParamValidationService,
+        PaymentService,
         HttpClientService,
         CookieService,
         LoginService

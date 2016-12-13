@@ -2,7 +2,6 @@ import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, HttpModule, Http, XHRBackend } from '@angular/http';
 
 import { MockBackend } from '@angular/http/testing';
-import { ExistingPaymentInfoService } from './existing-payment-info.service';
 import { HttpClientService } from './http-client.service';
 import { CookieService } from 'angular2-cookie/core';
 import { ParamValidationService } from './param-validation.service';
@@ -15,7 +14,6 @@ describe('Service: Param Validation', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        ExistingPaymentInfoService,
         MockBackend,
         BaseRequestOptions,
         HttpClientService,

@@ -23,7 +23,6 @@ import { SummaryComponent, WindowToken, _window } from './summary/summary.compon
 import { RegisterComponent} from './register/register.component';
 
 import { DonationFundService } from './services/donation-fund.service';
-import { ExistingPaymentInfoService } from './services/existing-payment-info.service';
 import { StoreService } from './services/store.service';
 import { HttpClientService } from './services/http-client.service';
 import { LoginService } from './services/login.service';
@@ -75,7 +74,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     appRoutingProviders,
     CookieService,
     DonationFundService,
-    ExistingPaymentInfoService,
     StoreService,
     HttpClientService,
     LoginService,

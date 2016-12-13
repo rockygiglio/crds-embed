@@ -24,7 +24,6 @@ export class BillingComponent implements OnInit {
   ccSubmitted = false;
   userToken = null;
   accountNumberPlaceholder = 'Account Number';
-
   errorMessage: string = 'The following fields are in error:';
   errorMessageACH: string = '';
   errorMessageCC: string = '';

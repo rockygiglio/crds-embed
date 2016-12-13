@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthenticationComponent } from './authentication.component';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { FormBuilder } from '@angular/forms';
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from '../services/http-client.service';
@@ -21,8 +20,7 @@ describe('Component: Authentication', () => {
       _fb: FormBuilder,
       loginService: LoginService,
       httpClientService: HttpClientService,
-      paymentService: PaymentService,
-      existingPaymentInfoService: ExistingPaymentInfoService;
+      paymentService: PaymentService;
 
   beforeEach(() => {
 
@@ -46,7 +44,6 @@ describe('Component: Authentication', () => {
     paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['getRegisteredUser']);
     loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
     httpClientService = jasmine.createSpyObj<HttpClientService>('httpClientService', ['get']);
-    existingPaymentInfoService = jasmine.createSpyObj<ExistingPaymentInfoService>('existingPaymentInfoService', ['resolve']);
 
     fixture = new AuthenticationComponent(
       router,

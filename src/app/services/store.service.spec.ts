@@ -10,7 +10,7 @@ import { DonationFundService } from './donation-fund.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { StateService } from './state.service';
-import { ExistingPaymentInfoService, PaymentInfo } from './existing-payment-info.service';
+import { PaymentService } from './payment.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { CookieService } from 'angular2-cookie/core';
@@ -22,7 +22,7 @@ class MockActivatedRoute {
   };
 }
 
-describe('Service: Gift', () => {
+describe('Service: Store', () => {
 
   const userBank = new CustomerBank('US', 'USD', 12345, 12345678, 'Bob Smith', 'cc');
 
@@ -32,7 +32,7 @@ describe('Service: Gift', () => {
         StoreService,
         ParamValidationService,
         DonationFundService,
-        ExistingPaymentInfoService,
+        PaymentService,
         HttpClientService,
         LoginService,
         StateService,

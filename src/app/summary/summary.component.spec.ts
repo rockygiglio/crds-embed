@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/Rx';
 
 import { SummaryComponent, WindowToken } from './summary.component';
 import { StoreService } from '../services/store.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientService } from '../services/http-client.service';
 import { LoginService } from '../services/login.service';
@@ -61,7 +60,6 @@ describe('Component: Summary', () => {
       ],
       providers:    [
         StoreService,
-        ExistingPaymentInfoService,
         HttpClientService,
         CookieService,
         { provide: StateService, useClass: MockStateService},

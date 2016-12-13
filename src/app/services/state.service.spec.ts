@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 
-describe('Service: StateManagerSession', () => {
+describe('Service: State', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [StateService]
