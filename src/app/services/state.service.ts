@@ -8,12 +8,12 @@ export interface PageState {
 @Injectable()
 export class StateService {
 
+  public amountIndex: number = 0;
   public authenticationIndex: number = 2;
   public billingIndex: number = 4;
   public confirmationIndex: number = 6;
   public fundIndex: number = 1;
   public is_loading: boolean = false;
-  public paymentIndex: number = 0;
   public registrationIndex: number = 3;
   public summaryIndex: number = 5;
   public watcherInterval: any = undefined;
@@ -43,7 +43,7 @@ export class StateService {
 
   public getPrevPageToShow(currentPage: number): string {
     let prevPage = currentPage - 1;
-    while (!this.paymentState[prevPage].show && prevPage !== this.paymentIndex) {
+    while (!this.paymentState[prevPage].show && prevPage !== this.amountIndex) {
       prevPage--;
     }
     return this.paymentState[prevPage].path;

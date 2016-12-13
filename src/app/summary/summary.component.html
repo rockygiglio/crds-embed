@@ -46,7 +46,7 @@
 </div>
 
 <footer class="page-footer page-footer--pt-1">
-  <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+  <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!store.isPayment() && !store.accountLast4 && !store.amountLocked" value="Back">
   <input type="button"
          *ngIf="store.isDonation()"
          [disabled]="isSubmitInProgress"

@@ -37,6 +37,7 @@ export class StoreService {
   public predefinedAmounts: number[];
   public existingPaymentInfo: Observable<any>;
   public paymentMethod: string = 'Bank Account';
+  public amountLocked: boolean = false;
 
   // Payment Information
   public accountLast4: string = '';

@@ -56,6 +56,15 @@ export class AmountComponent implements OnInit {
       }
     ];
 
+    if (this.store.isPayment() && this.store.totalCost && this.store.minPayment === this.store.totalCost) {
+      this.setAmount(this.store.totalCost);
+      this.state.hidePage(this.state.amountIndex);
+      this.store.amountLocked = true;
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
+    } else {
+      this.store.amountLocked = false;
+    }
+
     this.selectedAmount = this.store.selectedAmount;
     this.customAmount = this.store.customAmount;
     if ( this.customAmount ) {
@@ -82,7 +91,7 @@ export class AmountComponent implements OnInit {
   public submitAmount() {
     if (this.store.validAmount()) {
       this.state.setLoading(true);
-      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.paymentIndex));
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
     } else {
       this.form.controls['customAmount'].markAsTouched();
       this.setErrorMessage();
