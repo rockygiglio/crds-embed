@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomerBank } from '../models/customer-bank';
 import { Frequency } from '../models/frequency';
 import { ParamValidationService } from './param-validation.service';
-import { DonationFundService } from './donation-fund.service';
 import { HttpClientService } from './http-client.service';
 import { LoginService } from './login.service';
 import { StateService } from './state.service';
@@ -31,7 +30,6 @@ describe('Service: Store', () => {
       providers: [
         StoreService,
         ParamValidationService,
-        DonationFundService,
         PaymentService,
         HttpClientService,
         LoginService,

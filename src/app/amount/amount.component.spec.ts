@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { DonationFundService } from '../services/donation-fund.service';
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
 import { AmountComponent } from './amount.component';
@@ -28,7 +27,6 @@ describe('Component: Amount', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
-        DonationFundService,
         StoreService,
         ParamValidationService,
         StateService,
@@ -100,7 +98,6 @@ describe('Component: Donation', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
-        DonationFundService,
         StoreService,
         ParamValidationService,
         StateService,

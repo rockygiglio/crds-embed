@@ -11,7 +11,6 @@ import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
 import { ParamValidationService } from '../services/param-validation.service';
-import { DonationFundService } from '../services/donation-fund.service';
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
 import { HttpClientService } from '../services/http-client.service';
@@ -35,7 +34,6 @@ describe('Component: Confirmation', () => {
         RouterTestingModule.withRoutes([]), HttpModule
       ],
       providers: [
-        DonationFundService,
         StoreService,
         StateService,
         ParamValidationService,

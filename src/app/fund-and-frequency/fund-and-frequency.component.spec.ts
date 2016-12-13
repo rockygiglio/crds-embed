@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { DonationFundService } from '../services/donation-fund.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
@@ -56,7 +55,6 @@ describe('Component: FundAndFrequency', () => {
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         CookieService,
-        DonationFundService,
         StoreService,
         HttpClientService,
         LoginService,

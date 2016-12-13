@@ -8,17 +8,11 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
 import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component';
-import { DonationFundService } from './services/donation-fund.service';
 
 const appRoutes: Routes = [
   { path: '', component: AmountComponent },
   { path: 'amount', component: AmountComponent },
-  { path: 'fund',
-    component: FundAndFrequencyComponent,
-    resolve: {
-      giveTo: DonationFundService
-    }
-  },
+  { path: 'fund', component: FundAndFrequencyComponent },
   { path: 'authentication', component: AuthenticationComponent },
   { path: 'billing', component: BillingComponent },
   { path: 'summary', component: SummaryComponent },

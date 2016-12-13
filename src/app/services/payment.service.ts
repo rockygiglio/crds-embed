@@ -5,8 +5,9 @@ import { HttpClientService } from './http-client.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
-import { Payment } from '../models/payment';
 import { Donor } from '../models/donor';
+import { Fund } from '../models/fund';
+import { Payment } from '../models/payment';
 import { RecurringDonor } from '../models/recurring-donor';
 
 import 'rxjs/add/operator/catch';
@@ -24,6 +25,12 @@ export class PaymentService {
   public stripeMethods = {
     card: 'card',
     ach: 'bankAccount'
+  };
+  public defaults = {
+    fund: new Fund(3, 'General Giving', 1, true),
+    paymentInfo: null,
+    previousGift: null,
+    donationsAmounts: [5, 10, 25, 100, 500]
   };
 
   constructor(private http: Http, private httpClient: HttpClientService, private zone: NgZone) { }
@@ -75,8 +82,38 @@ export class PaymentService {
     return this.httpClient.get(this.baseUrl + 'api/donor?email=')
       .map(this.extractData)
       .catch(() => {
-        return [null];
+        return [this.defaults.paymentInfo];
       });
+  }
+
+  public getFunds(): Observable<any> {
+    return this.http.get(this.baseUrl + 'api/programs/1')
+      .map((res) => {
+        let body = res.json();
+        let funds: Array<Fund> = new Array();
+        if (Array.isArray(body) && body.length > 0) {
+          for (let i = 0; i < body.length; i++) {
+            if (this.isFundInArray(funds, body[i].ProgramId) === true) {
+              break;
+            }
+            funds.push(
+              new Fund(
+                body[i].ProgramId,
+                body[i].Name,
+                body[i].ProgramType,
+                body[i].AllowRecurringGiving
+              )
+            );
+          }
+        }
+        return funds;
+      })
+      .catch(this.handleError);
+  }
+
+  public getFundByID(fundID: number, funds: Array<Fund>): Fund {
+    let foundFund: any = funds.find(fund => Number(fund.ID) === Number(fundID));
+    return foundFund ? foundFund : this.defaults.fund;
   }
 
   public getPreviousGiftAmount(): Observable<string> {
@@ -97,7 +134,7 @@ export class PaymentService {
         return amount;
       })
       .catch((error) => {
-        return [null];
+        return [this.defaults.previousGift];
       });
   };
 
@@ -105,7 +142,7 @@ export class PaymentService {
     return this.http.get(this.baseUrl + 'api/donations/predefinedamounts')
       .map(this.extractData)
       .catch((error) => {
-        return [[5, 10, 25, 100, 500]];
+        return [this.defaults.donationsAmounts];
       });
   }
 
@@ -141,5 +178,14 @@ export class PaymentService {
   private handleError(err: Response | any) {
     return Observable.throw(err);
   };
+
+  private isFundInArray(funds, fundID) {
+    for (let x = 0; x < funds.length; x++) {
+      if (funds[x].ProgramId === fundID) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }

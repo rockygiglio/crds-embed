@@ -3,11 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { DonationFundService } from '../services/donation-fund.service';
-import { Frequency } from '../models/frequency';
+import { PaymentService } from '../services/payment.service';
 import { StoreService } from '../services/store.service';
-import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
+
+import { Frequency } from '../models/frequency';
+import { Fund } from '../models/fund';
 
 
 @Component({
@@ -25,38 +26,53 @@ export class FundAndFrequencyComponent implements OnInit {
   public isFundSelectShown: boolean = undefined;
   public defaultFund: Fund;
 
-  constructor(private fundService: DonationFundService,
-              private store: StoreService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private state: StateService,
-              private _fb: FormBuilder) {}
+  constructor(
+    private paymentService: PaymentService,
+    private store: StoreService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private state: StateService,
+    private _fb: FormBuilder) {
+    this.fundIdParam = this.store.fundId;
+    this.defaultFund = this.store.fund = this.paymentService.defaults.fund;
+    this.form = this._fb.group({
+      fund: ['', [<any>Validators.required]],
+      frequency: ['', [<any>Validators.required]],
+    });
+  }
 
   public ngOnInit(): void {
-
     if ( this.funds === undefined || this.funds.length <= 0 ) {
-      this.funds = this.route.snapshot.data['giveTo'];
-      this.store.funds = this.funds;
+      this.state.setLoading(true);
+      this.paymentService.getFunds().subscribe(
+        (funds) => {
+          this.funds = funds;
+          this.store.funds = this.funds;
+          this.load();
+        }
+      );
     } else {
       this.funds = this.store.funds;
+      this.load();
     }
-    this.fundIdParam = this.store.fundId;
-    this.defaultFund = this.fundService.getDefaultFund();
-    if (!this.store.fund) {
-      this.store.fund = this.fundService.getUrlParamFundOrDefault(this.fundIdParam, this.funds, this.defaultFund);
+  }
+
+  public load() {
+    if (this.fundIdParam) {
+      this.store.fund = this.paymentService.getFundByID(this.fundIdParam, this.funds);
     }
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];
     }
-    this.isFundSelectShown = !this.funds.find(fund => Number(fund.ID) === Number(this.fundIdParam));
     this.store.start_date = this.store.start_date ? new Date(this.store.start_date) : new Date();
-    this.form = this._fb.group({
-      fund: [this.store.fund, [<any>Validators.required]],
-      frequency: [this.store.frequency, [<any>Validators.required]],
-    });
-
-    this.store.validateRoute(this.router);
-    this.state.setLoading(false);
+    this.isFundSelectShown = !this.funds.find(fund => Number(fund.ID) === Number(this.fundIdParam));
+    if (this.isFundSelectShown === false && this.store.fund.AllowRecurringGiving === false) {
+      this.state.hidePage(this.state.fundIndex);
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
+    } else {
+      this.store.validateRoute(this.router);
+      this.state.setLoading(false);
+    }
   }
 
   public back() {
