@@ -5,7 +5,7 @@ import { StoreService } from './store.service';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerBank } from '../models/customer-bank';
 import { Frequency } from '../models/frequency';
-import { ParamValidationService } from './param-validation.service';
+import { ValidationService } from './validation.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { PaymentService } from './payment.service';
@@ -28,7 +28,7 @@ describe('Service: Store', () => {
     TestBed.configureTestingModule({
       providers: [
         StoreService,
-        ParamValidationService,
+        ValidationService,
         PaymentService,
         SessionService,
         StateService,

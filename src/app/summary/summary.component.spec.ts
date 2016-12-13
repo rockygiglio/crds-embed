@@ -12,7 +12,7 @@ import { HttpModule } from '@angular/http';
 import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateService } from '../services/state.service';
-import { ParamValidationService } from '../services/param-validation.service';
+import { ValidationService } from '../services/validation.service';
 import { PaymentService } from '../services/payment.service';
 
 import { Donor } from '../models/donor';
@@ -62,7 +62,7 @@ describe('Component: Summary', () => {
         CookieService,
         { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},
-        ParamValidationService,
+        ValidationService,
         PaymentService
       ]
     });

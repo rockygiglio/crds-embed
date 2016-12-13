@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 @Injectable()
-export class ParamValidationService {
+export class ValidationService {
   public types: any;
   public params: any;
   public requiredPmtParams: any[];

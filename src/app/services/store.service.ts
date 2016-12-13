@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { PaymentService } from './payment.service';
-import { ParamValidationService } from './param-validation.service';
+import { ValidationService } from './validation.service';
 import { Fund } from '../models/fund';
 import { StateService } from './state.service';
 import { Donor } from '../models/donor';
@@ -75,7 +75,7 @@ export class StoreService {
 
   constructor(
     private paymentService: PaymentService,
-    private helper: ParamValidationService,
+    private validation: ValidationService,
     private route: ActivatedRoute,
     private state: StateService
     ) {
@@ -222,8 +222,8 @@ export class StoreService {
 
   private parseParamOrSetError(paramName, queryParams): any {
     let isValid: boolean = queryParams[paramName] ?
-      this.helper.isValidParam(paramName, queryParams[paramName], queryParams) : null;
-    let isRequired: boolean = this.helper.isParamRequired(paramName, queryParams[this.helper.params.type]);
+      this.validation.isValidParam(paramName, queryParams[paramName], queryParams) : null;
+    let isRequired: boolean = this.validation.isParamRequired(paramName, queryParams[this.validation.params.type]);
     let parsedParam: any = undefined;
 
     if (isValid && isRequired) {
@@ -232,7 +232,7 @@ export class StoreService {
       parsedParam = null;
       this.errors.push(`${paramName} is missing or invalid`);
     } else if (isValid && !isRequired) {
-      parsedParam = this.helper.castParamToProperType(paramName, queryParams[paramName]);
+      parsedParam = this.validation.castParamToProperType(paramName, queryParams[paramName]);
     } else if (!isValid && !isRequired) {
       parsedParam = null;
     }
@@ -245,24 +245,24 @@ export class StoreService {
     if (this.queryParams['theme'] === 'dark') {
       this.setTheme('dark-theme');
     }
-    if (this.queryParams[this.helper.params.override_parent] === 'false') {
+    if (this.queryParams[this.validation.params.override_parent] === 'false') {
       this.overrideParent = false;
     }
 
-    this.type = this.queryParams[this.helper.params.type];
+    this.type = this.queryParams[this.validation.params.type];
 
-    if (this.type === this.helper.types.payment || this.type === this.helper.types.donation) {
-      this.invoiceId = this.parseParamOrSetError(this.helper.params.invoice_id, this.queryParams);
-      this.totalCost = this.parseParamOrSetError(this.helper.params.total_cost, this.queryParams);
-      this.minPayment = this.parseParamOrSetError(this.helper.params.min_payment, this.queryParams);
-      this.title = this.parseParamOrSetError(this.helper.params.title, this.queryParams);
-      this.url = this.parseParamOrSetError(this.helper.params.url, this.queryParams);
-      this.fundId = this.parseParamOrSetError(this.helper.params.fund_id, this.queryParams);
+    if (this.type === this.validation.types.payment || this.type === this.validation.types.donation) {
+      this.invoiceId = this.parseParamOrSetError(this.validation.params.invoice_id, this.queryParams);
+      this.totalCost = this.parseParamOrSetError(this.validation.params.total_cost, this.queryParams);
+      this.minPayment = this.parseParamOrSetError(this.validation.params.min_payment, this.queryParams);
+      this.title = this.parseParamOrSetError(this.validation.params.title, this.queryParams);
+      this.url = this.parseParamOrSetError(this.validation.params.url, this.queryParams);
+      this.fundId = this.parseParamOrSetError(this.validation.params.fund_id, this.queryParams);
     } else {
       this.errors.push('Invalid type');
     }
 
-    if (this.type === this.helper.types.donation) {
+    if (this.type === this.validation.types.donation) {
       this.state.unhidePage(this.state.fundIndex);
     }
 

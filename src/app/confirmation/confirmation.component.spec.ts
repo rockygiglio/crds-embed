@@ -10,7 +10,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
-import { ParamValidationService } from '../services/param-validation.service';
+import { ValidationService } from '../services/validation.service';
 import { PaymentService } from '../services/payment.service';
 import { StateService } from '../services/state.service';
 import { SessionService } from '../services/session.service';
@@ -35,7 +35,7 @@ describe('Component: Confirmation', () => {
       providers: [
         StoreService,
         StateService,
-        ParamValidationService,
+        ValidationService,
         PaymentService,
         SessionService,
         CookieService

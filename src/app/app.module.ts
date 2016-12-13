@@ -24,7 +24,7 @@ import { RegisterComponent} from './register/register.component';
 
 import { StoreService } from './services/store.service';
 import { SessionService } from './services/session.service';
-import { ParamValidationService } from './services/param-validation.service';
+import { ValidationService } from './services/validation.service';
 import { PaymentService } from './services/payment.service';
 import { StateService } from './services/state.service';
 
@@ -72,7 +72,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     CookieService,
     StoreService,
     SessionService,
-    ParamValidationService,
+    ValidationService,
     PaymentService,
     StateService,
     {provide: WindowToken, useFactory: _window},

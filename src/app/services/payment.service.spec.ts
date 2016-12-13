@@ -8,7 +8,7 @@ import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 import { CustomerBank } from '../models/customer-bank';
 import { StoreService } from './store.service';
 import { SessionService } from './session.service';
-import { ParamValidationService } from './param-validation.service';
+import { ValidationService } from './validation.service';
 import { Payment} from '../models/payment';
 import { PaymentService } from './payment.service';
 import { StateService } from './state.service';
@@ -35,7 +35,7 @@ describe('Service: Payment', () => {
                 MockBackend,
                 SessionService,
                 BaseRequestOptions,
-                ParamValidationService,
+                ValidationService,
                 PaymentService,
                 StateService,
                 StoreService,

@@ -5,7 +5,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { StoreService } from '../services/store.service';
-import { ParamValidationService } from '../services/param-validation.service';
+import { ValidationService } from '../services/validation.service';
 import { AmountComponent } from './amount.component';
 import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
@@ -27,7 +27,7 @@ describe('Component: Amount', () => {
       ],
       providers: [
         StoreService,
-        ParamValidationService,
+        ValidationService,
         StateService,
         PaymentService,
         SessionService,
@@ -97,7 +97,7 @@ describe('Component: Donation', () => {
       ],
       providers: [
         StoreService,
-        ParamValidationService,
+        ValidationService,
         StateService,
         PaymentService,
         SessionService,

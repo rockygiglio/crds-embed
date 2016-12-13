@@ -10,7 +10,7 @@ import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-boot
 import { ActivatedRoute } from '@angular/router';
 import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { ParamValidationService } from '../services/param-validation.service';
+import { ValidationService } from '../services/validation.service';
 import { StateService } from '../services/state.service';
 import { PaymentService } from '../services/payment.service';
 
@@ -42,7 +42,7 @@ describe('Component: Billing', () => {
         FormBuilder,
         SessionService,
         CookieService,
-        ParamValidationService,
+        ValidationService,
         PaymentService,
         StateService
       ]

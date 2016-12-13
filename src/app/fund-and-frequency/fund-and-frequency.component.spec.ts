@@ -12,7 +12,7 @@ import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
 import { SessionService } from '../services/session.service';
-import { ParamValidationService } from '../services/param-validation.service';
+import { ValidationService } from '../services/validation.service';
 import { PaymentService } from '../services/payment.service';
 import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
@@ -56,7 +56,7 @@ describe('Component: FundAndFrequency', () => {
         CookieService,
         StoreService,
         SessionService,
-        ParamValidationService,
+        ValidationService,
         PaymentService,
         StateService
       ]
