@@ -584,6 +584,12 @@
     }
   }
 
+  
+  app-summary .alert.alert-danger {
+    margin-top: 15px;
+    margin-bottom: 0;
+  }
+
   .alert {
     border-radius: 0;
     font-size: .875em;
