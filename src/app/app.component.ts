@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 
+import { ContentService } from './content-service/services/content.service';
 import { StateManagerService } from './services/state-manager.service';
 
 @Component({
@@ -18,7 +19,7 @@ import { StateManagerService } from './services/state-manager.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   action: string;
   type: string;
   params: any;
@@ -27,6 +28,7 @@ export class AppComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private contentService: ContentService,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private state: StateManagerService) {
 
@@ -35,6 +37,10 @@ export class AppComponent {
     }
 
     (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
+  }
+
+  ngOnInit() {
+    this.contentService.loadData();
   }
 
 }
