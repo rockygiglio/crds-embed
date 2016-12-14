@@ -11,7 +11,7 @@ import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { SessionService } from '../services/session.service';
 
@@ -36,7 +36,7 @@ describe('Component: Confirmation', () => {
         StoreService,
         StateService,
         ValidationService,
-        PaymentService,
+        APIService,
         SessionService,
         CookieService
       ]

@@ -8,7 +8,7 @@ import { Frequency } from '../models/frequency';
 import { ValidationService } from './validation.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
-import { PaymentService } from './payment.service';
+import { APIService } from './api.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { CookieService } from 'angular2-cookie/core';
@@ -29,7 +29,7 @@ describe('Service: Store', () => {
       providers: [
         StoreService,
         ValidationService,
-        PaymentService,
+        APIService,
         SessionService,
         StateService,
         CookieService,

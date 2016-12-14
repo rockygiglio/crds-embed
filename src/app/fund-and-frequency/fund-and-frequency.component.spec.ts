@@ -13,7 +13,7 @@ import { Frequency } from '../models/frequency';
 import { StoreService } from '../services/store.service';
 import { SessionService } from '../services/session.service';
 import { ValidationService } from '../services/validation.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
 
@@ -57,7 +57,7 @@ describe('Component: FundAndFrequency', () => {
         StoreService,
         SessionService,
         ValidationService,
-        PaymentService,
+        APIService,
         StateService
       ]
     });

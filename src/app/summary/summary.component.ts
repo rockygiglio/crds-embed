@@ -1,7 +1,7 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { Payment } from '../models/payment';
@@ -26,7 +26,7 @@ export class SummaryComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
-    private paymentService: PaymentService,
+    private api: APIService,
     @Inject(WindowToken) private window: Window
   ) {}
 
@@ -50,7 +50,7 @@ export class SummaryComponent implements OnInit {
       this.store.invoiceId
     );
     if (this.store.isUsingNewPaymentMethod()) {
-      this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
+      this.api.createOrUpdateDonor(this.store.donor).subscribe(
           value => this.postTransaction(paymentDetails),
           error => this.handleOuterError()
       );
@@ -76,7 +76,7 @@ export class SummaryComponent implements OnInit {
         this.store.invoiceId
       );
       if (this.store.isUsingNewPaymentMethod()) {
-        this.paymentService.createOrUpdateDonor(this.store.donor).subscribe(
+        this.api.createOrUpdateDonor(this.store.donor).subscribe(
             donor => {
               if ( this.store.isGuest === true ) {
                 donationDetails.donor_id = this.store.donor.donor_id;
@@ -93,7 +93,7 @@ export class SummaryComponent implements OnInit {
       }
     } else if (this.store.isRecurringGift()) {
       if (this.store.isUsingNewPaymentMethod()) {
-        this.paymentService.postRecurringGift(this.store.recurringDonor).subscribe(
+        this.api.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
           error => this.handleInnerError(error)
         );
@@ -132,7 +132,7 @@ export class SummaryComponent implements OnInit {
   }
 
   public postTransaction(details: Payment) {
-    this.paymentService.postPayment(details).subscribe(
+    this.api.postPayment(details).subscribe(
       success => this.handleSuccess(success),
       error => this.handleInnerError(error)
     );
@@ -179,7 +179,7 @@ export class SummaryComponent implements OnInit {
   }
 
   public changeUser() {
-    this.paymentService.logOut();
+    this.api.logOut();
     this.changePayment();
   }
 

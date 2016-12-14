@@ -7,7 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { StoreService } from '../services/store.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 
 
 
@@ -18,7 +18,7 @@ describe('Component: Authentication', () => {
       store: StoreService,
       _fb: FormBuilder,
       sessionService: SessionService,
-      paymentService: PaymentService;
+      api: APIService;
 
   beforeEach(() => {
 
@@ -39,7 +39,7 @@ describe('Component: Authentication', () => {
       ]
     );
     _fb = new FormBuilder();
-    paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['getRegisteredUser', 'postLogin']);
+    api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
     sessionService = jasmine.createSpyObj<SessionService>('sessionService', ['get']);
 
     fixture = new AuthenticationComponent(
@@ -47,7 +47,7 @@ describe('Component: Authentication', () => {
       stateManagerService,
       store,
       _fb,
-      paymentService
+      api
     );
     fixture.ngOnInit();
   });
@@ -90,7 +90,7 @@ describe('Component: Authentication', () => {
 
     describe('when form is valid', () => {
       function setGuestEmailExists(state: any): void {
-        (<jasmine.Spy>paymentService.getRegisteredUser).and.returnValue(Observable.of(state));
+        (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
       }
 
       beforeEach(() => {
@@ -162,7 +162,7 @@ describe('Component: Authentication', () => {
       beforeEach(() => {
         setForm('bad@bad.com', 'reallynotgood');
         fixture.form.markAsDirty();
-        (<jasmine.Spy>paymentService.postLogin).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {
@@ -182,7 +182,7 @@ describe('Component: Authentication', () => {
       it('should call #adv when valid auth credentials are submitted', () => {
         setForm('good@good.com', 'foobar');
         fixture.form.markAsDirty();
-        (<jasmine.Spy>paymentService.postLogin).and.returnValue(Observable.of({}));
+        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.of({}));
         spyOn(fixture, 'adv');
         fixture.submitLogin();
         expect(fixture.adv).toHaveBeenCalled();

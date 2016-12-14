@@ -17,7 +17,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class PaymentService {
+export class APIService {
 
   private baseUrl = process.env.CRDS_API_ENDPOINT;
 

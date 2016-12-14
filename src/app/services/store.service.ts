@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { PaymentService } from './payment.service';
+import { APIService } from './api.service';
 import { StateService } from './state.service';
 import { ValidationService } from './validation.service';
 
@@ -76,7 +76,7 @@ export class StoreService {
   public userCc: CustomerCard = undefined;
 
   constructor(
-    private paymentService: PaymentService,
+    private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
     private state: StateService
@@ -101,7 +101,7 @@ export class StoreService {
       return;
     }
 
-    this.existingPaymentInfo = this.paymentService.getExistingPaymentInfo();
+    this.existingPaymentInfo = this.api.getExistingPaymentInfo();
     this.existingPaymentInfo.subscribe(
       info => {
         if (info !== null) {
@@ -116,26 +116,26 @@ export class StoreService {
 
   public loadUserData(): void {
     this.loadExistingPaymentData();
-    this.paymentService.getAuthentication().subscribe(
+    this.api.getAuthentication().subscribe(
       (info) => {
         if (info !== null) {
           this.email = info.userEmail;
         } else {
-          this.paymentService.logOut();
+          this.api.logOut();
         }
       }
     );
   }
 
   public preloadData(): void {
-    if (this.paymentService.isLoggedIn()) {
+    if (this.api.isLoggedIn()) {
       this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }
   }
 
   public preloadFrequencies() {
-    this.paymentService.getFrequencies().subscribe(
+    this.api.getFrequencies().subscribe(
       (frequencies) => {
         this.frequencies = frequencies;
         this.frequency = this.getFirstNonRecurringFrequency();

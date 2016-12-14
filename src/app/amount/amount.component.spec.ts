@@ -8,7 +8,7 @@ import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 import { AmountComponent } from './amount.component';
 import { StateService } from '../services/state.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { SessionService } from '../services/session.service';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
@@ -29,7 +29,7 @@ describe('Component: Amount', () => {
         StoreService,
         ValidationService,
         StateService,
-        PaymentService,
+        APIService,
         SessionService,
         CookieService
       ]
@@ -99,7 +99,7 @@ describe('Component: Donation', () => {
         StoreService,
         ValidationService,
         StateService,
-        PaymentService,
+        APIService,
         SessionService,
         CookieService
       ]

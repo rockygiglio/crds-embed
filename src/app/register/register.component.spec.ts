@@ -6,14 +6,14 @@ import { RegisterComponent } from './register.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 
 describe('Component: Registration', () => {
   let fixture: RegisterComponent,
       router: Router,
       _fb: FormBuilder,
       state: StateService,
-      paymentService: PaymentService,
+      api: APIService,
       store: StoreService;
 
   beforeEach(() => {
@@ -29,8 +29,8 @@ describe('Component: Registration', () => {
       ]
     );
     _fb = new FormBuilder();
-    paymentService = jasmine.createSpyObj<PaymentService>('paymentService', ['postLogin', 'postUser']);
-    fixture = new RegisterComponent(router, _fb, state, paymentService, store);
+    api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
+    fixture = new RegisterComponent(router, _fb, state, api, store);
     fixture.ngOnInit();
   });
 
@@ -99,7 +99,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (<jasmine.Spy>paymentService.postLogin).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {

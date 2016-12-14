@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { StoreService } from '../services/store.service';
 import { StateService } from '../services/state.service';
 
@@ -27,14 +27,14 @@ export class FundAndFrequencyComponent implements OnInit {
   public defaultFund: Fund;
 
   constructor(
-    private paymentService: PaymentService,
+    private api: APIService,
     private store: StoreService,
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,
     private fb: FormBuilder) {
     this.fundIdParam = this.store.fundId;
-    this.defaultFund = this.store.fund = this.paymentService.defaults.fund;
+    this.defaultFund = this.store.fund = this.api.defaults.fund;
     this.form = this.fb.group({
       fund: [this.store.fund, [<any>Validators.required]],
       frequency: [this.store.frequency, [<any>Validators.required]],
@@ -44,7 +44,7 @@ export class FundAndFrequencyComponent implements OnInit {
   public ngOnInit(): void {
     if ( this.funds === undefined || this.funds.length <= 0 ) {
       this.state.setLoading(true);
-      this.paymentService.getFunds().subscribe(
+      this.api.getFunds().subscribe(
         (funds) => {
           this.funds = funds;
           this.store.funds = this.funds;
@@ -59,7 +59,7 @@ export class FundAndFrequencyComponent implements OnInit {
 
   public load() {
     if (this.fundIdParam) {
-      this.store.fund = this.paymentService.getFundByID(this.fundIdParam, this.funds);
+      this.store.fund = this.api.getFundByID(this.fundIdParam, this.funds);
     }
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -36,7 +36,7 @@ export class BillingComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
-    private paymentService: PaymentService
+    private api: APIService
   ) {
     this.state.setLoading(true);
     this.achForm = this.fb.group({
@@ -106,14 +106,14 @@ export class BillingComponent implements OnInit {
         donor => this.process(
           donor,
           userBank,
-          this.paymentService.stripeMethods.ach,
-          this.paymentService.restVerbs.put
+          this.api.stripeMethods.ach,
+          this.api.restVerbs.put
         ),
         noDonor => this.process(
           noDonor,
           userBank,
-          this.paymentService.stripeMethods.ach,
-          this.paymentService.restVerbs.post
+          this.api.stripeMethods.ach,
+          this.api.restVerbs.post
         )
       );
     }
@@ -139,14 +139,14 @@ export class BillingComponent implements OnInit {
         donor => this.process(
           donor,
           userCard,
-          this.paymentService.stripeMethods.card,
-          this.paymentService.restVerbs.put
+          this.api.stripeMethods.card,
+          this.api.restVerbs.put
         ),
         noDonor => this.process(
           noDonor,
           userCard,
-          this.paymentService.stripeMethods.card,
-          this.paymentService.restVerbs.post
+          this.api.stripeMethods.card,
+          this.api.restVerbs.post
         )
       );
     }
@@ -155,15 +155,15 @@ export class BillingComponent implements OnInit {
   private getDonor(email: string): Observable<any> {
     let donor: Observable<any>;
     if (this.store.isGuest === true) {
-      donor = this.paymentService.getDonorByEmail(email);
+      donor = this.api.getDonorByEmail(email);
     } else {
-      donor = this.paymentService.getDonor();
+      donor = this.api.getDonor();
     }
     return donor;
   }
 
   public process(donor: any, callBody: CustomerBank | CustomerCard, stripeMethod: string, restMethod: string) {
-    this.paymentService.createStripeToken(stripeMethod, callBody).subscribe(
+    this.api.createStripeToken(stripeMethod, callBody).subscribe(
       token => this.storeToken(donor, token, stripeMethod, restMethod),
       error => this.handleError(error, stripeMethod)
     );
@@ -193,7 +193,7 @@ export class BillingComponent implements OnInit {
   }
 
   private handleError(errResponse: any, stripeMethod: string): boolean {
-    let stripeMethods = this.paymentService.stripeMethods;
+    let stripeMethods = this.api.stripeMethods;
     if (stripeMethod === stripeMethods.card) {
       this.setCCSubmitted(false);
     } else if (stripeMethod === stripeMethods.ach) {

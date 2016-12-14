@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private state: StateService,
-    private paymentService: PaymentService,
+    private api: APIService,
     private store: StoreService
   ) {
     const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
@@ -64,9 +64,9 @@ export class RegisterComponent implements OnInit {
         this.regForm.get('email').value,
         this.regForm.get('password').value
       );
-      this.paymentService.postUser(newUser).subscribe(
+      this.api.postUser(newUser).subscribe(
         user => {
-          if (!this.paymentService.isLoggedIn()) {
+          if (!this.api.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);
           }
           this.adv();
@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit {
   }
 
   loginNewUser(email, password) {
-    this.paymentService.postLogin(email, password)
+    this.api.postLogin(email, password)
       .subscribe(
         (user) => this.store.loadUserData(),
         (error) => this.state.setLoading(false)

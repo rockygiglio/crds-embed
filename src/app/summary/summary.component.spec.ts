@@ -13,7 +13,7 @@ import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/core';
 import { StateService } from '../services/state.service';
 import { ValidationService } from '../services/validation.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 
 import { Donor } from '../models/donor';
 import { RecurringDonor } from '../models/recurring-donor';
@@ -63,7 +63,7 @@ describe('Component: Summary', () => {
         { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},
         ValidationService,
-        PaymentService
+        APIService
       ]
     });
     this.fixture = TestBed.createComponent(SummaryComponent);
@@ -106,12 +106,12 @@ describe('Component: Summary', () => {
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
     let paymentBody = new Payment('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
-    spyOn(this.component.paymentService, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
-    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitPayment();
-    expect(this.component.paymentService.createOrUpdateDonor).toHaveBeenCalled();
-    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.api.createOrUpdateDonor).toHaveBeenCalled();
+    expect(this.component.api.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   it('should submit PAYMENT with bank', () => {
@@ -120,12 +120,12 @@ describe('Component: Summary', () => {
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
     let paymentBody = new Payment('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
-    spyOn(this.component.paymentService, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
-    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitPayment();
-    expect(this.component.paymentService.createOrUpdateDonor).toHaveBeenCalled();
-    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.api.createOrUpdateDonor).toHaveBeenCalled();
+    expect(this.component.api.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   it('should submit ONE TIME DONATION with cc', () => {
@@ -143,12 +143,12 @@ describe('Component: Summary', () => {
       'DONATION',
       0);
 
-    spyOn(this.component.paymentService, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
-    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
+    spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitDonation();
-    expect(this.component.paymentService.createOrUpdateDonor).toHaveBeenCalled();
-    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.api.createOrUpdateDonor).toHaveBeenCalled();
+    expect(this.component.api.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   it('should submit ONE TIME DONATION with bank', () => {
@@ -166,12 +166,12 @@ describe('Component: Summary', () => {
       'DONATION',
       0);
 
-    spyOn(this.component.paymentService, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
-    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
+    spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitDonation();
-    expect(this.component.paymentService.createOrUpdateDonor).toHaveBeenCalled();
-    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.api.createOrUpdateDonor).toHaveBeenCalled();
+    expect(this.component.api.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   it('should submit RECURRING DONATION with cc', () => {
@@ -189,10 +189,10 @@ describe('Component: Summary', () => {
       this.component.store.startDate.toISOString().slice(0, 10)
     );
 
-    spyOn(this.component.paymentService, 'postRecurringGift').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'postRecurringGift').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitDonation();
-    expect(this.component.paymentService.postRecurringGift).toHaveBeenCalledWith(this.component.store.recurringDonor);
+    expect(this.component.api.postRecurringGift).toHaveBeenCalledWith(this.component.store.recurringDonor);
   });
 
   it('should submit RECURRING DONATION with bank', () => {
@@ -210,10 +210,10 @@ describe('Component: Summary', () => {
       this.component.store.startDate.toISOString().slice(0, 10)
     );
 
-    spyOn(this.component.paymentService, 'postRecurringGift').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'postRecurringGift').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitDonation();
-    expect(this.component.paymentService.postRecurringGift).toHaveBeenCalledWith(this.component.store.recurringDonor);
+    expect(this.component.api.postRecurringGift).toHaveBeenCalledWith(this.component.store.recurringDonor);
   });
 
   it('should submit GUEST ONE TIME DONATION', () => {
@@ -236,12 +236,12 @@ describe('Component: Summary', () => {
     paymentBody.email_address = this.component.store.email;
     paymentBody.donor_id = 1;
 
-    spyOn(this.component.paymentService, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
-    spyOn(this.component.paymentService, 'postPayment').and.returnValue(Observable.of({}));
+    spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
+    spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
     this.component.submitDonation();
-    expect(this.component.paymentService.createOrUpdateDonor).toHaveBeenCalled();
-    expect(this.component.paymentService.postPayment).toHaveBeenCalledWith(paymentBody);
+    expect(this.component.api.createOrUpdateDonor).toHaveBeenCalled();
+    expect(this.component.api.postPayment).toHaveBeenCalledWith(paymentBody);
   });
 
   it('should reset payment info on link to billing page', () => {
@@ -253,9 +253,9 @@ describe('Component: Summary', () => {
   });
 
   it('should logout user on link to auth page', () => {
-    spyOn(this.component.paymentService, 'logOut');
+    spyOn(this.component.api, 'logOut');
     this.component.changeUser();
-    expect(this.component.paymentService.logOut).toHaveBeenCalled();
+    expect(this.component.api.logOut).toHaveBeenCalled();
   });
 
   it('should add redirect params to redirect url', () => {

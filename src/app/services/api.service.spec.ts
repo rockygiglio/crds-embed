@@ -10,7 +10,7 @@ import { StoreService } from './store.service';
 import { SessionService } from './session.service';
 import { ValidationService } from './validation.service';
 import { Payment} from '../models/payment';
-import { PaymentService } from './payment.service';
+import { APIService } from './api.service';
 import { StateService } from './state.service';
 
 class MockActivatedRoute {
@@ -36,7 +36,7 @@ describe('Service: Payment', () => {
                 SessionService,
                 BaseRequestOptions,
                 ValidationService,
-                PaymentService,
+                APIService,
                 StateService,
                 StoreService,
                 CookieService,
@@ -61,7 +61,7 @@ describe('Service: Payment', () => {
 
 
     it('it should get donor information when passed a donor email',
-        async(inject([PaymentService, MockBackend], (srvc, backend) => {
+        async(inject([APIService, MockBackend], (srvc, backend) => {
 
             backend.connections.subscribe(
                 (connection: MockConnection) => {
@@ -81,7 +81,7 @@ describe('Service: Payment', () => {
     );
 
     it('it should make a post payment call',
-        async(inject([PaymentService, MockBackend], (srvc, backend) => {
+        async(inject([APIService, MockBackend], (srvc, backend) => {
 
             backend.connections.subscribe(
                 (connection: MockConnection) => {
@@ -101,7 +101,7 @@ describe('Service: Payment', () => {
     );
 
     it('it should make an API call to post a donor',
-        async(inject([PaymentService, MockBackend], (srvc, backend) => {
+        async(inject([APIService, MockBackend], (srvc, backend) => {
 
             backend.connections.subscribe(
                 (connection: MockConnection) => {
@@ -122,7 +122,7 @@ describe('Service: Payment', () => {
 
 
     it('it should create an observable with stripe token response',
-        async(inject([PaymentService, MockBackend], (srvc, backend) => {
+        async(inject([APIService, MockBackend], (srvc, backend) => {
 
             let stripeObservable = srvc.createStripeToken('bankAccount', mockBank);
             expect(stripeObservable.catch).toBeDefined();

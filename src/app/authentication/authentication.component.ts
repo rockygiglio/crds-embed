@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-authentication',
@@ -30,7 +30,7 @@ export class AuthenticationComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
-    private paymentService: PaymentService
+    private api: APIService
   ) { }
 
   public ngOnInit(): void {
@@ -65,7 +65,7 @@ export class AuthenticationComponent implements OnInit {
     if ( this.formGuest.valid ) {
       this.store.isGuest = true;
       this.state.setLoading(true);
-      this.paymentService.getRegisteredUser(this.email).subscribe(
+      this.api.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
           if ( resp === false ) {
@@ -85,7 +85,7 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
-      this.paymentService.postLogin(this.form.get('email').value, this.form.get('password').value)
+      this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
           this.store.loadUserData();

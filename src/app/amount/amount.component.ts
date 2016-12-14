@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { PaymentService } from '../services/payment.service';
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -27,7 +27,7 @@ export class AmountComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: StoreService,
-    private paymentService: PaymentService,
+    private api: APIService,
     private router: Router,
     private state: StateService
   ) {}
@@ -79,7 +79,7 @@ export class AmountComponent implements OnInit {
   }
 
   public getPredefinedDonationAmounts() {
-    this.paymentService.getQuickDonationAmounts().subscribe(
+    this.api.getQuickDonationAmounts().subscribe(
       amounts => {
         this.predefinedAmounts = amounts;
         this.store.predefinedAmounts = amounts;
