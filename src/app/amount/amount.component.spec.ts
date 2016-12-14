@@ -15,7 +15,7 @@ import { AmountComponent } from './amount.component';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
-describe('Component: Amount', () => {
+describe('Component: Amount ?type=payment', () => {
 
   let component;
   let fixture;
@@ -86,7 +86,7 @@ describe('Component: Amount', () => {
 
 });
 
-describe('Component: Donation', () => {
+describe('Component: Amount ?type=donation', () => {
 
   let component;
   let fixture;

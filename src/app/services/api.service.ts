@@ -137,11 +137,6 @@ export class APIService {
       .catch(this.handleError);
   }
 
-  public getFundByID(fundID: number, funds: Array<Fund>): Fund {
-    let foundFund: any = funds.find(fund => Number(fund.ID) === Number(fundID));
-    return foundFund ? foundFund : this.defaults.fund;
-  }
-
   public getPreviousGiftAmount(): Observable<string> {
     let options = new RequestOptions({
       body: { limit: 1, includeRecurring: false }

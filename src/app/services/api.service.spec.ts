@@ -19,7 +19,7 @@ class MockActivatedRoute {
     };
 }
 
-describe('Service: Payment', () => {
+describe('Service: API', () => {
 
     let mockBackend: MockBackend;
     let mockDonor = '{"stripe_token": 123,"email_address":"test@test.com","first_name":"John","last_name":"Doe", "rest_method":"post"}';

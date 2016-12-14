@@ -59,7 +59,12 @@ export class FundAndFrequencyComponent implements OnInit {
 
   public load() {
     if (this.fundIdParam) {
-      this.store.fund = this.api.getFundByID(this.fundIdParam, this.funds);
+      for (let i = 0; i < this.funds.length; i++) {
+        if (Number(this.funds[i].ID === Number(this.fundIdParam))) {
+          this.store.fund = this.funds[i];
+          break;
+        }
+      }
     }
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];

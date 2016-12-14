@@ -32,7 +32,7 @@ describe('Component: Registration', () => {
       ]
     );
     fb = new FormBuilder();
-    validation = jasmine.createSpyObj<ValidationService>('validation', ['emailRegex']);
+    validation = new ValidationService();
     api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
     fixture = new RegisterComponent(api, fb, router, state, store, validation);
     fixture.ngOnInit();
