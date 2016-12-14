@@ -53,7 +53,7 @@ describe('Component: Confirmation', () => {
     this.component.store.amount = 12.34;
     this.component.store.title = 'frankincense and myrrh';
     this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
+    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
     expect(de.nativeElement.textContent).toContain(`Thank you for the $12.34 payment for frankincense and myrrh.`);
   });
 
@@ -63,18 +63,9 @@ describe('Component: Confirmation', () => {
     this.component.store.frequency = new Frequency('month', 'month', true);
     this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
+    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
     expect(de.nativeElement.textContent).toContain(
-      `Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift.`
-    );
-    expect(de.nativeElement.textContent).toContain(
-      `We will process your Recurring Gift of $56.78 for`
-    );
-    expect(de.nativeElement.textContent).toContain(
-      `Programmer Caffination Fund on the 6th of the Month.`
-    );
-    expect(de.nativeElement.textContent).toContain(
-      `Your statement will be sent to user@test.com.`
+      `Your generosity begins on 12/6/2016 to the tune of $56.78 for Programmer Caffination Fund. Thank you for choosing to repeat this gift every 6th of the month.`
     );
   });
 
@@ -84,18 +75,9 @@ describe('Component: Confirmation', () => {
     this.component.store.frequency = new Frequency('weekly', 'week', true);
     this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
+    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
     expect(de.nativeElement.textContent).toContain(
-      `Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift.`
-    );
-    expect(de.nativeElement.textContent).toContain(
-      `We will process your Recurring Gift of $56.78 for`
-    );
-    expect(de.nativeElement.textContent).toContain(
-      `Programmer Caffination Fund on Every Tuesday.`
-    );
-    expect(de.nativeElement.textContent).toContain(
-      `Your statement will be sent to user@test.com.`
+      `Your generosity begins on 12/6/2016 to the tune of $56.78 for Programmer Caffination Fund. Thank you for choosing to repeat this gift every Tuesday.`
     );
   });
 
@@ -104,8 +86,13 @@ describe('Component: Confirmation', () => {
     this.component.store.amount = 90;
     this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg-font'));
-    expect(de.nativeElement.textContent).toContain(`Thank you for your $90.00 gift to Programmer Caffination Fund.`);
+    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
+    expect(de.nativeElement.textContent).toContain(
+      `Your generosity begins on `
+    );
+    expect(de.nativeElement.textContent).toContain(
+      ` to the tune of $90.00 for Programmer Caffination Fund.`
+    )
   });
 
 });

@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
     private api: APIService,
     private store: StoreService
   ) {
-    const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+    const emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
     this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
       lastName:  ['', [<any>Validators.required]],

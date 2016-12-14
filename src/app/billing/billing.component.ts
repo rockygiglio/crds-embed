@@ -149,6 +149,42 @@ export class BillingComponent implements OnInit {
           this.api.restVerbs.post
         )
       );
+    public achNext() {
+
+        this.setACHSubmitted(true);
+        this.gift.resetErrors();
+
+        if (this.achForm.valid) {
+            this.gift.paymentType = 'ach';
+            this.gift.accountNumber = this.gift.accountNumber.trim();
+            this.achForm.value.accountNumber = this.gift.accountNumber;
+            let email = this.gift.email;
+
+            let userBank = new CustomerBank('US', 'USD', this.achForm.value.routingNumber,
+                this.achForm.value.accountNumber,
+                this.achForm.value.accountName,
+                this.achForm.value.accountType);
+
+            this.gift.userBank = userBank;
+
+            let firstName = ''; // not used by API, except for guest donations
+            let lastName = '';  // not used by API, except for guest donations
+
+            this.state.setLoading(true);
+            this.state.watchState();
+
+            let donor: Observable<any>;
+            if (this.gift.isGuest === true) {
+                donor = this.pmtService.getDonorByEmail(email);
+            } else {
+                donor = this.pmtService.getDonor();
+            }
+            donor.subscribe(
+                donor => this.updateDonorWithBankAcct(donor.id, userBank, email),
+                error => this.createDonorWithBank(userBank, email, firstName, lastName)
+            );
+        }
+        return false;
     }
   }
 

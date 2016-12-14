@@ -12,18 +12,20 @@ import { StoreService } from '../services/store.service';
   styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
-  public signinOption: string = 'Sign In';
-
+  buttonText: string = 'Next';
   public email: string;
   public form: FormGroup;
   public formGuest: FormGroup;
   public formGuestSubmitted: boolean;
   public formSubmitted: boolean;
   public guestEmail: boolean;
+  public isGuestNotifiedOfExistingAccount: boolean = false;
   public loginException: boolean;
+  public signinOption: string = 'Sign In';
   public userPmtInfo: any;
-  private helpUrl: string;
+
   private forgotPasswordUrl: string;
+  private helpUrl: string;
 
   constructor(
     private api: APIService,
@@ -43,6 +45,7 @@ export class AuthenticationComponent implements OnInit {
       this.email = this.store.email;
     }
 
+    let emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
     this.form = this.fb.group({
       email: [this.store.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
       password: ['', <any>Validators.required]
@@ -68,10 +71,12 @@ export class AuthenticationComponent implements OnInit {
       this.api.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
-          if ( resp === false ) {
-            this.store.email = this.email;
+          if ( this.isGuestNotifiedOfExistingAccount === true || resp === false ) {
+            this.gift.email = this.email;
             this.adv();
           } else {
+            this.isGuestNotifiedOfExistingAccount = true;
+            this.buttonText = 'Continue Anyway';
             this.state.setLoading(false);
           }
         }

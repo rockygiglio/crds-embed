@@ -26,9 +26,9 @@ export class ConfirmationComponent implements OnInit {
   public frequencyCalculation(): string {
     let startDate = moment(this.store.startDate);
     if (this.store.frequency.value === 'month') {
-      return 'the ' + startDate.format('Do') + ' of the Month';
+      return startDate.format('Do') + ' of the month';
     }
-    return 'Every ' + startDate.format('dddd');
+    return startDate.format('dddd');
   }
 
 }
