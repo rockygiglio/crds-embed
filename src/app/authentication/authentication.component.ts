@@ -16,18 +16,20 @@ import { StateManagerService } from '../services/state-manager.service';
   providers: [CheckGuestEmailService]
 })
 export class AuthenticationComponent implements OnInit {
-  public signinOption: string = 'Sign In';
-
+  buttonText: string = 'Next';
   public email: string;
   public form: FormGroup;
   public formGuest: FormGroup;
   public formGuestSubmitted: boolean;
   public formSubmitted: boolean;
   public guestEmail: boolean;
+  public isGuestNotifiedOfExistingAccount: boolean = false;
   public loginException: boolean;
+  public signinOption: string = 'Sign In';
   public userPmtInfo: any;
-  private helpUrl: string;
+
   private forgotPasswordUrl: string;
+  private helpUrl: string;
 
   constructor( private router: Router,
     private state: StateManagerService,
@@ -91,10 +93,12 @@ export class AuthenticationComponent implements OnInit {
       this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
-          if ( resp === false ) {
+          if ( this.isGuestNotifiedOfExistingAccount === true || resp === false ) {
             this.gift.email = this.email;
             this.adv();
           } else {
+            this.isGuestNotifiedOfExistingAccount = true;
+            this.buttonText = 'Continue Anyway';
             this.state.setLoading(false);
           }
         }
