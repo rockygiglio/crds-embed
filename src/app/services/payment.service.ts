@@ -27,6 +27,13 @@ export class PaymentService {
     };
   }
 
+  getDonorByEmail(email: string): Observable<any> {
+    let donorUrl = this.baseUrl + 'api/donor?email=' + encodeURIComponent(email);
+    return this.http.get(donorUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
+  };
+
   getDonor(): Observable<any> {
     let donorUrl = this.baseUrl + 'api/donor';
     return this.httpClient.get(donorUrl)

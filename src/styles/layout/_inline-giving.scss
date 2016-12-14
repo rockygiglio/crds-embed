@@ -2,7 +2,7 @@
   background-color: $bg-color;
   font-family: $fontface-body;
   font-size: 16px;
-  
+
   a {
     cursor: pointer;
   }
@@ -32,6 +32,15 @@
 
   .page-footer {
     padding-top: 1em;
+
+    .text-block__inline-link {
+      font-size: .875em;
+      line-height: 1.43em;
+    }
+
+    &--pt-0 {
+      padding-top: 0;
+    }
   }
 
   .btn-form {
@@ -323,7 +332,7 @@
   .text-block {
     font-size: 14px;
 
-   &__link {
+    &__link {
       color: $text-color;
 
       &:hover {
@@ -343,11 +352,18 @@
       text-decoration: underline;
     }
 
-    &--lg-font {
-      font-size: 1.75em;
-      font-weight: 300;
+    &--lg {
+      font-size: 1.375em;
 
       padding-top: 1em;
+    }
+
+    &--sm {
+      font-size: .875em;
+    }
+
+    &--thin {
+      font-weight: 100;
     }
 
     &--pb-2 {
@@ -547,6 +563,10 @@
     }
   }
 
+  .background-filled-for-alignment {
+    background-color: $input-bg-color;
+  }
+
   .custom-input-payment__input {
     .form-control.ng-touched {
       &.ng-valid, &.ng-invalid {
@@ -580,7 +600,7 @@
       border-color: $danger-state-border;
       color: $danger-state-text;
       margin-top: -15px;
-      padding: 5px 0;
+      padding: 5px 15px;
       text-align: center;
 
       p {
