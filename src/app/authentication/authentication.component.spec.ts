@@ -1,30 +1,29 @@
-
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { AuthenticationComponent } from './authentication.component';
-import { FormBuilder } from '@angular/forms';
-import { StoreService } from '../services/store.service';
-import { SessionService } from '../services/session.service';
-import { StateService } from '../services/state.service';
 import { APIService } from '../services/api.service';
+import { StoreService } from '../services/store.service';
+import { StateService } from '../services/state.service';
 
-
+import { AuthenticationComponent } from './authentication.component';
 
 describe('Component: Authentication', () => {
+
   let fixture: AuthenticationComponent,
       router: Router,
-      stateManagerService: StateService,
+      state: StateService,
       store: StoreService,
-      _fb: FormBuilder,
-      sessionService: SessionService,
+      fb: FormBuilder,
       api: APIService;
 
   beforeEach(() => {
 
+    api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+    fb = new FormBuilder();
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateService>(
-      'stateManagerService',
+    state = jasmine.createSpyObj<StateService>(
+      'state',
       [
         'getNextPageToShow',
         'getPrevPageToShow',
@@ -33,21 +32,17 @@ describe('Component: Authentication', () => {
       ]
     );
     store = jasmine.createSpyObj<StoreService>(
-      'storeService', [
+      'store', [
         'loadUserData',
         'validateRoute'
       ]
     );
-    _fb = new FormBuilder();
-    api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
-    sessionService = jasmine.createSpyObj<SessionService>('sessionService', ['get']);
-
     fixture = new AuthenticationComponent(
+      api,
+      fb,
       router,
-      stateManagerService,
-      store,
-      _fb,
-      api
+      state,
+      store
     );
     fixture.ngOnInit();
   });
@@ -61,7 +56,7 @@ describe('Component: Authentication', () => {
   }
 
   describe('#ngOnInit', () => {
-    it('initializes the component', () => {
+    it('should initialize the component', () => {
       expect(fixture).toBeTruthy();
     });
   });

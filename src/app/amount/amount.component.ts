@@ -25,11 +25,11 @@ export class AmountComponent implements OnInit {
   public customAmtSelected: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private store: StoreService,
     private api: APIService,
+    private fb: FormBuilder,
     private router: Router,
-    private state: StateService
+    private state: StateService,
+    private store: StoreService
   ) {}
 
   public ngOnInit() {

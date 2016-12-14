@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-authentication',
@@ -26,11 +26,11 @@ export class AuthenticationComponent implements OnInit {
   private forgotPasswordUrl: string;
 
   constructor(
+    private api: APIService,
+    private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService,
-    private fb: FormBuilder,
-    private api: APIService
+    private store: StoreService
   ) { }
 
   public ngOnInit(): void {
