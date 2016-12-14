@@ -112,6 +112,37 @@ describe('Component: Authentication', () => {
         fixture.submitGuest();
         expect(router.navigateByUrl).toHaveBeenCalled();
       });
+
+      describe('and user with provided email exists and isGuestNotifiedOfExistingAccount is false', () => {
+        it('then isGuestNotifiedOfExistingAccount should get set to true and adv() does not get called', () => {
+          spyOn(fixture, 'adv');
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(false);
+          setGuestEmailExists(true);
+          fixture.submitGuest();
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(true);
+          expect(fixture.adv).not.toHaveBeenCalled();
+        });
+
+        it('then buttonText should be set to `Continue Anyway`', () => {
+          expect(fixture.buttonText).toBe('Next');
+          setGuestEmailExists(true);
+          fixture.submitGuest();
+          expect(fixture.buttonText).toBe('Continue Anyway');
+        });
+      });
+
+      describe('and account with provided email exists and isGuestNotifiedOfExistingAccount is true', () => {
+        it('then the router allows for navigation forward in the process', () => {
+          spyOn(fixture, 'adv');
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(false);
+          setGuestEmailExists(true);
+          fixture.submitGuest();
+          expect(fixture.adv).not.toHaveBeenCalled();
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(true);
+          fixture.submitGuest();
+          expect(fixture.adv).toHaveBeenCalled();
+        });
+      });
     });
   });
 
