@@ -64,9 +64,10 @@ describe('Component: Confirmation', () => {
     this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(
-      `Your generosity begins on 12/6/2016 to the tune of $56.78 for Programmer Caffination Fund. Thank you for choosing to repeat this gift every 6th of the month.`
-    );
+    expect(de.nativeElement.textContent).toContain(`Your generosity begins on 12/6/2016`);
+    expect(de.nativeElement.textContent).toContain(`to the tune of $56.78 for Programmer `);
+    expect(de.nativeElement.textContent).toContain(`Caffination Fund. Thank you for choosing `);
+    expect(de.nativeElement.textContent).toContain(`to repeat this gift every 6th of the month.`);
   });
 
   it('should show thank you for weekly recurring gift', () => {
@@ -76,9 +77,10 @@ describe('Component: Confirmation', () => {
     this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(
-      `Your generosity begins on 12/6/2016 to the tune of $56.78 for Programmer Caffination Fund. Thank you for choosing to repeat this gift every Tuesday.`
-    );
+    expect(de.nativeElement.textContent).toContain(`Your generosity begins on 12/6/2016 `);
+    expect(de.nativeElement.textContent).toContain(`to the tune of $56.78 for Programmer Caffination `);
+    expect(de.nativeElement.textContent).toContain(`Fund. Thank you for choosing to repeat `);
+    expect(de.nativeElement.textContent).toContain(`this gift every Tuesday.`);
   });
 
   it('should show thank you for one time gift', () => {
@@ -92,7 +94,7 @@ describe('Component: Confirmation', () => {
     );
     expect(de.nativeElement.textContent).toContain(
       ` to the tune of $90.00 for Programmer Caffination Fund.`
-    )
+    );
   });
 
 });

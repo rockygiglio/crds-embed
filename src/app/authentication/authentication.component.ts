@@ -45,14 +45,14 @@ export class AuthenticationComponent implements OnInit {
       this.email = this.store.email;
     }
 
-    let emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
+    const emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
     this.form = this.fb.group({
-      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
+      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(emailRegex)]],
       password: ['', <any>Validators.required]
     });
 
     this.formGuest = this.fb.group({
-      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]]
+      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(emailRegex)]]
     });
 
     this.form.valueChanges.subscribe((value: any) => {
@@ -72,7 +72,7 @@ export class AuthenticationComponent implements OnInit {
         resp => {
           this.guestEmail = resp;
           if ( this.isGuestNotifiedOfExistingAccount === true || resp === false ) {
-            this.gift.email = this.email;
+            this.store.email = this.email;
             this.adv();
           } else {
             this.isGuestNotifiedOfExistingAccount = true;

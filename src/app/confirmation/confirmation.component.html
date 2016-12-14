@@ -3,13 +3,13 @@
     <h2>Thank You!</h2>
   </header>
 
-  <p *ngIf="gift.isDonation()" class="text-block--lg text-block--thin">Your generosity begins on {{ gift.start_date | date:'shortDate' }} to the tune of {{ gift.amount | currency:'USD':true | lowercase }} for {{ gift.fund.Name }}.<span *ngIf="gift.isDonation() && gift.frequency != 'One Time'"> Thank you for choosing to repeat this gift every {{ frequencyCalculation() }}.</span></p>
+  <p *ngIf="store.isDonation()" class="text-block--lg text-block--thin">Your generosity begins on {{ store.startDate | date:'shortDate' }} to the tune of {{ store.amount | currency:'USD':true | lowercase }} for {{ store.fund.Name }}.<span *ngIf="store.isDonation() && store.frequency != 'One Time'"> Thank you for choosing to repeat this gift every {{ frequencyCalculation() }}.</span></p>
 
-  <p *ngIf="gift.isPayment()" class="text-block--lg text-block--thin">Thank you for the {{ gift.amount | currency:'USD':true | lowercase }} payment<span *ngIf="gift.title"> for {{ gift.title }}</span>.</p>
+  <p *ngIf="store.isPayment()" class="text-block--lg text-block--thin">Thank you for the {{ store.amount | currency:'USD':true | lowercase }} payment<span *ngIf="store.title"> for {{ store.title }}</span>.</p>
 
   <p class="text-block--sm">
-    <span *ngIf="(gift.isDonation() && gift.frequency === 'One Time')">We'll send your statement</span>
-    <span *ngIf="gift.isDonation() && gift.frequency != 'One Time'">We'll send your statements</span>
-    <span *ngIf="gift.isPayment()">A receipt has been sent</span> to {{ gift.email }}.
+    <span *ngIf="(store.isDonation() && store.frequency === 'One Time')">We'll send your statement</span>
+    <span *ngIf="store.isDonation() && store.frequency != 'One Time'">We'll send your statements</span>
+    <span *ngIf="store.isPayment()">A receipt has been sent</span> to {{ store.email }}.
   </p>
 </div>
