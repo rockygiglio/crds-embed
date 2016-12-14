@@ -61,7 +61,6 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     CvvFormatDirective,
     ExpiryFormatDirective,
     FundAndFrequencyComponent,
-    NoSpacesDirective,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     RegisterComponent,
