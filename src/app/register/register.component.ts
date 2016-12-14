@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
 
 import { User } from '../models/user';
 
@@ -22,17 +23,17 @@ export class RegisterComponent implements OnInit {
   private forgotPasswordUrl: string;
 
   constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private state: StateService,
     private api: APIService,
-    private store: StoreService
+    private fb: FormBuilder,
+    private router: Router,
+    private state: StateService,
+    private store: StoreService,
+    private validation: ValidationService
   ) {
-    const emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
     this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
       lastName:  ['', [<any>Validators.required]],
-      email:     ['', [<any>Validators.required, <any>Validators.pattern(emailRegex)]],
+      email:     ['', [<any>Validators.required, <any>Validators.pattern(this.validation.emailRegex)]],
       password:  ['', [<any>Validators.required, <any>Validators.minLength(8)]]
     });
   }

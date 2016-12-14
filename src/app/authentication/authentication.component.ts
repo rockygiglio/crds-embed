@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'app-authentication',
@@ -32,7 +33,8 @@ export class AuthenticationComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService
+    private store: StoreService,
+    private validation: ValidationService
   ) { }
 
   public ngOnInit(): void {
@@ -44,15 +46,13 @@ export class AuthenticationComponent implements OnInit {
       this.signinOption = 'Guest';
       this.email = this.store.email;
     }
-
-    const emailRegex = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
     this.form = this.fb.group({
-      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(emailRegex)]],
+      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.validation.emailRegex)]],
       password: ['', <any>Validators.required]
     });
 
     this.formGuest = this.fb.group({
-      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(emailRegex)]]
+      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.validation.emailRegex)]]
     });
 
     this.form.valueChanges.subscribe((value: any) => {

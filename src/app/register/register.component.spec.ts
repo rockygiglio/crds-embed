@@ -1,20 +1,23 @@
 
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { RegisterComponent } from './register.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { APIService } from '../services/api.service';
+import { ValidationService } from '../services/validation.service';
+
+import { RegisterComponent } from './register.component';
 
 describe('Component: Registration', () => {
   let fixture: RegisterComponent,
       router: Router,
-      _fb: FormBuilder,
+      fb: FormBuilder,
       state: StateService,
       api: APIService,
-      store: StoreService;
+      store: StoreService,
+      validation: ValidationService;
 
   beforeEach(() => {
 
@@ -28,9 +31,10 @@ describe('Component: Registration', () => {
         'setLoading'
       ]
     );
-    _fb = new FormBuilder();
+    fb = new FormBuilder();
+    validation = jasmine.createSpyObj<ValidationService>('validation', ['emailRegex']);
     api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
-    fixture = new RegisterComponent(router, _fb, state, api, store);
+    fixture = new RegisterComponent(api, fb, router, state, store, validation);
     fixture.ngOnInit();
   });
 

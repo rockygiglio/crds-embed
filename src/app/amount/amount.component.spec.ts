@@ -1,16 +1,17 @@
 /* tslint:disable:no-unused-variable */
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { StoreService } from '../services/store.service';
-import { ValidationService } from '../services/validation.service';
-import { AmountComponent } from './amount.component';
-import { StateService } from '../services/state.service';
 import { APIService } from '../services/api.service';
 import { SessionService } from '../services/session.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
+
+import { AmountComponent } from './amount.component';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -31,7 +32,8 @@ describe('Component: Amount', () => {
         StateService,
         APIService,
         SessionService,
-        CookieService
+        CookieService,
+        ValidationService
       ]
     });
     this.fixture = TestBed.createComponent(AmountComponent);

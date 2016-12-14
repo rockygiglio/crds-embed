@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
 
 // NOTE, RE: US5801 – See previous previousGiftAmount implementation in
 // SHA: f2f8b93ee6e5e0c2fed0f5d2f7dbf85b830c496a - Sarah Sachs, 11/30/2016
@@ -29,7 +30,8 @@ export class AmountComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService
+    private store: StoreService,
+    private validation: ValidationService
   ) {}
 
   public ngOnInit() {
@@ -104,7 +106,7 @@ export class AmountComponent implements OnInit {
   public setErrorMessage() {
     if (this.store.amount === undefined || this.store.amount === null) {
       this.errorMessage = 'Please select or provide an amount.';
-    } else if (isNaN(this.store.amount) || !this.store.validDollarAmount(this.store.amount)) {
+    } else if (isNaN(this.store.amount) || !this.validation.validDollarAmount(this.store.amount)) {
       this.errorMessage = 'The amount you provided is not a valid number.';
     } else if (Number(this.store.amount) < this.store.minimumStripeAmount) {
       this.errorMessage = 'The amount can not be less than ' + this.store.minimumStripeAmount.toFixed(2);

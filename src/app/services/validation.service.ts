@@ -8,6 +8,7 @@ export class ValidationService {
   public params: any;
   public requiredPmtParams: any[];
   public radix: number;
+  public emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
   constructor() {
     this.types = {
@@ -144,5 +145,14 @@ export class ValidationService {
         isValid = false;
     }
     return isValid;
+  }
+
+  public validDollarAmount(amount: any): boolean {
+    let str = String(amount);
+    let pattern = new RegExp('(^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{0,2})$)|(^(|0)\.[0-9]{0,2}$)');
+    if (pattern.test(str)) {
+      return true;
+    }
+    return false;
   }
 }
