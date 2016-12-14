@@ -7,11 +7,13 @@ import { PreviousGiftAmountService } from '../services/previous-gift-amount.serv
 import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
 import { StateManagerService } from '../services/state-manager.service';
 
+// NOTE, RE: US5801 – See previous previousGiftAmount implementation in
+// SHA: f2f8b93ee6e5e0c2fed0f5d2f7dbf85b830c496a - Sarah Sachs, 11/30/2016
 
 @Component({
   selector: 'app-payment',
   templateUrl: 'payment.component.html',
-  styleUrls: ['payment.component.css'],
+  styleUrls: ['payment.component.scss'],
   animations: [
     trigger('customAmountForm', [
       state('expanded', style({ height: '*' })),
@@ -27,7 +29,6 @@ export class PaymentComponent implements OnInit {
   public form: FormGroup;
   public selectedAmount: number;
   public predefinedAmounts: number[];
-  public previousAmount: string;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public customAmtSelected: boolean = false;
@@ -37,16 +38,20 @@ export class PaymentComponent implements OnInit {
               private previousGiftAmountService: PreviousGiftAmountService,
               private quickDonationAmountsService: QuickDonationAmountsService,
               private router: Router,
-              private stateManagerService: StateManagerService) {
+              private state: StateManagerService) {
   }
 
   ngOnInit() {
-    this.stateManagerService.is_loading = true;
-    if (this.gift.type === 'donation') {
-      this.getPredefinedDonationAmounts();
-      this.getPreviousGiftAmount();
+    this.state.setLoading(true);
+    if (this.gift.isDonation()) {
+      if ( !this.gift.predefinedAmounts ) {
+        this.getPredefinedDonationAmounts();
+      } else {
+        this.predefinedAmounts = this.gift.predefinedAmounts;
+        this.state.setLoading(false);
+      }
     } else {
-      this.stateManagerService.is_loading = false;
+      this.state.setLoading(false);
     }
 
     this.amountDue = [
@@ -70,17 +75,12 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  getPreviousGiftAmount() {
-    this.previousGiftAmountService.get().subscribe(
-      amount => this.previousAmount = amount,
-      error => this.errorMessage = <any>error);
-  }
-
   getPredefinedDonationAmounts() {
     this.quickDonationAmountsService.getQuickDonationAmounts().subscribe(
       amounts => {
         this.predefinedAmounts = amounts;
-        this.stateManagerService.is_loading = false;
+        this.gift.predefinedAmounts = amounts;
+        this.state.setLoading(false);
       },
       error => this.errorMessage = <any>error
     );
@@ -90,15 +90,12 @@ export class PaymentComponent implements OnInit {
     return this.gift.validAmount();
   }
 
-  applyPreviousAmount() {
-    this.gift.amount = Number(this.previousAmount);
-  }
-
   next() {
     if ( this.isValid() ) {
-      this.stateManagerService.is_loading = true;
-      this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex));
+      this.state.setLoading(true);
+      this.router.navigateByUrl(this.state.getNextPageToShow(this.state.paymentIndex));
     } else {
+      this.form.controls['customAmount'].markAsTouched();
       this.setErrorMessage();
     }
     this.submitted = true;
@@ -131,6 +128,7 @@ export class PaymentComponent implements OnInit {
   }
 
   onSelectAmount(value) {
+    this.form.controls['customAmount'].markAsUntouched();
     this.submitted = false;
     this.customAmtSelected = false;
     delete(this.customAmount);

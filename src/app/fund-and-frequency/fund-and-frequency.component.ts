@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { DonationFundService } from '../services/donation-fund.service';
+import { GiftFrequency } from '../models/gift-frequency';
 import { GiftService } from '../services/gift.service';
 import { Program } from '../interfaces/program';
 import { StateManagerService } from '../services/state-manager.service';
@@ -17,7 +18,7 @@ import { StateManagerService } from '../services/state-manager.service';
 export class FundAndFrequencyComponent implements OnInit {
 
   funds: Array<Program>;
-  defaultFrequencies: Array<string> = ['One Time', 'Weekly', 'Monthly'];
+  defaultFrequencies: Array<GiftFrequency> = new GiftFrequency('', '').getDefaultFrequencies();
   form: FormGroup;
   minDate: Date = new Date();
   maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
@@ -35,7 +36,7 @@ export class FundAndFrequencyComponent implements OnInit {
               private gift: GiftService,
               private route: ActivatedRoute,
               private router: Router,
-              private stateManagerService: StateManagerService,
+              private state: StateManagerService,
               private _fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -48,32 +49,39 @@ export class FundAndFrequencyComponent implements OnInit {
     if (!this.gift.frequency) {
       this.gift.frequency  = 'One Time';
     }
-    this.isFundSelectShown = !this.funds.find(fund => fund.ProgramId === this.fundIdParam);
+    this.isFundSelectShown = !this.funds.find(fund => Number(fund.ProgramId) === Number(this.fundIdParam));
     this.gift.start_date = this.gift.start_date ? new Date(this.gift.start_date) : new Date();
     this.form = this._fb.group({
       fund: [this.gift.fund, [<any>Validators.required]],
       frequency: [this.gift.frequency, [<any>Validators.required]],
     });
 
-    this.stateManagerService.is_loading = false;
+    this.gift.validateRoute(this.router);
+    this.state.setLoading(false);
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getPrevPageToShow(this.stateManagerService.fundIndex));
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.fundIndex));
     return false;
   }
 
   next(): boolean {
-    this.router.navigateByUrl(this.stateManagerService.getNextPageToShow(this.stateManagerService.fundIndex));
+    if ( this.gift.isFrequencySetAndNotOneTime() ) {
+      this.gift.resetExistingPmtInfo();
+      this.gift.clearUserPmtInfo();
+      this.state.unhidePage(this.state.billingIndex);
+    }
+
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
     return false;
   }
 
   onClickChangeDate(): void {
-        this.gift.start_date = undefined;
+    this.gift.start_date = undefined;
   }
 
   onClickDate(newValue: any): void {
-        this.gift.start_date = newValue;
+    this.gift.start_date = newValue;
   }
 
   onClickFrequency(frequency: any): void {

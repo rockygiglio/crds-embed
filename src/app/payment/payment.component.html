@@ -9,50 +9,43 @@
     <h2>Amount</h2>
   </div>
 
-  <div *ngIf="gift.type === 'donation'">
-    <div class="btn-group btn-group--flex btn-group--underline">
+  <div *ngIf="gift.isDonation()">
+    <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-option--flex-item"
+              class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && gift.amount == amount) }">
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
-
-      <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
-        <div class="form-group">
-          <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input type="text"
-                  class="form-control"
-                  placeholder="Or Enter Amount"
-                  id="custom-amount"
-                  maxlength="9"
-                  formControlName="customAmount"
-                  onlyTheseKeys="[0-9\.]"
-                  currency
-                  [(ngModel)]="customAmount"
-                  (ngModelChange)="onCustomAmount($event)">
-          </div>
-        </div>
-
-        <div *ngIf="gift.type === 'donation'">
-          <div [class.donation-previous-amount]="gift.loginService.isLoggedIn()">
-            <div class="alert alert-warning" *ngIf="previousAmount">
-              You previously made a ${{previousAmount}} donation. Would you like to give that amount again? <a routerLink="{{stateManagerService.getNextPageToShow(this.stateManagerService.paymentIndex)}}" (click)="applyPreviousAmount()">Yes</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="errors" *ngIf="( !isValid() && submitted )">
-          <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-        </div>
-      </form>
     </div>
+
+    <!-- DONATION -->
+    <form class="form--underline custom-input-payment__input" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+      <div class="form-group">
+        <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
+        <div class="input-group background-filled-for-alignment">
+          <span class="input-group-addon">$</span>
+          <input type="tel"
+                class="form-control"
+                placeholder="Or Enter Amount"
+                id="custom-amount"
+                maxlength="9"
+                formControlName="customAmount"
+                onlyTheseKeys="[0-9\.]"
+                currency
+                [(ngModel)]="customAmount"
+                (ngModelChange)="onCustomAmount($event)">
+        </div>
+      </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
+    </form>
   </div>
 
-  <div *ngIf="gift.type === 'payment'">
-    <div class="btn-group btn-group--flex">
+  <div *ngIf="gift.isPayment()">
+    <div class="btn-group btn-group--flex-col btn-group--underline">
       <button *ngFor="let item of amountDue"
               type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
@@ -72,7 +65,6 @@
         </div>
       </button>
 
-      <!-- onclick, btn highlight (active class), icon change (display changes for each) and input field appears -->
       <button type="button"
               class="btn-payment btn btn-option btn-option--flex-item"
               (click)="selectedCustom()"
@@ -88,14 +80,14 @@
         </div>
       </button>
 
-      <!-- if custom amount button selected (active), show. if input has focus, button remains selected (active) -->
+      <!-- PAYMENT -->
       <div class="custom-input-payment" [@customAmountForm]="customAmtSelected ? 'expanded' : 'collapsed' ">
         <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
 
-        <form [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
+        <form class="custom-input-payment__input" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="next()">
           <div class="form-group">
             <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-            <div class="input-group">
+            <div class="input-group background-filled-for-alignment">
               <span class="input-group-addon">$</span>
               <input type="text"
                     class="form-control"
@@ -111,13 +103,12 @@
           </div>
         </form>
       </div>
+
+      <div class="errors" *ngIf="( !isValid() && submitted )">
+        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      </div>
     </div>
 
-    <div class="errors" *ngIf="( !isValid() && submitted )">
-      <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-    </div>
-
-    <hr>
   </div>
 
   <footer class="page-footer">

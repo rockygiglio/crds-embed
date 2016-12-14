@@ -3,6 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { GiftService } from './gift.service';
 import { ActivatedRoute } from '@angular/router';
+import { CustomerBank } from '../models/customer-bank';
 import { ParamValidationService } from './param-validation.service';
 import { DonationFundService, Program } from './donation-fund.service';
 import { PreviousGiftAmountService } from './previous-gift-amount.service';
@@ -23,6 +24,9 @@ class MockActivatedRoute {
 }
 
 describe('Service: Gift', () => {
+
+  const userBank = new CustomerBank('US', 'USD', 12345, 12345678, 'Bob Smith', 'cc');
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -63,4 +67,68 @@ describe('Service: Gift', () => {
     expect(service.validAmount()).toBe(false);
 
   }));
+
+  it('should clear payment data', inject([GiftService], (srvc: GiftService) => {
+    srvc.userBank = userBank;
+    srvc.clearUserPmtInfo();
+    expect(srvc.userBank).toBe(undefined);
+  }));
+
+  it('should indicate that gift is a one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'One Time';
+    expect(srvc.isOneTimeGift()).toBe(true);
+  }));
+
+  it('should indicate that gift is NOT a one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    expect(srvc.isOneTimeGift()).toBe(false);
+  }));
+
+  it('should return false if one time gift', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'One Time';
+    srvc.start_date = new Date();
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
+  }));
+
+  it('should return true if recurring gift w/ missing date', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    srvc.start_date = undefined;
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(true);
+  }));
+
+  it('should return false if recurring and date is set', inject([GiftService], (srvc: GiftService) => {
+    srvc.frequency = 'week';
+    srvc.start_date = new Date();
+    expect(srvc.isRecurringGiftWithNoStartDate()).toBe(false);
+  }));
+
+  describe('#isFrequencySelected', () => {
+    it('should return false if frequency is NOT set', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = '';
+      expect(srvc.isFrequencySelected()).toBe(false);
+    }));
+
+    it('should return true if frequency IS set', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = 'week';
+      expect(srvc.isFrequencySelected()).toBe(true);
+    }));
+  });
+
+  describe('#isFrequencySetAndNotOneTime', () => {
+    it('should return false if frequency is NOT set', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = '';
+      expect(srvc.isFrequencySetAndNotOneTime()).toBe(false);
+    }));
+
+    it('should return true if frequency IS set to recurring', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = 'week';
+      expect(srvc.isFrequencySetAndNotOneTime()).toBe(true);
+    }));
+
+    it('should return false if frequency is set to "One Time"', inject([GiftService], (srvc: GiftService) => {
+      srvc.frequency = 'One Time';
+      expect(srvc.isFrequencySetAndNotOneTime()).toBe(false);
+    }));
+  });
+
 });

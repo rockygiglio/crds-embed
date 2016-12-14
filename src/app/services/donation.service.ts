@@ -1,111 +1,71 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
-import { Resolve } from '@angular/router';
-import { HttpClientService } from './http-client.service';
-import { UserSessionService } from './user-session.service';
-import { PaymentService } from './payment.service';
-import { GiftService } from './gift.service';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard} from '../models/customer-card';
+import { GiftService } from './gift.service';
+import { HttpClientService } from './http-client.service';
+import { RecurringGiftDto } from '../models/recurring-gift-dto';
+import { StripeService } from './stripe.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class DonationService implements Resolve<number> {
+export class DonationService {
 
-  private transactionUrl: string = process.env.CRDS_API_ENDPOINT;
+  private baseUrl: string = process.env.CRDS_API_ENDPOINT;
 
-  private bank: any;
-  private card: any;
+  constructor(private gift: GiftService,
+              private http: HttpClientService,
+              private stripe: StripeService) { }
 
-  constructor(private http: HttpClientService,
-    private userSessionService: UserSessionService,
-    private paymentService: PaymentService,
-    private giftService: GiftService) { }
+  getTokenAndPostRecurringGift (pmtInfo: CustomerBank | CustomerCard, stripeApiMethodName: string) {
 
-
-  submitTransactionInfo(giveForm) {
+    let recurrenceDate: string = this.gift.start_date.toISOString().slice(0, 10);
 
     let observable  = new Observable(observer => {
 
-      this.paymentService.getDonor()
-        .subscribe(
-          donor => {
-            this.updateDonorAndDonate(donor.id);
-          },
-          error => {
-            this.createDonorAndDonate();
-          }
-        );
+      this.stripe[stripeApiMethodName](pmtInfo).subscribe(
+        token => {
 
+        let giftDto: RecurringGiftDto = new RecurringGiftDto( token['id'], this.gift.amount,
+            this.gift.fund.ProgramId.toString(), this.gift.frequency, recurrenceDate);
+
+          this.postRecurringGift(giftDto).subscribe(
+              recurringGiftResp => {
+                observer.next(recurringGiftResp);
+              }, err => {
+                observer.error(new Error('Failed to post recurring gift'));
+              }
+          );
+        }, err => {
+          observer.error(new Error('Failed to get stripe token'));
+        }
+     );
     });
 
     return observable;
+
   }
 
-  updateDonorAndDonate(donorId) {
+  postRecurringGift(giftData: RecurringGiftDto): Observable<any> {
 
-    if (this.giftService.paymentType === 'cc') {
+    let recurringGiftUrl: string = this.baseUrl + 'api/donor/recurrence/';
 
-      this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345); //test data
-      this.paymentService.updateDonorWithCard(donorId, this.card, this.giftService.email)
-        .then(function (donor) {
-          this.donate();
-        }, this.paymentService.stripeErrorHandler);
-
-    } else if (this.giftService.paymentType === 'bank') {
-
-      this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345); //test data+
-      this.paymentService.updateDonorWithBankAcct(donorId, this.bank, this.giftService.email)
-        .then(function (donor) {
-          this.donate();
-        }, this.paymentService.stripeErrorHandler);
-
-    }
-    return this;
-  }
-
-  createDonorAndDonate() {
-
-    if (this.giftService.paymentType === 'cc') {
-
-      //TODO: Donation test code - will be implemented during donatation flow work.
-      this.card =  new CustomerCard('mpcrds+20@gmail.com', 4242424242424242, 12, 17, 123, 12345);
-      this.paymentService.createDonorWithCard(this.card, this.giftService.email, 'TODO donorFirstName', 'TODO donorLastName')
-        .subscribe(
-          result => {
-            this.donate();
-          },
-          error => {
-
-          }
-        )
-
-    } else if (this.giftService.paymentType === 'bank') {
-
-      //TODO: Donation test code - will be implemented during donatation flow work.
-      this.bank = CustomerBank = new CustomerBank('US', 'USD', 110000000, parseInt('000123456789', 10), 'Jane Austen', 'individual');
-      this.paymentService.createDonorWithBankAcct(this.bank, this.giftService.email, 'TODO donorFirstName', 'TODO donorLastName')
-        .subscribe(
-          result => {
-            this.donate();
-          },
-          error => {
-
-          }
-        )
-    }
-  }
+    return this.http.post(recurringGiftUrl, giftData)
+        .map(this.extractData)
+        .catch(this.handleError);
+  };
 
   private extractData(res: Response) {
-    let body = res.json();
-    return body;
-  }
+    return res;
+  };
 
-  private handleError (res: Response | any) {
-    return [[]];
-  }
+  private handleError (err: Response | any) {
+    return Observable.throw(err);
+  };
+
 
 }
