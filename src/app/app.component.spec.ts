@@ -4,14 +4,12 @@ import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
-import { StateManagerService } from './services/state-manager.service';
-import { QuickDonationAmountsService } from './services/quick-donation-amounts.service';
-import { PreviousGiftAmountService } from './services/previous-gift-amount.service';
+import { StateService } from './services/state.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientService } from './services/http-client.service';
+import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
-import { ParamValidationService } from './services/param-validation.service';
+import { ValidationService } from './services/validation.service';
 
 describe('App: CrdsEmbed', () => {
   let component: AppComponent;
@@ -21,17 +19,19 @@ describe('App: CrdsEmbed', () => {
     TestBed.configureTestingModule({
       declarations: [ AppComponent ],
       imports: [
-        PreloaderModule, RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule
+        PreloaderModule,
+        RouterTestingModule.withRoutes([]),
+        HttpModule,
+        JsonpModule,
+        ReactiveFormsModule
       ],
       providers: [
-        QuickDonationAmountsService,
-        HttpClientService,
-        PreviousGiftAmountService,
+        SessionService,
         CookieService,
-        StateManagerService,
+        StateService,
         Angulartics2,
         Angulartics2GoogleTagManager,
-        ParamValidationService
+        ValidationService
       ]
     })
       .compileComponents();

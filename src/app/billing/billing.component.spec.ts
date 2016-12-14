@@ -2,27 +2,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BillingComponent } from './billing.component';
-import { GiftService } from '../services/gift.service';
+import { StoreService } from '../services/store.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
 import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClientService } from '../services/http-client.service';
+import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { ParamValidationService } from '../services/param-validation.service';
-import { DonationFundService } from '../services/donation-fund.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { StateManagerService } from '../services/state-manager.service';
-import { PaymentService } from '../services/payment.service';
-import { StripeService } from '../services/stripe.service';
+import { ValidationService } from '../services/validation.service';
+import { StateService } from '../services/state.service';
+import { APIService } from '../services/api.service';
 
-class MockDonationFundService { }
-class MockQuickDonationAboutsService { }
-class MockPreviousGiftAmountService { }
-class MockGiftService { }
 class MockActivatedRoute {
   public snapshot = {
     queryParams: []
@@ -47,18 +38,13 @@ describe('Component: Billing', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: DonationFundService, useClass: MockDonationFundService },
-        { provide: QuickDonationAmountsService, useClass: MockQuickDonationAboutsService },
-        { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
-        { provide: GiftService, useClass: MockGiftService },
-        ExistingPaymentInfoService,
+        StoreService,
         FormBuilder,
-        HttpClientService,
+        SessionService,
         CookieService,
-        ParamValidationService,
-        PaymentService,
-        StripeService,
-        StateManagerService
+        ValidationService,
+        APIService,
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(BillingComponent);
