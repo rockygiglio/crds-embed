@@ -30,6 +30,7 @@ export class StoreService {
   public type: string = '';
   public url: string = '';
   public systemException: boolean = false;
+  public minimumStripeAmount: number = 0.50;
 
   private queryParams: Object;
 
@@ -169,13 +170,13 @@ export class StoreService {
     if (this.isPayment()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
-        && Number(this.amount) > 0.25
+        && Number(this.amount) >= this.minimumStripeAmount
         && Number(this.amount) >= this.minPayment
         && Number(this.amount) <= this.totalCost;
     } else if (this.isDonation()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
-        && Number(this.amount) > 0.25
+        && Number(this.amount) >= this.minimumStripeAmount
         && Number(this.amount) < 1000000;
     }
     return result;

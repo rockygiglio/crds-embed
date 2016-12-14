@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -16,7 +17,7 @@ import { StoreService } from '../services/store.service';
 export class AmountComponent implements OnInit {
 
   public amountDue: Array<Object>;
-  public customAmount: number;
+  public customAmount: string;
   public form: FormGroup;
   public selectedAmount: number;
   public predefinedAmounts: number[];
@@ -66,8 +67,9 @@ export class AmountComponent implements OnInit {
     }
 
     this.selectedAmount = this.store.selectedAmount;
-    this.customAmount = this.store.customAmount;
-    if ( this.customAmount ) {
+
+    if ( this.store.customAmount ) {
+      this.customAmount = Number(this.store.customAmount).toFixed(2);
       this.customAmtSelected = true;
     }
 
@@ -105,8 +107,8 @@ export class AmountComponent implements OnInit {
       this.errorMessage = 'Please select or provide an amount.';
     } else if (isNaN(this.store.amount) || !this.store.validDollarAmount(this.store.amount)) {
       this.errorMessage = 'The amount you provided is not a valid number.';
-    } else if (Number(this.store.amount) < .25) {
-      this.errorMessage = 'The amount can not be less than .25';
+    } else if (Number(this.store.amount) < this.store.minimumStripeAmount) {
+      this.errorMessage = 'The amount can not be less than ' + this.store.minimumStripeAmount.toFixed(2);
     } else if (this.store.isPayment() && Number(this.store.amount) > this.store.totalCost) {
       this.errorMessage = 'The amount you provided is higher than the total cost.';
     } else if (this.store.isPayment() && Number(this.store.amount) < this.store.minPayment) {
@@ -124,7 +126,7 @@ export class AmountComponent implements OnInit {
       this.setAmount(value);
       this.setErrorMessage();
     }
-    this.store.customAmount = value;
+    this.store.customAmount = Number(value);
   }
 
   public onSelectAmount(value) {
@@ -138,7 +140,7 @@ export class AmountComponent implements OnInit {
   }
 
   public setAmount(value) {
-    this.store.amount = value;
+    this.store.amount = Number(value);
   }
 
   public selectedCustom() {

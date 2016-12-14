@@ -5,7 +5,7 @@
 
   <table class="table">
     <tr>
-      <td *ngIf="store.isDonation()"><a routerLink="/payment">Amount:</a></td>
+      <td *ngIf="store.isDonation()"><a routerLink="/amount">Amount:</a></td>
       <td *ngIf="store.isPayment()">Amount:</td>
       <td class="text-right confirm-amount">{{ store.amount | currency:'USD':true }}</td>
     </tr>
