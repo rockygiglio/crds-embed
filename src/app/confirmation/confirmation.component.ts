@@ -30,7 +30,7 @@ export class ConfirmationComponent implements OnInit {
       return startDate.format('Do') + ' of the month';
     }
 
-    return 'every ' + startDate.format('dddd');
+    return startDate.format('dddd');
   }
 
 }
