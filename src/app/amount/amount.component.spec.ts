@@ -75,9 +75,9 @@ describe('Component: Amount', () => {
 
   });
 
-  it('should expect amounts with leading zeros to invalidate', () => {
+  it('should expect amounts less than .25 to invalidated', () => {
 
-    this.component.onCustomAmount('01');
+    this.component.onCustomAmount('.24');
     expect(this.component.store.validAmount()).toBeFalsy();
 
   });

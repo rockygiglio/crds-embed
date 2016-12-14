@@ -12,7 +12,7 @@ describe('Component: Authentication', () => {
 
   let fixture: AuthenticationComponent,
       router: Router,
-      state: StateService,
+      stateService: StateService,
       store: StoreService,
       fb: FormBuilder,
       api: APIService;
@@ -22,8 +22,8 @@ describe('Component: Authentication', () => {
     api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
     fb = new FormBuilder();
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    state = jasmine.createSpyObj<StateService>(
-      'state',
+    stateService = jasmine.createSpyObj<StateService>(
+      'stateService',
       [
         'getNextPageToShow',
         'getPrevPageToShow',
@@ -41,7 +41,7 @@ describe('Component: Authentication', () => {
       api,
       fb,
       router,
-      state,
+      stateService,
       store
     );
     fixture.ngOnInit();
