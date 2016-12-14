@@ -3,14 +3,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 
+import { StateService } from './services/state.service';
 import { ContentService } from './content-service/services/content.service';
-import { StateManagerService } from './services/state-manager.service';
 
 @Component({
   selector: 'app-root',
   template: `
     <div class="container" [ngClass]="{'loading': state.is_loading}">
-      <preloader></preloader>
+      <app-preloader></app-preloader>
       <div class="outlet-wrapper">
         <router-outlet></router-outlet>
       </div>
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private contentService: ContentService,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-    private state: StateManagerService) {
+    private state: StateService) {
 
     if ( this.iFrameResizerCW === undefined ) {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');

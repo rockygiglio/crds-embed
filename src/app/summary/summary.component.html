@@ -5,59 +5,59 @@
 
   <table class="table">
     <tr>
-      <td *ngIf="gift.isDonation()"><a routerLink="/payment">Amount:</a></td>
-      <td *ngIf="gift.isPayment()">Amount:</td>
-      <td class="text-right confirm-amount">{{ gift.amount | currency:'USD':true }}</td>
+      <td *ngIf="store.isDonation()"><a routerLink="/amount">Amount:</a></td>
+      <td *ngIf="store.isPayment()">Amount:</td>
+      <td class="text-right confirm-amount">{{ store.amount | currency:'USD':true }}</td>
     </tr>
     <tr>
-      <td *ngIf="gift.isDonation()"><a routerLink="/fund">To:</a></td>
-      <td *ngIf="gift.isPayment()">To:</td>
-      <td *ngIf="gift.isDonation()" class="text-right">{{ gift.fund.Name }}</td>
-      <td *ngIf="gift.isPayment()" class="text-right">{{ gift.title }}</td>
+      <td *ngIf="store.isDonation()"><a routerLink="/fund">To:</a></td>
+      <td *ngIf="store.isPayment()">To:</td>
+      <td *ngIf="store.isDonation()" class="text-right">{{ store.fund.Name }}</td>
+      <td *ngIf="store.isPayment()" class="text-right">{{ store.title }}</td>
     </tr>
     <tr>
-      <td *ngIf="gift.isDonation()"><a routerLink="/auth" (click)="changeUser()">From:</a></td>
-      <td *ngIf="gift.isPayment()">From:</td>
+      <td *ngIf="store.isDonation()"><a routerLink="/authentication" (click)="changeUser()">From:</a></td>
+      <td *ngIf="store.isPayment()">From:</td>
       <td class="text-right">
-        {{ gift.email }}<br>
-        <small *ngIf="gift.isDonation() && !gift.isGuest"><a routerLink="/auth" (click)="changeUser()">log out</a></small>
-        <small *ngIf="gift.isDonation() && gift.isGuest"><a routerLink="/auth">change</a></small>
+        {{ store.email }}<br>
+        <small *ngIf="store.isDonation() && !store.isGuest"><a routerLink="/authentication" (click)="changeUser()">log out</a></small>
+        <small *ngIf="store.isDonation() && store.isGuest"><a routerLink="/authentication">change</a></small>
       </td>
     </tr>
-    <tr *ngIf="!gift.isPayment()">
+    <tr *ngIf="!store.isPayment()">
       <td><a routerLink="/fund">Frequency:</a></td>
       <td class="text-right">
-        {{ giftFrequency.getDisplayNameByValue(gift.frequency) }}<br>
-        <small *ngIf="gift.frequency != 'One Time'">Starting on {{ gift.start_date | date: 'MM/dd/yyyy' }}</small>
+        {{ store.frequency.display }}<br>
+        <small *ngIf="store.isRecurringGift()">Starting on {{ store.startDate | date: 'MM/dd/yyyy' }}</small>
       </td>
     </tr>
     <tr>
-      <td *ngIf="gift.isDonation()"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
-      <td *ngIf="gift.isPayment()">Payment:</td>
+      <td *ngIf="store.isDonation()"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
+      <td *ngIf="store.isPayment()">Payment:</td>
       <td class="text-right">
         Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
         <small><a routerLink="/billing" (click)="changePayment()">change</a></small>
       </td>
     </tr>
   </table>
-  <div *ngIf="gift.systemException" class="alert alert-danger">
+  <div *ngIf="store.systemException" class="alert alert-danger">
     Something went wrong, please try again. If the problem persists, contact the administrator at helpdesk@crossroads.net.
   </div>
 </div>
 
 <footer class="page-footer page-footer--pt-1">
-  <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+  <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
   <input type="button"
-         *ngIf="gift.isDonation()"
+         *ngIf="store.isDonation()"
          [disabled]="isSubmitInProgress"
          class="btn btn-next pull-right"
          (click)="submitDonation()"
-         value="Give {{ gift.amount | currency:'USD':true }}">
+         value="Give {{ store.amount | currency:'USD':true }}">
 
   <input type="button"
-         *ngIf="gift.isPayment()"
+         *ngIf="store.isPayment()"
          [disabled]="isSubmitInProgress"
          class="btn btn-next pull-right"
          (click)="submitPayment()"
-         value="Pay {{ gift.amount | currency:'USD':true }}">
+         value="Pay {{ store.amount | currency:'USD':true }}">
 </footer>

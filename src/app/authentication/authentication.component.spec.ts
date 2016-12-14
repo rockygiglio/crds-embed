@@ -1,46 +1,53 @@
-
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { APIService } from '../services/api.service';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
+
 import { AuthenticationComponent } from './authentication.component';
-import { CheckGuestEmailService } from '../../app/services/check-guest-email.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { FormBuilder } from '@angular/forms';
-import { GiftService } from '../services/gift.service';
-import { HttpClientService } from '../services/http-client.service';
-import { LoginService } from '../services/login.service';
-import { StateManagerService } from '../services/state-manager.service';
-
-
 
 describe('Component: Authentication', () => {
+
   let fixture: AuthenticationComponent,
       router: Router,
-      stateManagerService: StateManagerService,
-      gift: GiftService,
-      _fb: FormBuilder,
-      checkGuestEmailService: CheckGuestEmailService,
-      loginService: LoginService,
-      httpClientService: HttpClientService,
-      existingPaymentInfoService: ExistingPaymentInfoService;
+      stateService: StateService,
+      store: StoreService,
+      fb: FormBuilder,
+      api: APIService,
+      validation: ValidationService;
 
   beforeEach(() => {
 
+    api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+    fb = new FormBuilder();
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
-                                                                                            'getPrevPageToShow',
-                                                                                            'hidePage',
-                                                                                            'setLoading']);
-    gift = jasmine.createSpyObj<GiftService>('giftService', ['loadUserData', 'validateRoute']);
-    _fb = new FormBuilder();
-    checkGuestEmailService = jasmine.createSpyObj<CheckGuestEmailService>('checkGuestEmailService', ['guestEmailExists']);
-    loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
-    httpClientService = jasmine.createSpyObj<HttpClientService>('httpClientService', ['get']);
-    existingPaymentInfoService = jasmine.createSpyObj<ExistingPaymentInfoService>('existingPaymentInfoService', ['resolve']);
-
-    fixture = new AuthenticationComponent(router, stateManagerService, gift, _fb,
-                                          checkGuestEmailService, loginService, httpClientService,
-                                          existingPaymentInfoService);
+    stateService = jasmine.createSpyObj<StateService>(
+      'stateService',
+      [
+        'getNextPageToShow',
+        'getPrevPageToShow',
+        'hidePage',
+        'setLoading'
+      ]
+    );
+    store = jasmine.createSpyObj<StoreService>(
+      'store', [
+        'loadUserData',
+        'validateRoute'
+      ]
+    );
+    validation = new ValidationService();
+    fixture = new AuthenticationComponent(
+      api,
+      fb,
+      router,
+      stateService,
+      store,
+      validation
+    );
     fixture.ngOnInit();
   });
 
@@ -53,7 +60,7 @@ describe('Component: Authentication', () => {
   }
 
   describe('#ngOnInit', () => {
-    it('initializes the component', () => {
+    it('should initialize the component', () => {
       expect(fixture).toBeTruthy();
     });
   });
@@ -82,7 +89,7 @@ describe('Component: Authentication', () => {
 
     describe('when form is valid', () => {
       function setGuestEmailExists(state: any): void {
-        (<jasmine.Spy>checkGuestEmailService.guestEmailExists).and.returnValue(Observable.of(state));
+        (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
       }
 
       beforeEach(() => {
@@ -160,20 +167,6 @@ describe('Component: Authentication', () => {
     });
   });
 
-  describe('#formatErrorMessage', () => {
-    it('should return <u>required</u> when errors.required !== undefined', () => {
-      let errors = { required: true };
-      let res = fixture.formatErrorMessage(errors);
-      expect(res).toBe('is <u>required</u>');
-    });
-
-    it('should return <em>invalid</em> when errors.required === undefined', () => {
-      let errors = { require: undefined };
-      let res = fixture.formatErrorMessage(errors);
-      expect(res).toBe('is <em>invalid</em>');
-    });
-  });
-
   describe('#next', () => {
     describe('when form is invalid', () => {
       beforeEach(() => {
@@ -199,7 +192,7 @@ describe('Component: Authentication', () => {
       beforeEach(() => {
         setForm('bad@bad.com', 'reallynotgood');
         fixture.form.markAsDirty();
-        (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {
@@ -219,7 +212,7 @@ describe('Component: Authentication', () => {
       it('should call #adv when valid auth credentials are submitted', () => {
         setForm('good@good.com', 'foobar');
         fixture.form.markAsDirty();
-        (<jasmine.Spy>loginService.login).and.returnValue(Observable.of({}));
+        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.of({}));
         spyOn(fixture, 'adv');
         fixture.submitLogin();
         expect(fixture.adv).toHaveBeenCalled();

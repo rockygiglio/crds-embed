@@ -1,35 +1,40 @@
 
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { APIService } from '../services/api.service';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
+
 import { RegisterComponent } from './register.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { RegistrationService } from '../services/registration.service';
-import { StateManagerService } from '../services/state-manager.service';
-import { LoginService } from '../services/login.service';
-import { GiftService } from '../services/gift.service';
 
 describe('Component: Registration', () => {
   let fixture: RegisterComponent,
       router: Router,
-      _fb: FormBuilder,
-      stateManagerService: StateManagerService,
-      loginService: LoginService,
-      registrationService: RegistrationService,
-      giftService: GiftService;
+      fb: FormBuilder,
+      state: StateService,
+      api: APIService,
+      store: StoreService,
+      validation: ValidationService;
 
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateManagerService = jasmine.createSpyObj<StateManagerService>('stateManagerService', ['getNextPageToShow',
-                                                                                            'getPrevPageToShow',
-                                                                                            'hidePage',
-                                                                                            'setLoading']);
-    _fb = new FormBuilder();
-    loginService = jasmine.createSpyObj<LoginService>('loginService', ['login']);
-    registrationService = jasmine.createSpyObj<RegistrationService>('registrationService', ['postUser']);
-
-    fixture = new RegisterComponent(router, _fb, stateManagerService, loginService, registrationService, giftService);
+    state = jasmine.createSpyObj<StateService>(
+      'state',
+      [
+        'getNextPageToShow',
+        'getPrevPageToShow',
+        'hidePage',
+        'setLoading'
+      ]
+    );
+    fb = new FormBuilder();
+    validation = new ValidationService();
+    api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
+    fixture = new RegisterComponent(api, fb, router, state, store, validation);
     fixture.ngOnInit();
   });
 
@@ -59,7 +64,7 @@ describe('Component: Registration', () => {
   describe('#submit User', () => {
 
     it('should not process if form is invalid', () => {
-      let didSubmit = fixture.next();
+      let didSubmit = fixture.submitRegistration();
       expect(didSubmit).toBe(false);
     });
   });
@@ -90,7 +95,7 @@ describe('Component: Registration', () => {
       it('should not call #adv', () => {
         spyOn(fixture, 'adv');
 
-        fixture.next();
+        fixture.submitRegistration();
         expect(fixture.adv).not.toHaveBeenCalled();
       });
     });
@@ -98,7 +103,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (<jasmine.Spy>loginService.login).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {
