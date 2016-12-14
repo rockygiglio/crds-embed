@@ -169,21 +169,21 @@ export class StoreService {
     if (this.isPayment()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
+        && Number(this.amount) > 0.25
         && Number(this.amount) >= this.minPayment
         && Number(this.amount) <= this.totalCost;
     } else if (this.isDonation()) {
       result = !isNaN(this.amount)
         && this.validDollarAmount(this.amount)
-        && Number(this.amount) > 0
+        && Number(this.amount) > 0.25
         && Number(this.amount) < 1000000;
-
     }
     return result;
   }
 
   public validDollarAmount(amount: any): boolean {
     let str = String(amount);
-    let pattern = new RegExp('(^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{2})$)|(^(|0)\.[0-9]{2}$)');
+    let pattern = new RegExp('(^[1-9]{1}(|[0-9]{1,5})(|\.[0-9]{0,2})$)|(^(|0)\.[0-9]{0,2}$)');
     if (pattern.test(str)) {
       return true;
     }

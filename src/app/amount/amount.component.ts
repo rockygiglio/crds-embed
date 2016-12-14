@@ -105,12 +105,14 @@ export class AmountComponent implements OnInit {
       this.errorMessage = 'Please select or provide an amount.';
     } else if (isNaN(this.store.amount) || !this.store.validDollarAmount(this.store.amount)) {
       this.errorMessage = 'The amount you provided is not a valid number.';
-    } else if (Number(this.store.amount) > this.store.totalCost) {
+    } else if (Number(this.store.amount) < .25) {
+      this.errorMessage = 'The amount can not be less than .25';
+    } else if (this.store.isPayment() && Number(this.store.amount) > this.store.totalCost) {
       this.errorMessage = 'The amount you provided is higher than the total cost.';
-    } else if (Number(this.store.amount) < this.store.minPayment) {
+    } else if (this.store.isPayment() && Number(this.store.amount) < this.store.minPayment) {
       this.errorMessage = 'The amount you provided is less than the minimum payment allowed.';
     } else if (Number(this.store.amount) > 999999.99) {
-      this.errorMessage = 'You can not charge more than 1 million dollars.';
+      this.errorMessage = 'The amount can not be more than 1 million dollars.';
     } else {
       this.errorMessage = 'An unknown error has occurred.';
     }
