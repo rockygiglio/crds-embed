@@ -114,4 +114,11 @@ export class FundAndFrequencyComponent implements OnInit {
 
     return this.store.startDate && this.store.startDate.getTime() || new Date().getTime();
   }
+
+  public onChange(event) {
+    const calendar = document.querySelector("datepicker");
+    if(calendar.classList.contains('visible')) {
+      calendar.classList.remove("visible");
+    }
+  }
 }

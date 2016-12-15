@@ -50,6 +50,7 @@
 
   <datepicker *ngIf="store.startDate"
               [(ngModel)]="store.startDate"
+              (ngModelChange)="onChange($event)"
               [minDate]="minDate"
               [maxDate]="maxDate"
               [showWeeks]="false">
