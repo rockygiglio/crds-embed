@@ -40,9 +40,8 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-
-    this.helpUrl = `//${process.env.CRDS_ENV}.crossroads.net/help`;
-    this.forgotPasswordUrl = `//${process.env.CRDS_ENV}.crossroads.net/forgot-password`;
+    this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
+    this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
     if ( this.gift.isGuest === true && this.gift.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
