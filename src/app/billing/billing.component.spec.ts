@@ -94,14 +94,12 @@ describe('Component: Billing', () => {
 
       it('should be invalid with required parameters not provided', () => {
         this.component.ccForm.setValue({ccNumber: null, expDate: null, cvv: null, zipCode: null});
-        console.log(this.component.ccForm);
 
         expect(this.component.ccForm.valid).toBe(false);
       });
 
       it('should be invalid with required parameters partially provided', () => {
         this.component.ccForm.setValue({ccNumber: '424242', expDate: '02 /', cvv: '34', zipCode: '234'});
-        console.log(this.component.ccForm);
 
         expect(this.component.ccForm.valid).toBe(false);
       });
