@@ -33,6 +33,7 @@ import { CreditCardFormatDirective } from './directives/credit-card-format.direc
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
+import { IsPredefinedToggleDirective } from './directives/is-predefined-toggle.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card-format.directive';
 
@@ -61,6 +62,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    IsPredefinedToggleDirective,
     FundAndFrequencyComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,

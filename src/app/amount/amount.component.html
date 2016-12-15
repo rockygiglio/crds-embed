@@ -9,12 +9,15 @@
     <h2>Amount</h2>
   </div>
 
+  <!-- DONATION -->
   <div *ngIf="store.isDonation()">
     <div class="btn-group btn-group--flex-row">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-option--flex-item btn-option--no-outline"
               (click)="onSelectAmount(amount)"
-              [ngClass]="{ active: (!customAmount && store.amount == amount) }">
+              [ngClass]="{ active: (!customAmount && store.amount == amount) }"
+              isPredefinedToggle
+              [inputType]="'predefinedAmount'">
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
     </div>
@@ -33,7 +36,9 @@
                 onlyTheseKeys="[0-9\.]"
                 currency
                 [(ngModel)]="customAmount"
-                (ngModelChange)="onCustomAmount($event)">
+                (ngModelChange)="onCustomAmount($event)"
+                isPredefinedToggle
+                [inputType]="'customAmount'">
         </div>
       </div>
 
@@ -43,6 +48,7 @@
     </form>
   </div>
 
+  <!-- PAYMENT -->
   <div *ngIf="store.isPayment()">
     <div class="btn-group btn-group--flex-col btn-group--underline">
       <button *ngFor="let item of amountDue"
