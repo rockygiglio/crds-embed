@@ -86,21 +86,22 @@ describe('Component: Billing', () => {
     });
 
     describe('for CC Form', () => {
-      fit('should be valid with required parameters provided', () => {
-        spyOn(CreditCardValidator, 'validateCCNumber');
-        this.component.ccForm.setValue({ccNumber: '4242424242424242', expDate: '09/31', cvv: '345', zipCode: '34567'});
+      it('should be valid with required parameters provided', () => {
+        this.component.ccForm.setValue({ccNumber: '4242424242424242', expDate: '09 / 27', cvv: '345', zipCode: '34567'});
 
         expect(this.component.ccForm.valid).toBe(true);
       });
 
       it('should be invalid with required parameters not provided', () => {
         this.component.ccForm.setValue({ccNumber: null, expDate: null, cvv: null, zipCode: null});
+        console.log(this.component.ccForm);
 
         expect(this.component.ccForm.valid).toBe(false);
       });
 
       it('should be invalid with required parameters partially provided', () => {
-        this.component.ccForm.setValue({ccNumber: '424242', expDate: '02/', cvv: '34', zipCode: '234'});
+        this.component.ccForm.setValue({ccNumber: '424242', expDate: '02 /', cvv: '34', zipCode: '234'});
+        console.log(this.component.ccForm);
 
         expect(this.component.ccForm.valid).toBe(false);
       });
