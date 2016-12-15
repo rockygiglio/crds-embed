@@ -1,15 +1,10 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CustomerBank } from '../models/customer-bank';
-import { CustomerCard} from '../models/customer-card';
-import { DonationService } from '../services/donation.service';
-import { GiftFrequency } from '../models/gift-frequency';
-import { GiftService } from '../services/gift.service';
-import { LoginService } from '../services/login.service';
-import { PaymentService } from '../services/payment.service';
-import { PaymentCallBody } from '../models/payment-call-body';
-import { StateManagerService } from '../services/state-manager.service';
+import { APIService } from '../services/api.service';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { Payment } from '../models/payment';
 
 export const WindowToken = new OpaqueToken('Window');
 export function _window(): Window {
@@ -26,150 +21,104 @@ export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
   private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
-  /* tslint:disable */
-  private giftFrequency: GiftFrequency = new GiftFrequency('', ''); //used in html template only
-  /* tslint:enable */
 
-  constructor(private router: Router,
-              private state: StateManagerService,
-              private donationService: DonationService,
-              private gift: GiftService,
-              private loginService: LoginService,
-              private paymentService: PaymentService,
-              @Inject(WindowToken) private window: Window) {}
+  constructor(
+    private router: Router,
+    private state: StateService,
+    private store: StoreService,
+    private api: APIService,
+    @Inject(WindowToken) private window: Window
+  ) {}
 
   public ngOnInit() {
-    this.lastFourOfAcctNumber = this.gift.accountLast4 ? this.gift.accountLast4 : this.getLastFourOfAccountNumber();
-    this.gift.validateRoute(this.router);
+    this.lastFourOfAcctNumber = this.store.accountLast4 ? this.store.accountLast4 : this.getLastFourOfAccountNumber();
+    this.store.validateRoute(this.router);
     this.state.setLoading(false);
     this.isSubmitInProgress = false;
   }
 
-  /**
-   * Submits the payment to gateway for processing. 
-   * Stripe tokens created previously on billing
-   * 
-   * @method submitPayment
-   * @return void
-   */
   public submitPayment() {
-
     if (this.isSubmitInProgress) {
       return;
     }
-
     this.beginProcessing();
-
-    let paymentType = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-    let paymentDetails = new PaymentCallBody(
+    let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
+    let paymentDetails = new Payment(
       '',
-      this.gift.amount,
+      this.store.amount,
       paymentType, 'PAYMENT',
-      this.gift.invoiceId
+      this.store.invoiceId
     );
-
-    // adding a new payment method (must use donor token to create saved payment method)
-    if (this.gift.isUsingNewPaymentMethod()) {
-      this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
+    if (this.store.isUsingNewPaymentMethod()) {
+      this.api.createOrUpdateDonor(this.store.donor).subscribe(
           value => this.postTransaction(paymentDetails),
           error => this.handleOuterError()
       );
-
-    // using an existing payment method (payment method already exists. auth token handles the payment)
-    } else if (this.gift.isUsingExistingPaymentMethod()) {
+    } else if (this.store.isUsingExistingPaymentMethod()) {
         this.postTransaction(paymentDetails);
-
-    // somehow not having an existing method AND no donor created from new payment method
     } else {
       this.handleOuterError();
     }
   }
 
-  /**
-   * Submits the donation to gateway for processing. 
-   * Stripe tokens created previously on billing
-   * 
-   * @method submitDonation
-   * @return void
-   */
   public submitDonation() {
-
     if (this.isSubmitInProgress) {
       return;
     }
-
     this.beginProcessing();
-
-    // one time gifts
-    if (this.gift.isOneTimeGift()) {
-      let paymentType = this.gift.paymentType === 'ach' ? 'bank' : 'cc';
-      let donationDetails = new PaymentCallBody(
-        this.gift.fund.ProgramId.toString(),
-        this.gift.amount,
+    if (this.store.isOneTimeGift()) {
+      let paymentType = this.store.paymentType === 'ach' ? 'bank' : 'cc';
+      let donationDetails = new Payment(
+        this.store.fund.ID.toString(),
+        this.store.amount,
         paymentType,
         'DONATION',
-        this.gift.invoiceId
+        this.store.invoiceId
       );
-
-      // adding a new payment method (must use donor token to create saved payment method)
-      if (this.gift.isUsingNewPaymentMethod()) {
-        this.paymentService.makeApiDonorCall(this.gift.donor).subscribe(
-            value => {
-              if ( this.gift.isGuest === true ) {
-                donationDetails.donor_id = value.id;
-                donationDetails.email_address = this.gift.email;
+      if (this.store.isUsingNewPaymentMethod()) {
+        this.api.createOrUpdateDonor(this.store.donor).subscribe(
+            donor => {
+              if ( this.store.isGuest === true ) {
+                donationDetails.donor_id = this.store.donor.donor_id;
+                donationDetails.email_address = this.store.email;
               }
               this.postTransaction(donationDetails);
             },
-            error => this.handleOuterError()
+            error => this.handleInnerError(error)
         );
-
-      // using an existing payment method (payment method already exists. auth token handles the payment)
-      } else if (this.gift.isUsingExistingPaymentMethod()) {
+      } else if (this.store.isUsingExistingPaymentMethod()) {
         this.postTransaction(donationDetails);
-
-      // somehow not having an existing method AND no donor created from new payment method
       } else {
         this.handleOuterError();
       }
-
-    // recurring gifts
-    } else if (this.gift.isRecurringGift()) {
-
-      // must use a new paymenth method (can't use existing)
-      if (this.gift.isUsingNewPaymentMethod()) {
-        let userPaymentInfo: CustomerBank | CustomerCard  = this.gift.userCc || this.gift.userBank;
-        let stripeMethodName: string = this.gift.userCc ? 'getCardInfoToken' : 'getBankInfoToken';
-
-        this.donationService.getTokenAndPostRecurringGift(userPaymentInfo, stripeMethodName).subscribe(
+    } else if (this.store.isRecurringGift()) {
+      if (this.store.isUsingNewPaymentMethod()) {
+        this.api.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
-          innerError => this.handleInnerError(innerError)
+          error => this.handleInnerError(error)
         );
 
-      // error out if somehow existing payment info rings true (should never be the case)
       } else {
         this.handleOuterError();
       }
-
-    // neither a one time gift or recurring. What is it?
     } else {
       this.handleOuterError();
     }
   }
 
   public back() {
-    this.gift.resetErrors();
+    this.store.resetErrors();
     this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.summaryIndex));
     return false;
   }
 
-  private next() {
-    if (this.gift.url) {
+  private adv() {
+    if (this.store.url) {
       this.addParamsToRedirectUrl();
-      if (this.gift.overrideParent === true && this.window.top !== undefined) {
-        this.window.top.location.href = this.gift.url;
+      if (this.store.overrideParent === true && this.window.top !== undefined) {
+        this.window.top.location.href = this.store.url;
       } else {
-        this.window.location.href = this.gift.url;
+        this.window.location.href = this.store.url;
       }
     } else {
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.summaryIndex));
@@ -177,43 +126,42 @@ export class SummaryComponent implements OnInit {
   }
 
   private beginProcessing() {
-    this.gift.resetErrors();
     this.state.setLoading(true);
+    this.store.resetErrors();
     this.isSubmitInProgress = true;
-    this.state.watchState();
   }
 
-  public postTransaction(details) {
-    this.paymentService.postPayment(details).subscribe(
+  public postTransaction(details: Payment) {
+    this.api.postPayment(details).subscribe(
       success => this.handleSuccess(success),
-      innerError => this.handleInnerError(innerError)
+      error => this.handleInnerError(error)
     );
   }
 
   private addParamsToRedirectUrl() {
     let delimiter = '?';
     this.redirectParams.forEach((value, key) => {
-      this.gift.url += `${delimiter}${key}=${value}`;
+      this.store.url += `${delimiter}${key}=${value}`;
       delimiter = '&';
     });
   }
 
   private handleSuccess(info) {
-    this.gift.resetErrors();
-    this.redirectParams.set('invoiceId', this.gift.invoiceId);
+    this.store.resetErrors();
+    this.redirectParams.set('invoiceId', this.store.invoiceId);
     this.redirectParams.set('paymentId', info.payment_id);
-    this.gift.clearUserPmtInfo();
-    this.next();
+    this.store.clearUserPmtInfo();
+    this.adv();
   }
 
   private handleInnerError(error) {
     if (error.status === 400 || error.status === 500) {
-      this.gift.systemException = true;
-      this.gift.clearUserPmtInfo();
+      this.store.systemException = true;
+      this.store.clearUserPmtInfo();
       this.isSubmitInProgress = false;
       this.state.setLoading(false);
     } else {
-      this.gift.stripeException = true;
+      this.store.stripeException = true;
       this.changePayment();
       this.router.navigateByUrl('/billing');
       this.isSubmitInProgress = false;
@@ -221,26 +169,34 @@ export class SummaryComponent implements OnInit {
   }
 
   private handleOuterError() {
-    this.gift.systemException = true;
+    this.store.systemException = true;
     this.state.setLoading(false);
   }
 
   private changePayment() {
-    this.gift.resetExistingPmtInfo();
-    this.gift.resetPaymentDetails();
+    this.store.resetExistingPmtInfo();
+    this.store.resetPaymentDetails();
   }
 
   public changeUser() {
-    this.loginService.logOut();
+    this.api.logOut();
     this.changePayment();
   }
 
   private getLastFourOfAccountNumber() {
     try {
-      let accountNumber = this.gift.paymentType === 'cc' ? this.gift.ccNumber.toString() : this.gift.accountNumber.toString();
+      let accountNumber = this.store.paymentType === 'cc' ? this.store.ccNumber.toString() : this.store.accountNumber.toString();
       return accountNumber.substr(accountNumber.length - 4);
     } catch (event) {
       return undefined;
+    }
+  }
+
+  public hideBack() {
+    if ( this.store.isPayment() && this.store.accountLast4 && this.store.amountLocked) {
+      return true;
+    } else {
+      return false;
     }
   }
 

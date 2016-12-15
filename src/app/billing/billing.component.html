@@ -3,24 +3,24 @@
 </header>
 
 <div class="btn-group form-nav">
-  <label class="btn btn-option" [(ngModel)]="gift.paymentMethod" btnRadio="Bank Account">Bank Account</label>
-  <label class="btn btn-option" [(ngModel)]="gift.paymentMethod" btnRadio="Credit Card">Credit Card</label>
+  <label class="btn btn-option" [(ngModel)]="store.paymentMethod" btnRadio="Bank Account">Bank Account</label>
+  <label class="btn btn-option" [(ngModel)]="store.paymentMethod" btnRadio="Credit Card">Credit Card</label>
 </div>
 
-<div *ngIf="gift.paymentMethod == 'Bank Account'" heading="Bank Account">
+<div *ngIf="store.paymentMethod == 'Bank Account'" heading="Bank Account">
   <h3 class="radio-form__header">Account Type:</h3>
 
-  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achNext()">
+  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achSubmit();$event.preventDefault();">
     <div class="radio-group">
       <ul>
         <li>
-          <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="individual" id="individual" checked>
+          <input type="radio" formControlName="accountType" [(ngModel)]="store.accountType" value="individual" id="individual" checked>
           <label for="individual">Personal</label>
           <div class="check"></div>
         </li>
 
         <li>
-          <input type="radio" formControlName="accountType" [(ngModel)]="gift.accountType" value="company" id="company">
+          <input type="radio" formControlName="accountType" [(ngModel)]="store.accountType" value="company" id="company">
           <label for="company">Business</label>
           <div class="check"></div>
         </li>
@@ -36,7 +36,7 @@
           placeholder="Account Holder Name" 
           formControlName="accountName" 
           name="accountName" 
-          [(ngModel)]="gift.accountName" 
+          [(ngModel)]="store.accountName" 
           pattern=".*"
           autocomplete="off">
       </div>
@@ -58,7 +58,7 @@
           placeholder="Routing Number" 
           formControlName="routingNumber" 
           name="routingNumber" 
-          [(ngModel)]="gift.routingNumber" 
+          [(ngModel)]="store.routingNumber" 
           numbersOnly 
           pattern="[0-9]*"
           autocomplete="off">
@@ -81,7 +81,7 @@
           placeholder="{{accountNumberPlaceholder}}" 
           formControlName="accountNumber" 
           name="accountNumber" 
-          [(ngModel)]="gift.accountNumber" 
+          [(ngModel)]="store.accountNumber" 
           numbersOnly 
           pattern="\s*[0-9]*\s*"
           autocomplete="off">
@@ -96,10 +96,10 @@
 
     <br>
 
-    <div *ngIf="gift.stripeException" class="alert alert-danger">
+    <div *ngIf="store.stripeException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
     </div>
-    <div *ngIf="gift.systemException" class="alert alert-danger">
+    <div *ngIf="store.systemException" class="alert alert-danger">
       <p>Something went wrong, please try again. If the problem persists, contact the administrator at helpdesk@crossroads.net.</p>
     </div>
 
@@ -115,18 +115,18 @@
 
 
     <footer class="page-footer page-footer--border-top">
-      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-      <input type="button" class="btn btn-next pull-right" (click)="achNext()" value="Next">
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
+      <input type="submit" class="btn btn-next pull-right" (click)="achSubmit();$event.preventDefault();" value="Next">
     </footer>
   </form>
 </div>
 
-<div *ngIf="gift.paymentMethod == 'Credit Card'" heading="Credit Card">
+<div *ngIf="store.paymentMethod == 'Credit Card'" heading="Credit Card">
 
-  <alert *ngIf="gift.isDonation()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
-  <alert *ngIf="gift.isPayment()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
+  <alert *ngIf="store.isDonation()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
+  <alert *ngIf="store.isPayment()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
-  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccNext()">
+  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccSubmit();$event.preventDefault();">
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
@@ -137,7 +137,7 @@
                placeholder="Credit Card Number"
                formControlName="ccNumber"
                name="ccNumber"
-               [(ngModel)]="gift.ccNumber"
+               [(ngModel)]="store.ccNumber"
                simpleCcNumber
                onlyTheseKeys="[0-9]"
                autocomplete="cc-number">
@@ -160,7 +160,7 @@
           placeholder="MM/YY" 
           formControlName="expDate" 
           name="expDate" 
-          [(ngModel)]="gift.expDate" 
+          [(ngModel)]="store.expDate" 
           ccExp 
           autocomplete="cc-exp">
       </div>
@@ -175,7 +175,7 @@
           placeholder="CVV" 
           formControlName="cvv" 
           name="cvv" 
-          [(ngModel)]="gift.cvv" 
+          [(ngModel)]="store.cvv" 
           ccCVV 
           autocomplete="off">
       </div>
@@ -190,7 +190,7 @@
           placeholder="Zip Code" 
           formControlName="zipCode" 
           name="zipCode" 
-          [(ngModel)]="gift.zipCode" 
+          [(ngModel)]="store.zipCode" 
           pattern="^(\d{5}|\d{5}-\d{4})$" 
           autocomplete="zip-code">
       </div>
@@ -212,16 +212,16 @@
       </div>
     </div>
 
-    <div *ngIf="gift.stripeException" class="alert alert-danger">
+    <div *ngIf="store.stripeException" class="alert alert-danger">
       <p>Your payment method has been declined.</p>
     </div>
-    <div *ngIf="gift.systemException" class="alert alert-danger">
+    <div *ngIf="store.systemException" class="alert alert-danger">
       <p>Something went wrong, please try again. If the problem persists, contact the administrator at helpdesk@crossroads.net.</p>
     </div>
 
     <footer class="page-footer page-footer--border-top">
-      <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-      <input type="button" class="btn btn-next pull-right" (click)="ccNext()" value="Next">
+      <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
+      <input type="submit" class="btn btn-next pull-right" (click)="ccSubmit();$event.preventDefault();" value="Next">
     </footer>
   </form>
 </div>
