@@ -547,6 +547,12 @@
         }
       }
     }
+
+    .btn {
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   // Validation styles
@@ -597,7 +603,7 @@
     }
   }
 
-  
+
   app-summary .alert.alert-danger {
     margin-top: 15px;
     margin-bottom: 0;
