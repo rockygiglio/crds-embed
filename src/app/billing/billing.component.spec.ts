@@ -23,7 +23,7 @@ class MockActivatedRoute {
 class MockDonationFundService { }
 class MockQuickDonationAboutsService { }
 class MockPreviousGiftAmountService { }
-class MockGiftService { 
+class MockGiftService {
   public resetErrors() {
     return {};
   }
@@ -67,19 +67,28 @@ describe('Component: Billing', () => {
   describe('Form validations', () => {
      describe('for ACH Form', () => {
       it('should be valid with required parameters provided', () => {
-        this.component.achForm.setValue({accountName: 'Bob Dillinger', accountNumber: '123123456789', routingNumber: '110000000', accountType: 'individual'});
+        this.component.achForm.setValue({accountName: 'Bob Dillinger',
+                                         accountNumber: '123123456789',
+                                         routingNumber: '110000000',
+                                         accountType: 'individual'});
 
         expect(this.component.achForm.valid).toBe(true);
       });
 
       it('should be invalid with required parameters not provided', () => {
-        this.component.achForm.setValue({accountName: '', accountNumber: null, routingNumber: null, accountType: 'individual'});
+        this.component.achForm.setValue({accountName: '',
+                                         accountNumber: null,
+                                         routingNumber: null,
+                                         accountType: 'individual'});
 
         expect(this.component.achForm.valid).toBe(false);
       });
 
       it('should be invalid with required parameters partially provided', () => {
-        this.component.achForm.setValue({accountName: 'Bob Dillinger', accountNumber: '12345', routingNumber: '1100', accountType: 'individual'});
+        this.component.achForm.setValue({accountName: 'Bob Dillinger',
+                                         accountNumber: '12345',
+                                         routingNumber: '1100',
+                                         accountType: 'individual'});
 
         expect(this.component.achForm.valid).toBe(false);
       });
