@@ -11,7 +11,7 @@
       <h2>Sign In</h2>
     </header>
 
-    <form [formGroup]="form" (ngSubmit)="submitLogin();$event.preventDefault();">
+    <form [formGroup]="form" action="/" (ngSubmit)="submitLogin();$event.preventDefault();">
       <div class="form-group">
         <label class="sr-only" for="email">Email</label>
         <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
@@ -61,7 +61,7 @@
       <h2>Guest</h2>
     </header>
 
-    <form [formGroup]="formGuest" (ngSubmit)="submitGuest();$event.preventDefault();">
+    <form [formGroup]="formGuest" action="/" (ngSubmit)="submitGuest();$event.preventDefault();">
 
       <div class="form-group">
         <input type="email"
