@@ -10,7 +10,7 @@
 <div *ngIf="store.paymentMethod == 'Bank Account'" heading="Bank Account">
   <h3 class="radio-form__header">Account Type:</h3>
 
-  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achSubmit();$event.preventDefault();">
+  <form [formGroup]="achForm" action="/" [class.submitted]="achSubmitted" (ngSubmit)="achSubmit();$event.preventDefault();">
     <div class="radio-group">
       <ul>
         <li>
@@ -126,7 +126,7 @@
   <alert *ngIf="store.isDonation()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
   <alert *ngIf="store.isPayment()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
 
-  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccSubmit();$event.preventDefault();">
+  <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="ccSubmit();$event.preventDefault();">
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
