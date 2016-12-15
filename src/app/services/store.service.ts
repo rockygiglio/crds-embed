@@ -327,4 +327,9 @@ export class StoreService {
     }
   }
 
+  public preSubmit(event) {
+    event.preventDefault();
+    event.srcElement.blur();
+  }
+
 }
