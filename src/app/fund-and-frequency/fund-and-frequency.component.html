@@ -26,15 +26,30 @@
       </button>
     </div>
   </div>
-
-  <div class="alert alert-warning" *ngIf="store.startDate && store.isRecurringGift()">
-    Starting on {{ store.startDate | date: 'MM/dd/yyyy' }}. <button (click)="resetDate();">Change</button>
-  </div>
 </form>
 
-<div *ngIf="store.isRecurringGift() && !store.startDate">
+<div *ngIf="store.isRecurringGift()" class="btn-group--underline">
   <h3 class="btn-form__header">Recurs On:</h3>
-  <datepicker [(ngModel)]="store.startDate"
+  <form class="form-group">
+    <label for="recurring_date" class="sr-only">Set recurring date</label>
+    <div class="input-group">
+      <input *ngIf="store.startDate"
+            id="recurring_date"
+            class="form-control"
+            name="recurring_date"
+            type="text"
+            value="{{ getDate() | date: 'shortDate' }}"
+            required="required"
+            (click)="getDate()"
+            readonly>
+      <div class="input-group-addon">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+      </div>
+    </div>
+  </form>
+
+  <datepicker *ngIf="store.startDate"
+              [(ngModel)]="store.startDate"
               [minDate]="minDate"
               [maxDate]="maxDate"
               [showWeeks]="false">

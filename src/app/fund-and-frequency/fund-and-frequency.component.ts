@@ -21,7 +21,8 @@ export class FundAndFrequencyComponent implements OnInit {
   public form: FormGroup;
   public minDate: Date = new Date();
   public maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
-  public startDate: any;
+  public startDate: Date;
+
   public fundIdParam: number;
   public isFundSelectShown: boolean = undefined;
   public defaultFund: Fund;
@@ -107,7 +108,10 @@ export class FundAndFrequencyComponent implements OnInit {
     }
   }
 
-  public resetDate() {
-    this.store.startDate = undefined;
+  public getDate():number {
+    const calendar = document.querySelector("datepicker");
+    calendar.classList.toggle("visible");
+
+    return this.store.startDate && this.store.startDate.getTime() || new Date().getTime();
   }
 }
