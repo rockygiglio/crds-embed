@@ -5,7 +5,7 @@
     <h2>Register An Account</h2>
   </header>
 
-  <form [formGroup]="regForm" action="/" (ngSubmit)="submitRegistration();$event.preventDefault();">
+  <form [formGroup]="regForm" action="/" (ngSubmit)="store.preSubmit($event);submitRegistration();">
 
     <div class="row inline-form">
       <!-- First Name -->
@@ -67,7 +67,7 @@
 
     <footer class="page-footer page-footer--pt-0">
       <a class="pull-left text-block__inline-link" (click)="back()">Already have an account? Sign In</a>
-      <input type="submit" class="btn btn-next pull-right" (click)="submitRegistration();$event.preventDefault();"  value="Register">
+      <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitRegistration();"  value="Register">
     </footer>
 
   </form>
