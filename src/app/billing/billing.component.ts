@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-
+import { ContentService } from '../content-service/services/content.service';
 import { CreditCardValidator } from '../validators/credit-card.validator';
 
 import { CustomerBank } from '../models/customer-bank';
@@ -36,7 +36,8 @@ export class BillingComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
-    private api: APIService
+    private api: APIService,
+    private content: ContentService
   ) {
     this.state.setLoading(true);
     this.achForm = this.fb.group({
