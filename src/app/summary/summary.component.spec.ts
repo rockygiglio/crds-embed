@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { SummaryComponent, WindowToken } from './summary.component';
 import { StoreService } from '../services/store.service';
 import { HttpModule } from '@angular/http';
@@ -57,6 +58,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
+        IFrameParentService,
         StoreService,
         SessionService,
         CookieService,

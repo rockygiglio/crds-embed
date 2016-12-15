@@ -8,6 +8,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ActivatedRoute } from '@angular/router';
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ValidationService } from '../services/validation.service';
@@ -37,6 +38,7 @@ describe('Component: Billing', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        IFrameParentService,
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         StoreService,
         FormBuilder,

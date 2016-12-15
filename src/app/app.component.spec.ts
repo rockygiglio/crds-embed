@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
+import { IFrameParentService } from './services/iframe-parent.service';
 import { StateService } from './services/state.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from './services/session.service';
@@ -26,6 +27,7 @@ describe('App: CrdsEmbed', () => {
         ReactiveFormsModule
       ],
       providers: [
+        IFrameParentService,
         SessionService,
         CookieService,
         StateService,

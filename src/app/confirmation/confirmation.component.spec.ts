@@ -9,6 +9,7 @@ import { CookieService } from 'angular2-cookie/core';
 
 import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 import { APIService } from '../services/api.service';
@@ -33,6 +34,7 @@ describe('Component: Confirmation', () => {
         RouterTestingModule.withRoutes([]), HttpModule
       ],
       providers: [
+        IFrameParentService,
         StoreService,
         StateService,
         ValidationService,

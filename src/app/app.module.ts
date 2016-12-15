@@ -23,6 +23,7 @@ import { RegisterComponent} from './register/register.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
 
 import { APIService } from './services/api.service';
+import { IFrameParentService } from './services/iframe-parent.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
@@ -71,6 +72,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
     appRoutingProviders,
     CookieService,
     APIService,
+    IFrameParentService,
     SessionService,
     StateService,
     StoreService,

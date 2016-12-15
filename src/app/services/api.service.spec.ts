@@ -6,6 +6,7 @@ import { ResponseOptions } from '@angular/http';
 import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 
 import { CustomerBank } from '../models/customer-bank';
+import { IFrameParentService } from './iframe-parent.service';
 import { StoreService } from './store.service';
 import { SessionService } from './session.service';
 import { ValidationService } from './validation.service';
@@ -32,6 +33,7 @@ describe('Service: API', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                IFrameParentService,
                 MockBackend,
                 SessionService,
                 BaseRequestOptions,

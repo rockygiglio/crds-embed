@@ -7,6 +7,7 @@ import { SessionService } from './session.service';
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
 import { Donor } from '../models/donor';
+import { IFrameParentService } from './iframe-parent.service';
 import { Fund } from '../models/fund';
 import { Frequency } from '../models/frequency';
 import { Payment } from '../models/payment';
@@ -42,7 +43,11 @@ export class APIService {
     previousGift: null
   };
 
-  constructor(private http: Http, private session: SessionService, private zone: NgZone) { }
+  constructor(
+      private http: Http,
+      private session: SessionService,
+      private zone: NgZone,
+      private iFrameSrvc: IFrameParentService) { }
 
   // MP CALLS
 
@@ -186,6 +191,7 @@ export class APIService {
   }
 
   public postPayment(paymentInfo: Payment): Observable<any> {
+    this.iFrameSrvc.getIFrameParentUrl();
     let url: string = this.baseUrl + 'api/donation';
     return this.session.post(url, paymentInfo)
       .map(this.extractData)

@@ -6,6 +6,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { APIService } from '../services/api.service';
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
@@ -27,6 +28,7 @@ describe('Component: Amount ?type=payment', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        IFrameParentService,
         StoreService,
         ValidationService,
         StateService,
@@ -98,6 +100,7 @@ describe('Component: Amount ?type=donation', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        IFrameParentService,
         StoreService,
         ValidationService,
         StateService,
