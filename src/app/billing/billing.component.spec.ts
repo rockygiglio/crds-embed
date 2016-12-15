@@ -34,31 +34,6 @@ class MockActivatedRoute {
   };
 }
 
-export class TestHelper {
-  static setAchForm(achForm: any, name: string, routing: number, account: number) {
-    achForm.controls['accountName'].setValue(name);
-    achForm.controls['accountName'].markAsTouched();
-    achForm.controls['accountName'].markAsDirty();
-    achForm.controls['accountNumber'].setValue(account);
-    achForm.controls['accountNumber'].markAsTouched();
-    achForm.controls['accountNumber'].markAsDirty();
-    achForm.controls['routingNumber'].setValue(routing);
-    achForm.controls['routingNumber'].markAsTouched();
-    achForm.controls['routingNumber'].markAsDirty();
-  }
-
-  static setCcForm(ccForm: any, ccNumber: number, exp: string, cvv: number, zip: number) {
-    ccForm.controls['ccNumber'].setValue(ccNumber);
-    ccForm.controls['ccNumber'].markAsTouched();
-    ccForm.controls['expDate'].setValue(exp);
-    ccForm.controls['expDate'].markAsTouched();
-    ccForm.controls['cvv'].setValue(cvv);
-    ccForm.controls['cvv'].markAsTouched();
-    ccForm.controls['zipCode'].setValue(zip);
-    ccForm.controls['zipCode'].markAsTouched();
-  }
-}
-
 describe('Component: Billing', () => {
   let component: BillingComponent;
   let fixture: ComponentFixture<BillingComponent>;
@@ -101,40 +76,42 @@ describe('Component: Billing', () => {
 
   describe('Form validations', () => {
      describe('for ACH Form', () => {
-      fit('should be valid with required parameters provided', () => {
-        TestHelper.setAchForm(this.component.achForm, 'Bob Dillinger', 110000000, 123123456789);
-        this.component.achNext();
+      it('should be valid with required parameters provided', () => {
+        this.component.achForm.setValue({accountName: 'Bob Dillinger', accountNumber: '123123456789', routingNumber: '110000000', accountType: 'individual'});
+
         expect(this.component.achForm.valid).toBe(true);
       });
 
       it('should be invalid with required parameters not provided', () => {
-        TestHelper.setAchForm(this.component.achForm, '', null, null);
-        this.component.achNext();
-        expect(this.component.achForm.valid).toBe(true);
+        this.component.achForm.setValue({accountName: '', accountNumber: null, routingNumber: null, accountType: 'individual'});
+
+        expect(this.component.achForm.valid).toBe(false);
       });
 
       it('should be invalid with required parameters partially provided', () => {
-        TestHelper.setAchForm(this.component.achForm, 'Bob Dillinger', 1100, 12345); 
-        this.component.achNext();
-        expect(this.component.achForm.valid).toBe(true);
+        this.component.achForm.setValue({accountName: 'Bob Dillinger', accountNumber: '12345', routingNumber: '1100', accountType: 'individual'});
+
+        expect(this.component.achForm.valid).toBe(false);
       });
     });
 
     describe('for CC Form', () => {
-      it('should be valid with required parameters provided', () => {
-        TestHelper.setCcForm(this.component.ccForm, 4242424242424242, '09/31', 345, 34567);
+      fit('should be valid with required parameters provided', () => {
+        spyOn(CreditCardValidator, 'validateCCNumber');
+        this.component.ccForm.setValue({ccNumber: '4242424242424242', expDate: '09/31', cvv: '345', zipCode: '34567'});
+
         expect(this.component.ccForm.valid).toBe(true);
       });
 
       it('should be invalid with required parameters not provided', () => {
-        TestHelper.setCcForm(this.component.ccForm, null, null, null, null);
-        this.component.ccNext();
+        this.component.ccForm.setValue({ccNumber: null, expDate: null, cvv: null, zipCode: null});
+
         expect(this.component.ccForm.valid).toBe(false);
       });
 
       it('should be invalid with required parameters partially provided', () => {
-        TestHelper.setCcForm(this.component.ccForm, 424242, '02/', 34, 234);
-        this.component.ccNext();
+        this.component.ccForm.setValue({ccNumber: '424242', expDate: '02/', cvv: '34', zipCode: '234'});
+
         expect(this.component.ccForm.valid).toBe(false);
       });
     });
