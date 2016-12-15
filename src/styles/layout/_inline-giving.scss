@@ -516,6 +516,12 @@
   }
 
   datepicker {
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+
     th {
       .btn-default {
         &.btn-secondary {
