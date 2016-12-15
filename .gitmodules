@@ -1,3 +1,0 @@
-[submodule "src/app/content-service"]
-	path = src/app/content-service
-	url = https://github.com/crdschurch/content-service.git
