@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <form class="form--underline custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();">
+    <form class="form--underline custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group background-filled-for-alignment">
@@ -82,7 +82,7 @@
       <div class="custom-input-payment" *ngIf="customAmtSelected">
         <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
 
-        <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();">
+        <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
           <div class="form-group">
             <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
             <div class="input-group background-filled-for-alignment">
@@ -110,7 +110,7 @@
   </div>
 
   <footer class="page-footer">
-    <input type="button" class="btn btn-next btn-block" (click)="submitAmount();" value="Next">
+    <input type="button" class="btn btn-next btn-block" (click)="store.preSubmit($event);submitAmount();" value="Next">
   </footer>
 </div>
 
