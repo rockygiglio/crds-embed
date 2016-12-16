@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -31,7 +32,8 @@ export class AmountComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
-    private validation: ValidationService
+    private validation: ValidationService,
+    private angulartics: Angulartics2
   ) {}
 
   public ngOnInit() {
@@ -95,6 +97,21 @@ export class AmountComponent implements OnInit {
     if (this.store.validAmount()) {
       this.state.setLoading(true);
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
+
+
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', label: this.store.amount }});
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', label: '11' }});
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', label: '22' }});
+
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', value: this.store.amount }});
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', value: '33' }});
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', value: '44' }});
+
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amount', label: 'donation', value: '55' }});
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amount', label: 'donation', value: '66' }});
+      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amount', label: 'donation', value: '77' }});
+
+
     } else {
       this.form.controls['customAmount'].markAsTouched();
       this.setErrorMessage();
