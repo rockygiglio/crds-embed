@@ -13,6 +13,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ValidationService } from '../services/validation.service';
 import { StateService } from '../services/state.service';
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 
 class MockActivatedRoute {
   public snapshot = {
@@ -44,6 +45,7 @@ describe('Component: Billing', () => {
         CookieService,
         ValidationService,
         APIService,
+        ContentService,
         StateService
       ]
     });

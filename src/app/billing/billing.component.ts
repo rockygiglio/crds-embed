@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { ContentService } from '../content-service/services/content.service';
+import { ContentService } from '../services/content.service';
 import { CreditCardValidator } from '../validators/credit-card.validator';
 
 import { CustomerBank } from '../models/customer-bank';

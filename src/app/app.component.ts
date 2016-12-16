@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 
 import { StateService } from './services/state.service';
-import { ContentService } from './content-service/services/content.service';
+import { ContentService } from './services/content.service';
 
 @Component({
   selector: 'app-root',
