@@ -518,6 +518,11 @@
   datepicker {
     display: none;
 
+    .well {
+      margin-bottom: 0;
+      margin-top: -.5em;
+    }
+
     &.visible {
       display: block;
     }
