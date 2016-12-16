@@ -98,19 +98,9 @@ export class AmountComponent implements OnInit {
       this.state.setLoading(true);
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
 
-
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', label: this.store.amount }});
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', label: '11' }});
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', label: '22' }});
-
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', value: this.store.amount }});
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', value: '33' }});
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amountDonation', value: '44' }});
-
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amount', label: 'donation', value: '55' }});
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amount', label: 'donation', value: '66' }});
-      this.angulartics.eventTrack.next({ action: 'submit', properties: { category: 'amount', label: 'donation', value: '77' }});
-
+      if (!this.store.isPayment) {
+        this.angulartics.eventTrack.next({ action: 'Submitted', properties: { category: 'amountDonation', value: this.store.amount }});
+      }
 
     } else {
       this.form.controls['customAmount'].markAsTouched();
