@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -33,7 +34,8 @@ describe('Component: Amount ?type=payment', () => {
         APIService,
         SessionService,
         CookieService,
-        ValidationService
+        ValidationService,
+        Angulartics2
       ]
     });
     this.fixture = TestBed.createComponent(AmountComponent);
@@ -103,7 +105,8 @@ describe('Component: Amount ?type=donation', () => {
         StateService,
         APIService,
         SessionService,
-        CookieService
+        CookieService,
+        Angulartics2
       ]
     });
     this.fixture = TestBed.createComponent(AmountComponent);
