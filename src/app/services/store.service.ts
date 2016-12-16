@@ -329,7 +329,17 @@ export class StoreService {
 
   public preSubmit(event) {
     event.preventDefault();
-    event.srcElement.blur();
+    console.log(event);
+    if ( event.target !== undefined) {
+      event.target.blur();
+      console.log('targeting target');
+    } else if (event.srcElement !== undefined) {
+      event.srcElement.blur();
+      console.log('targeting srcElement');
+    } else if (event.originalTarget !== undefined) {
+      event.originalTarget.blur();
+      console.log('targeting originalTarget');
+    }
   }
 
 }
