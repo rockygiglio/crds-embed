@@ -217,7 +217,6 @@ export class StoreService {
   }
 
   public setIsPredefined(newValue: boolean): void {
-    console.log('Store is predefined set to: ' + newValue);
     this.isPredefined = newValue;
   }
 

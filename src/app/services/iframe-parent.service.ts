@@ -5,12 +5,13 @@ export class IFrameParentService {
 
   constructor() { }
 
-  public getIFrameParentUrl(): any {
+  public getIFrameParentUrl(): string {
+
     let url: any = (window.location !== window.parent.location)
       ? document.referrer
       : document.location.href;
-    console.log('Get iframe parent called');
-    console.log(url);
+
+    return url;
   };
 
 }

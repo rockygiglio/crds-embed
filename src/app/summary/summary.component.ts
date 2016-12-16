@@ -132,6 +132,7 @@ export class SummaryComponent implements OnInit {
   }
 
   public postTransaction(details: Payment) {
+    details.predefined_amount = this.store.isPredefined ? details.amount : null;
     this.api.postPayment(details).subscribe(
       success => this.handleSuccess(success),
       error => this.handleInnerError(error)

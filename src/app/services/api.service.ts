@@ -191,7 +191,7 @@ export class APIService {
   }
 
   public postPayment(paymentInfo: Payment): Observable<any> {
-    this.iFrameSrvc.getIFrameParentUrl();
+    paymentInfo.source_url = this.iFrameSrvc.getIFrameParentUrl();
     let url: string = this.baseUrl + 'api/donation';
     return this.session.post(url, paymentInfo)
       .map(this.extractData)

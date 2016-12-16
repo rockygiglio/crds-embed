@@ -108,6 +108,7 @@ describe('Component: Summary', () => {
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
     let paymentBody = new Payment('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -122,6 +123,7 @@ describe('Component: Summary', () => {
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
     let paymentBody = new Payment('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -144,7 +146,7 @@ describe('Component: Summary', () => {
       'cc',
       'DONATION',
       0);
-
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -167,7 +169,7 @@ describe('Component: Summary', () => {
       'bank',
       'DONATION',
       0);
-
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -237,6 +239,7 @@ describe('Component: Summary', () => {
 
     paymentBody.email_address = this.component.store.email;
     paymentBody.donor_id = 1;
+    paymentBody.predefined_amount = null;
 
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
