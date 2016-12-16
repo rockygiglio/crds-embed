@@ -199,6 +199,7 @@ export class APIService {
   };
 
   public postRecurringGift(recurringDonor: RecurringDonor): Observable<any> {
+    recurringDonor.source_url = this.iFrameSrvc.getIFrameParentUrl();
     let url: string = this.baseUrl + 'api/donor/recurrence/';
     return this.session.post(url, recurringDonor)
       .map(this.extractData)

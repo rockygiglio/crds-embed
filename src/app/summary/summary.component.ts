@@ -93,6 +93,7 @@ export class SummaryComponent implements OnInit {
       }
     } else if (this.store.isRecurringGift()) {
       if (this.store.isUsingNewPaymentMethod()) {
+        this.store.recurringDonor.predefined_amount  = this.store.isPredefined ? this.store.recurringDonor.amount : null;
         this.api.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
           error => this.handleInnerError(error)
