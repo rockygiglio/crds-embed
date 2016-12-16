@@ -335,7 +335,7 @@ export class StoreService {
   }
 
   public blurInputField(event) {
-    if ( event.target !== undefined) {
+    if (event.target !== undefined) {
       event.target.blur();
     } else if (event.srcElement !== undefined) {
       event.srcElement.blur();
