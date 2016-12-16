@@ -70,12 +70,13 @@
             [class.ng-valid]="!guestEmail"
             placeholder="Email"
             name="email"
+            (keyup)="resetGuestEmailFormSubmission($event)"
             [(ngModel)]="email"
             [formControl]="formGuest.get('email')" />
       </div>
 
-      <div *ngIf="guestEmail && formGuestSubmitted">
-        <div class="alert alert-danger"><strong>Heads up!</strong> 
+      <div *ngIf="showMessage">
+        <div class="alert alert-info"><strong>Heads up!</strong> 
         This email is associated with a registered account. If you’d 
         like to save your payment or see it on your statement, 
         please <a (click)="switchToSignIn()">sign in</a>.</div>
