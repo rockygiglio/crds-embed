@@ -327,18 +327,17 @@ export class StoreService {
     }
   }
 
-  public preSubmit(event) {
+  public preSubmit(event, noBlur = false) {
     event.preventDefault();
-    console.log(event);
+    if (noBlur === true) {
+      return;
+    }
     if ( event.target !== undefined) {
       event.target.blur();
-      console.log('targeting target');
     } else if (event.srcElement !== undefined) {
       event.srcElement.blur();
-      console.log('targeting srcElement');
     } else if (event.originalTarget !== undefined) {
       event.originalTarget.blur();
-      console.log('targeting originalTarget');
     }
   }
 
