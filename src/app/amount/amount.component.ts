@@ -98,7 +98,7 @@ export class AmountComponent implements OnInit {
       this.state.setLoading(true);
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
 
-      if (!this.store.isPayment) {
+      if (!this.store.isPayment()) {
         this.angulartics.eventTrack.next({ action: 'Submitted', properties: { category: 'amountDonation', value: this.store.amount }});
       }
 
