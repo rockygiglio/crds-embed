@@ -174,11 +174,10 @@ $dt-page-bg-color: #222222;
     .well {
       background: $bg-color;
       border: 0;
-      border-bottom: 1px solid $underline-color;
-      border-radius: 0;
       box-shadow: none;
-      padding: 0;
-      padding-bottom: 1em;
+      padding-left: 0;
+      padding-right: 0;
+      margin-top: -1em;
     }
 
     .btn-default {
@@ -187,15 +186,22 @@ $dt-page-bg-color: #222222;
       color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
 
       &.active {
-          @include calendar-date($calendar-today-bg, $calendar-today-border, $calendar-today-text);
+        background-color: $secondary-color;
+        border-color: $secondary-color;
+
+        &:focus {
+          background-color: $secondary-color;
+          border-color: $secondary-color;
+        }
+
+        .text-info,
+        span {
+          color: $calendar-today-text;
+        }
       }
 
-      .text-muted {
-        color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 43.5294);
-      }
-
-      &:hover {
-        @include calendar-date($calendar-hover-bg, $calendar-hover-border, $calendar-hover-text);
+      .text-info {
+        color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
       }
     }
 

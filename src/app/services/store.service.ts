@@ -334,9 +334,21 @@ export class StoreService {
     }
   }
 
-  public preSubmit(event) {
+  public preSubmit(event, noBlur = false) {
     event.preventDefault();
-    event.srcElement.blur();
+    if (noBlur === false) {
+      this.blurInputField(event);
+    }
+  }
+
+  public blurInputField(event) {
+    if (event.target !== undefined) {
+      event.target.blur();
+    } else if (event.srcElement !== undefined) {
+      event.srcElement.blur();
+    } else if (event.originalTarget !== undefined) {
+      event.originalTarget.blur();
+    }
   }
 
 }
