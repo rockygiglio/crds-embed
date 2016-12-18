@@ -43,11 +43,11 @@ describe('Service: Content', () => {
     });
   });
 
-  fit('should create an instance', inject([ContentService], (service: ContentService) => {
+  it('should create an instance', inject([ContentService], (service: ContentService) => {
     expect(service).toBeTruthy();
   }));
 
-  fit('should get content', inject([ContentService], (service: ContentService) => {
+  it('should get content', inject([ContentService], (service: ContentService) => {
     let title = 'sampleContentBlockTitle1';
     service.contentBlocks = new Array<ContentBlock>();
     service.contentBlocks.push(mockContent1);
