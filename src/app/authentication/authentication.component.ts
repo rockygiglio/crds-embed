@@ -13,7 +13,7 @@ import { ValidationService } from '../services/validation.service';
   styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
-  buttonText: string = 'Next';
+  public buttonText: string = 'Next';
   public email: string;
   public form: FormGroup;
   public formGuest: FormGroup;
@@ -22,6 +22,7 @@ export class AuthenticationComponent implements OnInit {
   public guestEmail: boolean;
   public isGuestNotifiedOfExistingAccount: boolean = false;
   public loginException: boolean;
+  public showMessage: boolean = false;
   public signinOption: string = 'Sign In';
   public userPmtInfo: any;
 
@@ -38,9 +39,8 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-
-    this.helpUrl = `//${process.env.CRDS_ENV}.crossroads.net/help`;
-    this.forgotPasswordUrl = `//${process.env.CRDS_ENV}.crossroads.net/forgot-password`;
+    this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
+    this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
     if ( this.store.isGuest === true && this.store.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
@@ -63,6 +63,22 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(false);
   }
 
+  public resetGuestEmailFormSubmission(event) {
+    if ( event.target.value !== this.store.email ) {
+      this.showMessage = false;
+      this.buttonText = 'Next';
+      this.isGuestNotifiedOfExistingAccount = false;
+    }
+  }
+
+  public showExistingEmailMessage() {
+    this.guestEmail = false;
+    this.showMessage = true;
+    this.buttonText = 'Continue Anyway';
+    this.isGuestNotifiedOfExistingAccount = true;
+    this.state.setLoading(false);
+  }
+
   public submitGuest() {
     this.formGuestSubmitted = true;
     if ( this.formGuest.valid ) {
@@ -75,9 +91,7 @@ export class AuthenticationComponent implements OnInit {
             this.store.email = this.email;
             this.adv();
           } else {
-            this.isGuestNotifiedOfExistingAccount = true;
-            this.buttonText = 'Continue Anyway';
-            this.state.setLoading(false);
+            this.showExistingEmailMessage();
           }
         }
       );
@@ -116,6 +130,10 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public back(): boolean {
+    this.store.email = this.email;
+    if (this.signinOption === 'Guest') {
+      this.store.isGuest = true;
+    }
     this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
     return false;
   }

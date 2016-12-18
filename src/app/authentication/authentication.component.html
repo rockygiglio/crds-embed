@@ -11,7 +11,7 @@
       <h2>Sign In</h2>
     </header>
 
-    <form [formGroup]="form" (ngSubmit)="submitLogin();$event.preventDefault();">
+    <form [formGroup]="form" action="/" (ngSubmit)="store.preSubmit($event);submitLogin();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="email">Email</label>
         <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
@@ -51,7 +51,7 @@
       <p class="text-block">Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()">Back</a>
-        <input type="submit" class="btn btn-next pull-right" (click)="submitLogin();$event.preventDefault();" value="Sign In">
+        <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitLogin();" value="Sign In">
       </footer>
     </form>
   </div>
@@ -61,7 +61,7 @@
       <h2>Guest</h2>
     </header>
 
-    <form [formGroup]="formGuest" (ngSubmit)="submitGuest();$event.preventDefault();">
+    <form [formGroup]="formGuest" action="/" (ngSubmit)="store.preSubmit($event);submitGuest();" novalidate>
 
       <div class="form-group">
         <input type="email"
@@ -70,12 +70,13 @@
             [class.ng-valid]="!guestEmail"
             placeholder="Email"
             name="email"
+            (keyup)="resetGuestEmailFormSubmission($event)"
             [(ngModel)]="email"
             [formControl]="formGuest.get('email')" />
       </div>
 
-      <div *ngIf="guestEmail && formGuestSubmitted">
-        <div class="alert alert-danger"><strong>Heads up!</strong> 
+      <div *ngIf="showMessage">
+        <div class="alert alert-info"><strong>Heads up!</strong> 
         This email is associated with a registered account. If you’d 
         like to save your payment or see it on your statement, 
         please <a (click)="switchToSignIn()">sign in</a>.</div>
@@ -88,7 +89,7 @@
 
       <footer class="page-footer">
         <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-        <input type="submit" class="btn btn-next pull-right" (click)="submitGuest();$event.preventDefault();" value="{{buttonText}}">
+        <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitGuest();" value="{{buttonText}}">
       </footer>
     </form>
   </div>

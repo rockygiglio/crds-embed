@@ -10,7 +10,7 @@
 <div *ngIf="store.paymentMethod == 'Bank Account'" heading="Bank Account">
   <h3 class="radio-form__header">Account Type:</h3>
 
-  <form [formGroup]="achForm" [class.submitted]="achSubmitted" (ngSubmit)="achSubmit();$event.preventDefault();">
+  <form [formGroup]="achForm" action="/" [class.submitted]="achSubmitted" (ngSubmit)="store.preSubmit($event);achSubmit();" novalidate>
     <div class="radio-group">
       <ul>
         <li>
@@ -116,7 +116,7 @@
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
-      <input type="submit" class="btn btn-next pull-right" (click)="achSubmit();$event.preventDefault();" value="Next">
+      <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);achSubmit();" value="Next">
     </footer>
   </form>
 </div>
@@ -127,8 +127,7 @@
     <alert dismissible="true" ><span [innerHTML]="content.getContent('embedPleaseUseBank')"></span> </alert>
   </div>
   
-  
-  <form [formGroup]="ccForm" [class.submitted]="ccSubmitted" (ngSubmit)="ccSubmit();$event.preventDefault();">
+  <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="store.preSubmit($event);ccSubmit();" novalidate>
     <div class="row">
       <div class="form-group">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
@@ -223,7 +222,7 @@
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
-      <input type="submit" class="btn btn-next pull-right" (click)="ccSubmit();$event.preventDefault();" value="Next">
+      <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);ccSubmit();" value="Next">
     </footer>
   </form>
 </div>

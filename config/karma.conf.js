@@ -19,7 +19,8 @@ module.exports = function(config) {
       require('karma-remap-istanbul'),
       require('karma-mocha-reporter'),
       require('karma-webpack'),
-      require('karma-sourcemap-loader')
+      require('karma-sourcemap-loader'),
+      require('phantomjs-polyfill-includes')
     ],
 
     /*
@@ -39,7 +40,8 @@ module.exports = function(config) {
      */
     files: [ 
       { pattern: './config/spec-bundle.js', watched: false },
-      { pattern: 'https://js.stripe.com/v2/', include: true }
+      { pattern: 'https://js.stripe.com/v2/', include: true },
+      { pattern: './node_modules/phantomjs-polyfill-includes/includes-polyfill.js', include: true } 
     ],
 
     /*
