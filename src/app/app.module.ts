@@ -27,6 +27,7 @@ import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { ValidationService } from './services/validation.service';
+import { ContentService } from './services/content.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -69,6 +70,7 @@ import { SimpleCreditCardFormatDirective } from './directives/simple-credit-card
   ],
   providers: [
     appRoutingProviders,
+    ContentService,
     CookieService,
     APIService,
     SessionService,

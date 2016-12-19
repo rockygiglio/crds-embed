@@ -123,9 +123,10 @@
 
 <div *ngIf="store.paymentMethod == 'Credit Card'" heading="Credit Card">
 
-  <alert *ngIf="store.isDonation()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each gift).</alert>
-  <alert *ngIf="store.isPayment()" dismissible="true">If it's all the same to you, please use your bank account (credit card companies charge Crossroads a fee for each purchase).</alert>
-
+  <div> 
+    <alert dismissible="true" ><span [innerHTML]="content.getContent('embedPleaseUseBank')"></span> </alert>
+  </div>
+  
   <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="store.preSubmit($event);ccSubmit();" novalidate>
     <div class="row">
       <div class="form-group">
