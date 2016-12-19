@@ -92,6 +92,8 @@ export class FundAndFrequencyComponent implements OnInit {
       this.store.resetExistingPmtInfo();
       this.store.clearUserPmtInfo();
       this.state.unhidePage(this.state.billingIndex);
+    } else if (this.store.isOneTimeGift()) {
+      this.store.loadDate();
     }
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
   }
