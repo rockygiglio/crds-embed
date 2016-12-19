@@ -86,9 +86,10 @@ describe('Component: Confirmation', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 90;
     this.component.store.frequency = new Frequency('One Time', 'once', false);
+    this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Your generosity begins on  to the tune of `);
+    expect(de.nativeElement.textContent).toContain(`Your generosity begins on 12/6/2016 to the tune of `);
     expect(de.nativeElement.textContent).toContain(`$90.00 for Programmer Caffination Fund.`);
   });
 
