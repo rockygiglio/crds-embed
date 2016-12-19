@@ -12,13 +12,14 @@ import { Fund } from '../models/fund';
 
 
 @Component({
-  selector: 'app-prototype-details',
+  selector: 'app-fund-and-frequency',
   templateUrl: 'fund-and-frequency.component.html'
 })
 export class FundAndFrequencyComponent implements OnInit {
 
   public funds: Array<Fund>;
   public form: FormGroup;
+  public selectedDate: Date = new Date();
   public minDate: Date = new Date();
   public maxDate: Date = new Date( new Date().setFullYear(new Date().getFullYear() + 1) );
   public startDate: Date;
@@ -26,6 +27,7 @@ export class FundAndFrequencyComponent implements OnInit {
   public fundIdParam: number;
   public isFundSelectShown: boolean = undefined;
   public defaultFund: Fund;
+  public showDatePicker: boolean = false;
 
   constructor(
     private api: APIService,
@@ -56,6 +58,7 @@ export class FundAndFrequencyComponent implements OnInit {
       this.funds = this.store.funds;
       this.load();
     }
+    this.selectedDate = this.store.startDate;
   }
 
   public load() {
@@ -70,7 +73,6 @@ export class FundAndFrequencyComponent implements OnInit {
     if (!this.store.frequency) {
       this.store.frequency  = this.store.frequencies[0];
     }
-    this.store.startDate = this.store.startDate ? new Date(this.store.startDate) : new Date();
     this.isFundSelectShown = !this.funds.find(fund => Number(fund.ID) === Number(this.fundIdParam));
     if (this.isFundSelectShown === false && this.store.fund.AllowRecurringGiving === false) {
       this.state.hidePage(this.state.fundIndex);
@@ -104,21 +106,19 @@ export class FundAndFrequencyComponent implements OnInit {
     this.store.fund = fund;
     if (!fund.AllowRecurringGiving) {
         this.store.frequency = this.store.getFirstNonRecurringFrequency();
-        this.store.startDate = new Date();
+        this.store.loadDate();
     }
   }
 
-  public getDate():number {
-    const calendar = document.querySelector("datepicker");
-    calendar.classList.toggle("visible");
-
-    return this.store.startDate && this.store.startDate.getTime() || new Date().getTime();
+  public toggleDatePicker(val: boolean) {
+    this.showDatePicker = val;
   }
 
-  public onChange(event) {
-    const calendar = document.querySelector("datepicker");
-    if(calendar.classList.contains('visible')) {
-      calendar.classList.remove("visible");
+  public updateStartDate(value) {
+    if ( value.getTime() !== this.store.startDate.getTime() ) {
+      this.store.startDate = value;
+      this.toggleDatePicker(false);
     }
   }
+
 }
