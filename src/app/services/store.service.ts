@@ -76,7 +76,7 @@ export class StoreService {
   public userBank: CustomerBank = undefined;
   public userCc: CustomerCard = undefined;
 
-  //Predefined or custom donation dollar amount
+  // Predefined or custom donation dollar amount
   public isPredefined: boolean = undefined;
 
   constructor(

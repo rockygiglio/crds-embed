@@ -108,17 +108,17 @@ export class FundAndFrequencyComponent implements OnInit {
     }
   }
 
-  public getDate():number {
-    const calendar = document.querySelector("datepicker");
-    calendar.classList.toggle("visible");
+  public getDate(): number {
+    const calendar = document.querySelector('datepicker');
+    calendar.classList.toggle('visible');
 
     return this.store.startDate && this.store.startDate.getTime() || new Date().getTime();
   }
 
   public onChange(event) {
-    const calendar = document.querySelector("datepicker");
-    if(calendar.classList.contains('visible')) {
-      calendar.classList.remove("visible");
+    const calendar = document.querySelector('datepicker');
+    if (calendar.classList.contains('visible')) {
+      calendar.classList.remove('visible');
     }
   }
 }

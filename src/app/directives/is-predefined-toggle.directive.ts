@@ -15,18 +15,13 @@ export class IsPredefinedToggleDirective {
     customAmount: 'customAmount'
   };
 
-  constructor(private el: ElementRef,
-              private store: StoreService) {
-    this.target = this.el.nativeElement;
-  }
-
   @Input('inputType') inputType: string;
 
   @HostListener('click', ['$event']) onClick(e) {
 
     let isClickingPredefinedAmt = this.inputType === this.inputTypes.predefinedAmount;
 
-    if(isClickingPredefinedAmt) {
+    if (isClickingPredefinedAmt) {
       this.setIsPredefinedInStore(this.inputType);
     }
 
@@ -40,10 +35,15 @@ export class IsPredefinedToggleDirective {
     this.setIsPredefinedInStore(this.inputType);
   }
 
+  constructor(private el: ElementRef,
+              private store: StoreService) {
+    this.target = this.el.nativeElement;
+  }
+
   private setIsPredefinedAfterPasteValidation() {
     setTimeout(() => {
       let isPasteValidAmount: boolean = Boolean(this.target.value);
-      if(isPasteValidAmount) {
+      if (isPasteValidAmount) {
         this.setIsPredefinedInStore(this.inputType);
       }
     }, 1);
