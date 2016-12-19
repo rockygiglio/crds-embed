@@ -102,10 +102,10 @@ describe('Component: Authentication', () => {
         expect(fixture.formGuest.valid).toBe(true);
       });
 
-      it('guestEmail should get set to true if email guest provides exists', () => {
+      it('showMessage should get set to true if email guest provides exists', () => {
         setGuestEmailExists(true);
         fixture.submitGuest();
-        expect(fixture.guestEmail).toBe(true);
+        expect(fixture.showMessage).toBe(true);
       });
 
       it('guestEmail should get set to false if email guest provides does not exist', () => {

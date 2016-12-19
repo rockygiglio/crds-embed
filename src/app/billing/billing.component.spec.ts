@@ -14,6 +14,7 @@ import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
+import { ContentService } from '../services/content.service';
 
 class MockActivatedRoute {
   public snapshot = {
@@ -55,6 +56,7 @@ describe('Component: Billing', () => {
         IFrameParentService,
         ValidationService,
         APIService,
+        ContentService,
         StateService
       ]
     });
