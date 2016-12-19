@@ -69,7 +69,7 @@ export class StoreService {
   // Fund and frequency information
   public fund: Fund = undefined;
   public funds: Array<Fund>;
-  public startDate: any = '';
+  public startDate: Date;
   public frequency: Frequency;
   public frequencies: Array<Frequency>;
 
@@ -136,6 +136,12 @@ export class StoreService {
       this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }
+    this.loadDate();
+  }
+
+  public loadDate() {
+    this.startDate = new Date();
+    this.startDate.setHours(0, 0, 0, 0);
   }
 
   public preloadFrequencies() {
