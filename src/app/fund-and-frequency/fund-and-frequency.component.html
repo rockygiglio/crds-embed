@@ -32,35 +32,36 @@
   <h3 class="btn-form__header">Recurs On:</h3>
   <form class="form-group">
     <label for="recurring_date" class="sr-only">Set recurring date</label>
-    <div class="input-group" (click)="getDate()">
+    <div class="input-group" (click)="toggleDatePicker(true)">
       <input *ngIf="store.startDate"
-            id="recurring_date"
-            class="form-control"
-            name="recurring_date"
-            type="text"
-            value="{{ getDate() | date: 'shortDate' }}"
-            required="required"
-            readonly>
+        id="recurring_date"
+        class="form-control"
+        name="recurring_date"
+        type="text"
+        value="{{ store.startDate.getTime() | date: 'MM/d/yyyy' }}"
+        required="required"
+        readonly>
       <div class="input-group-addon">
         <i class="fa fa-calendar" aria-hidden="true"></i>
       </div>
     </div>
   </form>
 
-  <datepicker *ngIf="store.startDate"
-              [(ngModel)]="store.startDate"
-              (ngModelChange)="onChange($event)"
-              [minDate]="minDate"
-              [maxDate]="maxDate"
-              [showWeeks]="false">
+  <datepicker
+    [ngClass]="{ visible: showDatePicker }"
+    [(ngModel)]="selectedDate"
+    (ngModelChange)="updateStartDate($event);"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [showWeeks]="false">
   </datepicker>
 </div>
 
 <footer class="page-footer">
   <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
   <input type="button"
-         class="btn btn-next pull-right"
-         (click)="submitFrequency()"
-         [disabled]="!form.valid || store.isRecurringGiftWithNoStartDate()"
-         value="Next">
+    class="btn btn-next pull-right"
+    (click)="submitFrequency()"
+    [disabled]="!form.valid || store.isRecurringGiftWithNoStartDate()"
+    value="Next">
 </footer>
