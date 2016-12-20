@@ -4,10 +4,11 @@
   </header>
 
   <p *ngIf="store.isDonation()" class="text-block--lg text-block--thin">
-    Your generosity begins on {{ store.startDate.getTime() | date: 'MM/d/yyyy' }} to the tune of 
-    {{ store.amount | currency:'USD':true | lowercase }} for {{ store.fund.Name }}.
-    <span *ngIf="store.isDonation() && store.isRecurringGift()"> 
-    Thank you for choosing to repeat this gift every {{ frequencyCalculation() }}.
+    <span *ngIf="store.isRecurringGift()">
+      Thank you! You're giving {{ store.amount | currency:'USD':true | lowercase }} for {{ store.fund.Name }} every {{ store.frequency.value }} on {{ frequencyCalculation() }}, beginning {{ store.startDate.getTime() | date: 'MM/d/yyyy' }}. Thanks for saying "yes" to this mission.
+    </span>
+    <span *ngIf="!store.isRecurringGift()">
+      You just gave {{ store.amount | currency:'USD':true | lowercase }} for {{ store.fund.Name }}. Way to go!
     </span>
   </p>
 
