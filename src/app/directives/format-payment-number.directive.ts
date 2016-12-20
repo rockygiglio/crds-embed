@@ -2,10 +2,10 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { KeypressValidation } from '../shared/keypress-validation';
 
 @Directive({
-  selector: '[simpleCcNumber]'
+  selector: '[formatPaymentNumber]'
 })
 
-export class SimpleCreditCardFormatDirective {
+export class FormatPaymentNumberDirective {
 
   public target;
   public position;
@@ -41,7 +41,7 @@ export class SimpleCreditCardFormatDirective {
     let val = KeypressValidation.replaceFullWidthChars(this.target.value);
 
     val = val.substring(0, this.target.selectionStart) + input + val.substring(this.target.selectionEnd);
-    let regex: RegExp = new RegExp('[0-9]');
+    let regex: RegExp = new RegExp('^\\d+$');
     return regex.test(val);
   }
 
