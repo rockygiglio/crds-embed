@@ -263,6 +263,26 @@ describe('Component: Summary', () => {
     expect(this.component.api.logOut).toHaveBeenCalled();
   });
 
+  it('should set url redirect params if in the pmt flow', () => {
+    let mockPmtDetails: any = {payment_id: 5};
+    this.component.store.invoiceId = 2;
+    this.component.store.type = 'payment';
+
+    this.component.setRedirectUrlParamsIfNecessary(mockPmtDetails);
+    let redirectParamMapLength: number = this.component.redirectParams.size;
+    expect(redirectParamMapLength).toBe(2);
+  });
+
+  it('should NOT set url redirect params if in the donation flow', () => {
+    let mockPmtDetails: any = {payment_id: 5};
+    this.component.store.invoiceId = 2;
+    this.component.store.type = 'donation';
+
+    this.component.setRedirectUrlParamsIfNecessary(mockPmtDetails);
+    let redirectParamMapLength: number = this.component.redirectParams.size;
+    expect(redirectParamMapLength).toBe(0);
+  });
+
   it('should add redirect params to redirect url', () => {
     this.component.store.url = 'http://www.redirecturl.com';
     this.component.redirectParams.set('param1', 1);
