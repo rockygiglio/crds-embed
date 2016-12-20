@@ -57,6 +57,7 @@ describe('Component: Authentication', () => {
 
   function setGuestForm( email ) {
     fixture.formGuest.setValue({ email: email });
+    fixture.email = email;
   }
 
   describe('#ngOnInit', () => {
@@ -123,10 +124,10 @@ describe('Component: Authentication', () => {
       describe('and user with provided email exists and isGuestNotifiedOfExistingAccount is false', () => {
         it('then isGuestNotifiedOfExistingAccount should get set to true and adv() does not get called', () => {
           spyOn(fixture, 'adv');
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(false);
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBeUndefined();
           setGuestEmailExists(true);
           fixture.submitGuest();
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(true);
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBe('s@s.com');
           expect(fixture.adv).not.toHaveBeenCalled();
         });
 
@@ -141,11 +142,11 @@ describe('Component: Authentication', () => {
       describe('and account with provided email exists and isGuestNotifiedOfExistingAccount is true', () => {
         it('then the router allows for navigation forward in the process', () => {
           spyOn(fixture, 'adv');
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(false);
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBeUndefined();
           setGuestEmailExists(true);
           fixture.submitGuest();
           expect(fixture.adv).not.toHaveBeenCalled();
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBe(true);
+          expect(fixture.isGuestNotifiedOfExistingAccount).toBe('s@s.com');
           fixture.submitGuest();
           expect(fixture.adv).toHaveBeenCalled();
         });
