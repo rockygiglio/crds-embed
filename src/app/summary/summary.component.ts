@@ -148,10 +148,16 @@ export class SummaryComponent implements OnInit {
     });
   }
 
+  private setRedirectUrlParamsIfNecessary(paymentDetails) {
+    if ( this.store.isPayment() ) {
+      this.redirectParams.set('invoiceId', this.store.invoiceId);
+      this.redirectParams.set('paymentId', paymentDetails.payment_id);
+    }
+  }
+
   private handleSuccess(info) {
+    this.setRedirectUrlParamsIfNecessary(info);
     this.store.resetErrors();
-    this.redirectParams.set('invoiceId', this.store.invoiceId);
-    this.redirectParams.set('paymentId', info.payment_id);
     this.store.clearUserPmtInfo();
     this.adv();
   }
