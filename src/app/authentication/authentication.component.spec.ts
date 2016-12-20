@@ -151,7 +151,7 @@ describe('Component: Authentication', () => {
           expect(fixture.adv).toHaveBeenCalled();
         });
 
-        it('then the user to change email', () => {
+        it('then the user can change email and continue', () => {
           spyOn(fixture, 'adv');
           expect(fixture.existingGuestEmail).toBeUndefined();
           setGuestEmailExists(true);
