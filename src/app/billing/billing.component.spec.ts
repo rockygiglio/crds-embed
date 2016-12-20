@@ -9,6 +9,7 @@ import { AlertModule, ButtonsModule, CollapseModule, TabsModule } from 'ng2-boot
 import { APIService } from '../services/api.service';
 import { BillingComponent } from './billing.component';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
@@ -52,6 +53,7 @@ describe('Component: Billing', () => {
         FormBuilder,
         SessionService,
         CookieService,
+        IFrameParentService,
         ValidationService,
         APIService,
         ContentService,

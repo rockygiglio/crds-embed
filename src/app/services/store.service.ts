@@ -76,6 +76,9 @@ export class StoreService {
   public userBank: CustomerBank = undefined;
   public userCc: CustomerCard = undefined;
 
+  // Predefined or custom donation dollar amount
+  public isPredefined: boolean = undefined;
+
   constructor(
     private api: APIService,
     private validation: ValidationService,
@@ -217,6 +220,10 @@ export class StoreService {
       this.accountLast4 = paymentInfo.default_source.bank_account.last4;
       this.paymentType = 'ach';
     }
+  }
+
+  public setIsPredefined(newValue: boolean): void {
+    this.isPredefined = newValue;
   }
 
   private parseParamOrSetError(paramName, queryParams): any {
