@@ -121,13 +121,13 @@ describe('Component: Authentication', () => {
         expect(router.navigateByUrl).toHaveBeenCalled();
       });
 
-      describe('and user with provided email exists and isGuestNotifiedOfExistingAccount is false', () => {
-        it('then isGuestNotifiedOfExistingAccount should get set to true and adv() does not get called', () => {
+      describe('and user with provided email exists and existingGuestEmail is not set', () => {
+        it('then existingGuestEmail should get set and adv() does not get called', () => {
           spyOn(fixture, 'adv');
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBeUndefined();
+          expect(fixture.existingGuestEmail).toBeUndefined();
           setGuestEmailExists(true);
           fixture.submitGuest();
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBe('s@s.com');
+          expect(fixture.existingGuestEmail).toBe('s@s.com');
           expect(fixture.adv).not.toHaveBeenCalled();
         });
 
@@ -139,14 +139,27 @@ describe('Component: Authentication', () => {
         });
       });
 
-      describe('and account with provided email exists and isGuestNotifiedOfExistingAccount is true', () => {
+      describe('and account with provided email exists and existingGuestEmail is set', () => {
         it('then the router allows for navigation forward in the process', () => {
           spyOn(fixture, 'adv');
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBeUndefined();
+          expect(fixture.existingGuestEmail).toBeUndefined();
           setGuestEmailExists(true);
           fixture.submitGuest();
           expect(fixture.adv).not.toHaveBeenCalled();
-          expect(fixture.isGuestNotifiedOfExistingAccount).toBe('s@s.com');
+          expect(fixture.existingGuestEmail).toBe('s@s.com');
+          fixture.submitGuest();
+          expect(fixture.adv).toHaveBeenCalled();
+        });
+
+        it('then the user to change email', () => {
+          spyOn(fixture, 'adv');
+          expect(fixture.existingGuestEmail).toBeUndefined();
+          setGuestEmailExists(true);
+          fixture.submitGuest();
+          expect(fixture.adv).not.toHaveBeenCalled();
+          expect(fixture.existingGuestEmail).toBe('s@s.com');
+          setGuestForm( 't@t.com' );
+          setGuestEmailExists(false);
           fixture.submitGuest();
           expect(fixture.adv).toHaveBeenCalled();
         });
