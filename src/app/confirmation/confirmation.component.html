@@ -5,16 +5,16 @@
 
   <p *ngIf="store.isDonation()" class="text-block--lg text-block--thin">
     <span *ngIf="store.isRecurringGift()">
-      Thank you! You're giving {{ store.amount | currency:'USD':true | lowercase }} for {{ store.fund.Name }} every {{ store.frequency.value }} on {{ frequencyCalculation() }}, beginning {{ store.startDate.getTime() | date: 'MM/d/yyyy' }}. Thanks for saying "yes" to this mission.
+      Thank you! You're giving <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> for <strong>{{ store.fund.Name }}</strong> every <strong>{{ store.frequency.value }}</strong> on <strong>{{ frequencyCalculation() }}</strong>, beginning <strong>{{ store.startDate.getTime() | date: 'MM/d/yyyy' }}</strong>. Thanks for saying "yes" to this mission.
     </span>
     <span *ngIf="!store.isRecurringGift()">
-      You just gave {{ store.amount | currency:'USD':true | lowercase }} for {{ store.fund.Name }}. Way to go!
+      You just gave <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> for <strong>{{ store.fund.Name }}</strong>. Way to go!
     </span>
   </p>
 
   <p *ngIf="store.isPayment()" class="text-block--lg text-block--thin">
-    Thank you for the {{ store.amount | currency:'USD':true | lowercase }} payment
-    <span *ngIf="store.title"> for {{ store.title }}</span>.
+    Thank you for the <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> payment
+    <span *ngIf="store.title"> for <strong>{{ store.title }}</strong></span>.
   </p>
 
   <p class="text-block--sm">
