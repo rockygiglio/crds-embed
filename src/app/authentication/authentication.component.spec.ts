@@ -9,7 +9,7 @@ import { ValidationService } from '../services/validation.service';
 
 import { AuthenticationComponent } from './authentication.component';
 
-describe('Component: Authentication', () => {
+fdescribe('Component: Authentication', () => {
 
   let fixture: AuthenticationComponent,
       router: Router,
@@ -100,13 +100,6 @@ describe('Component: Authentication', () => {
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      it('should not allow space on right of @', () => {
-        setGuestForm( 'pdog@s mog.com' );
-        setGuestEmailExists(true);
-        fixture.submitGuest();
-        expect(fixture.formGuest.valid).toBe(false);
-      });
-
       it('should not allow trailing space', () => {
         setGuestForm( 'pdog@smog.com ' );
         setGuestEmailExists(true);
@@ -128,18 +121,18 @@ describe('Component: Authentication', () => {
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      it('should not allow multiple .', () => {
-        setGuestForm( 'pdog@smog.com.com' );
-        setGuestEmailExists(true);
-        fixture.submitGuest();
-        expect(fixture.formGuest.valid).toBe(false);
-      });
-
       it('should require @', () => {
         setGuestForm( 'pdogsmog.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
+      });
+
+       it('should allow . in address', () => {
+        setGuestForm( 'pdog.iscool@smog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(true);
       });
     });
 
