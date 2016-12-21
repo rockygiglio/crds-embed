@@ -93,49 +93,49 @@ describe('Component: Authentication', () => {
         (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
       }
 
-      fit('should not allow space on left of @', () => {
+      it('should not allow space on left of @', () => {
         setGuestForm( 'p dog@s.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      fit('should not allow space on right of @', () => {
+      it('should not allow space on right of @', () => {
         setGuestForm( 'pdog@s mog.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      fit('should not allow trailing space', () => {
+      it('should not allow trailing space', () => {
         setGuestForm( 'pdog@smog.com ' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      fit('should not allow leading space', () => {
+      it('should not allow leading space', () => {
         setGuestForm( ' pdog@smog.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-       fit('should require something after .', () => {
+      it('should require something after .', () => {
         setGuestForm( 'pdog@smog.' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      fit('should not allow multiple .', () => {
+      it('should not allow multiple .', () => {
         setGuestForm( 'pdog@smog.com.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
       });
 
-      fit('should require @', () => {
+      it('should require @', () => {
         setGuestForm( 'pdogsmog.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
