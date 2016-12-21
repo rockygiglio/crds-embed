@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import { ContentBlock } from '../models/content-block';
 
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
 @Injectable()
 export class ContentService {
 
@@ -14,12 +17,10 @@ export class ContentService {
   loadData(categories = Array('common')) {
     this.getContentBlocks(categories).subscribe(contentBlocks => {
       this.contentBlocks = contentBlocks;
-      console.log(this.contentBlocks);
     });
   }
 
   getContentBlocks (categories: Array<string>) {
-
     let apiUrl = process.env.CRDS_CMS_ENDPOINT + 'api/contentblock';
     if (Array.isArray(categories) && categories.length > 0) {
       for (let i = 0; i < categories.length; i++) {
@@ -30,7 +31,6 @@ export class ContentService {
         apiUrl += pre + 'category[]=' + categories[i];
       }
     }
-
     return this.http.get(apiUrl)
       .map(res => {
         return res.json().contentblocks;
@@ -43,7 +43,7 @@ export class ContentService {
   }
 
   private handleError (error: any) {
-    return Observable.throw(error.json().error || 'Server error');
+    return [[]];
   }
 
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
@@ -17,11 +18,13 @@ describe('Component: Authentication', () => {
       store: StoreService,
       fb: FormBuilder,
       api: APIService,
-      validation: ValidationService;
+      validation: ValidationService,
+      content: ContentService;
 
   beforeEach(() => {
 
     api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+    content = jasmine.createSpyObj<ContentService>('content', ['loadData']);
     fb = new FormBuilder();
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
     stateService = jasmine.createSpyObj<StateService>(

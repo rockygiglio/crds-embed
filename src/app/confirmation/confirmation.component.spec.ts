@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'angular2-cookie/core';
 
 import { ConfirmationComponent } from './confirmation.component';
+import { ContentService } from '../services/content.service';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { StoreService } from '../services/store.service';
@@ -40,7 +41,8 @@ describe('Component: Confirmation', () => {
         ValidationService,
         APIService,
         SessionService,
-        CookieService
+        CookieService,
+        ContentService
       ]
     });
     this.fixture = TestBed.createComponent(ConfirmationComponent);

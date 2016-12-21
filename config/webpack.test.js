@@ -18,11 +18,12 @@ module.exports = function(options) {
     module: {
 
       preLoaders: [
+        /*
         {
           test: /\.ts$/,
           loader: 'tslint-loader',
           exclude: [helpers.root('node_modules')]
-        },
+        },*/
         {
           test: /\.js$/,
           loader: 'source-map-loader',
@@ -63,7 +64,7 @@ module.exports = function(options) {
           loaders: ['raw-loader', 'sass-loader']
         }
       ],
-
+      
       postLoaders: [
         {
           test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
@@ -85,11 +86,12 @@ module.exports = function(options) {
       }),
     ],
 
+    /*
     tslint: {
       emitErrors: false,
       failOnHint: false,
       resourcePath: 'src'
-    },
+    },*/
 
     node: {
       global: 'window',

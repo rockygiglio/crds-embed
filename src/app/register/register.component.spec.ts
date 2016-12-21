@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
@@ -17,11 +18,13 @@ describe('Component: Registration', () => {
       state: StateService,
       api: APIService,
       store: StoreService,
-      validation: ValidationService;
+      validation: ValidationService,
+      content: ContentService;
 
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
+    content = jasmine.createSpyObj<ContentService>('content', ['loadData']);
     state = jasmine.createSpyObj<StateService>(
       'state',
       [

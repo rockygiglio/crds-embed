@@ -115,7 +115,6 @@
       </div>
     </div>
 
-
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
       <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);achSubmit();" value="Next">
@@ -126,7 +125,7 @@
 <div *ngIf="store.paymentMethod == 'Credit Card'" heading="Credit Card">
 
   <div> 
-    <alert dismissible="true" ><span [innerHTML]="content.getContent('embedPleaseUseBank')"></span> </alert>
+    <alert dismissible="true" ><span [innerHTML]="store.content.getContent('embedPleaseUseBank')"></span> </alert>
   </div>
   
   <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="store.preSubmit($event);ccSubmit();" novalidate>
