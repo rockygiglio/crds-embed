@@ -20,7 +20,7 @@ export class AuthenticationComponent implements OnInit {
   public formGuestSubmitted: boolean;
   public formSubmitted: boolean;
   public guestEmail: boolean;
-  public isGuestNotifiedOfExistingAccount: boolean = false;
+  public existingGuestEmail: string;
   public loginException: boolean;
   public showMessage: boolean = false;
   public signinOption: string = 'Sign In';
@@ -67,7 +67,6 @@ export class AuthenticationComponent implements OnInit {
     if ( event.target.value !== this.store.email ) {
       this.showMessage = false;
       this.buttonText = 'Next';
-      this.isGuestNotifiedOfExistingAccount = false;
     }
   }
 
@@ -75,7 +74,6 @@ export class AuthenticationComponent implements OnInit {
     this.guestEmail = false;
     this.showMessage = true;
     this.buttonText = 'Continue Anyway';
-    this.isGuestNotifiedOfExistingAccount = true;
     this.state.setLoading(false);
   }
 
@@ -87,10 +85,11 @@ export class AuthenticationComponent implements OnInit {
       this.api.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
-          if ( this.isGuestNotifiedOfExistingAccount === true || resp === false ) {
+         if ( this.existingGuestEmail === this.email || resp === false ) {
             this.store.email = this.email;
             this.adv();
           } else {
+            this.existingGuestEmail = this.email;
             this.showExistingEmailMessage();
           }
         }

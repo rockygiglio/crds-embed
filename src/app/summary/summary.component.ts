@@ -93,6 +93,7 @@ export class SummaryComponent implements OnInit {
       }
     } else if (this.store.isRecurringGift()) {
       if (this.store.isUsingNewPaymentMethod()) {
+        this.store.recurringDonor.predefined_amount  = this.store.isPredefined ? this.store.recurringDonor.amount : null;
         this.api.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
           error => this.handleInnerError(error)
@@ -132,6 +133,7 @@ export class SummaryComponent implements OnInit {
   }
 
   public postTransaction(details: Payment) {
+    details.predefined_amount = this.store.isPredefined ? details.amount : null;
     this.api.postPayment(details).subscribe(
       success => this.handleSuccess(success),
       error => this.handleInnerError(error)
@@ -146,10 +148,16 @@ export class SummaryComponent implements OnInit {
     });
   }
 
+  private setRedirectUrlParamsIfNecessary(paymentDetails) {
+    if ( this.store.isPayment() ) {
+      this.redirectParams.set('invoiceId', this.store.invoiceId);
+      this.redirectParams.set('paymentId', paymentDetails.payment_id);
+    }
+  }
+
   private handleSuccess(info) {
+    this.setRedirectUrlParamsIfNecessary(info);
     this.store.resetErrors();
-    this.redirectParams.set('invoiceId', this.store.invoiceId);
-    this.redirectParams.set('paymentId', info.payment_id);
     this.store.clearUserPmtInfo();
     this.adv();
   }

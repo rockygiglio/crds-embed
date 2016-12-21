@@ -70,12 +70,15 @@ export class StoreService {
   // Fund and frequency information
   public fund: Fund = undefined;
   public funds: Array<Fund>;
-  public startDate: any = '';
+  public startDate: Date;
   public frequency: Frequency;
   public frequencies: Array<Frequency>;
 
   public userBank: CustomerBank = undefined;
   public userCc: CustomerCard = undefined;
+
+  // Predefined or custom donation dollar amount
+  public isPredefined: boolean = undefined;
 
   constructor(
     private api: APIService,
@@ -135,7 +138,13 @@ export class StoreService {
       this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }
+    this.loadDate();
     this.content.loadData(Array('giving'));
+  }
+
+  public loadDate() {
+    this.startDate = new Date();
+    this.startDate.setHours(0, 0, 0, 0);
   }
 
   public preloadFrequencies() {
@@ -214,6 +223,10 @@ export class StoreService {
       this.accountLast4 = paymentInfo.default_source.bank_account.last4;
       this.paymentType = 'ach';
     }
+  }
+
+  public setIsPredefined(newValue: boolean): void {
+    this.isPredefined = newValue;
   }
 
   private parseParamOrSetError(paramName, queryParams): any {

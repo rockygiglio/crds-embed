@@ -58,6 +58,7 @@
           placeholder="Routing Number" 
           formControlName="routingNumber" 
           name="routingNumber" 
+          formatPaymentNumber
           [(ngModel)]="store.routingNumber" 
           numbersOnly 
           pattern="[0-9]*"
@@ -81,6 +82,7 @@
           placeholder="{{accountNumberPlaceholder}}" 
           formControlName="accountNumber" 
           name="accountNumber" 
+          formatPaymentNumber
           [(ngModel)]="store.accountNumber" 
           numbersOnly 
           pattern="\s*[0-9]*\s*"
@@ -139,7 +141,7 @@
                formControlName="ccNumber"
                name="ccNumber"
                [(ngModel)]="store.ccNumber"
-               simpleCcNumber
+               formatPaymentNumber
                onlyTheseKeys="[0-9]"
                autocomplete="cc-number">
       </div>

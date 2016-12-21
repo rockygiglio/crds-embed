@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { SummaryComponent, WindowToken } from './summary.component';
 import { StoreService } from '../services/store.service';
 import { HttpModule } from '@angular/http';
@@ -57,6 +58,7 @@ describe('Component: Summary', () => {
         ReactiveFormsModule, HttpModule
       ],
       providers:    [
+        IFrameParentService,
         StoreService,
         SessionService,
         CookieService,
@@ -106,6 +108,7 @@ describe('Component: Summary', () => {
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
     let paymentBody = new Payment('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -120,6 +123,7 @@ describe('Component: Summary', () => {
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
     let paymentBody = new Payment('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -142,7 +146,7 @@ describe('Component: Summary', () => {
       'cc',
       'DONATION',
       0);
-
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -165,7 +169,7 @@ describe('Component: Summary', () => {
       'bank',
       'DONATION',
       0);
-
+    paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
     spyOn(this.component.router, 'navigateByUrl').and.stub();
@@ -235,6 +239,7 @@ describe('Component: Summary', () => {
 
     paymentBody.email_address = this.component.store.email;
     paymentBody.donor_id = 1;
+    paymentBody.predefined_amount = null;
 
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({ id: 1 }));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
@@ -256,6 +261,26 @@ describe('Component: Summary', () => {
     spyOn(this.component.api, 'logOut');
     this.component.changeUser();
     expect(this.component.api.logOut).toHaveBeenCalled();
+  });
+
+  it('should set url redirect params if in the pmt flow', () => {
+    let mockPmtDetails: any = {payment_id: 5};
+    this.component.store.invoiceId = 2;
+    this.component.store.type = 'payment';
+
+    this.component.setRedirectUrlParamsIfNecessary(mockPmtDetails);
+    let redirectParamMapLength: number = this.component.redirectParams.size;
+    expect(redirectParamMapLength).toBe(2);
+  });
+
+  it('should NOT set url redirect params if in the donation flow', () => {
+    let mockPmtDetails: any = {payment_id: 5};
+    this.component.store.invoiceId = 2;
+    this.component.store.type = 'donation';
+
+    this.component.setRedirectUrlParamsIfNecessary(mockPmtDetails);
+    let redirectParamMapLength: number = this.component.redirectParams.size;
+    expect(redirectParamMapLength).toBe(0);
   });
 
   it('should add redirect params to redirect url', () => {

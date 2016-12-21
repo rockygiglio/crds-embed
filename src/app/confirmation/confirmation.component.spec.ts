@@ -9,6 +9,7 @@ import { CookieService } from 'angular2-cookie/core';
 
 import { ConfirmationComponent } from './confirmation.component';
 import { HttpModule, JsonpModule  } from '@angular/http';
+import { IFrameParentService } from '../services/iframe-parent.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 import { APIService } from '../services/api.service';
@@ -33,6 +34,7 @@ describe('Component: Confirmation', () => {
         RouterTestingModule.withRoutes([]), HttpModule
       ],
       providers: [
+        IFrameParentService,
         StoreService,
         StateService,
         ValidationService,
@@ -65,9 +67,9 @@ describe('Component: Confirmation', () => {
     this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Your generosity begins on 12/6/2016 to the tune of`);
-    expect(de.nativeElement.textContent).toContain(`$56.78 for Programmer Caffination Fund.`);
-    expect(de.nativeElement.textContent).toContain(`Thank you for choosing to repeat this gift every 6th of the month.`);
+    expect(de.nativeElement.textContent).toContain(`Thank you! You're giving $56.78 for Programmer Caffination Fund`);
+    expect(de.nativeElement.textContent).toContain(`every month on the 6th, beginning 12/6/2016.`);
+    expect(de.nativeElement.textContent).toContain(`Thanks for saying "yes" to this mission.`);
   });
 
   it('should show thank you for weekly recurring gift', () => {
@@ -77,19 +79,19 @@ describe('Component: Confirmation', () => {
     this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Your generosity begins on 12/6/2016 to the tune of`);
-    expect(de.nativeElement.textContent).toContain(`$56.78 for Programmer Caffination Fund.`);
-    expect(de.nativeElement.textContent).toContain(`Thank you for choosing to repeat this gift every Tuesday.`);
+    expect(de.nativeElement.textContent).toContain(`Thank you! You're giving $56.78 for Programmer Caffination Fund`);
+    expect(de.nativeElement.textContent).toContain(`every week on Tuesday, beginning 12/6/2016.`);
+    expect(de.nativeElement.textContent).toContain(`Thanks for saying "yes" to this mission.`);
   });
 
   it('should show thank you for one time gift', () => {
     this.component.store.type = 'donation';
     this.component.store.amount = 90;
     this.component.store.frequency = new Frequency('One Time', 'once', false);
+    this.component.store.startDate = new Date('December 6, 2016');
     this.fixture.detectChanges();
     de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Your generosity begins on  to the tune of `);
-    expect(de.nativeElement.textContent).toContain(`$90.00 for Programmer Caffination Fund.`);
+    expect(de.nativeElement.textContent).toContain(`You just gave $90.00 for Programmer Caffination Fund. Way to go!`);
   });
 
 });

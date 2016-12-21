@@ -7,6 +7,8 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { APIService } from '../services/api.service';
+import { IFrameParentService } from '../services/iframe-parent.service';
+import { IsPredefinedToggleDirective } from '../directives/is-predefined-toggle.directive';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
@@ -23,11 +25,15 @@ describe('Component: Amount ?type=payment', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ AmountComponent ],
+      declarations: [
+        AmountComponent,
+        IsPredefinedToggleDirective
+      ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        IFrameParentService,
         StoreService,
         ValidationService,
         StateService,
@@ -95,11 +101,15 @@ describe('Component: Amount ?type=donation', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ AmountComponent ],
+      declarations: [
+        AmountComponent,
+        IsPredefinedToggleDirective
+      ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        IFrameParentService,
         StoreService,
         ValidationService,
         StateService,

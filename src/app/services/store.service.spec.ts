@@ -8,6 +8,7 @@ import { Frequency } from '../models/frequency';
 import { ValidationService } from './validation.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
+import { IFrameParentService } from './iframe-parent.service';
 import { APIService } from './api.service';
 import { ContentService } from './content.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
@@ -28,6 +29,7 @@ describe('Service: Store', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        IFrameParentService,
         StoreService,
         ValidationService,
         APIService,
