@@ -88,6 +88,22 @@ describe('Component: Authentication', () => {
       });
     });
 
+    describe('when email address contains space', () => {
+      function setGuestEmailExists(state: any): void {
+        (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
+      }
+
+      beforeEach(() => {
+        setGuestForm( 'p dog@s.com' );
+      });
+
+      fit('should not validate', () => {
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+    });
+
     describe('when form is valid', () => {
       function setGuestEmailExists(state: any): void {
         (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
