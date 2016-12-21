@@ -88,16 +88,55 @@ describe('Component: Authentication', () => {
       });
     });
 
-    describe('when email address contains space', () => {
+    describe('when email address is invalid', () => {
       function setGuestEmailExists(state: any): void {
         (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
       }
 
-      beforeEach(() => {
+      fit('should not allow space on left of @', () => {
         setGuestForm( 'p dog@s.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
       });
 
-      fit('should not validate', () => {
+      fit('should not allow space on right of @', () => {
+        setGuestForm( 'pdog@s mog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      fit('should not allow trailing space', () => {
+        setGuestForm( 'pdog@smog.com ' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      fit('should not allow leading space', () => {
+        setGuestForm( ' pdog@smog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+       fit('should require something after .', () => {
+        setGuestForm( 'pdog@smog.' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      fit('should not allow multiple .', () => {
+        setGuestForm( 'pdog@smog.com.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      fit('should require @', () => {
+        setGuestForm( 'pdogsmog.com' );
         setGuestEmailExists(true);
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
