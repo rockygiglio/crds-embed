@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
+import { ContentService } from './content.service';
 import { StateService } from './state.service';
 import { ValidationService } from './validation.service';
 
@@ -80,7 +81,8 @@ export class StoreService {
     private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
-    private state: StateService
+    private state: StateService,
+    public content: ContentService
     ) {
     this.processQueryParams();
     this.preloadData();
@@ -133,6 +135,7 @@ export class StoreService {
       this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }
+    this.content.loadData(Array('giving'));
   }
 
   public preloadFrequencies() {

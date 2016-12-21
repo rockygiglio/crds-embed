@@ -9,6 +9,7 @@ import { ValidationService } from './validation.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { APIService } from './api.service';
+import { ContentService } from './content.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { CookieService } from 'angular2-cookie/core';
@@ -35,6 +36,7 @@ describe('Service: Store', () => {
         CookieService,
         MockBackend,
         BaseRequestOptions,
+        ContentService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
