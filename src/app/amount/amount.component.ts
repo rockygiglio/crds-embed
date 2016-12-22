@@ -37,6 +37,7 @@ export class AmountComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
+
     this.state.setLoading(true);
     if (this.store.isDonation()) {
       if (!this.store.predefinedAmounts) {
@@ -112,19 +113,19 @@ export class AmountComponent implements OnInit {
 
   public setErrorMessage() {
     if (this.store.amount === undefined || this.store.amount === null) {
-      this.errorMessage = 'Please select or provide an amount.';
+      this.errorMessage = this.store.content.getContent('embedAmountProvide');
     } else if (isNaN(this.store.amount) || !this.validation.validDollarAmount(this.store.amount)) {
-      this.errorMessage = 'The amount you provided is not a valid number.';
+      this.errorMessage = this.store.content.getContent('invalidDonationAmount');
     } else if (Number(this.store.amount) < this.store.minimumStripeAmount) {
-      this.errorMessage = 'The amount can not be less than ' + this.store.minimumStripeAmount.toFixed(2);
+      this.errorMessage = this.store.content.getContent('embedAmountStripeMinimum').replace('{{ minimumStripeAmount }}', this.store.minimumStripeAmount.toFixed(2));
     } else if (this.store.isPayment() && Number(this.store.amount) > this.store.totalCost) {
-      this.errorMessage = 'The amount you provided is higher than the total cost.';
+      this.errorMessage = this.store.content.getContent('embedAmountTotalCost');
     } else if (this.store.isPayment() && Number(this.store.amount) < this.store.minPayment) {
-      this.errorMessage = 'The amount you provided is less than the minimum payment allowed.';
+      this.errorMessage = this.store.content.getContent('embedAmountMinimum');
     } else if (Number(this.store.amount) > 999999.99) {
-      this.errorMessage = 'The amount can not be more than 1 million dollars.';
+      this.errorMessage = this.store.content.getContent('embedAmountStripeMaximum');
     } else {
-      this.errorMessage = 'An unknown error has occurred.';
+      this.errorMessage = this.store.content.getContent('embedAmountUnknown');
     }
   }
 

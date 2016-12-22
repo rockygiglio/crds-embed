@@ -28,6 +28,7 @@ export class AuthenticationComponent implements OnInit {
 
   private forgotPasswordUrl: string;
   private helpUrl: string;
+  private failedMessage: string = '';
 
   constructor(
     private api: APIService,
@@ -39,6 +40,9 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+
+    this.failedMessage = this.store.content.getContent('embedAuthenticationFailed').replace('{{ forgotPasswordUrl }}',this.forgotPasswordUrl);
+
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 

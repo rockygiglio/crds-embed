@@ -21,6 +21,8 @@ export class RegisterComponent implements OnInit {
   private termsOfServiceUrl: string;
   private privacyPolicyUrl: string;
   private forgotPasswordUrl: string;
+  private policyMessage: string = '';
+  private accountMessage: string = '';
 
   constructor(
     private api: APIService,
@@ -42,6 +44,10 @@ export class RegisterComponent implements OnInit {
     this.privacyPolicyUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
     this.termsOfServiceUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
+
+    this.policyMessage = this.store.content.getContent('embedRegisterFooter');
+    this.policyMessage = this.policyMessage.replace('{{ termsOfServiceUrl }}', this.termsOfServiceUrl);
+    this.policyMessage = this.policyMessage.replace('{{ privacyPolicyUrl }}', this.privacyPolicyUrl);
 
     this.state.setLoading(false);
   }
@@ -73,10 +79,8 @@ export class RegisterComponent implements OnInit {
           this.adv();
         },
         error => {
-          if (error === 'Duplicate User') {
-            this.state.setLoading(false);
-            this.duplicateUser = true;
-          }
+          this.state.setLoading(false);
+          this.duplicateUser = true;
         }
       );
     }

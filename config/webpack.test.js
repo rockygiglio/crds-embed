@@ -86,12 +86,12 @@ module.exports = function(options) {
       }),
     ],
 
-    /*
+    
     tslint: {
       emitErrors: false,
       failOnHint: false,
       resourcePath: 'src'
-    },*/
+    },
 
     node: {
       global: 'window',

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ContentService {
 
-  contentBlocks: ContentBlock[];
+  contentBlocks: Array<any> = new Array();
 
   constructor(private http: Http) {}
 
