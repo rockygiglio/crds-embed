@@ -9,6 +9,7 @@ import { ValidationService } from './validation.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
+import { DynamicReplace } from '../models/dynamic-replace';
 import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
 import { Donor } from '../models/donor';
@@ -358,6 +359,20 @@ export class StoreService {
     } else if (event.originalTarget !== undefined) {
       event.originalTarget.blur();
     }
+  }
+
+  public dynamicData(data: string, replacement: DynamicReplace) {
+    let reg = new RegExp('\{\{ {0,}' + replacement.key + ' {0,}\}\}', 'g');
+    return data.replace(reg, replacement.value);
+  }
+
+  public dynamicDatas(data: string, replacements: Array<DynamicReplace>): string {
+    if (replacements.length > 0) {
+      for (let i = 0; i < replacements.length; i++) {
+        data = this.dynamicData(data, replacements[i]);
+      }
+    }
+    return data;
   }
 
 }

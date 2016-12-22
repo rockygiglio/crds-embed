@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
+import { DynamicReplace } from '../models/dynamic-replace';
+
 @Component({
   selector: 'app-confirmation',
   templateUrl: './confirmation.component.html'
@@ -25,9 +27,6 @@ export class ConfirmationComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    let recurringMessage = this.store.content.getContent('embedConfirmationRecurringBody');
-    let oneTimeMessage = this.store.content.getContent('embedConfirmationOneTimeBody');
-    let paymentMessage = this.store.content.getContent('embedConfirmationPaymentBody');
     let amount = '0.00';
     if ( this.store.amount ) {
       amount = new CurrencyPipe('en-US').transform(this.store.amount, 'USD', true);
@@ -39,29 +38,40 @@ export class ConfirmationComponent implements OnInit {
     }
 
     if ( this.store.isPayment() ) {
-
-      this.messageBody = paymentMessage.replace('{{ amount }}', amount);
+      this.messageBody = this.store.content.getContent('embedConfirmationPaymentBody');
+      this.messageBody = this.store.dynamicData(this.messageBody, new DynamicReplace('amount', amount));
       if ( this.store.title ) {
         this.messageBody += ' for ' + this.store.title;
       }
-      this.footerText = this.store.content.getContent('embedConfirmationPaymentReceipt').replace('{{ email }}', this.store.email)
+      this.footerText = this.store.content.getContent('embedConfirmationPaymentReceipt');
+      this.footerText = this.store.dynamicData(this.footerText, new DynamicReplace('email', this.store.email));
 
     } else {
 
       if ( this.store.isRecurringGift() ) {
-
-        this.messageBody = recurringMessage.replace('{{ amount }}', amount);
-        this.messageBody = this.messageBody.replace('{{ fund }}', fund);
-        this.messageBody = this.messageBody.replace('{{ frequency }}', this.store.frequency.value);
-        this.messageBody = this.messageBody.replace('{{ frequencyCalculation }}', this.frequencyCalculation());
-        this.messageBody = this.messageBody.replace('{{ startDate }}', new DatePipe('en-US').transform(this.store.startDate, 'mm/dd/yyyy'));
-        this.footerText = this.store.content.getContent('embedConfirmationRecurringStatement').replace('{{ email }}', this.store.email);
+        this.messageBody = this.store.content.getContent('embedConfirmationRecurringBody');
+        this.messageBody = this.store.dynamicDatas(this.messageBody,
+          [
+            new DynamicReplace('amount', amount),
+            new DynamicReplace('fund', fund),
+            new DynamicReplace('frequency', this.store.frequency.value),
+            new DynamicReplace('frequencyCalculation', this.frequencyCalculation()),
+            new DynamicReplace('startDate', new DatePipe('en-US').transform(this.store.startDate, 'mm/dd/yyyy')),
+          ]
+        );
+        this.footerText = this.store.content.getContent('embedConfirmationRecurringStatement');
+        this.footerText = this.store.dynamicData(this.footerText, new DynamicReplace('email', this.store.email));
 
       } else {
-
-        this.messageBody = oneTimeMessage.replace('{{ amount }}', amount);
-        this.messageBody = this.messageBody.replace('{{ fund }}', fund);
-        this.footerText = this.store.content.getContent('embedConfirmationOneTimeStatement').replace('{{ email }}', this.store.email);
+        this.messageBody = this.store.content.getContent('embedConfirmationOneTimeBody');
+        this.messageBody = this.store.dynamicDatas(this.messageBody,
+          [
+            new DynamicReplace('amount', amount),
+            new DynamicReplace('fund', fund),
+          ]
+        );
+        this.footerText = this.store.content.getContent('embedConfirmationOneTimeStatement');
+        this.footerText = this.store.dynamicData(this.footerText, new DynamicReplace('email', this.store.email));
 
       }
     }
