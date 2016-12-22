@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-
 import { Http } from '@angular/http';
-import { ContentBlock } from '../models/content-block';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -38,8 +35,12 @@ export class ContentService {
       .catch(this.handleError);
   }
 
-  getContent (contentBlockTitle) {
-    return this.contentBlocks.find(x => x.title === contentBlockTitle).content;
+  getContent(contentBlockTitle) {
+    let block = this.contentBlocks.find(x => x.title === contentBlockTitle);
+    if (block !== undefined && block.content !== undefined) {
+      return block.content;
+    }
+    return '';
   }
 
   private handleError (error: any) {
