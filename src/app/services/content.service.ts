@@ -39,11 +39,11 @@ export class ContentService {
     let block;
     if (Array.isArray(this.contentBlocks) && this.contentBlocks.length > 0) {
       for (let i = 0; i < this.contentBlocks.length; i++) {
-        if (this.contentBlocks[i] !== undefined 
+        if (this.contentBlocks[i] !== undefined
           && this.contentBlocks[i].title !== undefined
           && this.contentBlocks[i].title === contentBlockTitle) {
             block = this.contentBlocks[i];
-            break;  
+            break;
           }
       }
     }
