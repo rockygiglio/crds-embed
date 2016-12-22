@@ -9,7 +9,7 @@ import { ValidationService } from '../services/validation.service';
 
 import { AuthenticationComponent } from './authentication.component';
 
-fdescribe('Component: Authentication', () => {
+describe('Component: Authentication', () => {
 
   let fixture: AuthenticationComponent,
       router: Router,
