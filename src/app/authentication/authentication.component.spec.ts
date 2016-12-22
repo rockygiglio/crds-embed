@@ -91,6 +91,54 @@ describe('Component: Authentication', () => {
       });
     });
 
+    describe('when email address is invalid', () => {
+      function setGuestEmailExists(state: any): void {
+        (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
+      }
+
+      it('should not allow space on left of @', () => {
+        setGuestForm( 'p dog@s.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should not allow trailing space', () => {
+        setGuestForm( 'pdog@smog.com ' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should not allow leading space', () => {
+        setGuestForm( ' pdog@smog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should require something after .', () => {
+        setGuestForm( 'pdog@smog.' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should require @', () => {
+        setGuestForm( 'pdogsmog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+       it('should allow . in address', () => {
+        setGuestForm( 'pdog.iscool@smog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(true);
+      });
+    });
+
     describe('when form is valid', () => {
       function setGuestEmailExists(state: any): void {
         (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));

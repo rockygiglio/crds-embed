@@ -189,6 +189,8 @@ export class SummaryComponent implements OnInit {
   public changeUser() {
     this.api.logOut();
     this.changePayment();
+    this.state.unhidePage(this.state.authenticationIndex);
+
   }
 
   private getLastFourOfAccountNumber() {

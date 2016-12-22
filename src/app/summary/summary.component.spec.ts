@@ -24,6 +24,7 @@ import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
 
 class MockStateService {
+  public authenticationIndex: number = 2;
   public getNextPageToShow(currentPage: number): string {
     return '/confirmation';
   }
@@ -259,10 +260,18 @@ describe('Component: Summary', () => {
     expect(this.component.store.paymentType).toBeUndefined();
   });
 
-  it('should logout user on link to auth page', () => {
-    spyOn(this.component.api, 'logOut');
-    this.component.changeUser();
-    expect(this.component.api.logOut).toHaveBeenCalled();
+  describe('clicking log out link', () => {
+    it('should logout user on link to auth page', () => {
+      spyOn(this.component.api, 'logOut');
+      this.component.changeUser();
+      expect(this.component.api.logOut).toHaveBeenCalled();
+    });
+
+    it('should unhide the authentication page when logout link is clicked', () => {
+      spyOn(this.component.state, 'unhidePage');
+      this.component.changeUser();
+      expect(this.component.state.unhidePage).toHaveBeenCalledWith(2);
+    });
   });
 
   it('should set url redirect params if in the pmt flow', () => {
