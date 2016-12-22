@@ -1,11 +1,10 @@
 <div class="contrast-background">
+
   <header class="page-header page-header--no-btm-space">
     <h2 [innerHtml]="store.content.getContent('embedConfirmationHeader')"></h2>
   </header>
+  
+  <div class="text-block--lg text-block--thin" [innerHtml]="messageBody"></div>
+  <div class="text-block--sm" [innerHtml]="footerText"></div>
 
-  <p class="text-block--lg text-block--thin" [innerHtml]="messageBody"></p>
-
-  <p class="text-block--sm">
-    <span [innerHtml]="footerText"></span>
-  </p>
 </div>
