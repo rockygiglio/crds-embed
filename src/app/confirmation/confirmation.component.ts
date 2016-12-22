@@ -1,36 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-
-import { GiftService } from '../services/gift.service';
-import { StateManagerService } from '../services/state-manager.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+
 @Component({
   selector: 'app-confirmation',
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss']
+  templateUrl: './confirmation.component.html'
 })
 export class ConfirmationComponent implements OnInit {
 
-  constructor(private gift: GiftService,
-    private state: StateManagerService,
+  constructor(
+    private store: StoreService,
+    private state: StateService,
     private router: Router) {
-    this.gift.validateRoute(router);
+    this.store.validateRoute(router);
     this.state.setLoading(false);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.state.is_loading = false;
   }
 
-  frequencyCalculation(): string {
-    let startDate = moment(this.gift.start_date);
-
-    if (this.gift.frequency === 'month') {
-      return 'the ' + startDate.format('Do') + ' of the Month';
+  public frequencyCalculation(): string {
+    let startDate = moment(this.store.startDate);
+    if (this.store.frequency.value === 'month') {
+      return 'the ' + startDate.format('Do');
     }
-
-    return 'Every ' + startDate.format('dddd');
+    return startDate.format('dddd');
   }
 
 }
