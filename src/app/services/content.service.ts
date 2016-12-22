@@ -36,7 +36,17 @@ export class ContentService {
   }
 
   getContent(contentBlockTitle) {
-    let block = this.contentBlocks.find(x => x.title === contentBlockTitle);
+    let block;
+    if (Array.isArray(this.contentBlocks) && this.contentBlocks.length > 0) {
+      for (let i = 0; i < this.contentBlocks.length; i++) {
+        if (this.contentBlocks[i] !== undefined 
+          && this.contentBlocks[i].title !== undefined
+          && this.contentBlocks[i].title === contentBlockTitle) {
+            block = this.contentBlocks[i];
+            break;  
+          }
+      }
+    }
     if (block !== undefined && block.content !== undefined) {
       return block.content;
     }

@@ -49,17 +49,16 @@ describe('Component: Confirmation', () => {
     this.component = this.fixture.componentInstance;
     this.component.store.email = 'user@test.com';
     this.component.store.fund = new Fund(12, 'Programmer Caffination Fund', 1, true);
-
   });
 
   it('should show thank you for payment', () => {
     this.component.store.type = 'payment';
     this.component.store.amount = 12.34;
     this.component.store.title = 'frankincense and myrrh';
-    this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Thank you for the $12.34 payment`);
-    expect(de.nativeElement.textContent).toContain(`for frankincense and myrrh.`);
+    spyOn(this.component.store.content, 'getContent');
+    this.component.ngOnInit();
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationPaymentBody');
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationPaymentReceipt');
   });
 
   it('should show thank you for monthly recurring gift', () => {
@@ -67,11 +66,10 @@ describe('Component: Confirmation', () => {
     this.component.store.amount = 56.78;
     this.component.store.frequency = new Frequency('month', 'month', true);
     this.component.store.startDate = new Date('December 6, 2016');
-    this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Thank you! You're giving $56.78 for Programmer Caffination Fund`);
-    expect(de.nativeElement.textContent).toContain(`every month on the 6th, beginning 12/6/2016.`);
-    expect(de.nativeElement.textContent).toContain(`Thanks for saying "yes" to this mission.`);
+    spyOn(this.component.store.content, 'getContent');
+    this.component.ngOnInit();
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationRecurringBody');
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationRecurringStatement');
   });
 
   it('should show thank you for weekly recurring gift', () => {
@@ -79,11 +77,10 @@ describe('Component: Confirmation', () => {
     this.component.store.amount = 56.78;
     this.component.store.frequency = new Frequency('weekly', 'week', true);
     this.component.store.startDate = new Date('December 6, 2016');
-    this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`Thank you! You're giving $56.78 for Programmer Caffination Fund`);
-    expect(de.nativeElement.textContent).toContain(`every week on Tuesday, beginning 12/6/2016.`);
-    expect(de.nativeElement.textContent).toContain(`Thanks for saying "yes" to this mission.`);
+    spyOn(this.component.store.content, 'getContent');
+    this.component.ngOnInit();
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationRecurringBody');
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationRecurringStatement');
   });
 
   it('should show thank you for one time gift', () => {
@@ -91,9 +88,10 @@ describe('Component: Confirmation', () => {
     this.component.store.amount = 90;
     this.component.store.frequency = new Frequency('One Time', 'once', false);
     this.component.store.startDate = new Date('December 6, 2016');
-    this.fixture.detectChanges();
-    de = this.fixture.debugElement.query(By.css('p.text-block--lg'));
-    expect(de.nativeElement.textContent).toContain(`You just gave $90.00 for Programmer Caffination Fund. Way to go!`);
+    spyOn(this.component.store.content, 'getContent');
+    this.component.ngOnInit();
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationOneTimeBody');
+    expect(this.component.store.content.getContent).toHaveBeenCalledWith('embedConfirmationOneTimeStatement');
   });
 
 });

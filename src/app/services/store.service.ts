@@ -363,7 +363,10 @@ export class StoreService {
 
   public dynamicData(data: string, replacement: DynamicReplace) {
     let reg = new RegExp('\{\{ {0,}' + replacement.key + ' {0,}\}\}', 'g');
-    return data.replace(reg, replacement.value);
+    if (data !== undefined) {
+      return data.replace(reg, replacement.value);
+    }
+    return data;
   }
 
   public dynamicDatas(data: string, replacements: Array<DynamicReplace>): string {

@@ -7,6 +7,7 @@ import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
+import { DynamicReplace } from '../models/dynamic-replace';
 import { User } from '../models/user';
 
 @Component({
@@ -46,8 +47,12 @@ export class RegisterComponent implements OnInit {
     this.termsOfServiceUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
 
     this.policyMessage = this.store.content.getContent('embedRegisterFooter');
-    this.policyMessage = this.policyMessage.replace('{{ termsOfServiceUrl }}', this.termsOfServiceUrl);
-    this.policyMessage = this.policyMessage.replace('{{ privacyPolicyUrl }}', this.privacyPolicyUrl);
+    this.policyMessage = this.store.dynamicDatas(this.policyMessage,
+      [
+        new DynamicReplace('termsOfServiceUrl', this.termsOfServiceUrl),
+        new DynamicReplace('privacyPolicyUrl', this.privacyPolicyUrl)
+      ]
+    );
 
     this.state.setLoading(false);
   }

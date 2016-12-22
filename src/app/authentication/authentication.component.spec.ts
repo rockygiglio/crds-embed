@@ -24,7 +24,7 @@ describe('Component: Authentication', () => {
   beforeEach(() => {
 
     api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
-    content = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+    content = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
     fb = new FormBuilder();
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
     stateService = jasmine.createSpyObj<StateService>(
@@ -39,9 +39,12 @@ describe('Component: Authentication', () => {
     store = jasmine.createSpyObj<StoreService>(
       'store', [
         'loadUserData',
-        'validateRoute'
+        'validateRoute',
+        'dynamicData',
+        'dynamicDatas'
       ]
     );
+    store.content = content;
     validation = new ValidationService();
     fixture = new AuthenticationComponent(
       api,

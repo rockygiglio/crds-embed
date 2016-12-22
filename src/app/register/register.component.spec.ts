@@ -24,7 +24,7 @@ describe('Component: Registration', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    content = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+    content = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
     state = jasmine.createSpyObj<StateService>(
       'state',
       [
@@ -34,6 +34,15 @@ describe('Component: Registration', () => {
         'setLoading'
       ]
     );
+    store = jasmine.createSpyObj<StoreService>(
+      'store', [
+        'loadUserData',
+        'validateRoute',
+        'dynamicData',
+        'dynamicDatas'
+      ]
+    );
+    store.content = content;
     fb = new FormBuilder();
     validation = new ValidationService();
     api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
