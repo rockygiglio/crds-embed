@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AmountComponent } from '../amount/amount.component';
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { IsPredefinedToggleDirective } from '../directives/is-predefined-toggle.directive';
 import { SessionService } from '../services/session.service';
@@ -52,6 +53,7 @@ describe('IsPredefinedToggle Directive', () => {
         APIService,
         SessionService,
         CookieService,
+        ContentService,
         Angulartics2
       ]
     });

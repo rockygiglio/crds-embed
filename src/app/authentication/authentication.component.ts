@@ -7,6 +7,8 @@ import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
+import { DynamicReplace } from '../models/dynamic-replace';
+
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
@@ -28,6 +30,7 @@ export class AuthenticationComponent implements OnInit {
 
   private forgotPasswordUrl: string;
   private helpUrl: string;
+  private failedMessage: string = '';
 
   constructor(
     private api: APIService,
@@ -39,6 +42,14 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+
+    this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
+    this.failedMessage = this.store.dynamicDatas(this.failedMessage,
+      [
+        new DynamicReplace('forgotPasswordUrl', this.forgotPasswordUrl)
+      ]
+    );
+
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 

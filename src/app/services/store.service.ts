@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
+import { ContentService } from './content.service';
 import { StateService } from './state.service';
 import { ValidationService } from './validation.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
+import { DynamicReplace } from '../models/dynamic-replace';
 import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
 import { Donor } from '../models/donor';
@@ -83,7 +85,8 @@ export class StoreService {
     private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
-    private state: StateService
+    private state: StateService,
+    public content: ContentService
     ) {
     this.processQueryParams();
     this.preloadData();
@@ -137,6 +140,7 @@ export class StoreService {
       this.loadUserData();
     }
     this.loadDate();
+    this.content.loadData(Array('giving'));
   }
 
   public loadDate() {
@@ -355,6 +359,23 @@ export class StoreService {
     } else if (event.originalTarget !== undefined) {
       event.originalTarget.blur();
     }
+  }
+
+  public dynamicData(data: string, replacement: DynamicReplace) {
+    let reg = new RegExp('\{\{ {0,}' + replacement.key + ' {0,}\}\}', 'g');
+    if (data !== undefined) {
+      return data.replace(reg, replacement.value);
+    }
+    return data;
+  }
+
+  public dynamicDatas(data: string, replacements: Array<DynamicReplace>): string {
+    if (replacements.length > 0) {
+      for (let i = 0; i < replacements.length; i++) {
+        data = this.dynamicData(data, replacements[i]);
+      }
+    }
+    return data;
   }
 
 }

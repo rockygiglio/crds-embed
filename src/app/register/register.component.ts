@@ -7,6 +7,7 @@ import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
+import { DynamicReplace } from '../models/dynamic-replace';
 import { User } from '../models/user';
 
 @Component({
@@ -21,6 +22,8 @@ export class RegisterComponent implements OnInit {
   private termsOfServiceUrl: string;
   private privacyPolicyUrl: string;
   private forgotPasswordUrl: string;
+  private policyMessage: string = '';
+  private accountMessage: string = '';
 
   constructor(
     private api: APIService,
@@ -42,6 +45,14 @@ export class RegisterComponent implements OnInit {
     this.privacyPolicyUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
     this.termsOfServiceUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
+
+    this.policyMessage = this.store.content.getContent('embedRegisterFooter');
+    this.policyMessage = this.store.dynamicDatas(this.policyMessage,
+      [
+        new DynamicReplace('termsOfServiceUrl', this.termsOfServiceUrl),
+        new DynamicReplace('privacyPolicyUrl', this.privacyPolicyUrl)
+      ]
+    );
 
     this.state.setLoading(false);
   }
@@ -73,10 +84,8 @@ export class RegisterComponent implements OnInit {
           this.adv();
         },
         error => {
-          if (error === 'Duplicate User') {
-            this.state.setLoading(false);
-            this.duplicateUser = true;
-          }
+          this.state.setLoading(false);
+          this.duplicateUser = true;
         }
       );
     }

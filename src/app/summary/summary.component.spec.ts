@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 
+import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { SummaryComponent, WindowToken } from './summary.component';
 import { StoreService } from '../services/store.service';
@@ -63,6 +64,7 @@ describe('Component: Summary', () => {
         StoreService,
         SessionService,
         CookieService,
+        ContentService,
         { provide: StateService, useClass: MockStateService},
         { provide: WindowToken, useValue: mockWindow},
         ValidationService,
