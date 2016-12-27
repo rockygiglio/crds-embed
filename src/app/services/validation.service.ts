@@ -8,7 +8,7 @@ export class ValidationService {
   public params: any;
   public requiredPmtParams: any[];
   public radix: number;
-  public emailRegex: string = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+  public emailRegex: string = '[^\\. ]{1,}((?!.*\\.\\.)[^ ]{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
   constructor() {
     this.types = {
