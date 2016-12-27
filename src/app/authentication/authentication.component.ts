@@ -90,6 +90,9 @@ export class AuthenticationComponent implements OnInit {
 
   public submitGuest() {
     this.formGuestSubmitted = true;
+    if (this.email) {
+      this.email = this.email.trim();
+    }
     if ( this.formGuest.valid ) {
       this.store.isGuest = true;
       this.state.setLoading(true);
