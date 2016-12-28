@@ -1,23 +1,25 @@
 <div class="contrast-background">
   <header class="page-header page-header--no-btm-space">
-    <h2>Thanks!</h2>
+    <h2>Thank You!</h2>
   </header>
 
-  <p *ngIf="gift.isDonation() && gift.frequency === 'One Time'" class="text-block--lg-font word-wrapped ">
-     Thank you for your <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> gift to <strong>{{ gift.fund.Name }}</strong>.
-    A receipt has been sent to <strong>{{ gift.email }}</strong>.
+  <p *ngIf="store.isDonation()" class="text-block--lg text-block--thin">
+    <span *ngIf="store.isRecurringGift()">
+      Thank you! You're giving <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> for <strong>{{ store.fund.Name }}</strong> every <strong>{{ store.frequency.value }}</strong> on <strong>{{ frequencyCalculation() }}</strong>, beginning <strong>{{ store.startDate.getTime() | date: 'MM/d/yyyy' }}</strong>. Thanks for saying "yes" to this mission.
+    </span>
+    <span *ngIf="!store.isRecurringGift()">
+      You just gave <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> for <strong>{{ store.fund.Name }}</strong>. Way to go!
+    </span>
   </p>
 
-  <p *ngIf="gift.isDonation() && gift.frequency != 'One Time'" class="text-block--lg-font word-wrapped ">
-    Your Recurring Gift was successfully created! Thank you for setting up a Recurring Gift.
-    We will process your Recurring Gift of <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> for
-    <strong>{{ gift.fund.Name }}</strong> on <strong>{{ frequencyCalculation() }}</strong>.
-    Your statement will be sent to <strong>{{ gift.email }}</strong>.
+  <p *ngIf="store.isPayment()" class="text-block--lg text-block--thin">
+    Thank you for the <strong>{{ store.amount | currency:'USD':true | lowercase }}</strong> payment
+    <span *ngIf="store.title"> for <strong>{{ store.title }}</strong></span>.
   </p>
 
-  <p *ngIf="gift.isPayment()" class="text-block--lg-font word-wrapped ">
-    Thank you for the <strong>{{ gift.amount | currency:'USD':true | lowercase }}</strong> payment<span *ngIf="gift.title"> for <strong>{{ gift.title }}</strong></span>.
-    A receipt has been sent to <strong>{{ gift.email }}</strong>.
+  <p class="text-block--sm">
+    <span *ngIf="store.isDonation() && store.isOneTimeGift()">We'll send your statement</span>
+    <span *ngIf="store.isDonation() && store.isRecurringGift()">We'll send your statements</span>
+    <span *ngIf="store.isPayment()">A receipt has been sent</span> to {{ store.email }}.
   </p>
-
 </div>

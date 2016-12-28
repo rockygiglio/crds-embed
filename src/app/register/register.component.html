@@ -1,11 +1,11 @@
-<div (keydown.enter)="onEnterKey()" >
+<div>
 
 <div heading="Register">
   <header class="page-header">
     <h2>Register An Account</h2>
   </header>
 
-  <form [formGroup]="regForm" (ngSubmit)="next()">
+  <form [formGroup]="regForm" action="/" (ngSubmit)="store.preSubmit($event);submitRegistration();" novalidate>
 
     <div class="row inline-form">
       <!-- First Name -->
@@ -67,7 +67,7 @@
 
     <footer class="page-footer page-footer--pt-0">
       <a class="pull-left text-block__inline-link" (click)="back()">Already have an account? Sign In</a>
-      <input type="submit" class="btn btn-next pull-right" (click)="next()"  value="Register">
+      <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitRegistration();"  value="Register">
     </footer>
 
   </form>

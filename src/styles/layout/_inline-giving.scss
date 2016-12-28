@@ -332,7 +332,7 @@
   .text-block {
     font-size: 14px;
 
-   &__link {
+    &__link {
       color: $text-color;
 
       &:hover {
@@ -352,11 +352,22 @@
       text-decoration: underline;
     }
 
-    &--lg-font {
-      font-size: 1.75em;
-      font-weight: 300;
+    &--lg {
+      font-size: 1.375em;
 
       padding-top: 1em;
+    }
+
+    &--sm {
+      font-size: .875em;
+    }
+
+    &--thin {
+      font-weight: 100;
+
+      strong {
+        font-weight: 300;
+      }
     }
 
     &--pb-2 {
@@ -509,6 +520,17 @@
   }
 
   datepicker {
+    display: none;
+
+    .well {
+      margin-bottom: 0;
+      margin-top: -.5em;
+    }
+
+    &.visible {
+      display: block;
+    }
+
     th {
       .btn-default {
         &.btn-secondary {
@@ -530,6 +552,34 @@
               border-top-right-radius: 4px;
               border-bottom-right-radius: 4px;
             }
+          }
+        }
+      }
+    }
+
+    .btn {
+      &:focus {
+        outline: none;
+      }
+
+      &:active,
+      &.active {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+
+      &-info {
+        &.active {
+          background-color: $secondary-color;
+          border-color: $secondary-color;
+
+          &:focus {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+          }
+
+          .text-info {
+            color: $text-contrast-color;
           }
         }
       }
@@ -582,6 +632,12 @@
         }
       }
     }
+  }
+
+
+  app-summary .alert.alert-danger {
+    margin-top: 15px;
+    margin-bottom: 0;
   }
 
   .alert {

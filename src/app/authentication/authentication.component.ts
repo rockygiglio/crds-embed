@@ -2,99 +2,95 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CheckGuestEmailService } from '../services/check-guest-email.service';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { GiftService } from '../services/gift.service';
-import { HttpClientService } from '../services/http-client.service';
-import { LoginService } from '../services/login.service';
-import { StateManagerService } from '../services/state-manager.service';
+import { APIService } from '../services/api.service';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.css'],
-  providers: [CheckGuestEmailService]
+  styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
-  public signinOption: string = 'Sign In';
-
+  public buttonText: string = 'Next';
   public email: string;
   public form: FormGroup;
   public formGuest: FormGroup;
   public formGuestSubmitted: boolean;
   public formSubmitted: boolean;
   public guestEmail: boolean;
+  public existingGuestEmail: string;
   public loginException: boolean;
+  public showMessage: boolean = false;
+  public signinOption: string = 'Sign In';
   public userPmtInfo: any;
-  private helpUrl: string;
-  private forgotPasswordUrl: string;
 
-  constructor( private router: Router,
-    private state: StateManagerService,
-    private gift: GiftService,
-    private _fb: FormBuilder,
-    private checkGuestEmailService: CheckGuestEmailService,
-    private loginService: LoginService,
-    private httpClientService: HttpClientService,
-    private existingPaymentInfoService: ExistingPaymentInfoService,
+  private forgotPasswordUrl: string;
+  private helpUrl: string;
+
+  constructor(
+    private api: APIService,
+    private fb: FormBuilder,
+    private router: Router,
+    private state: StateService,
+    private store: StoreService,
+    private validation: ValidationService
   ) { }
 
   public ngOnInit(): void {
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
-    if ( this.gift.isGuest === true && this.gift.isOneTimeGift() === true ) {
+    if ( this.store.isGuest === true && this.store.isOneTimeGift() === true ) {
       this.signinOption = 'Guest';
-      this.email = this.gift.email;
+      this.email = this.store.email;
     }
-
-    this.form = this._fb.group({
-      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]],
+    this.form = this.fb.group({
+      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.validation.emailRegex)]],
       password: ['', <any>Validators.required]
     });
 
-    this.formGuest = this._fb.group({
-      email: [this.gift.email, [<any>Validators.required, <any>Validators.pattern('^[a-zA-Z0-9\.\+]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$')]]
+    this.formGuest = this.fb.group({
+      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.validation.emailRegex)]]
     });
 
     this.form.valueChanges.subscribe((value: any) => {
-      this.gift.email = value.email;
+      this.store.email = value.email;
     });
 
-    this.gift.validateRoute(this.router);
+    this.store.validateRoute(this.router);
     this.state.setLoading(false);
   }
 
-  public adv(): void {
-    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
-  }
-
-  public back(): boolean {
-    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
-    return false;
-  }
-
-  public onEnterKey() {
-    let isOnLoginTab: boolean = this.signinOption === 'Sign In';
-
-    if (isOnLoginTab) {
-      this.submitLogin();
+  public resetGuestEmailFormSubmission(event) {
+    if ( event.target.value !== this.store.email ) {
+      this.showMessage = false;
+      this.buttonText = 'Next';
     }
+  }
+
+  public showExistingEmailMessage() {
+    this.guestEmail = false;
+    this.showMessage = true;
+    this.buttonText = 'Continue Anyway';
+    this.state.setLoading(false);
   }
 
   public submitGuest() {
     this.formGuestSubmitted = true;
     if ( this.formGuest.valid ) {
-      this.gift.isGuest = true;
+      this.store.isGuest = true;
       this.state.setLoading(true);
-      this.checkGuestEmailService.guestEmailExists(this.email).subscribe(
+      this.api.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
-          if ( resp === false ) {
-            this.gift.email = this.email;
+         if ( this.existingGuestEmail === this.email || resp === false ) {
+            this.store.email = this.email;
             this.adv();
           } else {
-            this.state.setLoading(false);
+            this.existingGuestEmail = this.email;
+            this.showExistingEmailMessage();
           }
         }
       );
@@ -103,14 +99,14 @@ export class AuthenticationComponent implements OnInit {
 
   public submitLogin(): boolean {
     this.formSubmitted = true;
-    this.gift.isGuest = false;
+    this.store.isGuest = false;
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
-      this.loginService.login(this.form.get('email').value, this.form.get('password').value)
+      this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
-          this.gift.loadUserData();
+          this.store.loadUserData();
           this.state.hidePage(this.state.authenticationIndex);
           this.adv();
         },
@@ -128,16 +124,31 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
+  public adv(): void {
+    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
+  }
+
+  public back(): boolean {
+    this.store.email = this.email;
+    if (this.signinOption === 'Guest') {
+      this.store.isGuest = true;
+    }
+    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
+    return false;
+  }
+
   public formInvalid(field): boolean {
     return !this.form.controls[field].valid;
   }
 
-  public formatErrorMessage(errors: any): string {
-    let ret = errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
-    return ret;
-  }
-
   public switchToSignIn() {
     this.signinOption = 'Sign In';
+  }
+
+  public hideBack() {
+    if (this.store.isPayment() && this.store.amountLocked) {
+      return true;
+    }
+    return false;
   }
 }

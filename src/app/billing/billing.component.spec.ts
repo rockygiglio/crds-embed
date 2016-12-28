@@ -1,32 +1,34 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BillingComponent } from './billing.component';
-import { GiftService } from '../services/gift.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule } from '@angular/http';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ExistingPaymentInfoService } from '../services/existing-payment-info.service';
-import { AlertModule, CollapseModule, TabsModule, ButtonsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClientService } from '../services/http-client.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { ParamValidationService } from '../services/param-validation.service';
-import { DonationFundService } from '../services/donation-fund.service';
-import { QuickDonationAmountsService } from '../services/quick-donation-amounts.service';
-import { PreviousGiftAmountService } from '../services/previous-gift-amount.service';
-import { StateManagerService } from '../services/state-manager.service';
-import { PaymentService } from '../services/payment.service';
-import { StripeService } from '../services/stripe.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule, JsonpModule } from '@angular/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
-class MockDonationFundService { }
-class MockQuickDonationAboutsService { }
-class MockPreviousGiftAmountService { }
-class MockGiftService { }
+import { AlertModule, ButtonsModule, CollapseModule, TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { APIService } from '../services/api.service';
+import { BillingComponent } from './billing.component';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { IFrameParentService } from '../services/iframe-parent.service';
+import { SessionService } from '../services/session.service';
+import { StateService } from '../services/state.service';
+import { StoreService } from '../services/store.service';
+import { ValidationService } from '../services/validation.service';
+import { ContentService } from '../services/content.service';
+
 class MockActivatedRoute {
   public snapshot = {
     queryParams: []
   };
+}
+
+class MockDonationFundService { }
+class MockQuickDonationAboutsService { }
+class MockPreviousGiftAmountService { }
+class MockGiftService {
+  public resetErrors() {
+    return {};
+  }
 }
 
 describe('Component: Billing', () => {
@@ -47,56 +49,73 @@ describe('Component: Billing', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: DonationFundService, useClass: MockDonationFundService },
-        { provide: QuickDonationAmountsService, useClass: MockQuickDonationAboutsService },
-        { provide: PreviousGiftAmountService, useClass: MockPreviousGiftAmountService },
-        { provide: GiftService, useClass: MockGiftService },
-        ExistingPaymentInfoService,
+        StoreService,
         FormBuilder,
-        HttpClientService,
+        SessionService,
         CookieService,
-        ParamValidationService,
-        PaymentService,
-        StripeService,
-        StateManagerService
+        IFrameParentService,
+        ValidationService,
+        APIService,
+        ContentService,
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(BillingComponent);
     this.component = this.fixture.componentInstance;
   }));
 
-
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
 
-  it('should validate required ACH parameters', () => {
-    this.component.achForm = {
-      valid: false,
-      controls: {
-        accountName: { valid: false, errors: { required: true } },
-        accountNumber: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
-        routingNumber: { valid: true, errors: null }
-      }
-    };
-    expect(this.component.achForm.controls['accountName'].valid).toBe(false);
-    expect(this.component.achForm.controls['accountNumber'].valid).toBe(false);
-    expect(this.component.achForm.controls['routingNumber'].valid).toBe(true);
-  });
+  describe('Form validations', () => {
+     describe('for ACH Form', () => {
+      it('should be valid with required parameters provided', () => {
+        this.component.achForm.setValue({accountName: 'Bob Dillinger',
+                                         accountNumber: '123123456789',
+                                         routingNumber: '110000000',
+                                         accountType: 'individual'});
 
-  it('should validate required CC parameters', () => {
-    this.component.ccForm = {
-      valid: false,
-      controls: {
-        ccNumber: { valid: false, errors: { required: true } },
-        expDate: { valid: false, errors: { minLength: 8, requiredLength: 9 } },
-        cvv: { valid: true, errors: null },
-        zipCode: { valid: true, errors: null }
-      }
-    };
-    expect(this.component.ccForm.controls['ccNumber'].valid).toBe(false);
-    expect(this.component.ccForm.controls['expDate'].valid).toBe(false);
-    expect(this.component.ccForm.controls['cvv'].valid).toBe(true);
-    expect(this.component.ccForm.controls['zipCode'].valid).toBe(true);
+        expect(this.component.achForm.valid).toBe(true);
+      });
+
+      it('should be invalid with required parameters not provided', () => {
+        this.component.achForm.setValue({accountName: '',
+                                         accountNumber: null,
+                                         routingNumber: null,
+                                         accountType: 'individual'});
+
+        expect(this.component.achForm.valid).toBe(false);
+      });
+
+      it('should be invalid with required parameters partially provided', () => {
+        this.component.achForm.setValue({accountName: 'Bob Dillinger',
+                                         accountNumber: '12345',
+                                         routingNumber: '1100',
+                                         accountType: 'individual'});
+
+        expect(this.component.achForm.valid).toBe(false);
+      });
+    });
+
+    describe('for CC Form', () => {
+      it('should be valid with required parameters provided', () => {
+        this.component.ccForm.setValue({ccNumber: '4242424242424242', expDate: '09 / 27', cvv: '345', zipCode: '34567'});
+
+        expect(this.component.ccForm.valid).toBe(true);
+      });
+
+      it('should be invalid with required parameters not provided', () => {
+        this.component.ccForm.setValue({ccNumber: null, expDate: null, cvv: null, zipCode: null});
+
+        expect(this.component.ccForm.valid).toBe(false);
+      });
+
+      it('should be invalid with required parameters partially provided', () => {
+        this.component.ccForm.setValue({ccNumber: '424242', expDate: '02 /', cvv: '34', zipCode: '234'});
+
+        expect(this.component.ccForm.valid).toBe(false);
+      });
+    });
   });
 });

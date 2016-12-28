@@ -1,6 +1,6 @@
-<div (keydown.enter)="onEnterKey()" >
+<div>
 
-  <div class="btn-group form-nav" *ngIf="gift.frequency == 'One Time' && gift.isDonation()">
+  <div class="btn-group form-nav" *ngIf="store.isOneTimeGift() && store.isDonation()">
 
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
@@ -11,14 +11,15 @@
       <h2>Sign In</h2>
     </header>
 
-    <form [formGroup]="form" (ngSubmit)="submitLogin()">
+    <form [formGroup]="form" action="/" (ngSubmit)="store.preSubmit($event);submitLogin();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="email">Email</label>
         <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
       </div>
 
       <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('email')">
-        <p>Email <span [innerHTML]="formatErrorMessage(form.controls['email'].errors)"></span></p>
+        <p *ngIf="this.form.controls['email'].errors.required">Email is required</p>
+        <p *ngIf="this.form.controls['email'].errors.pattern">Email is invalid</p>
       </div>
 
       <div class="form-group">
@@ -28,7 +29,7 @@
       </div>
 
       <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('password')">
-        <p>Password <span [innerHTML]="formatErrorMessage(form.controls['password'].errors)"></span></p>
+        <p>Password is required</p>
       </div>
 
       <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
@@ -49,18 +50,18 @@
 
       <p class="text-block">Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
       <footer class="page-footer">
-        <a href="#" class="btn btn-previous pull-left" (click)="back()">Back</a>
-        <input type="button" class="btn btn-next pull-right" (click)="submitLogin()" value="Sign In">
+        <a href="#" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()">Back</a>
+        <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitLogin();" value="Sign In">
       </footer>
     </form>
   </div>
 
-  <div *ngIf="signinOption == 'Guest' && gift.frequency == 'One Time' && gift.isDonation()" heading="Give as a Guest">
+  <div *ngIf="signinOption == 'Guest' && store.isOneTimeGift() && store.isDonation()" heading="Give as a Guest">
     <header class="page-header">
       <h2>Guest</h2>
     </header>
 
-    <form [formGroup]="formGuest" (ngSubmit)="submitGuest()">
+    <form [formGroup]="formGuest" action="/" (ngSubmit)="store.preSubmit($event);submitGuest();" novalidate>
 
       <div class="form-group">
         <input type="email"
@@ -69,12 +70,13 @@
             [class.ng-valid]="!guestEmail"
             placeholder="Email"
             name="email"
+            (keyup)="resetGuestEmailFormSubmission($event)"
             [(ngModel)]="email"
             [formControl]="formGuest.get('email')" />
       </div>
 
-      <div *ngIf="guestEmail && formGuestSubmitted">
-        <div class="alert alert-danger"><strong>Heads up!</strong> 
+      <div *ngIf="showMessage">
+        <div class="alert alert-info"><strong>Heads up!</strong> 
         This email is associated with a registered account. If you’d 
         like to save your payment or see it on your statement, 
         please <a (click)="switchToSignIn()">sign in</a>.</div>
@@ -87,7 +89,7 @@
 
       <footer class="page-footer">
         <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
-        <input type="button" class="btn btn-next pull-right" (click)="submitGuest()" value="Next">
+        <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitGuest();" value="{{buttonText}}">
       </footer>
     </form>
   </div>
