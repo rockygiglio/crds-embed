@@ -3,6 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StoreService } from './store.service';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CustomerBank } from '../models/customer-bank';
 import { Frequency } from '../models/frequency';
 import { ValidationService } from './validation.service';
@@ -28,6 +29,9 @@ describe('Service: Store', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([])
+      ],
       providers: [
         IFrameParentService,
         StoreService,

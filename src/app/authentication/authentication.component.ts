@@ -120,6 +120,7 @@ export class AuthenticationComponent implements OnInit {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
+          this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
           this.state.hidePage(this.state.authenticationIndex);
           this.adv();
