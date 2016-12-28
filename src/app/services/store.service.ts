@@ -89,8 +89,8 @@ export class StoreService {
     private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
-    private router: Router,
-    private state: StateService,
+    public router: Router,
+    public state: StateService,
     public content: ContentService,
     public session: SessionService
     ) {
@@ -141,6 +141,7 @@ export class StoreService {
       this.state.unhidePage(this.state.authenticationIndex);
 
       if (this.state.currentIndex > this.state.authenticationIndex) {
+        this.state.currentIndex = this.state.authenticationIndex;
         this.router.navigateByUrl(this.state.getPage(this.state.authenticationIndex));
       }
 

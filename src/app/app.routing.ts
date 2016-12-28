@@ -9,7 +9,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { RegisterComponent } from './register/register.component';
 import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component';
 
-const appRoutes: Routes = [
+export const appRoutes: Routes = [
   { path: '', component: AmountComponent },
   { path: 'amount', component: AmountComponent },
   { path: 'fund', component: FundAndFrequencyComponent },
