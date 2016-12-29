@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
 import { ContentService } from './content.service';
+import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { ValidationService } from './validation.service';
 
@@ -55,6 +56,9 @@ export class StoreService {
   public previousGiftAmount: string = '';
   public donor: Donor;
   public recurringDonor: RecurringDonor;
+  public reactiveSsoTimer: any;
+  public reactiveSsoTimeOut: number = 3000;
+  public reactiveSsoLoggedIn: boolean = false;
 
   // ACH Information
   public accountName: string;
@@ -85,18 +89,63 @@ export class StoreService {
     private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
-    private state: StateService,
-    public content: ContentService
+    public router: Router,
+    public state: StateService,
+    public content: ContentService,
+    public session: SessionService
     ) {
     this.processQueryParams();
     this.preloadData();
     this.preloadFrequencies();
+    this.enableReactiveSso();
     this.isInitialized = true;
   }
 
   public clearUserPmtInfo() {
     this.userBank = undefined;
     this.userCc = undefined;
+  }
+
+  public enableReactiveSso() {
+    if (this.session.hasToken()) {
+      this.reactiveSsoLoggedIn = true;
+    }
+    this.disableReactiveSso();
+    this.reactiveSsoTimer = setInterval(() => {
+      this.performReactiveSso();
+    }, this.reactiveSsoTimeOut);
+  }
+
+  public disableReactiveSso() {
+    clearInterval(this.reactiveSsoTimer);
+  }
+
+  public performReactiveSso() {
+    if (this.session.hasToken() && this.reactiveSsoLoggedIn === false) {
+
+      this.reactiveSsoLoggedIn = true;
+      this.state.hidePage(this.state.authenticationIndex);
+      this.loadUserData();
+
+      if (this.state.currentIndex === this.state.authenticationIndex) {
+        this.router.navigateByUrl(this.state.getNextPageToShow(this.state.currentIndex));
+      }
+
+    } else if (!this.session.hasToken() && this.reactiveSsoLoggedIn === true) {
+
+      this.reactiveSsoLoggedIn = false;
+      this.email = '';
+      this.resetExistingPmtInfo();
+      this.clearUserPmtInfo();
+      this.state.unhidePage(this.state.billingIndex);
+      this.state.unhidePage(this.state.authenticationIndex);
+
+      if (this.state.currentIndex > this.state.authenticationIndex) {
+        this.state.currentIndex = this.state.authenticationIndex;
+        this.router.navigateByUrl(this.state.getPage(this.state.authenticationIndex));
+      }
+
+    }
   }
 
   public loadExistingPaymentData(): void {
@@ -115,6 +164,9 @@ export class StoreService {
           this.setBillingInfo(info);
           if (this.accountLast4) {
             this.state.hidePage(this.state.billingIndex);
+            if (this.state.currentIndex === this.state.billingIndex) {
+              this.router.navigateByUrl(this.state.getNextPageToShow(this.state.currentIndex));
+            }
           }
         }
       }
