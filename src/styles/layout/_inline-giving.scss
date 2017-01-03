@@ -643,29 +643,36 @@
   .alert {
     border-radius: 0;
     font-size: .875em;
+    padding: 5px 15px;
+
+    &-dismissible {
+      .close {
+        top: 0;
+        right: 0;
+      }
+    }
 
     &-danger {
       background-color: $danger-state-bg;
       border-color: $danger-state-border;
       color: $danger-state-text;
       margin-top: -15px;
-      padding: 5px 15px;
       text-align: center;
+    }
 
-      p {
-        line-height: 10px;
-        margin: 7px 0 10px;
-      }
+    p {
+      line-height: 10px;
+      margin: 7px 0 10px;
+    }
 
-      ul {
-        list-style: none;
-        padding-left: 0;
-      }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
 
-      li {
-        line-height: 10px;
-        margin-bottom: 9px;
-      }
+    li {
+      line-height: 10px;
+      margin-bottom: 9px;
     }
   }
 }
