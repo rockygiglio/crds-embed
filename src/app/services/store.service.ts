@@ -111,12 +111,9 @@ export class StoreService {
       this.reactiveSsoLoggedIn = true;
     }
     this.disableReactiveSso();
-    this.reactiveSsoTimer = Observable
-      .interval(this.reactiveSsoTimeOut)
-      .subscribe(() => {
-        this.performReactiveSso();
-      }
-    );
+    this.reactiveSsoTimer = setInterval(() => {
+      this.performReactiveSso();
+    }, this.reactiveSsoTimeOut);
   }
 
   public disableReactiveSso() {
