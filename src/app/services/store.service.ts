@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -89,6 +89,7 @@ export class StoreService {
     private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
+    private zone: NgZone,
     public router: Router,
     public state: StateService,
     public content: ContentService,
@@ -111,9 +112,13 @@ export class StoreService {
       this.reactiveSsoLoggedIn = true;
     }
     this.disableReactiveSso();
-    this.reactiveSsoTimer = setInterval(() => {
-      this.performReactiveSso();
-    }, this.reactiveSsoTimeOut);
+    this.zone.runOutsideAngular(() => {
+      this.reactiveSsoTimer = setInterval(() => {
+        this.zone.run(() => {
+          this.performReactiveSso();
+        });
+      }, this.reactiveSsoTimeOut);
+    });
   }
 
   public disableReactiveSso() {
