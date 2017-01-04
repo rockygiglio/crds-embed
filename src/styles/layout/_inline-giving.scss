@@ -211,11 +211,14 @@
     align-content: center;
     display:-webkit-flex;
     display:flex;
+    height: 44px;
     justify-content: center;
-    margin-bottom: 15px;
     overflow: hidden;
 
     &__icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       flex-basis: 30px;
       font-size: 22px;
       padding: 5px 20px 0;
@@ -223,6 +226,20 @@
 
     &__input {
       flex-basis: calc(100% - 30px);
+    }
+  }
+
+  .payment {
+    .errors {
+      margin-top: 10px;
+
+      .alert {
+        margin-bottom: 0;
+
+        &-danger {
+          margin-top: 0;
+        }
+      }
     }
   }
 
