@@ -7,6 +7,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { IsPredefinedToggleDirective } from '../directives/is-predefined-toggle.directive';
 import { SessionService } from '../services/session.service';
@@ -40,6 +41,7 @@ describe('Component: Amount ?type=payment', () => {
         APIService,
         SessionService,
         CookieService,
+        ContentService,
         ValidationService,
         Angulartics2
       ]
@@ -115,6 +117,7 @@ describe('Component: Amount ?type=donation', () => {
         StateService,
         APIService,
         SessionService,
+        ContentService,
         CookieService,
         Angulartics2
       ]

@@ -11,7 +11,7 @@ describe('Service: Validation', () => {
 
   let mockBackend: MockBackend;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
@@ -34,7 +34,7 @@ describe('Service: Validation', () => {
 
     mockBackend = getTestBed().get(MockBackend);
     TestBed.compileComponents();
-  }));
+  });
 
   it('should consider "donation" a valid type', inject([ValidationService], (srvc: ValidationService) => {
 

@@ -98,23 +98,18 @@
 
     <br>
 
-    <div *ngIf="store.stripeException" class="alert alert-danger">
-      <p>Your payment method has been declined.</p>
-    </div>
-    <div *ngIf="store.systemException" class="alert alert-danger">
-      <p>Something went wrong, please try again. If the problem persists, contact the administrator at helpdesk@crossroads.net.</p>
-    </div>
+    <div *ngIf="store.stripeException" class="alert alert-danger" [innerHtml]="store.content.getContent('paymentMethodDeclined')"></div>
+    <div *ngIf="store.systemException" class="alert alert-danger" [innerHtml]="store.content.getContent('failedResponse')"></div>
 
     <div class="sample-check">
       <small>
-        <a (click)="hideCheck = false;" *ngIf="hideCheck">Where can I find this information?</a>
-        <a (click)="hideCheck = true;" *ngIf="!hideCheck">Hide sample check</a>
+        <a (click)="hideCheck = false;" *ngIf="hideCheck" [innerHtml]="store.content.getContent('embedBillingShowExampleCheck')"></a>
+        <a (click)="hideCheck = true;" *ngIf="!hideCheck" [innerHtml]="store.content.getContent('embedBillingHideExampleCheck')"></a>
       </small>
       <div [collapse]="hideCheck">
         <img src="/assets/check.svg" alt="" class="img-responsive">
       </div>
     </div>
-
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
@@ -126,7 +121,7 @@
 <div *ngIf="store.paymentMethod == 'Credit Card'" heading="Credit Card">
 
   <div> 
-    <alert dismissible="true" ><span [innerHTML]="content.getContent('embedPleaseUseBank')"></span> </alert>
+    <alert dismissible="true" ><span [innerHtml]="store.content.getContent('embedPleaseUseBank')"></span> </alert>
   </div>
   
   <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="store.preSubmit($event);ccSubmit();" novalidate>
@@ -215,12 +210,8 @@
       </div>
     </div>
 
-    <div *ngIf="store.stripeException" class="alert alert-danger">
-      <p>Your payment method has been declined.</p>
-    </div>
-    <div *ngIf="store.systemException" class="alert alert-danger">
-      <p>Something went wrong, please try again. If the problem persists, contact the administrator at helpdesk@crossroads.net.</p>
-    </div>
+    <div *ngIf="store.stripeException" class="alert alert-danger" [innerHtml]="store.content.getContent('paymentMethodDeclined')"></div>
+    <div *ngIf="store.systemException" class="alert alert-danger" [innerHtml]="store.content.getContent('failedResponse')"></div>
 
     <footer class="page-footer page-footer--border-top">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">

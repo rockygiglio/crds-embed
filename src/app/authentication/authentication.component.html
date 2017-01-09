@@ -33,8 +33,7 @@
       </div>
 
       <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
-        Oops! Sign in failed. Please try again or use
-        <a class="text-block__link" [href]="forgotPasswordUrl" target="_blank">Forgot password</a>
+        <span [innerHtml]="failedMessage"></span>
       </div>
 
       <div class="row form__helpers">
@@ -76,14 +75,11 @@
       </div>
 
       <div *ngIf="showMessage">
-        <div class="alert alert-info"><strong>Heads up!</strong> 
-        This email is associated with a registered account. If you’d 
-        like to save your payment or see it on your statement, 
-        please <a (click)="switchToSignIn()">sign in</a>.</div>
+        <div class="alert alert-info" [innerHtml]="store.content.getContent('embedAuthenticationGuestExists')" (click)="switchToSignIn()"></div>
       </div>
       <div *ngIf="!formGuest.valid && formGuestSubmitted">
-        <div class="alert alert-danger" *ngIf="formGuest.controls.email.value">Email address entered does not appear to be valid.</div>
-        <div class="alert alert-danger" *ngIf="!formGuest.controls.email.value">Please enter a value.</div>
+        <div class="alert alert-danger" *ngIf="formGuest.controls.email.value" [innerHtml]="store.content.getContent('invalidEmail')"></div>
+        <div class="alert alert-danger" *ngIf="!formGuest.controls.email.value" [innerHtml]="store.content.getContent('fieldCanNotBeBlank')"></div>
       </div>
 
 

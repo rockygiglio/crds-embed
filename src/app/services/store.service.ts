@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Injectable, NgZone } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
+import { ContentService } from './content.service';
+import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { ValidationService } from './validation.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
+import { DynamicReplace } from '../models/dynamic-replace';
 import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
 import { Donor } from '../models/donor';
@@ -53,6 +56,9 @@ export class StoreService {
   public previousGiftAmount: string = '';
   public donor: Donor;
   public recurringDonor: RecurringDonor;
+  public reactiveSsoTimer: any;
+  public reactiveSsoTimeOut: number = 3000;
+  public reactiveSsoLoggedIn: boolean = false;
 
   // ACH Information
   public accountName: string;
@@ -83,17 +89,68 @@ export class StoreService {
     private api: APIService,
     private validation: ValidationService,
     private route: ActivatedRoute,
-    private state: StateService
+    private zone: NgZone,
+    public router: Router,
+    public state: StateService,
+    public content: ContentService,
+    public session: SessionService
     ) {
     this.processQueryParams();
     this.preloadData();
     this.preloadFrequencies();
+    this.enableReactiveSso();
     this.isInitialized = true;
   }
 
   public clearUserPmtInfo() {
     this.userBank = undefined;
     this.userCc = undefined;
+  }
+
+  public enableReactiveSso() {
+    if (this.session.hasToken()) {
+      this.reactiveSsoLoggedIn = true;
+    }
+    this.disableReactiveSso();
+    this.zone.runOutsideAngular(() => {
+      this.reactiveSsoTimer = setInterval(() => {
+        this.zone.run(() => {
+          this.performReactiveSso();
+        });
+      }, this.reactiveSsoTimeOut);
+    });
+  }
+
+  public disableReactiveSso() {
+    clearInterval(this.reactiveSsoTimer);
+  }
+
+  public performReactiveSso() {
+    if (this.session.hasToken() && this.reactiveSsoLoggedIn === false) {
+
+      this.reactiveSsoLoggedIn = true;
+      this.state.hidePage(this.state.authenticationIndex);
+      this.loadUserData();
+
+      if (this.state.currentIndex === this.state.authenticationIndex) {
+        this.router.navigateByUrl(this.state.getNextPageToShow(this.state.currentIndex));
+      }
+
+    } else if (!this.session.hasToken() && this.reactiveSsoLoggedIn === true) {
+
+      this.reactiveSsoLoggedIn = false;
+      this.email = '';
+      this.resetExistingPmtInfo();
+      this.clearUserPmtInfo();
+      this.state.unhidePage(this.state.billingIndex);
+      this.state.unhidePage(this.state.authenticationIndex);
+
+      if (this.state.currentIndex > this.state.authenticationIndex) {
+        this.state.currentIndex = this.state.authenticationIndex;
+        this.router.navigateByUrl(this.state.getPage(this.state.authenticationIndex));
+      }
+
+    }
   }
 
   public loadExistingPaymentData(): void {
@@ -112,6 +169,9 @@ export class StoreService {
           this.setBillingInfo(info);
           if (this.accountLast4) {
             this.state.hidePage(this.state.billingIndex);
+            if (this.state.currentIndex === this.state.billingIndex) {
+              this.router.navigateByUrl(this.state.getNextPageToShow(this.state.currentIndex));
+            }
           }
         }
       }
@@ -137,6 +197,7 @@ export class StoreService {
       this.loadUserData();
     }
     this.loadDate();
+    this.content.loadData(Array('giving'));
   }
 
   public loadDate() {
@@ -355,6 +416,23 @@ export class StoreService {
     } else if (event.originalTarget !== undefined) {
       event.originalTarget.blur();
     }
+  }
+
+  public dynamicData(data: string, replacement: DynamicReplace) {
+    let reg = new RegExp('\{\{ {0,}' + replacement.key + ' {0,}\}\}', 'g');
+    if (data !== undefined) {
+      return data.replace(reg, replacement.value);
+    }
+    return data;
+  }
+
+  public dynamicDatas(data: string, replacements: Array<DynamicReplace>): string {
+    if (replacements.length > 0) {
+      for (let i = 0; i < replacements.length; i++) {
+        data = this.dynamicData(data, replacements[i]);
+      }
+    }
+    return data;
   }
 
 }
