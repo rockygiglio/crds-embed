@@ -9,7 +9,7 @@ export class SessionService {
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
   private cookieOptions: CookieOptionsArgs;
 
-  constructor(private http: Http, private cookieService: CookieService) {
+  constructor(public http: Http, public cookieService: CookieService) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
       this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
     }

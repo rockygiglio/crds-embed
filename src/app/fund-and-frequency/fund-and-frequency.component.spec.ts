@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
 
+import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { FundAndFrequencyComponent } from './fund-and-frequency.component';
 import { Frequency } from '../models/frequency';
@@ -60,6 +61,7 @@ describe('Component: FundAndFrequency', () => {
         SessionService,
         ValidationService,
         APIService,
+        ContentService,
         StateService
       ]
     });

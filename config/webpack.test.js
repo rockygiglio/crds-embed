@@ -18,6 +18,7 @@ module.exports = function(options) {
     module: {
 
       preLoaders: [
+        
         {
           test: /\.ts$/,
           loader: 'tslint-loader',
@@ -76,6 +77,7 @@ module.exports = function(options) {
       }),
     ],
 
+    
     tslint: {
       emitErrors: false,
       failOnHint: false,

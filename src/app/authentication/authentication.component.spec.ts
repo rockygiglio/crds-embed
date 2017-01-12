@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
@@ -17,11 +18,13 @@ describe('Component: Authentication', () => {
       store: StoreService,
       fb: FormBuilder,
       api: APIService,
-      validation: ValidationService;
+      validation: ValidationService,
+      content: ContentService;
 
   beforeEach(() => {
 
     api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+    content = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
     fb = new FormBuilder();
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
     stateService = jasmine.createSpyObj<StateService>(
@@ -36,9 +39,12 @@ describe('Component: Authentication', () => {
     store = jasmine.createSpyObj<StoreService>(
       'store', [
         'loadUserData',
-        'validateRoute'
+        'validateRoute',
+        'dynamicData',
+        'dynamicDatas'
       ]
     );
+    store.content = content;
     validation = new ValidationService();
     fixture = new AuthenticationComponent(
       api,
@@ -85,6 +91,54 @@ describe('Component: Authentication', () => {
       it('formGuest.valid should be false', () => {
         fixture.submitGuest();
         expect(fixture.formGuest.valid).toBe(false);
+      });
+    });
+
+    describe('when email address is invalid', () => {
+      function setGuestEmailExists(state: any): void {
+        (<jasmine.Spy>api.getRegisteredUser).and.returnValue(Observable.of(state));
+      }
+
+      it('should not allow space on left of @', () => {
+        setGuestForm( 'p dog@s.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should not allow trailing space', () => {
+        setGuestForm( 'pdog@smog.com ' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should not allow leading space', () => {
+        setGuestForm( ' pdog@smog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should require something after .', () => {
+        setGuestForm( 'pdog@smog.' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+      it('should require @', () => {
+        setGuestForm( 'pdogsmog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(false);
+      });
+
+       it('should allow . in address', () => {
+        setGuestForm( 'pdog.iscool@smog.com' );
+        setGuestEmailExists(true);
+        fixture.submitGuest();
+        expect(fixture.formGuest.valid).toBe(true);
       });
     });
 

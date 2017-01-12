@@ -43,7 +43,8 @@
 
     <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
       <div class="alert alert-danger" *ngIf="duplicateUser">
-        <p>This email address is already in use. <a (click)="back()">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
+        <span [innerHtml]="store.content.getContent('embedRegisterEmailInUse')"></span>
+        <p><a (click)="back()">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
       </div>
       <div class="alert alert-danger" *ngIf="!duplicateUser">
         <p>Email <span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
@@ -61,12 +62,12 @@
       </div>
     </div>
 
-     <p class="text-block"><small class="text-muted">By registering, you agree to our <a [href]="termsOfServiceUrl" target="_blank">terms of service </a> and <a [href]="privacyPolicyUrl" target="_blank">privacy policy </a>. You will begin receiving email communications. Preferences can be managed in your profile.</small></p>
+     <p class="text-block"><small class="text-muted" [innerHtml]="policyMessage"></small></p>
 
      <hr>
 
     <footer class="page-footer page-footer--pt-0">
-      <a class="pull-left text-block__inline-link" (click)="back()">Already have an account? Sign In</a>
+      <a class="pull-left text-block__inline-link" (click)="back()"[innerHtml]="store.content.getContent('embedRegisterSignIn')"></a>
       <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitRegistration();"  value="Register">
     </footer>
 

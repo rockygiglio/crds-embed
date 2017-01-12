@@ -35,7 +35,7 @@ describe('Component: Billing', () => {
   let component: BillingComponent;
   let fixture: ComponentFixture<BillingComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ BillingComponent ],
       imports: [
@@ -62,7 +62,7 @@ describe('Component: Billing', () => {
     });
     this.fixture = TestBed.createComponent(BillingComponent);
     this.component = this.fixture.componentInstance;
-  }));
+  });
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();

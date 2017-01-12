@@ -16,7 +16,7 @@ export class StateService {
   public is_loading: boolean = false;
   public registrationIndex: number = 3;
   public summaryIndex: number = 5;
-  public watcherInterval: any = undefined;
+  public currentIndex = 0;
 
   public paymentState: PageState[] = [
     { path: '/amount', show: true },
@@ -33,6 +33,7 @@ export class StateService {
     while (!this.paymentState[nextPage].show && nextPage !== this.confirmationIndex) {
       nextPage++;
     }
+    this.currentIndex = nextPage;
     return this.paymentState[nextPage].path;
   }
 
@@ -46,6 +47,7 @@ export class StateService {
     while (!this.paymentState[prevPage].show && prevPage !== this.amountIndex) {
       prevPage--;
     }
+    this.currentIndex = prevPage;
     return this.paymentState[prevPage].path;
   }
 
