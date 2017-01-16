@@ -132,7 +132,7 @@ export class BillingComponent implements OnInit {
         this.ccForm.value.ccNumber,
         expMonth,
         expYear,
-        this.ccForm.value.cvc,
+        this.ccForm.value.cvv,
         this.ccForm.value.zipCode
       );
       this.store.userCc = userCard;
