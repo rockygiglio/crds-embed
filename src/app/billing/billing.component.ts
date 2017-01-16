@@ -91,7 +91,7 @@ export class BillingComponent implements OnInit {
     if (this.achForm.valid) {
       this.state.setLoading(true);
       this.store.paymentType = 'ach';
-      this.store.accountNumber = this.store.accountNumber.trim();
+      this.store.accountNumber = this.achForm.value.accountNumber.trim();
       this.achForm.value.accountNumber = this.store.accountNumber;
       let userBank = new CustomerBank(
         'US',
@@ -125,13 +125,14 @@ export class BillingComponent implements OnInit {
     if (this.ccForm.valid) {
       this.state.setLoading(true);
       this.store.paymentType = 'cc';
-      let expMonth = this.ccForm.value.expDate.split(' / ')[0];
-      let expYear = this.ccForm.value.expDate.split(' / ')[1];
+      let expMonth = this.ccForm.value.expDate.split('/')[0].trim();
+      let expYear = this.ccForm.value.expDate.split('/')[1].trim();
+      expYear = expYear.substr(expYear.length - 2);
       let userCard: CustomerCard = new CustomerCard(this.store.email,
         this.ccForm.value.ccNumber,
         expMonth,
         expYear,
-        this.ccForm.value.cvc,
+        this.ccForm.value.cvv,
         this.ccForm.value.zipCode
       );
       this.store.userCc = userCard;
