@@ -125,8 +125,9 @@ export class BillingComponent implements OnInit {
     if (this.ccForm.valid) {
       this.state.setLoading(true);
       this.store.paymentType = 'cc';
-      let expMonth = this.ccForm.value.expDate.split(' / ')[0];
-      let expYear = this.ccForm.value.expDate.split(' / ')[1];
+      let expMonth = this.ccForm.value.expDate.split('/')[0].trim();
+      let expYear = this.ccForm.value.expDate.split('/')[1].trim();
+      expYear = expYear.substr(expYear.length - 2);
       let userCard: CustomerCard = new CustomerCard(this.store.email,
         this.ccForm.value.ccNumber,
         expMonth,
