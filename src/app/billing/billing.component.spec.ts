@@ -138,7 +138,7 @@ describe('Component: Billing', () => {
     });
   });
 
-  describe('Form sumbissions', () => {
+  describe('Form submissions', () => {
     describe('for ACH Form', () => {
       let mockDonor = {
         'id': 1234567,
