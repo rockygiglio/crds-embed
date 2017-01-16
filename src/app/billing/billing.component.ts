@@ -91,7 +91,7 @@ export class BillingComponent implements OnInit {
     if (this.achForm.valid) {
       this.state.setLoading(true);
       this.store.paymentType = 'ach';
-      this.store.accountNumber = this.store.accountNumber.trim();
+      this.store.accountNumber = this.achForm.value.accountNumber.trim();
       this.achForm.value.accountNumber = this.store.accountNumber;
       let userBank = new CustomerBank(
         'US',
