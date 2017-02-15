@@ -11,8 +11,8 @@ $cr-white: #FFF;
 $icon-font-path: "/fonts/";
 
 // To be changed with Typekit tranfer
-$fontface-header: "acumin-pro-extra-condensed", sans-serif;
-$fontface-body: "acumin-pro", sans-serif;
+$fontface-header: $condensed-extra-font-face;
+$fontface-body: $base-font-face;
 
 // Form Validation Colors
 $success-state: #66C93E !default;
@@ -26,17 +26,17 @@ $danger-state-bg: lighten(desaturate(adjust-hue($danger-state, 346.4713), 20.603
 $danger-state-border: lighten(desaturate(adjust-hue($danger-state, 348.7939), 20.4197), 38.0392);
 
 // Default colors
-$bg-color: $cr-white !default;
-$primary-color: $cr-light-blue !default;
+$bg-color: $body-bg;
+$primary-color: $brand-primary;
 $secondary-color: $cr-teal !default;
 $accent-color: $cr-grey !default;
 $header-color: #666 !default;
 $underline-color: #EEE !default;
-$text-color: #777 !default;
+// $text-color: #777 !default;
 $text-contrast-color: $cr-white !default;
 $text-color-link: $primary-color;
-$input-text-color: #505050 !default;
-$input-bg-color: lighten($cr-grey, 27) !default;
+$input-text-color: $input-color;
+$input-bg-color: $input-bg;
 $page-bg-color: #F4F4F4 !default;
 $calendar-today-bg: $bg-color;
 $calendar-today-text: #666;

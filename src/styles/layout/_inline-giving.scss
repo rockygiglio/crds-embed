@@ -1,10 +1,10 @@
 .inline-giving {
-  background-color: $bg-color;
-  font-family: $fontface-body;
-  font-size: 16px;
+  // background-color: $bg-color;
+  // font-family: $fontface-body;
+  // font-size: 16px;
 
   a {
-    cursor: pointer;
+    // cursor: pointer;
   }
 
   .page-header {
@@ -69,26 +69,29 @@
 
   .btn-group {
     .btn-option {
-      background-color: transparent;
+      @extend .btn-outline;
+      // background-color: transparent;
 
-      &--mb-8 {
-        margin-bottom: 8px;
-      }
+      // &--mb-8 {
+      //   margin-bottom: 8px;
+      // }
 
-      :hover,
-      :active {
-        background-color: $secondary-color;
-      }
+      // :hover,
+      // :active {
+      //   background-color: $secondary-color;
+      // }
 
       &--no-outline {
-        border: none;
-        box-shadow: none;
+        @extend .btn-no-outline;
+
+        // border: none;
+        // box-shadow: none;
       }
     }
 
-    .active {
-      background-color: $secondary-color;
-    }
+    // .active {
+    //   background-color: $secondary-color;
+    // }
 
     .btn-payment {
       min-height: 58px;
@@ -175,26 +178,29 @@
     }
 
     &--flex-row {
-      border-bottom: 1px solid $underline-color;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      padding-bottom: 8px;
+      @extend .btn-group-row;
+
+      // border-bottom: 1px solid $underline-color;
+      // display: flex;
+      // flex-flow: row nowrap;
+      // justify-content: space-between;
+      // margin-bottom: 20px;
+      // padding-bottom: 8px;
 
       .btn-option {
         &--flex-item {
-          flex: 1 1 50%;
-          min-height: 37px;
+          @extend .btn-flex;
+          // flex: 1 1 50%;
+          // min-height: 37px;
 
-          &:not(:last-child):not(.dropdown-toggle) {
-            margin-right: 8px;
+          // &:not(:last-child):not(.dropdown-toggle) {
+          //   margin-right: 8px;
 
-            @media (min-width: $screen-xs) {
-              margin-right: .5em;
-              margin-bottom: 0;
-            }
-          }
+          //   @media (min-width: $screen-xs) {
+          //     margin-right: .5em;
+          //     margin-bottom: 0;
+          //   }
+          // }
         }
       }
     }
@@ -208,25 +214,25 @@
   }
 
   .custom-input-payment {
-    align-content: center;
-    display:-webkit-flex;
-    display:flex;
-    height: 44px;
-    justify-content: center;
-    overflow: hidden;
+    // align-content: center;
+    // display:-webkit-flex;
+    // display:flex;
+    // height: 44px;
+    // justify-content: center;
+    // overflow: hidden;
 
-    &__icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-basis: 30px;
-      font-size: 22px;
-      padding: 5px 20px 0;
-    }
+    // &__icon {
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   flex-basis: 30px;
+    //   font-size: 22px;
+    //   padding: 5px 20px 0;
+    // }
 
-    &__input {
-      flex-basis: calc(100% - 30px);
-    }
+    // &__input {
+    //   flex-basis: calc(100% - 30px);
+    // }
   }
 
   .payment {
@@ -297,14 +303,16 @@
   }
 
   form {
-    .form-control {
-      background-color: $input-bg-color;
-      border: none;
-      border: 1px solid transparent;
-      border-radius: 0;
-      box-shadow: none;
-      height: 2em;
-      padding: 20px 10px;
+    @extend .form-group;
+
+    // .form-control {
+    //   background-color: $input-bg-color;
+    //   border: none;
+    //   border: 1px solid transparent;
+    //   border-radius: 0;
+    //   box-shadow: none;
+    //   height: 2em;
+    //   padding: 20px 10px;
 
       &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
         color: lighten($input-text-color, 35);
@@ -393,38 +401,41 @@
   }
 
   .form-nav {
-    padding: 1em 0 2em;
-    width: 100%;
+    @extend .btn-group-teal;
+    @extend .btn-group-toggle;
 
-    .btn {
-      width: 50%;
-    }
+    // padding: 1em 0 2em;
+    // width: 100%;
 
-    .btn-option {
-      border-color: $secondary-color;
-      color: $secondary-color;
+    // .btn {
+    //   width: 50%;
+    // }
 
-      &.active {
-        background-color: $secondary-color;
-        color: $cr-white;
-      }
-    }
+    // .btn-option {
+    //   border-color: $secondary-color;
+    //   color: $secondary-color;
 
-    .btn:first-child:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 4px;
-      border-top-left-radius: 4px;
+    //   &.active {
+    //     background-color: $secondary-color;
+    //     color: $cr-white;
+    //   }
+    // }
 
-      margin-right: 0;
-    }
+    // .btn:first-child:not(:last-child) {
+    //   border-top-right-radius: 0;
+    //   border-bottom-right-radius: 0;
+    //   border-bottom-left-radius: 4px;
+    //   border-top-left-radius: 4px;
 
-    .btn:last-child:not(:first-child) {
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-    }
+    //   margin-right: 0;
+    // }
+
+    // .btn:last-child:not(:first-child) {
+    //   border-top-right-radius: 4px;
+    //   border-bottom-right-radius: 4px;
+    //   border-bottom-left-radius: 0;
+    //   border-top-left-radius: 0;
+    // }
   }
 
   .radio-group {
@@ -517,11 +528,18 @@
   }
 
   .inline-form {
+    @extend .form-row;
+
     &__input {
       &--half {
-        @include make-xs-column(6);
-        padding-left: 0px;
-        padding-right: 0px;
+        @extend .form-group;
+        @extend .form-col-2;
+
+        // @include make-xs-column(6);
+
+
+        // padding-left: 0px;
+        // padding-right: 0px;
       }
     }
   }
@@ -609,7 +627,7 @@
     .form-control {
       &.ng-touched {
         &.ng-invalid {
-          border: 1px solid $danger-state-border;
+          // border: 1px solid $danger-state-border;
         }
       }
     }
@@ -617,39 +635,39 @@
     .form-control {
       &.ng-touched {
         &.ng-valid {
-          border: 1px solid $success-state;
+          // border: 1px solid $success-state;
         }
       }
     }
   }
 
   .background-filled-for-alignment {
-    background-color: $input-bg-color;
+    // background-color: $input-bg-color;
   }
 
-  .custom-input-payment__input {
-    .form-control.ng-touched {
-      &.ng-valid, &.ng-invalid {
-        border: 1px solid transparent;
-      }
-    }
-    .input-group {
-      border: 1px solid transparent;
-    }
-    &.ng-touched {
-      &.ng-invalid {
-        .input-group {
-          border: 1px solid $danger-state-border;
-        }
-      }
+  // .custom-input-payment__input {
+  //   .form-control.ng-touched {
+  //     &.ng-valid, &.ng-invalid {
+  //       border: 1px solid transparent;
+  //     }
+  //   }
+  //   .input-group {
+  //     border: 1px solid transparent;
+  //   }
+  //   &.ng-touched {
+  //     &.ng-invalid {
+  //       .input-group {
+  //         border: 1px solid $danger-state-border;
+  //       }
+  //     }
 
-      &.ng-valid {
-        .input-group {
-          border: 1px solid $success-state;
-        }
-      }
-    }
-  }
+  //     &.ng-valid {
+  //       .input-group {
+  //         border: 1px solid $success-state;
+  //       }
+  //     }
+  //   }
+  // }
 
 
   app-summary .alert.alert-danger {
@@ -658,9 +676,14 @@
   }
 
   .alert {
-    border-radius: 0;
-    font-size: .875em;
-    padding: 5px 15px;
+    @extend .alert;
+
+    // border-radius: 0;
+    // font-size: .875em;
+    // padding: 5px 15px;
+    a {
+      @extend .alert-link;
+    }
 
     &-dismissible {
       .close {
@@ -670,16 +693,18 @@
     }
 
     &-danger {
-      background-color: $danger-state-bg;
-      border-color: $danger-state-border;
-      color: $danger-state-text;
-      margin-top: -15px;
-      text-align: center;
+      @extend .alert-danger;
+
+      // background-color: $danger-state-bg;
+      // border-color: $danger-state-border;
+      // color: $danger-state-text;
+      // margin-top: -15px;
+      // text-align: center;
     }
 
     p {
-      line-height: 18px;
-      margin: 7px 0 10px;
+      // line-height: 18px;
+      // margin: 7px 0 10px;
     }
 
     ul {
@@ -692,4 +717,3 @@
       margin-bottom: 9px;
     }
   }
-}
