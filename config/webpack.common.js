@@ -36,7 +36,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg|ico)$/,
-        loader: 'file?name=assets/[name].[hash].[ext]'
+        loader: 'file?name=assets/[name].[ext]'
       },
       {
         test: /\.css$/,
