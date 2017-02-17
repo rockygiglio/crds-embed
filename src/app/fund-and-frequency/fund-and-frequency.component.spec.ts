@@ -40,6 +40,7 @@ describe('Component: FundAndFrequency', () => {
   };
 
   let mockFund: Fund = new Fund(5, 'General Giving', 1, true);
+  let mockFundUserSelected: Fund = new Fund(5, 'Foobar Fund', 1, true);
   let mockOneTimeGiftFund: Fund = new Fund(5, 'General Giving', 1, false);
 
   beforeEach(() => {
@@ -67,6 +68,17 @@ describe('Component: FundAndFrequency', () => {
     });
     this.fixture = TestBed.createComponent(FundAndFrequencyComponent);
     this.component = this.fixture.componentInstance;
+  });
+
+  it ('should retrieve the default fund when a user has not selected a fund', () => {
+    this.component.setFund();
+    expect(this.component.store.fund.Name).toBe('General Giving');
+  });
+
+  it('should not retrieve the default fund if the user has selected a fund', () => {
+    this.component.store.fund = mockFundUserSelected;
+    this.component.setFund();
+    expect(this.component.store.fund.Name).toBe('Foobar Fund');
   });
 
   it('should reset the date to the current date time', () => {
