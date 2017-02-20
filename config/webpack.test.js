@@ -18,12 +18,6 @@ module.exports = function(options) {
     module: {
 
       preLoaders: [
-        
-        {
-          test: /\.ts$/,
-          loader: 'tslint-loader',
-          exclude: [helpers.root('node_modules')]
-        },
         {
           test: /\.js$/,
           loader: 'source-map-loader',
