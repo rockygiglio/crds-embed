@@ -9,18 +9,14 @@
 
     <div class="form-row">
       <!-- First Name -->
-      <div class="inline-form__input--half">
-        <div class="form-group">
+        <div class="form-group form-col-2">
           <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" name="firstName" [(ngModel)]="firstName" >
         </div>
-      </div>
 
       <!-- Last Name -->
-      <div class="inline-form__input--half">
-        <div class="form-group">
+        <div class="form-group form-col-2">
           <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" name="lastName" [(ngModel)]="lastName" >
         </div>
-      </div>
     </div>
 
     <div class="errors" *ngIf="(submitted) && (!regForm.controls['firstName'].valid || !regForm.controls['lastName'].valid)">
@@ -37,8 +33,10 @@
     </div>
 
     <!-- Email -->
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Email" formControlName="email" name="email" [(ngModel)]="email" >
+    <div class="form-row">
+      <div class="form-group form-col-1">
+        <input type="text" class="form-control" placeholder="Email" formControlName="email" name="email" [(ngModel)]="email" >
+      </div>
     </div>
 
     <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
@@ -52,8 +50,10 @@
     </div>
 
     <!-- Password -->
-    <div class="form-group">
-      <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password" [(ngModel)]="password" >
+    <div class="form-row">
+      <div class="form-group form-col-1">
+        <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password" [(ngModel)]="password" >
+      </div>
     </div>
 
     <div class="errors" *ngIf="(submitted) && !regForm.controls['password'].valid">
