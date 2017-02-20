@@ -169,52 +169,5 @@ $dt-page-bg-color: #222222;
   .contrast-background {
     background: $page-bg-color;
   }
-
-  datepicker {
-    .well {
-      background: $bg-color;
-      border: 0;
-      box-shadow: none;
-      padding-left: 0;
-      padding-right: 0;
-      margin-top: -1em;
-    }
-
-    .btn-default {
-      background: $bg-color;
-      border-color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
-      color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
-
-      &.active {
-        background-color: $secondary-color;
-        border-color: $secondary-color;
-
-        &:focus {
-          background-color: $secondary-color;
-          border-color: $secondary-color;
-        }
-
-        .text-info,
-        span {
-          color: $calendar-today-text;
-        }
-      }
-
-      .text-info {
-        color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
-      }
-    }
-
-    th {
-      .btn-default {
-        &.btn-secondary {
-          &.btn-sm {
-            background: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 43.5294);
-            color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
-          }
-        }
-      }
-    }
-  }
 }
 
