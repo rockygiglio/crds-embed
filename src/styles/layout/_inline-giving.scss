@@ -1,11 +1,4 @@
 .inline-giving {
-  // background-color: $bg-color;
-  // font-family: $fontface-body;
-  // font-size: 16px;
-
-  // a {
-  //   cursor: pointer;
-  // }
 
   .page-header {
     @include header-font($fontface-header, 1.25em);
@@ -69,140 +62,9 @@
 
   .btn-group {
     .btn-option {
-      @extend .btn-outline;
-      // background-color: transparent;
-
-      // &--mb-8 {
-      //   margin-bottom: 8px;
-      // }
-
-      // :hover,
-      // :active {
-      //   background-color: $secondary-color;
-      // }
 
       &--no-outline {
         @extend .btn-no-outline;
-
-        // border: none;
-        // box-shadow: none;
-      }
-    }
-
-    // .active {
-    //   background-color: $secondary-color;
-    // }
-
-    // .btn-payment {
-    //   min-height: 58px;
-    //   text-align: left;
-
-    //   &.active {
-    //     background-color: $secondary-color;
-
-    //     .btn-payment__icon {
-    //       .fa-circle-thin {
-    //         display: none;
-    //       }
-
-    //       .fa-check-circle {
-    //         display: inline-block;
-    //       }
-    //     }
-    //   }
-
-    //   .row {
-    //     border-radius: 4px;
-    //     margin-top: -9px;
-    //     margin-bottom: -9px;
-    //     padding: 15px 0;
-
-    //     &:hover {
-    //       background-color: $secondary-color;
-    //       color: $cr-white;
-    //     }
-
-    //     & > div {
-    //       @include make-xs-column(6);
-    //     }
-
-    //     .payment--lg {
-    //       font-size: 24px;
-    //       line-height: 24px;
-    //       text-align: right;
-    //     }
-    //   }
-
-    //   &__icon {
-    //     .fa {
-    //       padding-right: 8px;
-    //       vertical-align: middle;
-
-    //       &-circle-thin {
-    //         display: inline-block;
-    //       }
-
-    //       &-check-circle {
-    //         display: none;
-    //       }
-    //     }
-    //   }
-    // }
-
-    &--flex-col {
-      @extend .btn-group-block;
-
-      // display: flex;
-      // flex-flow: column nowrap;
-      // justify-content: space-between;
-
-      .btn-option--flex-item {
-        @extend .btn-flex;
-        @extend .btn-outline;
-
-        // &:last-of-type {
-        //   margin-bottom: 8px;
-        // }
-      }
-
-      // &.btn-group {
-      //   > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
-      //   > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-      //     margin-right: 0;
-      //   }
-      // }
-
-      // &.btn-group--underline {
-      //   margin-bottom: 0;
-      //   padding-bottom: 0;
-      // }
-    }
-
-    &--flex-row {
-      @extend .btn-group-row;
-
-      // border-bottom: 1px solid $underline-color;
-      // display: flex;
-      // flex-flow: row nowrap;
-      // justify-content: space-between;
-      // margin-bottom: 20px;
-      // padding-bottom: 8px;
-
-      .btn-option {
-        &--flex-item {
-          @extend .btn-flex;
-          // flex: 1 1 50%;
-          // min-height: 37px;
-
-          // &:not(:last-child):not(.dropdown-toggle) {
-          //   margin-right: 8px;
-
-          //   @media (min-width: $screen-xs) {
-          //     margin-right: .5em;
-          //     margin-bottom: 0;
-          //   }
-          // }
-        }
       }
     }
 
@@ -214,111 +76,10 @@
     }
   }
 
-  .custom-input-payment {
-    // @extend .btn-group-block .custom-input;
-
-    // align-content: center;
-    // display:-webkit-flex;
-    // display:flex;
-    // height: 44px;
-    // justify-content: center;
-    // overflow: hidden;
-
-    &__icon {
-      // @extend .custom-input-icon;
-
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
-      // flex-basis: 30px;
-      // font-size: 22px;
-      // padding: 5px 20px 0;
-    }
-
-    &__input {
-      flex-basis: calc(100% - 30px);
-    }
-  }
-
-  // .payment {
-  //   .errors {
-  //     margin-top: 10px;
-
-  //     .alert {
-  //       margin-bottom: 0;
-
-  //       &-danger {
-  //         margin-top: 0;
-  //       }
-  //     }
-  //   }
-  // }
-
-  .table {
-    border-bottom: 1px solid $underline-color;
-
-    tbody {
-      > tr {
-        > td {
-          padding: 14px 0;
-          vertical-align: top;
-        }
-      }
-    }
-
-    .confirm-amount {
-      font-size: 24px;
-      line-height: 18px;
-    }
-
-    td {
-      color: $text-color;
-    }
-
-    td:first-child {
-      font-family: inherit;
-      font-size: .75em;
-      font-weight: 500;
-      text-transform: uppercase;
-      vertical-align: top;
-
-      a {
-        color: $text-color-link;
-      }
-    }
-
-    td:last-child {
-      font-size: 14px;
-
-      &.confirm-amount {
-        font-size: 1.5em;
-      }
-
-      a {
-        color: $text-color-link;
-      }
-    }
-  }
-
-  // .input-group-addon {
-  //   background-color: $input-bg-color;
-  //   border: 1px solid transparent;
-  //   border-radius: 0;
-  //   font-size: 1.125em;
-  // }
-
   form {
     @extend .form-group;
 
-    // .form-control {
-    //   background-color: $input-bg-color;
-    //   border: none;
-    //   border: 1px solid transparent;
-    //   border-radius: 0;
-    //   box-shadow: none;
-    //   height: 2em;
-    //   padding: 20px 10px;
-
+    .form-control {
       &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
         color: lighten($input-text-color, 35);
       }
@@ -408,39 +169,6 @@
   .form-nav {
     @extend .btn-group-teal;
     @extend .btn-group-toggle;
-
-    // padding: 1em 0 2em;
-    // width: 100%;
-
-    // .btn {
-    //   width: 50%;
-    // }
-
-    // .btn-option {
-    //   border-color: $secondary-color;
-    //   color: $secondary-color;
-
-    //   &.active {
-    //     background-color: $secondary-color;
-    //     color: $cr-white;
-    //   }
-    // }
-
-    // .btn:first-child:not(:last-child) {
-    //   border-top-right-radius: 0;
-    //   border-bottom-right-radius: 0;
-    //   border-bottom-left-radius: 4px;
-    //   border-top-left-radius: 4px;
-
-    //   margin-right: 0;
-    // }
-
-    // .btn:last-child:not(:first-child) {
-    //   border-top-right-radius: 4px;
-    //   border-bottom-right-radius: 4px;
-    //   border-bottom-left-radius: 0;
-    //   border-top-left-radius: 0;
-    // }
   }
 
   .radio-group {
@@ -539,12 +267,6 @@
       &--half {
         @extend .form-group;
         @extend .form-col-2;
-
-        // @include make-xs-column(6);
-
-
-        // padding-left: 0px;
-        // padding-right: 0px;
       }
     }
   }
@@ -561,10 +283,6 @@
 
   .alert {
     @extend .alert;
-
-    // border-radius: 0;
-    // font-size: .875em;
-    // padding: 5px 15px;
     a {
       @extend .alert-link;
     }
@@ -578,17 +296,6 @@
 
     &-danger {
       @extend .alert-danger;
-
-      // background-color: $danger-state-bg;
-      // border-color: $danger-state-border;
-      // color: $danger-state-text;
-      // margin-top: -15px;
-      // text-align: center;
-    }
-
-    p {
-      // line-height: 18px;
-      // margin: 7px 0 10px;
     }
 
     ul {
@@ -601,3 +308,4 @@
       margin-bottom: 9px;
     }
   }
+}
