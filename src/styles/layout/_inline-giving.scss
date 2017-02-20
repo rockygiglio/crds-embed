@@ -3,9 +3,9 @@
   // font-family: $fontface-body;
   // font-size: 16px;
 
-  a {
-    // cursor: pointer;
-  }
+  // a {
+  //   cursor: pointer;
+  // }
 
   .page-header {
     @include header-font($fontface-header, 1.25em);
@@ -93,88 +93,89 @@
     //   background-color: $secondary-color;
     // }
 
-    .btn-payment {
-      min-height: 58px;
-      text-align: left;
+    // .btn-payment {
+    //   min-height: 58px;
+    //   text-align: left;
 
-      &.active {
-        background-color: $secondary-color;
+    //   &.active {
+    //     background-color: $secondary-color;
 
-        .btn-payment__icon {
-          .fa-circle-thin {
-            display: none;
-          }
+    //     .btn-payment__icon {
+    //       .fa-circle-thin {
+    //         display: none;
+    //       }
 
-          .fa-check-circle {
-            display: inline-block;
-          }
-        }
-      }
+    //       .fa-check-circle {
+    //         display: inline-block;
+    //       }
+    //     }
+    //   }
 
-      .row {
-        border-radius: 4px;
-        margin-top: -9px;
-        margin-bottom: -9px;
-        padding: 15px 0;
+    //   .row {
+    //     border-radius: 4px;
+    //     margin-top: -9px;
+    //     margin-bottom: -9px;
+    //     padding: 15px 0;
 
-        &:hover {
-          background-color: $secondary-color;
-          color: $cr-white;
-        }
+    //     &:hover {
+    //       background-color: $secondary-color;
+    //       color: $cr-white;
+    //     }
 
-        & > div {
-          @include make-xs-column(6);
-        }
+    //     & > div {
+    //       @include make-xs-column(6);
+    //     }
 
-        .payment--lg {
-          font-size: 24px;
-          line-height: 24px;
-          text-align: right;
-        }
-      }
+    //     .payment--lg {
+    //       font-size: 24px;
+    //       line-height: 24px;
+    //       text-align: right;
+    //     }
+    //   }
 
-      &__icon {
-        .fa {
-          padding-right: 8px;
-          vertical-align: middle;
+    //   &__icon {
+    //     .fa {
+    //       padding-right: 8px;
+    //       vertical-align: middle;
 
-          &-circle-thin {
-            display: inline-block;
-          }
+    //       &-circle-thin {
+    //         display: inline-block;
+    //       }
 
-          &-check-circle {
-            display: none;
-          }
-        }
-      }
-    }
+    //       &-check-circle {
+    //         display: none;
+    //       }
+    //     }
+    //   }
+    // }
 
     &--flex-col {
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: space-between;
+      @extend .btn-group-block;
+
+      // display: flex;
+      // flex-flow: column nowrap;
+      // justify-content: space-between;
 
       .btn-option--flex-item {
-        flex: 1 1 auto;
-        min-height: 37px;
-        margin: 4px 0;
+        @extend .btn-flex;
+        @extend .btn-outline;
 
-        &:last-of-type {
-          margin-bottom: 8px;
-        }
+        // &:last-of-type {
+        //   margin-bottom: 8px;
+        // }
       }
 
-      &.btn-group {
-        > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
-        > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-          margin-right: 0;
-        }
-      }
+      // &.btn-group {
+      //   > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+      //   > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+      //     margin-right: 0;
+      //   }
+      // }
 
-      &.btn-group--underline {
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
+      // &.btn-group--underline {
+      //   margin-bottom: 0;
+      //   padding-bottom: 0;
+      // }
     }
 
     &--flex-row {
@@ -214,6 +215,8 @@
   }
 
   .custom-input-payment {
+    // @extend .btn-group-block .custom-input;
+
     // align-content: center;
     // display:-webkit-flex;
     // display:flex;
@@ -221,33 +224,35 @@
     // justify-content: center;
     // overflow: hidden;
 
-    // &__icon {
-    //   display: flex;
-    //   justify-content: center;
-    //   align-items: center;
-    //   flex-basis: 30px;
-    //   font-size: 22px;
-    //   padding: 5px 20px 0;
-    // }
+    &__icon {
+      // @extend .custom-input-icon;
 
-    // &__input {
-    //   flex-basis: calc(100% - 30px);
-    // }
-  }
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
+      // flex-basis: 30px;
+      // font-size: 22px;
+      // padding: 5px 20px 0;
+    }
 
-  .payment {
-    .errors {
-      margin-top: 10px;
-
-      .alert {
-        margin-bottom: 0;
-
-        &-danger {
-          margin-top: 0;
-        }
-      }
+    &__input {
+      flex-basis: calc(100% - 30px);
     }
   }
+
+  // .payment {
+  //   .errors {
+  //     margin-top: 10px;
+
+  //     .alert {
+  //       margin-bottom: 0;
+
+  //       &-danger {
+  //         margin-top: 0;
+  //       }
+  //     }
+  //   }
+  // }
 
   .table {
     border-bottom: 1px solid $underline-color;
@@ -295,12 +300,12 @@
     }
   }
 
-  .input-group-addon {
-    background-color: $input-bg-color;
-    border: 1px solid transparent;
-    border-radius: 0;
-    font-size: 1.125em;
-  }
+  // .input-group-addon {
+  //   background-color: $input-bg-color;
+  //   border: 1px solid transparent;
+  //   border-radius: 0;
+  //   font-size: 1.125em;
+  // }
 
   form {
     @extend .form-group;
@@ -645,29 +650,31 @@
     // background-color: $input-bg-color;
   }
 
-  // .custom-input-payment__input {
-  //   .form-control.ng-touched {
-  //     &.ng-valid, &.ng-invalid {
-  //       border: 1px solid transparent;
-  //     }
-  //   }
-  //   .input-group {
-  //     border: 1px solid transparent;
-  //   }
-  //   &.ng-touched {
-  //     &.ng-invalid {
-  //       .input-group {
-  //         border: 1px solid $danger-state-border;
-  //       }
-  //     }
+  .custom-input-payment__input {
+    // @extend .custom-input-field;
 
-  //     &.ng-valid {
-  //       .input-group {
-  //         border: 1px solid $success-state;
-  //       }
-  //     }
-  //   }
-  // }
+    // .form-control.ng-touched {
+    //   &.ng-valid, &.ng-invalid {
+    //     border: 1px solid transparent;
+    //   }
+    // }
+    // .input-group {
+    //   border: 1px solid transparent;
+    // }
+    // &.ng-touched {
+    //   &.ng-invalid {
+    //     .input-group {
+    //       border: 1px solid $danger-state-border;
+    //     }
+    //   }
+
+    //   &.ng-valid {
+    //     .input-group {
+    //       border: 1px solid $success-state;
+    //     }
+    //   }
+    // }
+  }
 
 
   app-summary .alert.alert-danger {
