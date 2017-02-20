@@ -11,9 +11,9 @@
 
   <!-- DONATION -->
   <div *ngIf="store.isDonation()">
-    <div class="btn-group btn-group--flex-row">
+    <div class="btn-group btn-group-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-option--flex-item btn-option--no-outline"
+              class="btn btn-option btn-flex btn-no-outline"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && store.amount == amount) }"
               isPredefinedToggle
@@ -25,7 +25,7 @@
     <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-        <div class="input-group background-filled-for-alignment">
+        <div class="input-group">
           <span class="input-group-addon">$</span>
           <input type="tel"
                 class="form-control"
@@ -72,8 +72,6 @@
       </button>
 
       <div class="custom-input" *ngIf="customAmtSelected">
-        <span class="custom-input-icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
-
         <form class="custom-input-field"
               action="/"
               [formGroup]="form"
