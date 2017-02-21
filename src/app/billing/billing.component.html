@@ -28,8 +28,8 @@
 
     </div>
 
-    <div class="row">
-      <div class="form-group">
+    <div class="form-row">
+      <div class="form-group form-col-1">
         <label class="sr-only" for="accountName">Account Name</label>
         <input type="text"
           class="form-control"
@@ -48,8 +48,8 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="form-group">
+    <div class="form-row">
+      <div class="form-group form-col-1">
         <label class="sr-only" for="routingNumber">Routing Number</label>
         <input type="tel"
           onlyTheseKeys="[0-9]"
@@ -72,8 +72,8 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="form-group">
+    <div class="form-row">
+      <div class="form-group form-col-1">
         <label class="sr-only" for="accountNumber">Account Number</label>
         <input type="tel"
           onlyTheseKeys="[0-9]"
@@ -127,8 +127,8 @@
   </div>
 
   <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="store.preSubmit($event);ccSubmit();" novalidate>
-    <div class="row">
-      <div class="form-group">
+    <div class="form-row">
+      <div class="form-group form-col-1">
         <label class="sr-only" for="ccNumber">Credit Card Number</label>
         <input tabindex="1"
                type="tel"
@@ -150,7 +150,7 @@
       </div>
     </div>
 
-    <div class="form-row inline-form">
+    <div class="form-row">
       <div class="form-group form-col-3">
         <label class="sr-only" for="expDate">Expiration Date</label>
         <input tabindex="2"
