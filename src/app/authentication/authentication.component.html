@@ -38,18 +38,17 @@
         <span [innerHtml]="failedMessage"></span>
       </div>
 
-      <div class="row form__helpers">
-        <div class="form__helpers--full">
-          <p class="pull-right text-left text-block">
-            <a class="text-block__link" [href]="forgotPasswordUrl" target="_blank">Forgot password?</a><br>
-            <a class="text-block__link" [href]="helpUrl" target="_blank">Need help?</a>
-          </p>
-        </div>
+      <div class="clearfix">
+        <p class="pull-right">
+          <a class="secondary" [href]="forgotPasswordUrl" target="_blank">Forgot password?</a><br>
+          <a class="secondary" [href]="helpUrl" target="_blank">Need help?</a>
+        </p>
       </div>
 
       <hr>
 
-      <p class="text-block">Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
+      <p>Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
+
       <footer class="page-footer">
         <a href="#" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()">Back</a>
         <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitLogin();" value="Sign In">
