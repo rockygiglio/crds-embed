@@ -1,9 +1,9 @@
-<div>
-
 <div heading="Register">
   <header class="section-header">
     <h2>Register An Account</h2>
   </header>
+
+  <hr>
 
   <form [formGroup]="regForm" action="/" (ngSubmit)="store.preSubmit($event);submitRegistration();" novalidate>
 
@@ -72,6 +72,4 @@
     </footer>
 
   </form>
-</div>
-
 </div>

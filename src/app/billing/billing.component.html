@@ -111,7 +111,9 @@
       </div>
     </div>
 
-    <footer class="page-footer page-footer--border-top">
+    <hr>
+
+    <footer class="page-footer">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
       <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);achSubmit();" value="Next">
     </footer>
@@ -213,7 +215,9 @@
     <div *ngIf="store.stripeException" class="alert alert-danger" [innerHtml]="store.content.getContent('paymentMethodDeclined')"></div>
     <div *ngIf="store.systemException" class="alert alert-danger" [innerHtml]="store.content.getContent('failedResponse')"></div>
 
-    <footer class="page-footer page-footer--border-top">
+    <hr>
+
+    <footer class="page-footer">
       <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
       <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);ccSubmit();" value="Next">
     </footer>

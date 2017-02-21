@@ -9,6 +9,8 @@
     <h2>Amount</h2>
   </div>
 
+  <hr>
+
   <!-- DONATION -->
   <div *ngIf="store.isDonation()">
     <div class="btn-group btn-group-row">
@@ -21,6 +23,8 @@
         {{ amount | currency: "USD": true:'1.0-0' }}
       </button>
     </div>
+
+    <hr>
 
     <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">

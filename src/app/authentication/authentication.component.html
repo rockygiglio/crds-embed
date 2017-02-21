@@ -11,6 +11,8 @@
       <h2>Sign In</h2>
     </header>
 
+    <hr>
+
     <form [formGroup]="form" action="/" (ngSubmit)="store.preSubmit($event);submitLogin();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="email">Email</label>
@@ -60,6 +62,8 @@
       <h2>Guest</h2>
     </header>
 
+    <hr>
+
     <form [formGroup]="formGuest" action="/" (ngSubmit)="store.preSubmit($event);submitGuest();" novalidate>
 
       <div class="form-group">
@@ -82,6 +86,7 @@
         <div class="alert alert-danger" *ngIf="!formGuest.controls.email.value" [innerHtml]="store.content.getContent('fieldCanNotBeBlank')"></div>
       </div>
 
+      <hr>
 
       <footer class="page-footer">
         <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
