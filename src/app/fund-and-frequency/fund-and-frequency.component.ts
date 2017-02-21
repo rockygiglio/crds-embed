@@ -26,7 +26,6 @@ export class FundAndFrequencyComponent implements OnInit {
 
   public fundIdParam: number;
   public isFundSelectShown: boolean = undefined;
-  public defaultFund: Fund;
   public showDatePicker: boolean = false;
 
   constructor(
@@ -37,7 +36,7 @@ export class FundAndFrequencyComponent implements OnInit {
     private state: StateService,
     private fb: FormBuilder) {
     this.fundIdParam = this.store.fundId;
-    this.defaultFund = this.store.fund = this.api.defaults.fund;
+    this.setFund();
     this.form = this.fb.group({
       fund: [this.store.fund, [<any>Validators.required]],
       frequency: [this.store.frequency, [<any>Validators.required]],
@@ -123,4 +122,9 @@ export class FundAndFrequencyComponent implements OnInit {
     }
   }
 
+  public setFund() {
+    if(this.store.fund === undefined) {
+      this.store.fund = this.api.defaults.fund;
+    }
+  }
 }
