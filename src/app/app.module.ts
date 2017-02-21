@@ -21,6 +21,7 @@ import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-freque
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
+import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
 
 import { APIService } from './services/api.service';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -29,6 +30,14 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
+import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
+import { LocationService } from './services/location.service';
+import { LoginRedirectService } from './services/login-redirect.service';
+
+import { LoggedInGuard } from './route-guards/logged-in-guard';
+
+import { StateListResolver } from './route-resolvers/state-list-resolver';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -54,6 +63,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     routing
   ],
   declarations: [
+    AddMeToMapMapComponent,
     AmountComponent,
     AppComponent,
     AuthenticationComponent,
@@ -72,15 +82,21 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     SummaryComponent,
   ],
   providers: [
+    AddMeToTheMapHelperService,
     appRoutingProviders,
     ContentService,
     CookieService,
     APIService,
     IFrameParentService,
+    LocationService,
+    LoginRedirectService,
+    LoggedInGuard,
     SessionService,
     StateService,
+    StateListResolver,
     StoreService,
     ValidationService,
+    UserDataResolver,
     {provide: WindowToken, useFactory: _window}
   ],
   bootstrap: [AppComponent]

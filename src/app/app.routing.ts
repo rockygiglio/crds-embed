@@ -8,6 +8,9 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
 import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component';
+import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
+import { LoggedInGuard } from './route-guards/logged-in-guard';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 export const appRoutes: Routes = [
   { path: '', component: AmountComponent },
@@ -18,7 +21,18 @@ export const appRoutes: Routes = [
   { path: 'summary', component: SummaryComponent },
   { path: 'confirmation', component: ConfirmationComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
+  {
+    path: 'add-me-to-the-map',
+    component: AddMeToMapMapComponent,
+    canActivate: [
+      LoggedInGuard
+    ],
+    resolve: {
+      userData: UserDataResolver,
+      stateList: UserDataResolver
+    }
+  }
 ];
 
 export const appRoutingProviders: any[] = [
