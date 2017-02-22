@@ -1,8 +1,6 @@
 <div class="contrast-background">
 
-  <header class="section-header">
-    <h2 [innerHtml]="store.content.getContent('embedConfirmationHeader')"></h2>
-  </header>
+  <header class="component-header" [innerHtml]="store.content.getContent('embedConfirmationHeader')"></header>
 
   <div class="text-block--lg text-block--thin" [innerHtml]="messageBody"></div>
   <div class="text-block--sm" [innerHtml]="footerText"></div>

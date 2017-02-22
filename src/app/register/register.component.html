@@ -1,8 +1,5 @@
 <div heading="Register">
-  <header class="section-header">
-    <h2>Register An Account</h2>
-  </header>
-
+  <header class="component-header">Register An Account</header>
   <hr>
 
   <form [formGroup]="regForm" action="/" (ngSubmit)="store.preSubmit($event);submitRegistration();" novalidate>

@@ -1,14 +1,9 @@
 <div *ngIf="store.errors.length > 0" id="error">
-  <div class="section-header">
-    <h2>Errors:</h2>
-  </div>
+  <header class="component-header">Errors:</header>
   <alert *ngFor="let error of store.errors">{{ error }}</alert>
 </div>
 <div *ngIf="store.errors.length <= 0">
-  <div class="section-header">
-    <h2>Amount</h2>
-  </div>
-
+  <header class="component-header">Amount</header>
   <hr>
 
   <!-- DONATION -->
