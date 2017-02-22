@@ -15,8 +15,7 @@ import { RecurringDonor } from '../models/recurring-donor';
 
 @Component({
   selector: 'app-billing',
-  templateUrl: './billing.component.html',
-  styleUrls: ['./billing.component.scss']
+  templateUrl: './billing.component.html'
 })
 export class BillingComponent implements OnInit {
   achForm: FormGroup;

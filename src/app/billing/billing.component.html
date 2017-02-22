@@ -94,8 +94,6 @@
       </div>
     </div>
 
-    <br>
-
     <div *ngIf="store.stripeException" class="alert alert-danger" [innerHtml]="store.content.getContent('paymentMethodDeclined')"></div>
     <div *ngIf="store.systemException" class="alert alert-danger" [innerHtml]="store.content.getContent('failedResponse')"></div>
 
