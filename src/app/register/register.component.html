@@ -63,9 +63,9 @@
 
      <hr>
 
-    <footer class="page-footer page-footer--pt-0">
-      <a class="pull-left text-block__inline-link" (click)="back()"[innerHtml]="store.content.getContent('embedRegisterSignIn')"></a>
-      <input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);submitRegistration();"  value="Register">
+    <footer class="page-footer">
+      <a class="pull-left" (click)="back()"[innerHtml]="store.content.getContent('embedRegisterSignIn')"></a>
+      <input type="submit" class="btn btn-primary pull-right" (click)="store.preSubmit($event);submitRegistration();"  value="Register">
     </footer>
 
   </form>

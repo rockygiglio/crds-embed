@@ -46,18 +46,18 @@
 </div>
 
 <footer class="page-footer">
-  <input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
+  <input type="button" class="btn btn-gray pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
   <input type="button"
          *ngIf="store.isDonation()"
          [disabled]="isSubmitInProgress"
-         class="btn btn-next pull-right"
+         class="btn btn-primary pull-right"
          (click)="submitDonation()"
          value="Give {{ store.amount | currency:'USD':true }}">
 
   <input type="button"
          *ngIf="store.isPayment()"
          [disabled]="isSubmitInProgress"
-         class="btn btn-next pull-right"
+         class="btn btn-primary pull-right"
          (click)="submitPayment()"
          value="Pay {{ store.amount | currency:'USD':true }}">
 </footer>
