@@ -100,10 +100,9 @@
     <div *ngIf="store.systemException" class="alert alert-danger" [innerHtml]="store.content.getContent('failedResponse')"></div>
 
     <div class="sample-check">
-      <small>
-        <a (click)="hideCheck = false;" *ngIf="hideCheck" [innerHtml]="store.content.getContent('embedBillingShowExampleCheck')"></a>
-        <a (click)="hideCheck = true;" *ngIf="!hideCheck" [innerHtml]="store.content.getContent('embedBillingHideExampleCheck')"></a>
-      </small>
+      <a class="font-size-smaller" (click)="hideCheck = false;" *ngIf="hideCheck" [innerHtml]="store.content.getContent('embedBillingShowExampleCheck')"></a>
+      <a class="font-size-smaller" (click)="hideCheck = true;" *ngIf="!hideCheck" [innerHtml]="store.content.getContent('embedBillingHideExampleCheck')"></a>
+
       <div [collapse]="hideCheck">
         <img src="/assets/check.svg" alt="" class="img-responsive">
       </div>

@@ -59,12 +59,12 @@
       </div>
     </div>
 
-     <p class="text-block"><small class="text-muted" [innerHtml]="policyMessage"></small></p>
+     <p class="text-muted font-size-smaller" [innerHtml]="policyMessage"></p>
 
      <hr>
 
     <footer class="page-footer">
-      <a class="pull-left" (click)="back()"[innerHtml]="store.content.getContent('embedRegisterSignIn')"></a>
+      <a class="pull-left font-size-small" (click)="back()"[innerHtml]="store.content.getContent('embedRegisterSignIn')"></a>
       <input type="submit" class="btn btn-primary pull-right" (click)="store.preSubmit($event);submitRegistration();"  value="Register">
     </footer>
 

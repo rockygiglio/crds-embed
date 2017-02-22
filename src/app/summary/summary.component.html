@@ -19,8 +19,8 @@
         <td class="table-label text-uppercase font-size-small" *ngIf="store.isPayment()">From:</td>
         <td class="text-right">
           {{ store.email }}<br>
-          <small *ngIf="store.isDonation() && !store.isGuest"><a routerLink="/authentication" (click)="changeUser()">log out</a></small>
-          <small *ngIf="store.isDonation() && store.isGuest"><a routerLink="/authentication">change</a></small>
+          <a class="font-size-smaller" *ngIf="store.isDonation() && !store.isGuest" routerLink="/authentication" (click)="changeUser()">log out</a>
+          <a class="font-size-smaller" *ngIf="store.isDonation() && store.isGuest" routerLink="/authentication">change</a>
         </td>
       </tr>
       <tr *ngIf="!store.isPayment()">
@@ -35,7 +35,7 @@
         <td class="table-label text-uppercase font-size-small" *ngIf="store.isPayment()">Payment:</td>
         <td class="text-right">
           Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
-          <small><a routerLink="/billing" (click)="changePayment()">change</a></small>
+          <a class="font-size-smaller" routerLink="/billing" (click)="changePayment()">change</a>
         </td>
       </tr>
     </tbody>
