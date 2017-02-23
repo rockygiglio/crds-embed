@@ -1,32 +1,38 @@
 <header class="component-header">Payment Type:</header>
 
-<div class="btn-group form-nav">
+<div class="btn-group btn-group-toggle btn-group-teal">
   <label class="btn btn-option" [(ngModel)]="store.paymentMethod" btnRadio="Bank Account">Bank Account</label>
   <label class="btn btn-option" [(ngModel)]="store.paymentMethod" btnRadio="Credit Card">Credit Card</label>
 </div>
 
 <div *ngIf="store.paymentMethod == 'Bank Account'" heading="Bank Account">
-  <h3 class="radio-form__header">Account Type:</h3>
+  <h3 class="form-header">Account Type:</h3>
 
   <form [formGroup]="achForm" action="/" [class.submitted]="achSubmitted" (ngSubmit)="store.preSubmit($event);achSubmit();" novalidate>
-    <div class="radio-group">
-      <ul>
-        <li>
-          <input type="radio" formControlName="accountType" [(ngModel)]="store.accountType" value="individual" id="individual" checked>
-          <label for="individual">Personal</label>
-          <div class="check"></div>
-        </li>
-
-        <li>
-          <input type="radio" formControlName="accountType" [(ngModel)]="store.accountType" value="company" id="company">
-          <label for="company">Business</label>
-          <div class="check"></div>
-        </li>
-      </ul>
-
+    <div class="radio radio-inline">
+      <label class="font-size-small">
+        <input type="radio"
+                formControlName="accountType"
+                [(ngModel)]="store.accountType"
+                value="individual"
+                id="individual"
+                checked>
+        Personal
+      </label>
+    </div>
+    <div class="radio radio-inline">
+      <label class="font-size-small">
+        <input type="radio"
+                formControlName="accountType"
+                [(ngModel)]="store.accountType"
+                value="company"
+                id="company"
+                checked>
+        Business
+      </label>
     </div>
 
-    <div class="form-row">
+    <div class="form-row push-top">
       <div class="form-group form-col-1">
         <label class="sr-only" for="accountName">Account Name</label>
         <input type="text"
