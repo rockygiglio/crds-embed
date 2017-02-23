@@ -43,12 +43,10 @@
           [(ngModel)]="store.accountName"
           pattern=".*"
           autocomplete="off">
-      </div>
-    </div>
 
-    <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['accountName'].valid">
-      <div class="alert alert-danger">
-        <p>Account name <span [innerHTML]="switchMessage(achForm.controls['accountName'].errors)"></span></p>
+        <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['accountName'].valid">
+          <p class="error help-block">Account name <span [innerHTML]="switchMessage(achForm.controls['accountName'].errors)"></span></p>
+        </div>
       </div>
     </div>
 
@@ -67,12 +65,10 @@
           numbersOnly
           pattern="[0-9]*"
           autocomplete="off">
-      </div>
-    </div>
 
-    <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['routingNumber'].valid">
-      <div class="alert alert-danger">
-        <p>Routing number <span [innerHTML]="switchMessage(achForm.controls['routingNumber'].errors)"></span></p>
+        <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['routingNumber'].valid">
+          <p class="error help-block">Routing number <span [innerHTML]="switchMessage(achForm.controls['routingNumber'].errors)"></span></p>
+        </div>
       </div>
     </div>
 
@@ -91,12 +87,10 @@
           numbersOnly
           pattern="\s*[0-9]*\s*"
           autocomplete="off">
-      </div>
-    </div>
 
-    <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['accountNumber'].valid">
-      <div class="alert alert-danger">
-        <p>Account number <span [innerHTML]="switchMessage(achForm.controls['accountNumber'].errors)"></span></p>
+        <div class="errors" *ngIf="(achSubmitted) && !achForm.controls['accountNumber'].valid">
+          <p class="error help-block">Account number <span [innerHTML]="switchMessage(achForm.controls['accountNumber'].errors)"></span></p>
+        </div>
       </div>
     </div>
 
@@ -142,12 +136,10 @@
                formatPaymentNumber
                onlyTheseKeys="[0-9]"
                autocomplete="cc-number">
-      </div>
-    </div>
 
-    <div *ngIf="ccSubmitted && !ccForm.controls['ccNumber'].valid" class="errors">
-      <div class="alert alert-danger">
-        <p>Card number <span [innerHTML]="switchMessage(ccForm.controls['ccNumber'].errors)"></span></p>
+        <div *ngIf="ccSubmitted && !ccForm.controls['ccNumber'].valid" class="errors">
+          <p class="error help-block">Card number <span [innerHTML]="switchMessage(ccForm.controls['ccNumber'].errors)"></span></p>
+        </div>
       </div>
     </div>
 
@@ -164,6 +156,10 @@
           [(ngModel)]="store.expDate"
           ccExp
           autocomplete="cc-exp">
+
+        <div class="errors" *ngIf="ccSubmitted && !ccForm.controls['expDate'].valid">
+          <p class="error help-block">Expiration Date <span [innerHTML]="switchMessage(ccForm.controls['expDate'].errors)"></span></p>
+        </div>
       </div>
 
       <div class="form-group form-col-3">
@@ -179,6 +175,10 @@
           [(ngModel)]="store.cvv"
           ccCVV
           autocomplete="off">
+
+        <div class="errors" *ngIf="ccSubmitted && !ccForm.controls['cvv'].valid">
+          <p class="error help-block">CVV <span [innerHTML]="switchMessage(ccForm.controls['cvv'].errors)"></span></p>
+        </div>
       </div>
 
       <div class="form-group form-col-3">
@@ -194,22 +194,10 @@
           [(ngModel)]="store.zipCode"
           pattern="^(\d{5}|\d{5}-\d{4})$"
           autocomplete="zip-code">
-      </div>
-    </div>
 
-    <div class="errors" *ngIf="ccSubmitted && (!ccForm.controls['expDate'].valid || !ccForm.controls['cvv'].valid || !ccForm.controls['zipCode'].valid)">
-      <div class="alert alert-danger">
-        <ul>
-          <li *ngIf="!ccForm.controls['expDate'].valid">
-            Expiration Date <span [innerHTML]="switchMessage(ccForm.controls['expDate'].errors)"></span>
-          </li>
-          <li *ngIf="!ccForm.controls['cvv'].valid">
-            CVV <span [innerHTML]="switchMessage(ccForm.controls['cvv'].errors)"></span>
-          </li>
-          <li *ngIf="!ccForm.controls['zipCode'].valid">
-            Zip code <span [innerHTML]="switchMessage(ccForm.controls['zipCode'].errors)"></span>
-          </li>
-        </ul>
+        <div class="errors" *ngIf="ccSubmitted && !ccForm.controls['zipCode'].valid">
+          <p class="error help-block">Zip code <span [innerHTML]="switchMessage(ccForm.controls['zipCode'].errors)"></span></p>
+        </div>
       </div>
     </div>
 

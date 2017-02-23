@@ -13,21 +13,20 @@
       <div class="form-group">
         <label class="sr-only" for="email">Email</label>
         <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
+
+        <div *ngIf="(formSubmitted) && formInvalid('email')">
+          <p class="error help-block" *ngIf="this.form.controls['email'].errors.required">Email is required</p>
+          <p class="error help-block" *ngIf="this.form.controls['email'].errors.pattern">Email is invalid</p>
+        </div>
       </div>
 
-      <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('email')">
-        <p *ngIf="this.form.controls['email'].errors.required">Email is required</p>
-        <p *ngIf="this.form.controls['email'].errors.pattern">Email is invalid</p>
-      </div>
 
       <div class="form-group">
         <label class="sr-only" for="password">Password</label>
         <input type="password" class="form-control" placeholder="Password" name="password"
                [formControl]="form.get('password')">
-      </div>
 
-      <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('password')">
-        <p>Password is required</p>
+        <p class="error help-block" *ngIf="(formSubmitted) && formInvalid('password')">Password is required</p>
       </div>
 
       <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
@@ -69,14 +68,15 @@
             (keyup)="resetGuestEmailFormSubmission($event)"
             [(ngModel)]="email"
             [formControl]="formGuest.get('email')" />
+
+        <div *ngIf="!formGuest.valid && formGuestSubmitted">
+          <p class="error help-block" *ngIf="formGuest.controls.email.value" [innerHtml]="store.content.getContent('invalidEmail')"></p>
+          <p class="error help-block" *ngIf="!formGuest.controls.email.value" [innerHtml]="store.content.getContent('fieldCanNotBeBlank')"></p>
+        </div>
       </div>
 
       <div *ngIf="showMessage">
         <div class="alert alert-info" [innerHtml]="store.content.getContent('embedAuthenticationGuestExists')" (click)="switchToSignIn()"></div>
-      </div>
-      <div *ngIf="!formGuest.valid && formGuestSubmitted">
-        <div class="alert alert-danger" *ngIf="formGuest.controls.email.value" [innerHtml]="store.content.getContent('invalidEmail')"></div>
-        <div class="alert alert-danger" *ngIf="!formGuest.controls.email.value" [innerHtml]="store.content.getContent('fieldCanNotBeBlank')"></div>
       </div>
 
       <hr>

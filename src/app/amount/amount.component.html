@@ -39,11 +39,12 @@
                 isPredefinedToggle
                 [inputType]="'customAmount'">
         </div>
+
+        <div class="errors" *ngIf="( !store.validAmount() && submitted )">
+          <div class="error help-block" [innerHTML]="errorMessage"></div>
+        </div>
       </div>
 
-      <div class="errors" *ngIf="( !store.validAmount() && submitted )">
-        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-      </div>
     </form>
   </div>
 
@@ -91,13 +92,14 @@
                     [(ngModel)]="customAmount"
                     (ngModelChange)="onCustomAmount($event)">
             </div>
+
+            <div class="errors" *ngIf="( !this.form.valid && submitted )">
+              <div class="error help-block" [innerHTML]="errorMessage"></div>
+            </div>
           </div>
         </form>
       </div>
 
-      <div class="errors" *ngIf="( !this.form.valid && submitted )">
-        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-      </div>
     </div>
   </div>
 
