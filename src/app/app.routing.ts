@@ -11,7 +11,6 @@ import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequen
 import { AddMeToMapComponent } from './add-me-to-map/add-me-to-map.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
-import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
 
 
@@ -33,7 +32,6 @@ export const appRoutes: Routes = [
     ],
     resolve: {
       userData: UserDataResolver,
-      stateList: StateListResolver
     }
   },
   { path: 'now-a-pin', component: NowAPinComponent },
