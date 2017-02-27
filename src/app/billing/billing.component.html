@@ -6,7 +6,7 @@
 </div>
 
 <div *ngIf="store.paymentMethod == 'Bank Account'" heading="Bank Account">
-  <h3 class="form-header">Account Type:</h3>
+  <h3 class="form-header flush-top">Account Type:</h3>
 
   <form [formGroup]="achForm" action="/" [class.submitted]="achSubmitted" (ngSubmit)="store.preSubmit($event);achSubmit();" novalidate>
     <div class="radio radio-inline">

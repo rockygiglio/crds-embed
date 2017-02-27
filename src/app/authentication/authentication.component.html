@@ -7,7 +7,7 @@
   <div *ngIf="signinOption == 'Sign In'" heading="Sign In">
     <header class="component-header">Sign In</header>
 
-    <hr>
+    <hr class="flush-top">
 
     <form [formGroup]="form" action="/" (ngSubmit)="store.preSubmit($event);submitLogin();" novalidate>
       <div class="form-group">
@@ -54,7 +54,7 @@
   <div *ngIf="signinOption == 'Guest' && store.isOneTimeGift() && store.isDonation()" heading="Give as a Guest">
     <header class="component-header">Guest</header>
 
-    <hr>
+    <hr class="flush-top">
 
     <form [formGroup]="formGuest" action="/" (ngSubmit)="store.preSubmit($event);submitGuest();" novalidate>
 
