@@ -270,15 +270,15 @@ export class APIService {
         .catch( (err) => Observable.throw(err.json().error) );
   }
 
-   postPin(pin: Pin) {
+  postPin(pin: Pin) {
 
-    let postPinUrl = this.baseUrl + 'api/finder/pin';
+    let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
 
     return this.session.post(postPinUrl, pin)
         .map((res: any) => {
           return res;
         })
         .catch( (err) => Observable.throw(err.json().error) );
-  } 
+  }
 
 }

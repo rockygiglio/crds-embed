@@ -19,7 +19,7 @@ import { Address } from '../models/address';
   templateUrl: 'add-me-to-map.component.html',
   styleUrls: ['add-me-to-map.component.css']
 })
-export class AddMeToMapMapComponent implements OnInit {
+export class AddMeToMapComponent implements OnInit {
 
   public userData: UserDataForPinCreation;
   public stateList: Array<LookupTable>;
@@ -43,8 +43,8 @@ export class AddMeToMapMapComponent implements OnInit {
     this.stateList = this.route.snapshot.data['stateList'];
 
     this.stateListForSelect = this.stateList.map(state => {
-      let formmatedState = {label: state.dp_RecordName, value: state.dp_RecordName};
-      return formmatedState;
+      let formmattedState = {label: state.dp_RecordName, value: state.dp_RecordName};
+      return formmattedState;
     });
 
     this.addMeToMapFormGroup = new FormGroup({
@@ -63,6 +63,7 @@ export class AddMeToMapMapComponent implements OnInit {
 
     let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData );
     pinToSubmit.address.state = this.hlpr.setStateToStringIfNum(pinToSubmit.address.state, this.stateList);
+    debugger;
 
     this.api.postPin(pinToSubmit).subscribe(
       next => {

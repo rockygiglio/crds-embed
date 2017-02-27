@@ -6,8 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
-
 import { AppComponent } from './app.component';
+import { SelectModule } from 'angular2-select';
 import { routing, appRoutingProviders } from './app.routing';
 
 import { DemoModule } from './demo/demo.module';
@@ -21,7 +21,7 @@ import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-freque
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
-import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
+import { AddMeToMapComponent } from './add-me-to-map/add-me-to-map.component';
 
 import { APIService } from './services/api.service';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -46,6 +46,8 @@ import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { IsPredefinedToggleDirective } from './directives/is-predefined-toggle.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
+import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
+
 
 @NgModule({
   imports: [
@@ -60,10 +62,11 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
-    routing
+    routing,
+    SelectModule
   ],
   declarations: [
-    AddMeToMapMapComponent,
+    AddMeToMapComponent,
     AmountComponent,
     AppComponent,
     AuthenticationComponent,
@@ -80,6 +83,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     RegisterComponent,
     FormatPaymentNumberDirective,
     SummaryComponent,
+    NowAPinComponent
   ],
   providers: [
     AddMeToTheMapHelperService,

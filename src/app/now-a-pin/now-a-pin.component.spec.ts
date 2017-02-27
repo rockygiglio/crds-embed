@@ -3,26 +3,20 @@
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService } from 'angular2-cookie/core';
 
 import { SelectModule } from 'angular2-select';
 
-import { APIService } from '../services/api.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ContentService } from '../services/content.service';
-import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service';
-import { LocationService } from '../services/location.service';
-import { AddMeToMapComponent } from './add-me-to-map.component';
-import { SessionService } from '../services/session.service';
-import { StateService } from '../services/state.service';
+import { NowAPinComponent } from './now-a-pin.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe('Component: Add Me to the Map', () => {
+describe('Component: Now A Pin', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddMeToMapComponent
+        NowAPinComponent
       ],
       imports: [
         AgmCoreModule.forRoot({
@@ -34,16 +28,10 @@ describe('Component: Add Me to the Map', () => {
         SelectModule
       ],
       providers: [
-        APIService,
-        AddMeToTheMapHelperService,
-        CookieService,
-        LocationService,
-        ContentService,
-        SessionService,
-        StateService
+        ContentService
       ]
     });
-    this.fixture = TestBed.createComponent(AddMeToMapComponent);
+    this.fixture = TestBed.createComponent(NowAPinComponent);
     this.component = this.fixture.componentInstance;
 
   });

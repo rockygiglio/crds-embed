@@ -8,6 +8,7 @@ import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
 import { DynamicReplace } from '../models/dynamic-replace';
+import { LoginRedirectService } from '../services/login-redirect.service';
 
 @Component({
   selector: 'app-authentication',
@@ -38,7 +39,8 @@ export class AuthenticationComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
-    private validation: ValidationService
+    private validation: ValidationService,
+    private redirect: LoginRedirectService
   ) { }
 
   public ngOnInit(): void {
@@ -112,6 +114,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public submitLogin(): boolean {
+    debugger;
     this.formSubmitted = true;
     this.store.isGuest = false;
     this.state.setLoading(true);
@@ -123,7 +126,13 @@ export class AuthenticationComponent implements OnInit {
           this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
           this.state.hidePage(this.state.authenticationIndex);
-          this.adv();
+          // HACK ALERT! This is specific to copying the add me to the map functionality
+          if (this.redirect.originalTargetIsSet()){
+            this.redirect.redirectToTarget('host-signup');
+          }
+          else {
+            this.adv();
+          }
         },
         (error) => {
           this.loginException = true;
