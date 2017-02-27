@@ -128,7 +128,7 @@ export class AuthenticationComponent implements OnInit {
           this.state.hidePage(this.state.authenticationIndex);
           // HACK ALERT! This is specific to copying the add me to the map functionality
           if (this.redirect.originalTargetIsSet()){
-            this.redirect.redirectToTarget('host-signup');
+            this.redirect.redirectToTarget(this.redirect.getOriginalTarget());
           }
           else {
             this.adv();

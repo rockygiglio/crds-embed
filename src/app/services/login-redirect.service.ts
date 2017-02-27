@@ -15,7 +15,12 @@ export class LoginRedirectService {
 
   // HACK ALERT! Function added to expose private member to Authentication component
   public originalTargetIsSet() {
-    return this.originalTarget !== null;
+    debugger;
+    return (this.originalTarget !== null && this.originalTarget !== undefined);
+  }
+
+  public getOriginalTarget() {
+    return this.originalTarget;
   }
 
   // HACK ALERT! Added '?type=donation' to query string
