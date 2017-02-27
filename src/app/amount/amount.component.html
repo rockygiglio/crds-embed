@@ -21,7 +21,7 @@
 
     <hr>
 
-    <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
+    <form class="custom-input-field" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group">
