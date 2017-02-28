@@ -34,7 +34,7 @@
   <h3 class="btn-group-header">Starts On:</h3>
   <form class="form-group">
     <label for="recurring_date" class="sr-only">Set recurring date</label>
-    <div class="input-group" (click)="toggleDatePicker(true)">
+    <div class="input-group input-group-right" (click)="toggleDatePicker(true)">
       <input *ngIf="store.startDate"
         id="recurring_date"
         class="form-control"
@@ -43,9 +43,9 @@
         value="{{ store.startDate.getTime() | date: 'MM/d/yyyy' }}"
         required="required"
         readonly>
-      <div class="input-group-addon">
-        <i class="icon icon-1 svg-calendar"></i>
-      </div>
+      <span class="input-group-addon">
+        <i class="icon svg-calendar"></i>
+      </span>
     </div>
   </form>
 
