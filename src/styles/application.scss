@@ -1,6 +1,24 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
-@import 'base/module';
-@import 'components/module';
-@import 'layout/module';
-@import 'themes/module';
+.container {
+  margin: 1em auto;
+  width: auto;
+}
+
+.wf-loading {
+  visibility: hidden;
+}
+
+app-preloader {
+  display: none;
+  .loading & {
+    display: block;
+  }
+}
+
+.outlet-wrapper {
+  display: block;
+  .loading & {
+    display: none;
+  }
+}

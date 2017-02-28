@@ -1,7 +1,0 @@
-.btn-previous {
-  @include button-variant($cr-white, $accent-color, $accent-color);
-}
-
-.btn-next {
-  @include button-variant($cr-white, $primary-color, $primary-color);
-}
