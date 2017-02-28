@@ -15,7 +15,6 @@ export class LoginRedirectService {
 
   // HACK ALERT! Function added to expose private member to Authentication component
   public originalTargetIsSet() {
-    debugger;
     return (this.originalTarget !== null && this.originalTarget !== undefined);
   }
 

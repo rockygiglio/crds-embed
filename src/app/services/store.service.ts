@@ -317,7 +317,6 @@ export class StoreService {
     }
 
     this.type = this.queryParams[this.validation.params.type];
-    debugger;
 
     if (this.type === this.validation.types.payment || this.type === this.validation.types.donation) {
       this.invoiceId = this.parseParamOrSetError(this.validation.params.invoice_id, this.queryParams);

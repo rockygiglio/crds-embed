@@ -11,8 +11,7 @@ export class SessionService {
 
   private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
 
-
-  constructor(public http: Http, public cookieService: CookieService) {
+  constructor(private http: Http, public cookieService: CookieService) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
       this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
     }
@@ -91,7 +90,7 @@ export class SessionService {
     return reqOptions;
   }
 
-    public getContactId(): number {
+  public getContactId(): number {
     return +this.cookieService.get(this.contactId);
   }
 

@@ -9,6 +9,8 @@ import { ValidationService } from '../services/validation.service';
 
 import { DynamicReplace } from '../models/dynamic-replace';
 import { LoginRedirectService } from '../services/login-redirect.service';
+import { SessionService } from '../services/session.service';
+
 
 @Component({
   selector: 'app-authentication',
@@ -40,7 +42,8 @@ export class AuthenticationComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
-    private redirect: LoginRedirectService
+    private redirect: LoginRedirectService,
+    private session: SessionService
   ) { }
 
   public ngOnInit(): void {
@@ -114,7 +117,6 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public submitLogin(): boolean {
-    debugger;
     this.formSubmitted = true;
     this.store.isGuest = false;
     this.state.setLoading(true);
@@ -123,6 +125,7 @@ export class AuthenticationComponent implements OnInit {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
+          this.session.setContactId(user.userId);
           this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
           this.state.hidePage(this.state.authenticationIndex);
