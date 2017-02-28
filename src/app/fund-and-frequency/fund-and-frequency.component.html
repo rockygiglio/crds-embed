@@ -1,24 +1,24 @@
-<header class="page-header page-header--border-btm">
-  <h2>Details:</h2>
-</header>
+<header class="component-header">Details:</header>
+<hr class="flush-top">
 
 <form [formGroup]="form">
-
-  <div class="btn-group--underline" *ngIf="isFundSelectShown">
-    <h3 class="btn-form__header">Give To:</h3>
+  <div *ngIf="isFundSelectShown">
+    <h3 class="btn-group-header">Give To:</h3>
     <div class="btn-group">
       <button *ngFor="let fund of funds"
-              class="btn btn-option btn-option--mb-8"
+              class="btn btn-option btn-outline"
               (click)="onClickFund(fund)"
               [ngClass]="{ active: (store.fund.ID === fund.ID) }">{{fund.Name}}</button>
     </div>
   </div>
 
-  <div class="btn-group--underline">
-    <h3 class="btn-form__header">Frequency:</h3>
+  <hr>
+
+  <div>
+    <h3 class="btn-group-header">Frequency:</h3>
     <div class="btn-group">
       <button *ngFor="let frequency of store.frequencies"
-              class="btn btn-option btn-option--mb-8"
+              class="btn btn-option btn-outline"
               (click)="onClickFrequency(frequency)"
               [ngClass]="{ active: (store.frequency.value == frequency.value),
                           disabled: (!store.fund.AllowRecurringGiving && frequency.recurring === true) }">
@@ -26,13 +26,15 @@
       </button>
     </div>
   </div>
+
+  <hr>
 </form>
 
-<div *ngIf="store.isRecurringGift()" class="btn-group--underline">
-  <h3 class="btn-form__header">Starts On:</h3>
+<div *ngIf="store.isRecurringGift()">
+  <h3 class="btn-group-header">Starts On:</h3>
   <form class="form-group">
     <label for="recurring_date" class="sr-only">Set recurring date</label>
-    <div class="input-group" (click)="toggleDatePicker(true)">
+    <div class="input-group input-group-right" (click)="toggleDatePicker(true)">
       <input *ngIf="store.startDate"
         id="recurring_date"
         class="form-control"
@@ -41,9 +43,9 @@
         value="{{ store.startDate.getTime() | date: 'MM/d/yyyy' }}"
         required="required"
         readonly>
-      <div class="input-group-addon">
-        <i class="fa fa-calendar" aria-hidden="true"></i>
-      </div>
+      <span class="input-group-addon">
+        <i class="icon svg-calendar"></i>
+      </span>
     </div>
   </form>
 
@@ -55,12 +57,14 @@
     [maxDate]="maxDate"
     [showWeeks]="false">
   </datepicker>
+
+  <hr>
 </div>
 
 <footer class="page-footer">
-  <input type="button" class="btn btn-previous pull-left" (click)="back()" value="Back">
+  <input class="btn btn-gray pull-left" type="button" (click)="back()" value="Back">
   <input type="button"
-    class="btn btn-next pull-right"
+    class="btn btn-primary pull-right"
     (click)="submitFrequency()"
     [disabled]="!form.valid || store.isRecurringGiftWithNoStartDate()"
     value="Next">
