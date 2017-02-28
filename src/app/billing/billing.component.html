@@ -10,26 +10,28 @@
 
   <form [formGroup]="achForm" action="/" [class.submitted]="achSubmitted" (ngSubmit)="store.preSubmit($event);achSubmit();" novalidate>
     <div class="radio radio-inline">
+      <input type="radio"
+             formControlName="accountType"
+             [(ngModel)]="store.accountType"
+             value="individual"
+             id="individual"
+             checked>
       <label class="font-size-small">
-        <input type="radio"
-                formControlName="accountType"
-                [(ngModel)]="store.accountType"
-                value="individual"
-                id="individual"
-                checked>
         Personal
       </label>
+      <div class="check" tabindex="0"></div>
     </div>
     <div class="radio radio-inline">
+      <input type="radio"
+              formControlName="accountType"
+              [(ngModel)]="store.accountType"
+              value="company"
+              id="company"
+              checked>
       <label class="font-size-small">
-        <input type="radio"
-                formControlName="accountType"
-                [(ngModel)]="store.accountType"
-                value="company"
-                id="company"
-                checked>
         Business
       </label>
+      <div class="check" tabindex="0"></div>
     </div>
 
     <div class="form-row push-top">
