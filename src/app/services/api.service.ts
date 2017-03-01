@@ -13,6 +13,10 @@ import { Frequency } from '../models/frequency';
 import { Payment } from '../models/payment';
 import { RecurringDonor } from '../models/recurring-donor';
 import { User } from '../models/user';
+import { Pin } from '../models/pin'
+import { Address } from '../models/address';
+import { LookupTable } from '../models/lookup-table';
+import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -141,7 +145,7 @@ export class APIService {
       })
       .catch(this.handleError);
   }
-
+ 
   public getPreviousGiftAmount(): Observable<string> {
     let options = new RequestOptions({
       body: { limit: 1, includeRecurring: false }
@@ -173,7 +177,7 @@ export class APIService {
   }
 
   public getRegisteredUser(email: string): Observable<boolean> {
-    return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
+    return this.http.get(this.baseUrl + 'api/v1.0.0/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
       .catch(res => { return [true]; });
   };
@@ -183,7 +187,7 @@ export class APIService {
       'username': email,
       'password': password
     };
-    return this.session.post(this.baseUrl + 'api/login', body)
+    return this.session.post(this.baseUrl + 'api/v1.0.0/login', body)
       .map((res: Response) => {
         return res || this.defaults.authorized;
       })
@@ -242,6 +246,38 @@ export class APIService {
   public logOut(): void {
     this.session.clearTokens();
     return;
+  }
+
+  public getStateList(): Observable<any> {
+    return this.session.get(this.baseUrl + 'api/v1.0.0/lookup/states')
+        .map((res: Array<LookupTable>) => {
+          return res;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
+  }
+
+  public getUserData(): Observable<any> {
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${this.session.getContactId()}/false`)
+        .map((res: Pin) => {
+          let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
+            res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
+          let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
+              res.firstname, res.lastname, res.emailAddress, userAddress);
+
+          return userData;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
+  }
+
+  postPin(pin: Pin) {
+
+    let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
+
+    return this.session.post(postPinUrl, pin)
+        .map((res: any) => {
+          return res;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
   }
 
 }
