@@ -103,13 +103,16 @@
                     (ngModelChange)="onCustomAmount($event)">
             </div>
 
-            <div class="errors" *ngIf="( !this.form.valid && submitted )">
+            <div class="errors" *ngIf="( !this.form.valid && submitted && customAmtSelected )">
               <div class="error help-block" [innerHTML]="errorMessage"></div>
             </div>
           </div>
         </form>
       </div>
 
+      <div class="errors" *ngIf="( !this.form.valid && submitted && !customAmtSelected )">
+        <div class="error help-block" [innerHTML]="errorMessage"></div>
+      </div>
     </div>
   </div>
 
