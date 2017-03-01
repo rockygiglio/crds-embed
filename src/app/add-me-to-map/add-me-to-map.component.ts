@@ -3,6 +3,7 @@ import { ContentService } from '../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { StoreService } from '../services/store.service';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service';
@@ -27,20 +28,22 @@ export class AddMeToMapComponent implements OnInit {
   public stateList: Array<string>;
   public submissionError = false;
 
-  constructor(private api: APIService,
-              private fb: FormBuilder,
-              private hlpr: AddMeToTheMapHelperService,
-              private content: ContentService,
-              private locationService: LocationService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private state: StateService) { }
+  constructor(public api: APIService,
+              public fb: FormBuilder,
+              public hlpr: AddMeToTheMapHelperService,
+              public content: ContentService,
+              public locationService: LocationService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public state: StateService,
+              public store: StoreService) { }
 
 
   public ngOnInit(): void {
     this.state.setLoading(false);
     this.userData = this.route.snapshot.data['userData'];
     this.stateList = usStatesList;
+    
 
 
     this.addMeToMapFormGroup = new FormGroup({
