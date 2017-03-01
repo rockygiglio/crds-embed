@@ -51,7 +51,7 @@
   <input type="button" class="btn btn-gray pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
   <input type="button"
          *ngIf="store.isDonation()"
-         id="giveButton"
+         id="submitButton"
          [disabled]="isSubmitInProgress"
          class="btn btn-primary pull-right"
          (click)="submitDonation()"
@@ -59,6 +59,7 @@
 
   <input type="button"
          *ngIf="store.isPayment()"
+         id="submitButton"
          [disabled]="isSubmitInProgress"
          class="btn btn-primary pull-right"
          (click)="submitPayment()"
