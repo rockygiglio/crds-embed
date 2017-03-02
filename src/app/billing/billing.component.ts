@@ -115,6 +115,10 @@ export class BillingComponent implements OnInit {
           this.api.restVerbs.post
         )
       );
+    } else {
+      this.achForm.controls['accountName'].markAsTouched();
+      this.achForm.controls['routingNumber'].markAsTouched();
+      this.achForm.controls['accountNumber'].markAsTouched();
     }
   }
 
@@ -149,6 +153,11 @@ export class BillingComponent implements OnInit {
           this.api.restVerbs.post
         )
       );
+    } else {
+      this.ccForm.controls['ccNumber'].markAsTouched();
+      this.ccForm.controls['expDate'].markAsTouched();
+      this.ccForm.controls['cvv'].markAsTouched();
+      this.ccForm.controls['zipCode'].markAsTouched();
     }
   }
 

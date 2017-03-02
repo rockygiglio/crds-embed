@@ -113,6 +113,8 @@ export class AuthenticationComponent implements OnInit {
           }
         }
       );
+    } else {
+      this.formGuest.controls['email'].markAsTouched();
     }
   }
 
