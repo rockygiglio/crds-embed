@@ -10,7 +10,7 @@
   <div *ngIf="store.isDonation()">
     <div class="btn-group btn-group-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-flex btn-outline"
+              class="btn btn-option btn-flex btn-link"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && store.amount == amount) }"
               isPredefinedToggle
