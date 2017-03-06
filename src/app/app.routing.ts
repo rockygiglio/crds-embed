@@ -8,6 +8,11 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
 import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component';
+import { AddMeToMapComponent } from './add-me-to-map/add-me-to-map.component';
+import { LoggedInGuard } from './route-guards/logged-in-guard';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
+import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
+
 
 export const appRoutes: Routes = [
   { path: '', component: AmountComponent },
@@ -15,9 +20,21 @@ export const appRoutes: Routes = [
   { path: 'fund', component: FundAndFrequencyComponent },
   { path: 'authentication', component: AuthenticationComponent },
   { path: 'billing', component: BillingComponent },
+  { path: 'signin', component: AuthenticationComponent },
   { path: 'summary', component: SummaryComponent },
   { path: 'confirmation', component: ConfirmationComponent },
   { path: 'register', component: RegisterComponent },
+  {
+    path: 'add-me-to-the-map',
+     component: AddMeToMapComponent,
+    canActivate: [
+      LoggedInGuard
+    ],
+    resolve: {
+      userData: UserDataResolver,
+    }
+  },
+  { path: 'now-a-pin', component: NowAPinComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
