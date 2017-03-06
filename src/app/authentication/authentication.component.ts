@@ -30,10 +30,13 @@ export class AuthenticationComponent implements OnInit {
   public showMessage: boolean = false;
   public signinOption: string = 'Sign In';
   public userPmtInfo: any;
+  //this is for add-me-to-the-map
+  public redirectToAddToMap: boolean = false;
 
   private forgotPasswordUrl: string;
   private helpUrl: string;
   private failedMessage: string = '';
+  
 
   constructor(
     private api: APIService,
@@ -48,6 +51,7 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
 
+    this.redirectToAddToMap = this.redirect.originalTargetIsSet();
     this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
     this.failedMessage = this.store.dynamicDatas(this.failedMessage,
       [
@@ -132,7 +136,7 @@ export class AuthenticationComponent implements OnInit {
           this.store.loadUserData();
           this.state.hidePage(this.state.authenticationIndex);
           // HACK ALERT! This is specific to copying the add me to the map functionality
-          if (this.redirect.originalTargetIsSet()){
+          if (this.redirectToAddToMap){
             this.redirect.redirectToTarget(this.redirect.getOriginalTarget());
           }
           else {
