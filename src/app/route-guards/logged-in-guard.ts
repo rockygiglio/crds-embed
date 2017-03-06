@@ -13,7 +13,8 @@ export class LoggedInGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     if (!this.apiService.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin(route.url.toString());
+      let isFinderPage = route.url.toString() === 'add-me-to-the-map';
+      this.loginRedirectService.redirectToLogin(route.url.toString(), isFinderPage);
       return false;
     } else {
       return true;

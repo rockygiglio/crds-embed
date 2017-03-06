@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
@@ -35,10 +35,13 @@ export class AuthenticationComponent implements OnInit {
   private helpUrl: string;
   private failedMessage: string = '';
 
+  private isFinderPage: boolean = false;
+
   constructor(
     private api: APIService,
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
@@ -48,12 +51,11 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
-    this.failedMessage = this.store.dynamicDatas(this.failedMessage,
-      [
-        new DynamicReplace('forgotPasswordUrl', this.forgotPasswordUrl)
-      ]
-    );
+
+    console.log('PARAMS FROM SNAPSHOT: ');
+    console.log(this.route.snapshot.params['type']);
+    console.log(this.route.snapshot.params['isfinderpage']);
+    console.log('//PARAMS FROM SNAPSHOT');
 
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;

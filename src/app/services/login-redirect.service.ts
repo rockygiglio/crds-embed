@@ -23,9 +23,16 @@ export class LoginRedirectService {
   }
 
   // HACK ALERT! Added '?type=donation' to query string
-  public redirectToLogin(target = this.DefaultAuthenticatedRoute): void {
+  public redirectToLogin(target = this.DefaultAuthenticatedRoute, isFinderPage: boolean = false): void {
+
     this.originalTarget = target;
-    this.router.navigate([this.SigninRoute], {queryParams: {type: 'donation'}});
+
+    if(!isFinderPage){
+      this.router.navigate([this.SigninRoute], {queryParams: {type: 'donation'}});
+    } else {
+      console.log('Redirecting to route with param');
+      this.router.navigate([this.SigninRoute], {queryParams: {type: 'donation', isfinderpage: isFinderPage}});
+    }
   }
 
   // HACK ALERT! Added '?type=donation' to query string
