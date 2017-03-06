@@ -51,11 +51,18 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
 
+    let url: string = window.location.href;
+    let urlAndParams: Array<string> = url.split("?");
+    let params: string = urlAndParams[urlAndParams.length - 1];
+    let paramsArray: Array<string> = params.split("&");
+    let lastParam: string = paramsArray[paramsArray.length - 1];
+    let lastParamNameValue: Array<string> = lastParam.split("=");
+    let lastParamName: string = lastParamNameValue[0];
+    let lastParamValue: string = lastParamNameValue[1];
 
-    console.log('PARAMS FROM SNAPSHOT: ');
-    console.log(this.route.snapshot.params['type']);
-    console.log(this.route.snapshot.params['isfinderpage']);
-    console.log('//PARAMS FROM SNAPSHOT');
+    if (lastParamName === 'isfinderpage'){
+      this.isFinderPage = lastParamValue == 'true';
+    }
 
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
