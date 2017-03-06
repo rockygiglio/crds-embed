@@ -30,7 +30,6 @@ export class LoginRedirectService {
     if(!isFinderPage){
       this.router.navigate([this.SigninRoute], {queryParams: {type: 'donation'}});
     } else {
-      console.log('Redirecting to route with param');
       this.router.navigate([this.SigninRoute], {queryParams: {type: 'donation', isfinderpage: isFinderPage}});
     }
   }
