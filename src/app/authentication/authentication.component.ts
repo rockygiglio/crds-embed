@@ -51,17 +51,21 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    let url: string = window.location.href;
-    let urlAndParams: Array<string> = url.split("?");
-    let params: string = urlAndParams[urlAndParams.length - 1];
-    let paramsArray: Array<string> = params.split("&");
-    let lastParam: string = paramsArray[paramsArray.length - 1];
-    let lastParamNameValue: Array<string> = lastParam.split("=");
-    let lastParamName: string = lastParamNameValue[0];
-    let lastParamValue: string = lastParamNameValue[1];
+    try {
+      let url: string = window.location.href;
+      let urlAndParams: Array<string> = url.split("?");
+      let params: string = urlAndParams[urlAndParams.length - 1];
+      let paramsArray: Array<string> = params.split("&");
+      let lastParam: string = paramsArray[paramsArray.length - 1];
+      let lastParamNameValue: Array<string> = lastParam.split("=");
+      let lastParamName: string = lastParamNameValue[0];
+      let lastParamValue: string = lastParamNameValue[1];
 
-    if (lastParamName === 'isfinderpage'){
-      this.isFinderPage = lastParamValue == 'true';
+      if (lastParamName === 'isfinderpage'){
+        this.isFinderPage = lastParamValue == 'true';
+      }
+    } catch(err) {
+      this.isFinderPage = false;
     }
 
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
