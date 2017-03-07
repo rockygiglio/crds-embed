@@ -57,18 +57,7 @@ export class AuthenticationComponent implements OnInit {
     );
 
     try {
-      let url: string = window.location.href;
-      let urlAndParams: Array<string> = url.split("?");
-      let params: string = urlAndParams[urlAndParams.length - 1];
-      let paramsArray: Array<string> = params.split("&");
-      let lastParam: string = paramsArray[paramsArray.length - 1];
-      let lastParamNameValue: Array<string> = lastParam.split("=");
-      let lastParamName: string = lastParamNameValue[0];
-      let lastParamValue: string = lastParamNameValue[1];
-
-      if (lastParamName === 'isfinderpage'){
-        this.isFinderPage = lastParamValue == 'true';
-      }
+      this.isFinderPage = this.getParamValueFromUrlString(window.location.href);
     } catch(err) {
       this.isFinderPage = false;
     }
@@ -95,6 +84,25 @@ export class AuthenticationComponent implements OnInit {
 
     this.store.validateRoute(this.router);
     this.state.setLoading(false);
+  }
+
+  public getParamValueFromUrlString(url: string): boolean  {
+
+    let isFinderPage: boolean = false;
+
+    let urlAndParams: Array<string> = url.split("?");
+    let params: string = urlAndParams[urlAndParams.length - 1];
+    let paramsArray: Array<string> = params.split("&");
+    let lastParam: string = paramsArray[paramsArray.length - 1];
+    let lastParamNameValue: Array<string> = lastParam.split("=");
+    let lastParamName: string = lastParamNameValue[0];
+    let lastParamValue: string = lastParamNameValue[1];
+
+    if (lastParamName === 'isfinderpage'){
+      isFinderPage = lastParamValue == 'true';
+    }
+
+    return isFinderPage;
   }
 
   public resetGuestEmailFormSubmission(event) {
