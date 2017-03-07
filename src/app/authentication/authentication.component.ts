@@ -50,6 +50,12 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
+    this.failedMessage = this.store.dynamicDatas(this.failedMessage,
+      [
+        new DynamicReplace('forgotPasswordUrl', this.forgotPasswordUrl)
+      ]
+    );
 
     try {
       let url: string = window.location.href;
