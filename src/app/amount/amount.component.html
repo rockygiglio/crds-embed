@@ -4,11 +4,11 @@
 </div>
 <div *ngIf="store.errors.length <= 0">
   <header class="component-header">Amount</header>
-  <hr class="flush-top">
+  <hr class="flush-ends">
 
   <!-- DONATION -->
   <div *ngIf="store.isDonation()">
-    <div class="btn-group btn-group-row">
+    <div class="btn-group btn-group-row push-quarter-ends">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-flex btn-link"
               (click)="onSelectAmount(amount)"
@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <hr>
+    <hr class="flush-top">
 
     <form class="custom-input-field" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">
