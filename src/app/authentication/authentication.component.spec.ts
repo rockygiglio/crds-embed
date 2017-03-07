@@ -97,6 +97,35 @@ describe('Component: Authentication', () => {
     });
   });
 
+  //Temporary tests for hot fix
+  describe('#Parse the URL coorectly', () => {
+    it('Should return true if finder page param is set to true', () => {
+      const url: string = 'http://localhost:8080/signin?type=donation&isfinderpage=true';
+      let isFinderPage: boolean = fixture.getParamValueFromUrlString(url);
+      expect(isFinderPage).toBe(true);
+    });
+
+    it('Should return false if finder page param is set to false', () => {
+      const url: string = 'http://localhost:8080/signin?type=donation&isfinderpage=false';
+      let isFinderPage: boolean = fixture.getParamValueFromUrlString(url);
+      expect(isFinderPage).toBe(false);
+    });
+
+    it('Should return false if finder page param is missing', () => {
+      const url: string = 'http://localhost:8080/signin?type=donation';
+      let isFinderPage: boolean = fixture.getParamValueFromUrlString(url);
+      expect(isFinderPage).toBe(false);
+    });
+
+
+    it('Should return false if there are no params', () => {
+      const url: string = 'http://localhost:8080/signin';
+      let isFinderPage: boolean = fixture.getParamValueFromUrlString(url);
+      expect(isFinderPage).toBe(false);
+    });
+
+});
+
   describe('#submitGuest', () => {
     describe('when form is invalid', () => {
       it('formGuest.valid should be false', () => {

@@ -35,6 +35,8 @@ export class AuthenticationComponent implements OnInit {
   private helpUrl: string;
   private failedMessage: string = '';
 
+  private isFinderPage: boolean = false;
+
   constructor(
     private api: APIService,
     private fb: FormBuilder,
@@ -47,13 +49,18 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-
     this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
     this.failedMessage = this.store.dynamicDatas(this.failedMessage,
       [
         new DynamicReplace('forgotPasswordUrl', this.forgotPasswordUrl)
       ]
     );
+
+    try {
+      this.isFinderPage = this.getParamValueFromUrlString(window.location.href);
+    } catch(err) {
+      this.isFinderPage = false;
+    }
 
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
@@ -77,6 +84,25 @@ export class AuthenticationComponent implements OnInit {
 
     this.store.validateRoute(this.router);
     this.state.setLoading(false);
+  }
+
+  public getParamValueFromUrlString(url: string): boolean  {
+
+    let isFinderPage: boolean = false;
+
+    let urlAndParams: Array<string> = url.split("?");
+    let params: string = urlAndParams[urlAndParams.length - 1];
+    let paramsArray: Array<string> = params.split("&");
+    let lastParam: string = paramsArray[paramsArray.length - 1];
+    let lastParamNameValue: Array<string> = lastParam.split("=");
+    let lastParamName: string = lastParamNameValue[0];
+    let lastParamValue: string = lastParamNameValue[1];
+
+    if (lastParamName === 'isfinderpage'){
+      isFinderPage = lastParamValue == 'true';
+    }
+
+    return isFinderPage;
   }
 
   public resetGuestEmailFormSubmission(event) {

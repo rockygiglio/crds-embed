@@ -26,10 +26,20 @@ export const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: 'add-me-to-the-map',
-     component: AddMeToMapComponent,
+    component: AddMeToMapComponent,
     canActivate: [
       LoggedInGuard
     ],
+    resolve: {
+      userData: UserDataResolver,
+    }
+  },
+  {
+    path: 'add-me-to-the-map/:isfinderpage',
+      component: AddMeToMapComponent,
+      canActivate: [
+        LoggedInGuard
+      ],
     resolve: {
       userData: UserDataResolver,
     }
