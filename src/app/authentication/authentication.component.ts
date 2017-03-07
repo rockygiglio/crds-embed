@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
@@ -41,7 +41,6 @@ export class AuthenticationComponent implements OnInit {
     private api: APIService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
