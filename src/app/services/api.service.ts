@@ -257,7 +257,7 @@ export class APIService {
   }
 
   public getUserData(): Observable<any> {
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${this.session.getContactId()}/false`)
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${this.session.getUserId()}/false`)
         .map((res: Pin) => {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
             res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
