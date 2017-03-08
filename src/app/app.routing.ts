@@ -9,7 +9,6 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { RegisterComponent } from './register/register.component';
 import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequency.component';
 import { AddMeToMapComponent } from './add-me-to-map/add-me-to-map.component';
-import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
 
@@ -27,19 +26,13 @@ export const appRoutes: Routes = [
   {
     path: 'add-me-to-the-map',
     component: AddMeToMapComponent,
-    canActivate: [
-      LoggedInGuard
-    ],
     resolve: {
       userData: UserDataResolver,
     }
   },
   {
     path: 'add-me-to-the-map/:isfinderpage',
-      component: AddMeToMapComponent,
-      canActivate: [
-        LoggedInGuard
-      ],
+    component: AddMeToMapComponent,
     resolve: {
       userData: UserDataResolver,
     }

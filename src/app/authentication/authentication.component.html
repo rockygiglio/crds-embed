@@ -1,5 +1,5 @@
 <div>
-  <div class="btn-group btn-group-toggle btn-group-teal" *ngIf="!isFinderPage && store.isOneTimeGift() && store.isDonation()">
+  <div class="btn-group btn-group-toggle btn-group-teal" *ngIf="store.isOneTimeGift() && store.isDonation()">
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Sign In">I have an account</label>
     <label class="btn btn-option" [(ngModel)]="signinOption" btnRadio="Guest">Give as guest</label>
   </div>
@@ -42,7 +42,7 @@
 
       <hr>
 
-      <p *ngIf="!isFinderPage" class="font-size-smaller">Or <a routerLink="/register">register for an account</a></p>
+      <p class="font-size-smaller">Or <a routerLink="/register">register for an account</a></p>
 
       <footer class="page-footer">
         <a href="#" class="btn btn-gray pull-left" (click)="back()" *ngIf="!hideBack()">Back</a>
