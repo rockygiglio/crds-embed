@@ -42,7 +42,7 @@
 
       <hr>
 
-      <p class="font-size-smaller">Or <a routerLink="/register">register for an account</a></p>
+      <p *ngIf="!isFinderPage" class="font-size-smaller">Or <a routerLink="/register">register for an account</a></p>
 
       <footer class="page-footer">
         <a href="#" class="btn btn-gray pull-left" (click)="back()" *ngIf="!hideBack()">Back</a>

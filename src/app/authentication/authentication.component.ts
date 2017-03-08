@@ -201,7 +201,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public hideBack() {
-    if (this.store.isPayment() && this.store.amountLocked) {
+    if ((this.store.isPayment() && this.store.amountLocked) || this.isFinderPage) {
       return true;
     }
     return false;
