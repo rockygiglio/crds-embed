@@ -22,7 +22,7 @@
     <hr class="flush-top">
 
     <form class="custom-input-field" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
-      <div class="form-group form-group-lg">
+      <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group input-group-left">
           <span class="input-group-addon">
@@ -85,7 +85,7 @@
               [formGroup]="form"
               [class.submitted]="submitted"
               (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
-          <div class="form-group form-group-lg">
+          <div class="form-group">
             <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
             <div class="input-group input-group-left">
               <span class="input-group-addon">
