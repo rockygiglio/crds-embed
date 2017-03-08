@@ -13,8 +13,7 @@ export function _window(): Window {
 
 @Component({
   selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.scss']
+  templateUrl: './summary.component.html'
 })
 export class SummaryComponent implements OnInit {
 

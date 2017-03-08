@@ -8,6 +8,8 @@ import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
 import { DynamicReplace } from '../models/dynamic-replace';
+import { SessionService } from '../services/session.service';
+
 
 @Component({
   selector: 'app-authentication',
@@ -38,11 +40,11 @@ export class AuthenticationComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
-    private validation: ValidationService
+    private validation: ValidationService,
+    private session: SessionService
   ) { }
 
   public ngOnInit(): void {
-
     this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
     this.failedMessage = this.store.dynamicDatas(this.failedMessage,
       [
@@ -53,7 +55,7 @@ export class AuthenticationComponent implements OnInit {
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
-    if ( this.store.isGuest === true && this.store.isOneTimeGift() === true ) {
+    if (this.store.isGuest === true && this.store.isOneTimeGift() === true) {
       this.signinOption = 'Guest';
       this.email = this.store.email;
     }
@@ -75,7 +77,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public resetGuestEmailFormSubmission(event) {
-    if ( event.target.value !== this.store.email ) {
+    if (event.target.value !== this.store.email) {
       this.showMessage = false;
       this.buttonText = 'Next';
     }
@@ -93,13 +95,13 @@ export class AuthenticationComponent implements OnInit {
     if (this.email) {
       this.email = this.email.trim();
     }
-    if ( this.formGuest.valid ) {
+    if (this.formGuest.valid) {
       this.store.isGuest = true;
       this.state.setLoading(true);
       this.api.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
-         if ( this.existingGuestEmail === this.email || resp === false ) {
+          if (this.existingGuestEmail === this.email || resp === false) {
             this.store.email = this.email;
             this.adv();
           } else {
@@ -108,6 +110,8 @@ export class AuthenticationComponent implements OnInit {
           }
         }
       );
+    } else {
+      this.formGuest.controls['email'].markAsTouched();
     }
   }
 
@@ -118,7 +122,7 @@ export class AuthenticationComponent implements OnInit {
     this.loginException = false;
     if (this.form.valid) {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
-      .subscribe(
+        .subscribe(
         (user) => {
           this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
@@ -129,7 +133,7 @@ export class AuthenticationComponent implements OnInit {
           this.loginException = true;
           this.state.setLoading(false);
         }
-      );
+        );
     } else {
       this.loginException = true;
       this.form.controls['email'].markAsTouched();

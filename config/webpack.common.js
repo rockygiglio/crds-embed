@@ -60,7 +60,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: ['app', 'vendor', 'polyfills']
     }),
-    
+
     new Dotenv({
       systemvars: true
     }),
@@ -79,16 +79,24 @@ module.exports = {
         from: './apache_site.conf',
         to: 'apache_site.conf',
         transform: function (content, path) {
-          return content.toString().replace(/\${(.*?)}/g, function(match, p1, offset, string) {          
+          return content.toString().replace(/\${(.*?)}/g, function(match, p1, offset, string) {
             return process.env[p1];
           });
         }
       },
-      { 
+      {
         context: 'node_modules/bootstrap-sass/assets/fonts/bootstrap',
-        from: '**/*', 
-        to: 'fonts/' 
+        from: '**/*',
+        to: 'fonts/'
       },
+    ]),
+
+    new CopyWebpackPlugin([
+      {
+        context: './node_modules/crds-styles/assets/stylesheets/svg/assets',
+        from: '*.svg',
+        to: 'assets',
+      }
     ])
   ]
 };

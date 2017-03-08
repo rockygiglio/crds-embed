@@ -1,19 +1,16 @@
 <div *ngIf="store.errors.length > 0" id="error">
-  <div class="page-header">
-    <h2>Errors:</h2>
-  </div>
+  <header class="component-header">Errors:</header>
   <alert *ngFor="let error of store.errors">{{ error }}</alert>
 </div>
 <div *ngIf="store.errors.length <= 0">
-  <div class="page-header page-header--border-btm">
-    <h2>Amount</h2>
-  </div>
+  <header class="component-header">Amount</header>
+  <hr class="flush-top">
 
   <!-- DONATION -->
   <div *ngIf="store.isDonation()">
-    <div class="btn-group btn-group--flex-row">
+    <div class="btn-group btn-group-row">
       <button *ngFor="let amount of predefinedAmounts"
-              class="btn btn-option btn-option--flex-item btn-option--no-outline"
+              class="btn btn-option btn-flex btn-link"
               (click)="onSelectAmount(amount)"
               [ngClass]="{ active: (!customAmount && store.amount == amount) }"
               isPredefinedToggle
@@ -22,11 +19,15 @@
       </button>
     </div>
 
-    <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
+    <hr>
+
+    <form class="custom-input-field" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-        <div class="input-group background-filled-for-alignment">
-          <span class="input-group-addon">$</span>
+        <div class="input-group input-group-left">
+          <span class="input-group-addon">
+            <i class="icon svg-usd"></i>
+          </span>
           <input type="tel"
                 class="form-control"
                 placeholder="Or Enter Amount"
@@ -40,59 +41,56 @@
                 isPredefinedToggle
                 [inputType]="'customAmount'">
         </div>
+
+        <div class="errors" *ngIf="( !store.validAmount() && submitted )">
+          <div class="error help-block" [innerHTML]="errorMessage"></div>
+        </div>
       </div>
 
-      <div class="errors" *ngIf="( !store.validAmount() && submitted )">
-        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
-      </div>
     </form>
   </div>
 
   <!-- PAYMENT -->
   <div class="payment" *ngIf="store.isPayment()">
-    <div class="btn-group btn-group--flex-col">
+    <div class="btn-group btn-group-block">
       <button *ngFor="let item of amountDue"
               type="button"
-              class="btn-payment btn btn-option btn-option--flex-item"
+              class="btn btn-option btn-flex btn-outline"
               (click)="onSelectAmount(item.amount)"
               [ngClass]="{ active: (!customAmtSelected && store.amount == item.amount) }">
         <div class="row">
-          <div>
-            <span class="btn-payment__icon">
-              <i class="fa fa-circle-thin fa-2x" aria-hidden="true"></i>
-              <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+          <div class="btn-group-label">
+            <span class="btn-group-icons">
+              <i class="icon icon-2 svg-circle-thin"></i>
+              <i class="icon icon-2 svg-check-circle"></i>
             </span>
-            {{ item.label }}:
-          </div>
-          <div class="payment--lg">
-            {{ item.amount | currency: "USD": true }}
-          </div>
+            {{ item.label }}:</div>
+          <div>{{ item.amount | currency: "USD": true }}</div>
         </div>
       </button>
 
       <button type="button"
-              class="btn-payment btn btn-option btn-option--flex-item"
+              class="btn btn-option btn-flex btn-outline"
               (click)="selectedCustom()"
               [ngClass]="{ active: (customAmtSelected) }">
         <div class="row">
-          <div>
-            <span class="btn-payment__icon">
-              <i class="fa fa-circle-thin fa-2x" aria-hidden="true"></i>
-              <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
-            </span>
-            Other Amount...
-          </div>
+          <div class="text-left">Other Amount...</div>
         </div>
       </button>
 
-      <div class="custom-input-payment" *ngIf="customAmtSelected">
-        <span class="custom-input-payment__icon"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
-
-        <form class="custom-input-payment__input" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
+      <div class="custom-input" *ngIf="customAmtSelected">
+        <span class="custom-input-icon"><i class="icon icon-1 svg-chevron-right"></i></span>
+        <form class="custom-input-field"
+              action="/"
+              [formGroup]="form"
+              [class.submitted]="submitted"
+              (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
           <div class="form-group">
             <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
-            <div class="input-group background-filled-for-alignment">
-              <span class="input-group-addon">$</span>
+            <div class="input-group input-group-left">
+              <span class="input-group-addon">
+                <i class="icon svg-usd"></i>
+              </span>
               <input type="text"
                     class="form-control"
                     placeholder="Enter Amount"
@@ -104,12 +102,16 @@
                     [(ngModel)]="customAmount"
                     (ngModelChange)="onCustomAmount($event)">
             </div>
+
+            <div class="errors" *ngIf="( !this.form.valid && submitted && customAmtSelected )">
+              <div class="error help-block" [innerHTML]="errorMessage"></div>
+            </div>
           </div>
         </form>
       </div>
 
-      <div class="errors" *ngIf="( !this.form.valid && submitted )">
-        <div class="alert alert-danger" [innerHTML]="errorMessage"></div>
+      <div class="errors" *ngIf="( !this.form.valid && submitted && !customAmtSelected )">
+        <div class="error help-block" [innerHTML]="errorMessage"></div>
       </div>
     </div>
   </div>
@@ -117,7 +119,7 @@
   <hr>
 
   <footer class="page-footer">
-    <input type="button" class="btn btn-next btn-block" (click)="store.preSubmit($event);submitAmount();" value="Next">
+    <input type="button" class="btn btn-primary btn-block" (click)="store.preSubmit($event);submitAmount();" value="Next">
   </footer>
 </div>
 
