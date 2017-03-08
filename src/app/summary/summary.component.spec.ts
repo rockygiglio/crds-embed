@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
+import { TruncatePipe } from 'angular2-truncate';
 
 import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
@@ -54,7 +55,10 @@ describe('Component: Summary', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ SummaryComponent ],
+      declarations: [
+        SummaryComponent,
+        TruncatePipe
+      ],
       imports: [
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule, HttpModule
@@ -78,6 +82,15 @@ describe('Component: Summary', () => {
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
+
+  it('should truncate long email addresses', () => {
+    this.component.store.email = 'test@test.com';
+    expect(this.component.displayEmail()).toBe('test@test.com');
+
+    let longEmail = 'test-test@test-test-test-test.com';
+    this.component.store.email = longEmail;
+    expect(this.component.displayEmail()).toBe(longEmail.substring(0,24) + '...');
+  })
 
   it('should get last 4 digits of cc account number', () => {
     this.component.store.paymentType = 'cc';
