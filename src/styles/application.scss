@@ -1,5 +1,9 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+.dark-theme {
+  background: lighten($cr-gray-darker, .75);
+}
+
 .container {
   margin: 1em auto;
   width: auto;
