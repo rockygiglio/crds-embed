@@ -32,9 +32,6 @@ import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
 import { LocationService } from './services/location.service';
-import { LoginRedirectService } from './services/login-redirect.service';
-
-import { LoggedInGuard } from './route-guards/logged-in-guard';
 
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -93,8 +90,6 @@ import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
     APIService,
     IFrameParentService,
     LocationService,
-    LoginRedirectService,
-    LoggedInGuard,
     SessionService,
     StateService,
     StateListResolver,
