@@ -12,9 +12,10 @@ import { StateService } from './state.service';
 import { IFrameParentService } from './iframe-parent.service';
 import { APIService } from './api.service';
 import { ContentService } from './content.service';
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { RequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { CookieService } from 'angular2-cookie/core';
+import { CustomHttpRequestOptions } from '../shared/custom-http-request-options'
 
 class MockActivatedRoute {
   public snapshot = {
@@ -53,12 +54,12 @@ describe('Service: Store', () => {
         StateService,
         { provide: CookieService, useClass: MockCookieService },
         MockBackend,
-        BaseRequestOptions,
+        {provide: RequestOptions, useClass: CustomHttpRequestOptions},
         ContentService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
+          deps: [MockBackend, RequestOptions]
         },
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
