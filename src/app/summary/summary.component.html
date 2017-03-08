@@ -11,13 +11,13 @@
       <tr>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isDonation()"><a routerLink="/fund">To:</a></td>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isPayment()">To:</td>
-        <td *ngIf="store.isDonation()" class="text-right">{{ store.fund.Name }}</td>
-        <td *ngIf="store.isPayment()" class="text-right">{{ store.title }}</td>
+        <td *ngIf="store.isDonation()" class="text-right font-size-small">{{ store.fund.Name }}</td>
+        <td *ngIf="store.isPayment()" class="text-right font-size-small">{{ store.title }}</td>
       </tr>
       <tr>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isDonation()"><a routerLink="/authentication" (click)="changeUser()">From:</a></td>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isPayment()">From:</td>
-        <td class="text-right">
+        <td class="text-right font-size-small">
           {{ store.email }}<br>
           <a class="font-size-smaller" *ngIf="store.isDonation() && !store.isGuest" routerLink="/authentication" (click)="changeUser()">log out</a>
           <a class="font-size-smaller" *ngIf="store.isDonation() && store.isGuest" routerLink="/authentication">change</a>
@@ -25,7 +25,7 @@
       </tr>
       <tr *ngIf="!store.isPayment()">
         <td class="text-uppercase font-size-smaller"><a routerLink="/fund">Frequency:</a></td>
-        <td class="text-right">
+        <td class="text-right font-size-small">
           {{ store.frequency.display }}<br>
           <small *ngIf="store.isRecurringGift()">Starting on {{ store.startDate | date: 'MM/dd/yyyy' }}</small>
         </td>
@@ -33,7 +33,7 @@
       <tr>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isDonation()"><a routerLink="/billing" (click)="changePayment()">Payment:</a></td>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isPayment()">Payment:</td>
-        <td class="text-right">
+        <td class="text-right font-size-small">
           Account ending in {{ lastFourOfAcctNumber | slice:-4 }}<br>
           <a class="font-size-smaller" routerLink="/billing" (click)="changePayment()">change</a>
         </td>
