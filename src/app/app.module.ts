@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
@@ -32,6 +32,7 @@ import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
 import { LocationService } from './services/location.service';
+import { CustomHttpRequestOptions } from './shared/custom-http-request-options';
 
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -96,7 +97,8 @@ import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
     StoreService,
     ValidationService,
     UserDataResolver,
-    {provide: WindowToken, useFactory: _window}
+    {provide: WindowToken, useFactory: _window},
+    {provide: RequestOptions, useClass: CustomHttpRequestOptions}
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,9 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+.dark-theme {
+  background: lighten($cr-gray-darker, .75);
+}
+
 .container {
   margin: 1em auto;
   width: auto;
@@ -17,4 +21,12 @@ app-preloader {
   .loading & {
     display: none;
   }
+}
+
+.truncated-email {
+  @media (max-width: $screen-xs) {
+    max-width: 200px;
+  }
+  display: block;
+  float: right;
 }
