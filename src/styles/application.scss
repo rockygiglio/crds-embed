@@ -22,21 +22,3 @@ app-preloader {
     display: none;
   }
 }
-
-.truncated-email {
-  max-width: 140px;
-  display: block;
-  float: right;
-
-  @media (min-width: $screen-xs - 100px) {
-    max-width: 200px;
-  }
-
-  @media (min-width: $screen-xs) and (max-width: $screen-sm) {
-    max-width: 240px;
-  }
-
-  @media (min-width: $screen-sm + 1px) {
-    max-width: auto;
-  }
-}
