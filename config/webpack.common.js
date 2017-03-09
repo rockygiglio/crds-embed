@@ -69,11 +69,6 @@ module.exports = {
       template: 'src/index.html'
     }),
 
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets',
-    }], { ignore: ['*.scss', 'mock-data/*'] }),
-
     new CopyWebpackPlugin([
       {
         from: './apache_site.conf',
@@ -89,14 +84,15 @@ module.exports = {
         from: '**/*',
         to: 'fonts/'
       },
-    ]),
-
-    new CopyWebpackPlugin([
       {
-        context: './node_modules/crds-styles/assets/stylesheets/svg/assets',
-        from: '*.svg',
+        from: 'src/assets',
         to: 'assets',
+      },
+      {
+        context: 'node_modules/crds-styles/assets/svgs',
+        from: '*.svg',
+        to: 'assets/svgs',
       }
-    ])
+    ], { ignore: ['*.scss', 'mock-data/*'] })
   ]
 };
