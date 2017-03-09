@@ -8,7 +8,6 @@ import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
 import { DynamicReplace } from '../models/dynamic-replace';
-import { LoginRedirectService } from '../services/login-redirect.service';
 import { SessionService } from '../services/session.service';
 
 
@@ -42,12 +41,10 @@ export class AuthenticationComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
-    private redirect: LoginRedirectService,
     private session: SessionService
   ) { }
 
   public ngOnInit(): void {
-
     this.failedMessage = this.store.content.getContent('embedAuthenticationFailed');
     this.failedMessage = this.store.dynamicDatas(this.failedMessage,
       [
@@ -58,7 +55,7 @@ export class AuthenticationComponent implements OnInit {
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
-    if ( this.store.isGuest === true && this.store.isOneTimeGift() === true ) {
+    if (this.store.isGuest === true && this.store.isOneTimeGift() === true) {
       this.signinOption = 'Guest';
       this.email = this.store.email;
     }
@@ -80,7 +77,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public resetGuestEmailFormSubmission(event) {
-    if ( event.target.value !== this.store.email ) {
+    if (event.target.value !== this.store.email) {
       this.showMessage = false;
       this.buttonText = 'Next';
     }
@@ -98,13 +95,13 @@ export class AuthenticationComponent implements OnInit {
     if (this.email) {
       this.email = this.email.trim();
     }
-    if ( this.formGuest.valid ) {
+    if (this.formGuest.valid) {
       this.store.isGuest = true;
       this.state.setLoading(true);
       this.api.getRegisteredUser(this.email).subscribe(
         resp => {
           this.guestEmail = resp;
-         if ( this.existingGuestEmail === this.email || resp === false ) {
+          if (this.existingGuestEmail === this.email || resp === false) {
             this.store.email = this.email;
             this.adv();
           } else {
@@ -125,25 +122,18 @@ export class AuthenticationComponent implements OnInit {
     this.loginException = false;
     if (this.form.valid) {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
-      .subscribe(
+        .subscribe(
         (user) => {
-          this.session.setContactId(user.userId);
           this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
           this.state.hidePage(this.state.authenticationIndex);
-          // HACK ALERT! This is specific to copying the add me to the map functionality
-          if (this.redirect.originalTargetIsSet()){
-            this.redirect.redirectToTarget(this.redirect.getOriginalTarget());
-          }
-          else {
-            this.adv();
-          }
+          this.adv();
         },
         (error) => {
           this.loginException = true;
           this.state.setLoading(false);
         }
-      );
+        );
     } else {
       this.loginException = true;
       this.form.controls['email'].markAsTouched();
