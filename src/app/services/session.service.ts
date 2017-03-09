@@ -11,7 +11,7 @@ export class SessionService {
 
   private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
 
-  constructor(private http: Http, public cookieService: CookieService) {
+  constructor(private http: Http, public cookieService: CookieService, private defaultRequestOptions: RequestOptions) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
       this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
     }
@@ -99,10 +99,8 @@ export class SessionService {
   }
 
   private createAuthorizationHeader(headers?: Headers) {
-    let reqHeaders =  headers || new Headers();
+    let reqHeaders =  headers || new Headers(this.defaultRequestOptions.headers);
     reqHeaders.set('Authorization', this.getAccessToken());
-    reqHeaders.set('Content-Type', 'application/json');
-    reqHeaders.set('Accept', 'application/json, text/plain, */*');
     return reqHeaders;
   }
 
