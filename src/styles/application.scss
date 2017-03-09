@@ -27,6 +27,12 @@ app-preloader {
   @media (max-width: $screen-xs) {
     max-width: 200px;
   }
+  @media (max-width: 380px) {
+    max-width: 160px;
+  }
+  @media (max-width: 343px) {
+    max-width: 140px;
+  }
   display: block;
   float: right;
 }
