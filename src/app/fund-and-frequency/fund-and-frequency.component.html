@@ -3,7 +3,7 @@
 
 <form [formGroup]="form">
   <div *ngIf="isFundSelectShown">
-    <h3 class="btn-group-header">Give To:</h3>
+    <h3 class="control-label">Give To:</h3>
     <div class="btn-group">
       <button *ngFor="let fund of funds"
               class="btn btn-option btn-outline"
@@ -15,7 +15,7 @@
   <hr>
 
   <div>
-    <h3 class="btn-group-header">Frequency:</h3>
+    <h3 class="control-label">Frequency:</h3>
     <div class="btn-group">
       <button *ngFor="let frequency of store.frequencies"
               class="btn btn-option btn-outline"
@@ -31,7 +31,7 @@
 </form>
 
 <div *ngIf="store.isRecurringGift()">
-  <h3 class="btn-group-header">Starts On:</h3>
+  <h3 class="control-label">Starts On:</h3>
   <form class="form-group">
     <label for="recurring_date" class="sr-only">Set recurring date</label>
     <div class="input-group input-group-right" (click)="toggleDatePicker(true)">
