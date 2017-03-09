@@ -1,6 +1,5 @@
 import { Component, OnInit, OpaqueToken, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { TruncatePipe } from 'angular2-truncate';
 
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
@@ -21,7 +20,6 @@ export class SummaryComponent implements OnInit {
   private lastFourOfAcctNumber: any = null;
   private isSubmitInProgress: boolean = false;
   private redirectParams: Map<string, any> = new Map<string, any>();
-  private pipe = new TruncatePipe();
 
   constructor(
     private router: Router,
@@ -36,10 +34,6 @@ export class SummaryComponent implements OnInit {
     this.store.validateRoute(this.router);
     this.state.setLoading(false);
     this.isSubmitInProgress = false;
-  }
-
-  public displayEmail() {
-    return this.pipe.transform(this.store.email, 24, '...', 'right');
   }
 
   public submitPayment() {

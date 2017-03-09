@@ -18,7 +18,7 @@
         <td class="text-uppercase font-size-smaller" *ngIf="store.isDonation()"><a routerLink="/authentication" (click)="changeUser()">From:</a></td>
         <td class="text-uppercase font-size-smaller" *ngIf="store.isPayment()">From:</td>
         <td class="text-right">
-          {{ displayEmail() }}<br>
+          <span class="ellipsis truncated-email">{{ store.email }}</span><br>
           <a class="font-size-smaller" *ngIf="store.isDonation() && !store.isGuest" routerLink="/authentication" (click)="changeUser()">log out</a>
           <a class="font-size-smaller" *ngIf="store.isDonation() && store.isGuest" routerLink="/authentication">change</a>
         </td>
