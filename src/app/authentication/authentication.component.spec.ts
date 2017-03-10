@@ -7,6 +7,11 @@ import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
+import { SessionService } from '../services/session.service';
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+
+
+
 
 import { AuthenticationComponent } from './authentication.component';
 
@@ -18,8 +23,10 @@ describe('Component: Authentication', () => {
       store: StoreService,
       fb: FormBuilder,
       api: APIService,
-      validation: ValidationService,
-      content: ContentService;
+      cookie: CookieService,
+      session: SessionService,
+      content: ContentService,
+      validation: ValidationService;
 
   beforeEach(() => {
 
@@ -52,7 +59,8 @@ describe('Component: Authentication', () => {
       router,
       stateService,
       store,
-      validation
+      validation,
+      session
     );
     fixture.ngOnInit();
   });

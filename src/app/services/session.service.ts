@@ -9,7 +9,11 @@ export class SessionService {
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
   private cookieOptions: CookieOptionsArgs;
 
-  constructor(public http: Http, public cookieService: CookieService) {
+  private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
+  
+  private readonly userId: string = 'userId';
+
+  constructor(private http: Http, public cookieService: CookieService, private defaultRequestOptions: RequestOptions) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
       this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
     }
@@ -33,12 +37,20 @@ export class SessionService {
   private extractAuthToken = (res: Response) => {
     if (res.headers != null && res.headers.get('Authorization')) {
       this.setAccessToken(res.headers.get('Authorization'));
-    };
+    }
+
     if (res.headers != null && res.headers.get('RefreshToken')) {
       this.setRefreshToken(res.headers.get('RefreshToken'));
     }
 
-    let body = res.json();
+    let body: any;
+
+    try {
+      body = res.json();
+    } catch (err) {
+      body = '';
+    }
+
     if (body != null && body.userToken) {
       this.setAccessToken(body.userToken);
     }
@@ -80,11 +92,21 @@ export class SessionService {
     return reqOptions;
   }
 
+  public getContactId(): number {
+    return +this.cookieService.get(this.contactId);
+  }
+
+    public getUserId(): number {
+    return +this.cookieService.get(this.userId);
+  }
+
+  public setContactId(contactId: string): void {
+    this.cookieService.put(this.contactId, contactId, this.cookieOptions);
+  }
+
   private createAuthorizationHeader(headers?: Headers) {
-    let reqHeaders =  headers || new Headers();
+    let reqHeaders =  headers || new Headers(this.defaultRequestOptions.headers);
     reqHeaders.set('Authorization', this.getAccessToken());
-    reqHeaders.set('Content-Type', 'application/json');
-    reqHeaders.set('Accept', 'application/json, text/plain, */*');
     return reqHeaders;
   }
 
