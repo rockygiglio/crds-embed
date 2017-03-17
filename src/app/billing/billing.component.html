@@ -120,7 +120,7 @@
 <div *ngIf="store.paymentMethod == 'Credit Card'" heading="Credit Card">
 
   <div>
-    <alert dismissible="true" ><span [innerHtml]="store.content.getContent('embedPleaseUseBank')"></span> </alert>
+    <alert><span [innerHtml]="store.content.getContent('embedPleaseUseBank')"></span></alert>
   </div>
 
   <form [formGroup]="ccForm" action="/" [class.submitted]="ccSubmitted" (ngSubmit)="store.preSubmit($event);ccSubmit();" novalidate>
