@@ -4,11 +4,11 @@
 </div>
 <div *ngIf="store.errors.length <= 0">
   <header class="component-header">Amount</header>
-  <hr class="flush-top">
+  <hr class="flush-ends">
 
   <!-- DONATION -->
   <div *ngIf="store.isDonation()">
-    <div class="btn-group btn-group-row">
+    <div class="btn-group btn-group-row push-quarter-ends">
       <button *ngFor="let amount of predefinedAmounts"
               class="btn btn-option btn-flex btn-link"
               (click)="onSelectAmount(amount)"
@@ -19,14 +19,16 @@
       </button>
     </div>
 
-    <hr>
+    <hr class="flush-top">
 
     <form class="custom-input-field" action="/" [formGroup]="form" [class.submitted]="submitted" (ngSubmit)="store.preSubmit($event);submitAmount();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
         <div class="input-group input-group-left">
           <span class="input-group-addon">
-            <i class="icon svg-usd"></i>
+            <svg class="icon" viewBox="0 0 256 256">
+              <use height="256" width="256" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#usd"></use>
+            </svg>
           </span>
           <input type="tel"
                 class="form-control"
@@ -61,9 +63,14 @@
         <div class="row">
           <div class="btn-group-label">
             <span class="btn-group-icons">
-              <i class="icon icon-2 svg-circle-thin"></i>
-              <i class="icon icon-2 svg-check-circle"></i>
+              <svg class="icon circle-thin" viewBox="0 0 256 256">
+                <use height="256" width="256" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin"></use>
+              </svg>
+              <svg class="icon check-circle" viewBox="0 0 256 256">
+                <use height="256" width="256" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle"></use>
+              </svg>
             </span>
+
             {{ item.label }}:</div>
           <div>{{ item.amount | currency: "USD": true }}</div>
         </div>
@@ -79,7 +86,11 @@
       </button>
 
       <div class="custom-input" *ngIf="customAmtSelected">
-        <span class="custom-input-icon"><i class="icon icon-1 svg-chevron-right"></i></span>
+        <span class="custom-input-icon">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use height="256" width="256" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
+          </svg>
+        </span>
         <form class="custom-input-field"
               action="/"
               [formGroup]="form"
@@ -89,7 +100,9 @@
             <label class="sr-only" for="custom-amount">Amount (in dollars)</label>
             <div class="input-group input-group-left">
               <span class="input-group-addon">
-                <i class="icon svg-usd"></i>
+                <svg class="icon" viewBox="0 0 256 256">
+                  <use height="256" width="256" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#usd"></use>
+                </svg>
               </span>
               <input type="text"
                     class="form-control"

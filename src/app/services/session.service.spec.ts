@@ -5,6 +5,7 @@ import { SessionService } from './session.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
+import { CustomHttpRequestOptions } from '../shared/custom-http-request-options';
 
 describe('Service: Session', () => {
 
@@ -40,14 +41,14 @@ describe('Service: Session', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        {provide: RequestOptions, useClass: CustomHttpRequestOptions},
         SessionService,
         MockBackend,
-        BaseRequestOptions,
         CookieService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
+          deps: [MockBackend, RequestOptions]
         }]
     });
   });
@@ -69,13 +70,10 @@ describe('Service: Session', () => {
       spyOn(service.cookieService, 'get').and.returnValue(mockResponse.userToken);
 
       const result = service.get(url);
-      let expectedReqOpts = new RequestOptions();
-      let expectedHeaders = new Headers();
-      expectedHeaders.set('Authorization', mockResponse.userToken);
-      expectedHeaders.set('Content-Type', 'application/json');
-      expectedHeaders.set('Accept', 'application/json, text/plain, */*');
-      expectedReqOpts.headers = expectedHeaders;
-      expect(service.http.get).toHaveBeenCalledWith(url, expectedReqOpts);
+      let expectedRequestOpts : RequestOptions = new RequestOptions();
+      expectedRequestOpts.headers = new CustomHttpRequestOptions().headers;
+      expectedRequestOpts.headers.set('Authorization', mockResponse.userToken);
+      expect(service.http.get).toHaveBeenCalledWith(url, expectedRequestOpts);
   }));
 
   it('should refresh auth tokens from response', async(inject(
