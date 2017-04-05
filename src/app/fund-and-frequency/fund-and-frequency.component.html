@@ -34,7 +34,7 @@
   <h3 class="control-label">Starts On:</h3>
   <form class="form-group">
     <label for="recurring_date" class="sr-only">Set recurring date</label>
-    <div class="input-group input-group-right" (click)="toggleDatePicker(true)">
+    <div class="input-group input-group-block input-group-right" (click)="toggleDatePicker(true)">
       <input *ngIf="store.startDate"
         id="recurring_date"
         class="form-control"
