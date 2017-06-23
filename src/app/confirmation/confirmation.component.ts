@@ -56,7 +56,7 @@ export class ConfirmationComponent implements OnInit {
             new DynamicReplace('fund', fund),
             new DynamicReplace('frequency', this.store.frequency.value),
             new DynamicReplace('frequencyCalculation', this.frequencyCalculation()),
-            new DynamicReplace('startDate', new DatePipe('en-US').transform(this.store.startDate, 'mm/dd/yyyy')),
+            new DynamicReplace('startDate', new DatePipe('en-US').transform(this.store.startDate, 'MM/dd/yyyy')),
           ]
         );
         this.footerText = this.store.content.getContent('embedConfirmationRecurringStatement');
