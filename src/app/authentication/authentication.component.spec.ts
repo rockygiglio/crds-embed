@@ -7,7 +7,6 @@ import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
-import { SessionService } from '../services/session.service';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 
@@ -24,7 +23,6 @@ describe('Component: Authentication', () => {
       fb: FormBuilder,
       api: APIService,
       cookie: CookieService,
-      session: SessionService,
       content: ContentService,
       validation: ValidationService;
 
@@ -59,8 +57,7 @@ describe('Component: Authentication', () => {
       router,
       stateService,
       store,
-      validation,
-      session
+      validation
     );
     fixture.ngOnInit();
   });
