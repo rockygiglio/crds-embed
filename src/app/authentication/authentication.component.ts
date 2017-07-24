@@ -8,7 +8,6 @@ import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
 
 import { DynamicReplace } from '../models/dynamic-replace';
-import { SessionService } from '../services/session.service';
 
 
 @Component({
@@ -40,8 +39,7 @@ export class AuthenticationComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
-    private validation: ValidationService,
-    private session: SessionService
+    private validation: ValidationService
   ) { }
 
   public ngOnInit(): void {
