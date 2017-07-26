@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2Segment } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { SelectModule } from 'angular2-select';
@@ -29,6 +29,7 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
+import { AnalyticsService } from './services/analytics.service';
 import { CustomHttpRequestOptions } from './shared/custom-http-request-options';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
@@ -43,7 +44,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 @NgModule({
   imports: [
     AlertModule,
-    Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
+    Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2Segment]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -84,6 +85,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     StateService,
     StoreService,
     ValidationService,
+    AnalyticsService,
     {provide: WindowToken, useFactory: _window},
     {provide: RequestOptions, useClass: CustomHttpRequestOptions}
   ],
