@@ -48,7 +48,7 @@
 <br>
 
 <footer class="page-footer">
-  <input type="button" class="btn btn-gray pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">
+  <input type="button" class="btn btn-gray pull-left" (click)="changePayment(); back()" *ngIf="!hideBack()" value="Back">
   <input type="button"
          *ngIf="store.isDonation()"
          id="submitButton"
