@@ -1,5 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Angulartics2 } from 'angulartics2';
+import { AnalyticsService } from '../services/analytics.service'; 
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -36,11 +37,12 @@ export class AmountComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
-    private angulartics: Angulartics2
+    private angulartics: Angulartics2,
+    private analyticsService: AnalyticsService
   ) {}
 
   public ngOnInit() {
-
+    this.analyticsService.giveModalViewed();
     this.state.setLoading(true);
     if (this.store.isDonation()) {
       if (!this.store.predefinedAmounts) {

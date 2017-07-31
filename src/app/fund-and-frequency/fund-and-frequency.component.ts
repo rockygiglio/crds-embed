@@ -10,6 +10,8 @@ import { StateService } from '../services/state.service';
 import { Frequency } from '../models/frequency';
 import { Fund } from '../models/fund';
 
+import { AnalyticsService } from '../services/analytics.service';
+
 
 @Component({
   selector: 'app-fund-and-frequency',
@@ -34,7 +36,8 @@ export class FundAndFrequencyComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private analyticsService: AnalyticsService) {
     this.fundIdParam = this.store.fundId;
     this.setFund();
     this.form = this.fb.group({
@@ -94,6 +97,7 @@ export class FundAndFrequencyComponent implements OnInit {
     } else if (this.store.isOneTimeGift()) {
       this.store.loadDate();
     }
+    this.analyticsService.giveAmountEntered(this.store.amount,this.store.accountType, this.store.fund.Name, this.store.isPredefined);
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
   }
 
