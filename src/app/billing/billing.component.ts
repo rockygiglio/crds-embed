@@ -44,6 +44,16 @@ export class BillingComponent implements OnInit {
       accountType: ['', [<any>Validators.required]]
     });
 
+    this.achForm.controls['accountName'].valueChanges.subscribe(
+      value => this.store.accountName = value
+    );
+    this.achForm.controls['routingNumber'].valueChanges.subscribe(
+      value => this.store.routingNumber = value
+    );
+    this.achForm.controls['accountNumber'].valueChanges.subscribe(
+      value => this.store.accountNumber = value
+    );
+
     this.ccForm = this.fb.group({
       ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
       expDate: ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
@@ -51,12 +61,23 @@ export class BillingComponent implements OnInit {
       zipCode: ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
     });
 
+    this.ccForm.controls['ccNumber'].valueChanges.subscribe(
+      value => this.store.ccNumber = value
+    );
     this.ccForm.controls['expDate'].valueChanges.subscribe(
       value => this.store.expDate = value
+    );
+    this.ccForm.controls['cvv'].valueChanges.subscribe(
+      value => this.store.cvv = value
+    );
+    this.ccForm.controls['zipCode'].valueChanges.subscribe(
+      value => this.store.zipCode = value
     );
   }
 
   public ngOnInit() {
+    this.ccForm.reset()
+    this.achForm.reset()
     if (this.store.isFrequencySetAndNotOneTime()) {
       this.store.resetExistingPmtInfo();
       this.store.clearUserPmtInfo();
@@ -159,6 +180,7 @@ export class BillingComponent implements OnInit {
       this.ccForm.controls['cvv'].markAsTouched();
       this.ccForm.controls['zipCode'].markAsTouched();
     }
+
   }
 
   private getDonor(email: string): Observable<any> {
@@ -252,5 +274,4 @@ export class BillingComponent implements OnInit {
     }
     return false;
   }
-
 }
