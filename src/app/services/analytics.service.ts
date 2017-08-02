@@ -11,11 +11,6 @@ export class AnalyticsService {
     this.analytics = angulartics2;
   }
 
-  // EXAMPLE OF ANGULARTICS EVENT CALL
-  // testCall(){
-  //   this.analytics.eventTrack.next({action: "THIS IS AN EMBED TEST", properties: {}});
-  // }
-
   giveModalViewed() {
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({
@@ -67,7 +62,7 @@ export class AnalyticsService {
     });
   }
 
-  private getParentUrlFormatted() {
+  private getParentUrlFormatted() : string {
     let u = this.iFrameParentService.getIFrameParentUrl();
     return u.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
   }

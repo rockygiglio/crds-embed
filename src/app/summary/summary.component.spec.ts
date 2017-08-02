@@ -16,6 +16,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { StateService } from '../services/state.service';
 import { ValidationService } from '../services/validation.service';
 import { APIService } from '../services/api.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 import { Donor } from '../models/donor';
 import { RecurringDonor } from '../models/recurring-donor';
@@ -34,7 +35,7 @@ class MockStateService {
   public unhidePage(pageIndex: number) { }
   public hidePage(pageIndex: number) { }
   public setLoading(val: boolean) { }
-  public watchState() {}
+  public watchState() { }
 }
 
 describe('Component: Summary', () => {
@@ -51,22 +52,26 @@ describe('Component: Summary', () => {
       href: 'http://child.com'
     }
   };
+  let mockAnalyticsService;
 
   beforeEach(() => {
+
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['paymentSucceededClientSide']);
     TestBed.configureTestingModule({
-      declarations: [ SummaryComponent ],
+      declarations: [SummaryComponent],
       imports: [
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule, HttpModule
       ],
-      providers:    [
+      providers: [
         IFrameParentService,
         StoreService,
         SessionService,
         CookieService,
         ContentService,
-        { provide: StateService, useClass: MockStateService},
-        { provide: WindowToken, useValue: mockWindow},
+        { provide: StateService, useClass: MockStateService },
+        { provide: WindowToken, useValue: mockWindow },
+        { provide: AnalyticsService, useValue: mockAnalyticsService },
         ValidationService,
         APIService
       ]
@@ -98,11 +103,11 @@ describe('Component: Summary', () => {
   });
 
   it('should navigate to passed in url after submit', () => {
-      this.component.store.overrideParent = true;
-      this.component.store.url = 'http://www.redirecturl.com';
-      this.component.adv();
-      expect(this.component.window.top.location.href).toBe(this.component.store.url);
-    }
+    this.component.store.overrideParent = true;
+    this.component.store.url = 'http://www.redirecturl.com';
+    this.component.adv();
+    expect(this.component.window.top.location.href).toBe(this.component.store.url);
+  }
   );
 
   it('should submit PAYMENT with cc', () => {
@@ -110,7 +115,7 @@ describe('Component: Summary', () => {
     this.component.store.amount = 12.34;
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
-    let paymentBody = new Payment('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId );
+    let paymentBody = new Payment('', this.component.store.amount, 'cc', 'PAYMENT', this.component.store.invoiceId);
     paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
@@ -125,7 +130,7 @@ describe('Component: Summary', () => {
     this.component.store.amount = 12.34;
     this.component.store.invoiceId = 1234;
     this.component.store.donor = new Donor(123, 'test@test.com', 'post');
-    let paymentBody = new Payment('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId );
+    let paymentBody = new Payment('', this.component.store.amount, 'bank', 'PAYMENT', this.component.store.invoiceId);
     paymentBody.predefined_amount = null;
     spyOn(this.component.api, 'createOrUpdateDonor').and.returnValue(Observable.of({}));
     spyOn(this.component.api, 'postPayment').and.returnValue(Observable.of({}));
@@ -275,7 +280,7 @@ describe('Component: Summary', () => {
   });
 
   it('should set url redirect params if in the pmt flow', () => {
-    let mockPmtDetails: any = {payment_id: 5};
+    let mockPmtDetails: any = { payment_id: 5 };
     this.component.store.invoiceId = 2;
     this.component.store.type = 'payment';
 
@@ -285,7 +290,7 @@ describe('Component: Summary', () => {
   });
 
   it('should NOT set url redirect params if in the donation flow', () => {
-    let mockPmtDetails: any = {payment_id: 5};
+    let mockPmtDetails: any = { payment_id: 5 };
     this.component.store.invoiceId = 2;
     this.component.store.type = 'donation';
 
@@ -300,6 +305,41 @@ describe('Component: Summary', () => {
     this.component.redirectParams.set('param2', 'two');
     this.component.addParamsToRedirectUrl();
     expect(this.component.store.url).toBe('http://www.redirecturl.com?param1=1&param2=two');
+  });
+
+  describe('summary Analytics', () => {
+    let type, email, paymentMethod, isGuest, amount;
+    beforeEach(() => {
+      type = 'donation';
+      isGuest = true;
+      email = 'abc@def.com';
+      paymentMethod = 'credit card';
+      this.component.store.type = type;
+      this.component.store.email = email;
+      this.component.store.isGuest = isGuest;
+      this.component.store.paymentMethod = paymentMethod;
+      spyOn(this.component, 'setRedirectUrlParamsIfNecessary');
+      spyOn(this.component, 'adv');
+      spyOn(this.component.store, 'resetErrors');
+      spyOn(this.component.store, 'clearUserPmtInfo');
+    });
+
+    it('should call paymentSucceededClientSide, is Donation, is Guest', () => {
+      this.component.handleSuccess();
+      expect(mockAnalyticsService.paymentSucceededClientSide).toHaveBeenCalledWith(paymentMethod, email, 'Guest', amount);
+    });
+
+    it('should call paymentSucceededClientSide, is Donation, is Registered', () => {
+      this.component.store.isGuest = false;
+      this.component.handleSuccess();
+      expect(mockAnalyticsService.paymentSucceededClientSide).toHaveBeenCalledWith(paymentMethod, '', 'Registered', amount);
+    });
+
+    it('should not call paymentSucceededClientSide, is not Donation', () => {
+      this.component.store.type = 'payment';
+      this.component.handleSuccess();
+      expect(mockAnalyticsService.paymentSucceededClientSide).not.toHaveBeenCalled();
+    });
   });
 
 });

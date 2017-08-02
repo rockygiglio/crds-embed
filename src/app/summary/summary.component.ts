@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { Payment } from '../models/payment';
 
 export const WindowToken = new OpaqueToken('Window');
@@ -26,8 +27,9 @@ export class SummaryComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private api: APIService,
+    private analyticsService: AnalyticsService,    
     @Inject(WindowToken) private window: Window
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.lastFourOfAcctNumber = this.store.accountLast4 ? this.store.accountLast4 : this.getLastFourOfAccountNumber();
@@ -50,11 +52,11 @@ export class SummaryComponent implements OnInit {
     );
     if (this.store.isUsingNewPaymentMethod()) {
       this.api.createOrUpdateDonor(this.store.donor).subscribe(
-          value => this.postTransaction(paymentDetails),
-          error => this.handleOuterError()
+        value => this.postTransaction(paymentDetails),
+        error => this.handleOuterError()
       );
     } else if (this.store.isUsingExistingPaymentMethod()) {
-        this.postTransaction(paymentDetails);
+      this.postTransaction(paymentDetails);
     } else {
       this.handleOuterError();
     }
@@ -76,14 +78,14 @@ export class SummaryComponent implements OnInit {
       );
       if (this.store.isUsingNewPaymentMethod()) {
         this.api.createOrUpdateDonor(this.store.donor).subscribe(
-            donor => {
-              if ( this.store.isGuest === true ) {
-                donationDetails.donor_id = this.store.donor.donor_id;
-                donationDetails.email_address = this.store.email;
-              }
-              this.postTransaction(donationDetails);
-            },
-            error => this.handleInnerError(error)
+          donor => {
+            if (this.store.isGuest === true) {
+              donationDetails.donor_id = this.store.donor.donor_id;
+              donationDetails.email_address = this.store.email;
+            }
+            this.postTransaction(donationDetails);
+          },
+          error => this.handleInnerError(error)
         );
       } else if (this.store.isUsingExistingPaymentMethod()) {
         this.postTransaction(donationDetails);
@@ -92,7 +94,7 @@ export class SummaryComponent implements OnInit {
       }
     } else if (this.store.isRecurringGift()) {
       if (this.store.isUsingNewPaymentMethod()) {
-        this.store.recurringDonor.predefined_amount  = this.store.isPredefined ? this.store.recurringDonor.amount : null;
+        this.store.recurringDonor.predefined_amount = this.store.isPredefined ? this.store.recurringDonor.amount : null;
         this.api.postRecurringGift(this.store.recurringDonor).subscribe(
           success => this.handleSuccess(success),
           error => this.handleInnerError(error)
@@ -148,13 +150,23 @@ export class SummaryComponent implements OnInit {
   }
 
   private setRedirectUrlParamsIfNecessary(paymentDetails) {
-    if ( this.store.isPayment() ) {
+    if (this.store.isPayment()) {
       this.redirectParams.set('invoiceId', this.store.invoiceId);
       this.redirectParams.set('paymentId', paymentDetails.payment_id);
     }
   }
 
   private handleSuccess(info) {
+    debugger;
+    // Start Analytics Call
+    if (this.store.isDonation()) {
+      this.analyticsService.paymentSucceededClientSide(
+        this.store.paymentMethod,
+        this.store.isGuest ? this.store.email : '',
+        this.store.isGuest ? 'Guest' : 'Registered',
+        this.store.amount);
+    }
+    //End Analytics Call
     this.setRedirectUrlParamsIfNecessary(info);
     this.store.resetErrors();
     this.store.clearUserPmtInfo();
@@ -202,7 +214,7 @@ export class SummaryComponent implements OnInit {
   }
 
   public hideBack() {
-    if ( this.store.isPayment() && this.store.accountLast4 && this.store.amountLocked) {
+    if (this.store.isPayment() && this.store.accountLast4 && this.store.amountLocked) {
       return true;
     } else {
       return false;
