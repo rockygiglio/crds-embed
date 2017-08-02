@@ -157,7 +157,6 @@ export class SummaryComponent implements OnInit {
   }
 
   private handleSuccess(info) {
-    debugger;
     // Start Analytics Call
     if (this.store.isDonation()) {
       this.analyticsService.paymentSucceededClientSide(
