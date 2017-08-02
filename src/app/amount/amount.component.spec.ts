@@ -14,6 +14,7 @@ import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { ValidationService } from '../services/validation.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 import { AmountComponent } from './amount.component';
 
@@ -23,8 +24,10 @@ describe('Component: Amount ?type=payment', () => {
 
   let component;
   let fixture;
+  let mockAnalyticsService;
 
   beforeEach(() => {
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveModalViewed']);
     TestBed.configureTestingModule({
       declarations: [
         AmountComponent,
@@ -43,6 +46,7 @@ describe('Component: Amount ?type=payment', () => {
         CookieService,
         ContentService,
         ValidationService,
+        { provide: AnalyticsService, useValue: mockAnalyticsService },
         Angulartics2
       ]
     });
@@ -100,8 +104,10 @@ describe('Component: Amount ?type=donation', () => {
 
   let component;
   let fixture;
+  let mockAnalyticsService;
 
   beforeEach(() => {
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveModalViewed']);
     TestBed.configureTestingModule({
       declarations: [
         AmountComponent,
@@ -119,6 +125,7 @@ describe('Component: Amount ?type=donation', () => {
         SessionService,
         ContentService,
         CookieService,
+        { provide: AnalyticsService, useValue: mockAnalyticsService },
         Angulartics2
       ]
     });
@@ -149,4 +156,21 @@ describe('Component: Amount ?type=donation', () => {
 
   });
 
+  describe('amount Analytics', () => {
+    let type = 'donation';
+    beforeEach(() => {
+      this.component.store.type = type;
+    });
+
+    it('should call giveModalViewed, is Donation', () => {
+      this.component.ngOnInit();
+      expect(mockAnalyticsService.giveModalViewed).toHaveBeenCalled();
+    });
+
+    it('should not call giveModalViewed, is not Donation', () => {
+      this.component.store.type = 'payment';
+      this.component.ngOnInit();
+      expect(mockAnalyticsService.giveModalViewed).not.toHaveBeenCalled();
+    });
+  });
 });

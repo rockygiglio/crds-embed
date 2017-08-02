@@ -15,6 +15,7 @@ import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { ValidationService } from '../services/validation.service';
 import { ContentService } from '../services/content.service';
 import { CustomerBank } from '../models/customer-bank';
@@ -38,8 +39,10 @@ class MockGiftService {
 describe('Component: Billing', () => {
   let component: BillingComponent;
   let fixture: ComponentFixture<BillingComponent>;
+  let mockAnalyticsService;
 
   beforeEach(() => {
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['paymentDetailsEntered']);
     TestBed.configureTestingModule({
       declarations: [BillingComponent],
       imports: [
@@ -59,6 +62,7 @@ describe('Component: Billing', () => {
         CookieService,
         IFrameParentService,
         ValidationService,
+        { provide: AnalyticsService, useValue: mockAnalyticsService },
         APIService,
         MockBackend,
         BaseRequestOptions,
@@ -286,6 +290,39 @@ describe('Component: Billing', () => {
           userCard,
           this.component.api.stripeMethods.card,
           this.component.api.restVerbs.put);
+      });
+    });
+
+    describe('billing Analytics', () => {
+      let type, email, accountType, paymentMethod, isGuest;
+      beforeEach(() => {
+        type = 'donation';
+        isGuest = true;
+        email = 'abc@def.com';
+        paymentMethod = 'credit card';
+        this.component.store.type = type;
+        this.component.store.email = email;
+        this.component.store.isGuest = isGuest;
+        this.component.store.paymentMethod = paymentMethod;
+        spyOn(this.component.api, 'createStripeToken').and.returnValue(Observable.of({}));
+        spyOn(this.component, 'storeToken');
+      });
+
+      it('should call paymentDetailsEntered, is Donation, is Guest', () => {
+        this.component.process();
+        expect(mockAnalyticsService.paymentDetailsEntered).toHaveBeenCalledWith(paymentMethod, email, 'Guest');
+      });
+
+      it('should call paymentDetailsEntered, is Donation, is Registered', () => {
+        this.component.store.isGuest = false;
+        this.component.process();
+        expect(mockAnalyticsService.paymentDetailsEntered).toHaveBeenCalledWith(paymentMethod, '', 'Registered');
+      });
+
+      it('should not call paymentDetailsEntered, is not Donation', () => {
+        this.component.store.type = 'payment';
+        this.component.process();
+        expect(mockAnalyticsService.paymentDetailsEntered).not.toHaveBeenCalled();
       });
     });
   });
