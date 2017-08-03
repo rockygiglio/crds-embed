@@ -160,5 +160,21 @@ describe('AnalyticsService', () => {
       
       expect(mockAngulartics2Service.eventTrack.next).toHaveBeenCalledWith(callParams);
     }));
+
+    it('trackAmountSubmitted', inject([AnalyticsService], (service: AnalyticsService) => {
+      let amount = 999.99;
+      let category = 'amountDonation'
+      let callParams = { 
+        action: 'Submitted', 
+        properties: {
+          category: category,
+          value: amount
+        } 
+      };
+
+      service.trackAmountSubmitted(amount);
+      
+      expect(mockAngulartics2Service.eventTrack.next).toHaveBeenCalledWith(callParams);
+    }));
   });
 });

@@ -11,7 +11,7 @@ export class AnalyticsService {
     this.analytics = angulartics2;
   }
 
-  giveModalViewed() {
+  public giveModalViewed() {
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({
       action: 'GiveModalViewed',
@@ -21,7 +21,7 @@ export class AnalyticsService {
     });
   }
 
-  giveAmountEntered(amount: number, donationType: string, specificInitiative: string, usedSuggested: boolean) {
+  public giveAmountEntered(amount: number, donationType: string, specificInitiative: string, usedSuggested: boolean) {
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({ 
       action: 'GiveAmountEntered', 
@@ -35,7 +35,7 @@ export class AnalyticsService {
     });
   }
 
-  paymentDetailsEntered(fundingMethod: string, email: string, checkoutType: string) {
+  public paymentDetailsEntered(fundingMethod: string, email: string, checkoutType: string) {
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({ 
       action: 'PaymentDetailsEntered', 
@@ -48,7 +48,7 @@ export class AnalyticsService {
     });
   }
 
-  paymentSucceededClientSide(fundingMethod: string, email: string, checkoutType: string, amount: number) {
+  public paymentSucceededClientSide(fundingMethod: string, email: string, checkoutType: string, amount: number) {
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({ 
       action: 'PaymentSucceededClientSide', 
@@ -60,6 +60,10 @@ export class AnalyticsService {
         Amount: amount
       } 
     });
+  }
+
+  public trackAmountSubmitted(amount: number) {
+      this.analytics.eventTrack.next({ action: 'Submitted', properties: { category: 'amountDonation', value: amount } });
   }
 
   private getParentUrlFormatted() : string {

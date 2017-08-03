@@ -1,9 +1,8 @@
 /* tslint:disable:no-unused-variable */
-import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule  } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { APIService } from '../services/api.service';
@@ -27,7 +26,7 @@ describe('Component: Amount ?type=payment', () => {
   let mockAnalyticsService;
 
   beforeEach(() => {
-    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveModalViewed']);
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveModalViewed', 'trackAmountSubmitted']);
     TestBed.configureTestingModule({
       declarations: [
         AmountComponent,
@@ -46,8 +45,7 @@ describe('Component: Amount ?type=payment', () => {
         CookieService,
         ContentService,
         ValidationService,
-        { provide: AnalyticsService, useValue: mockAnalyticsService },
-        Angulartics2
+        { provide: AnalyticsService, useValue: mockAnalyticsService }
       ]
     });
     this.fixture = TestBed.createComponent(AmountComponent);
@@ -107,7 +105,7 @@ describe('Component: Amount ?type=donation', () => {
   let mockAnalyticsService;
 
   beforeEach(() => {
-    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveModalViewed']);
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveModalViewed', 'trackAmountSubmitted']);
     TestBed.configureTestingModule({
       declarations: [
         AmountComponent,
@@ -125,8 +123,7 @@ describe('Component: Amount ?type=donation', () => {
         SessionService,
         ContentService,
         CookieService,
-        { provide: AnalyticsService, useValue: mockAnalyticsService },
-        Angulartics2
+        { provide: AnalyticsService, useValue: mockAnalyticsService }
       ]
     });
     this.fixture = TestBed.createComponent(AmountComponent);
@@ -158,8 +155,19 @@ describe('Component: Amount ?type=donation', () => {
 
   describe('amount Analytics', () => {
     let type = 'donation';
+    let amount = 987.98;
+    let form = { controls: { customAmount: { markAsTouched: () => { } } } };
+
     beforeEach(() => {
       this.component.store.type = type;
+      this.component.store.amount = amount;
+      this.component.form = form;
+      spyOn(this.component.store, 'validAmount').and.returnValue(true);
+      spyOn(this.component.state, 'setLoading');
+      spyOn(this.component.state, 'getNextPageToShow').and.returnValue('test');
+      spyOn(this.component.router, 'navigateByUrl');
+      spyOn(this.component.form.controls['customAmount'], 'markAsTouched');
+      spyOn(this.component, 'setErrorMessage');
     });
 
     it('should call giveModalViewed, is Donation', () => {
@@ -171,6 +179,17 @@ describe('Component: Amount ?type=donation', () => {
       this.component.store.type = 'payment';
       this.component.ngOnInit();
       expect(mockAnalyticsService.giveModalViewed).not.toHaveBeenCalled();
+    });
+
+    it('should call trackAmountSubmitted, is Donation', () => {
+      this.component.submitAmount();
+      expect(mockAnalyticsService.trackAmountSubmitted).toHaveBeenCalledWith(amount);
+    });
+
+    it('should not call trackAmountSubmitted, is not Donation', () => {
+      this.component.store.type = 'payment';
+      this.component.submitAmount();
+      expect(mockAnalyticsService.trackAmountSubmitted).not.toHaveBeenCalled();
     });
   });
 });
