@@ -12,7 +12,6 @@ export class AnalyticsService {
   }
 
   giveModalViewed() {
-    debugger;
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({
       action: 'GiveModalViewed',
