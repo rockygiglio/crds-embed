@@ -12,6 +12,7 @@ export class AnalyticsService {
   }
 
   giveModalViewed() {
+    debugger;
     let parentUrl = this.getParentUrlFormatted();
     this.analytics.eventTrack.next({
       action: 'GiveModalViewed',
@@ -64,6 +65,6 @@ export class AnalyticsService {
 
   private getParentUrlFormatted() : string {
     let u = this.iFrameParentService.getIFrameParentUrl();
-    return u.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+    return u.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "");
   }
 }
