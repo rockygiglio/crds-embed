@@ -69,6 +69,15 @@ describe('AnalyticsService', () => {
       expect(result).toBe(expected);
     }));
 
+    it('should should strip (https://) but leave everything after', inject([AnalyticsService], (service: AnalyticsService) => {
+      let result, url = 'https://somewebsite.com/hey/keep/this', expected = 'somewebsite.com/hey/keep/this';
+      mockIFrameParentService.getIFrameParentUrl.and.returnValue(url)
+
+      result = service['getParentUrlFormatted']();
+
+      expect(result).toBe(expected);
+    }));
+
     it('should should strip (https://www.)', inject([AnalyticsService], (service: AnalyticsService) => {
       let result, url = 'https://somewebsite.com', expected = 'somewebsite.com';
       mockIFrameParentService.getIFrameParentUrl.and.returnValue(url)
