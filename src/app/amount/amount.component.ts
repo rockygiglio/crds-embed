@@ -1,5 +1,4 @@
 import { CurrencyPipe } from '@angular/common';
-import { Angulartics2 } from 'angulartics2';
 import { AnalyticsService } from '../services/analytics.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -37,7 +36,6 @@ export class AmountComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
-    private angulartics: Angulartics2,
     private analyticsService: AnalyticsService
   ) { }
 
@@ -109,7 +107,7 @@ export class AmountComponent implements OnInit {
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
 
       if (!this.store.isPayment()) {
-        this.angulartics.eventTrack.next({ action: 'Submitted', properties: { category: 'amountDonation', value: this.store.amount } });
+        this.analyticsService.trackAmountSubmitted(this.store.amount);
       }
 
     } else {

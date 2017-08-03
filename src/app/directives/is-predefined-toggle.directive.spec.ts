@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 import { Component, OnInit } from '@angular/core';
-import { Angulartics2 } from 'angulartics2';
 import { By } from '@angular/platform-browser';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { TestBed, async, inject } from '@angular/core/testing';
@@ -53,8 +52,7 @@ describe('IsPredefinedToggle Directive', () => {
         APIService,
         SessionService,
         CookieService,
-        ContentService,
-        Angulartics2
+        ContentService
       ]
     });
     this.fixture = TestBed.createComponent(TestComponent);
