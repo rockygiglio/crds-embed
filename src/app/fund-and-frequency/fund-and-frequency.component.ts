@@ -99,7 +99,7 @@ export class FundAndFrequencyComponent implements OnInit {
     }
     // Start Analytics Call
     if (this.store.isDonation()) {
-      this.analyticsService.giveAmountEntered(this.store.amount, this.store.accountType, this.store.fund.Name, this.store.isPredefined);
+      this.analyticsService.giveAmountEntered(this.store.amount, this.store.frequency.display, this.store.fund.Name, this.store.isPredefined);
     }
     // End Analytics Call
     this.router.navigateByUrl(this.state.getNextPageToShow(this.state.fundIndex));
