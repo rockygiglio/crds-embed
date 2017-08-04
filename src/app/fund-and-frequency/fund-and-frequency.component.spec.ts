@@ -121,23 +121,23 @@ describe('Component: FundAndFrequency', () => {
   });
 
   describe('frequency Analytics', () => {
-    let type, amount, accountType, fundName, isPredefined;
+    let type, amount, frequency, fundName, isPredefined;
     beforeEach(() => {
       type = 'donation';
       amount = 1999.99;
-      accountType = 'abc';
+      frequency = 'one time';
       fundName = 'xyz';
       isPredefined = false;
       this.component.store.type = type;
       this.component.store.amount = amount;
-      this.component.store.accountType = accountType;
+      this.component.store.frequency = {display: frequency};
       this.component.store.fund.Name = fundName;
       this.component.store.isPredefined = isPredefined;
     });
 
     it('should call giveAmountEntered, is Donation', () => {
       this.component.submitFrequency();
-      expect(mockAnalyticsService.giveAmountEntered).toHaveBeenCalledWith(amount, accountType, fundName, isPredefined);
+      expect(mockAnalyticsService.giveAmountEntered).toHaveBeenCalledWith(amount, frequency, fundName, isPredefined);
     });
 
     it('should not call giveAmountEntered, is not Donation', () => {
