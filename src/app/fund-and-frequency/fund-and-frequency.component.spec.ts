@@ -18,6 +18,7 @@ import { ValidationService } from '../services/validation.service';
 import { APIService } from '../services/api.service';
 import { Fund } from '../models/fund';
 import { StateService } from '../services/state.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 
 class MockActivatedRoute {
@@ -42,8 +43,10 @@ describe('Component: FundAndFrequency', () => {
   let mockFund: Fund = new Fund(5, 'General Giving', 1, true);
   let mockFundUserSelected: Fund = new Fund(5, 'Foobar Fund', 1, true);
   let mockOneTimeGiftFund: Fund = new Fund(5, 'General Giving', 1, false);
+  let mockAnalyticsService;
 
   beforeEach(() => {
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['giveAmountEntered']);
     TestBed.configureTestingModule({
       declarations: [
         FundAndFrequencyComponent
@@ -61,6 +64,7 @@ describe('Component: FundAndFrequency', () => {
         StoreService,
         SessionService,
         ValidationService,
+        { provide: AnalyticsService, useValue: mockAnalyticsService },
         APIService,
         ContentService,
         StateService
@@ -70,7 +74,7 @@ describe('Component: FundAndFrequency', () => {
     this.component = this.fixture.componentInstance;
   });
 
-  it ('should retrieve the default fund when a user has not selected a fund', () => {
+  it('should retrieve the default fund when a user has not selected a fund', () => {
     this.component.setFund();
     expect(this.component.store.fund.Name).toBe('General Giving');
   });
@@ -109,13 +113,37 @@ describe('Component: FundAndFrequency', () => {
     expect(this.component.store.frequency.value).toBe(giveFrequencies.oneTime.value);
   });
 
-
   describe('#Frequency model', () => {
     it('should create an array of default frequencies for recurring giving', () => {
       expect(this.component.store.frequencies.length).toBeGreaterThan(0);
       expect(this.component.store.getFirstNonRecurringFrequency().value).toBe('once');
     });
-
   });
 
+  describe('frequency Analytics', () => {
+    let type, amount, frequency, fundName, isPredefined;
+    beforeEach(() => {
+      type = 'donation';
+      amount = 1999.99;
+      frequency = 'one time';
+      fundName = 'xyz';
+      isPredefined = false;
+      this.component.store.type = type;
+      this.component.store.amount = amount;
+      this.component.store.frequency = {display: frequency};
+      this.component.store.fund.Name = fundName;
+      this.component.store.isPredefined = isPredefined;
+    });
+
+    it('should call giveAmountEntered, is Donation', () => {
+      this.component.submitFrequency();
+      expect(mockAnalyticsService.giveAmountEntered).toHaveBeenCalledWith(amount, frequency, fundName, isPredefined);
+    });
+
+    it('should not call giveAmountEntered, is not Donation', () => {
+      this.component.store.type = 'payment';
+      this.component.submitFrequency();
+      expect(mockAnalyticsService.giveAmountEntered).not.toHaveBeenCalled();
+    });
+  });
 });

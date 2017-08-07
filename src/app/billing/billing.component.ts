@@ -7,6 +7,7 @@ import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { CreditCardValidator } from '../validators/credit-card.validator';
+import { AnalyticsService } from '../services/analytics.service';
 
 import { CustomerBank } from '../models/customer-bank';
 import { CustomerCard } from '../models/customer-card';
@@ -34,7 +35,8 @@ export class BillingComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private fb: FormBuilder,
-    private api: APIService
+    private api: APIService,
+    private analyticsService: AnalyticsService
   ) {
     this.state.setLoading(true);
     this.achForm = this.fb.group({
@@ -44,6 +46,16 @@ export class BillingComponent implements OnInit {
       accountType: ['', [<any>Validators.required]]
     });
 
+    this.achForm.controls['accountName'].valueChanges.subscribe(
+      value => this.store.accountName = value
+    );
+    this.achForm.controls['routingNumber'].valueChanges.subscribe(
+      value => this.store.routingNumber = value
+    );
+    this.achForm.controls['accountNumber'].valueChanges.subscribe(
+      value => this.store.accountNumber = value
+    );
+
     this.ccForm = this.fb.group({
       ccNumber: ['', [<any>Validators.required, <any>CreditCardValidator.validateCCNumber]],
       expDate: ['', [<any>Validators.required, <any>CreditCardValidator.validateExpDate]],
@@ -51,12 +63,23 @@ export class BillingComponent implements OnInit {
       zipCode: ['', [<any>Validators.required, <any>Validators.minLength(5), <any>Validators.maxLength(10)]]
     });
 
+    this.ccForm.controls['ccNumber'].valueChanges.subscribe(
+      value => this.store.ccNumber = value
+    );
     this.ccForm.controls['expDate'].valueChanges.subscribe(
       value => this.store.expDate = value
+    );
+    this.ccForm.controls['cvv'].valueChanges.subscribe(
+      value => this.store.cvv = value
+    );
+    this.ccForm.controls['zipCode'].valueChanges.subscribe(
+      value => this.store.zipCode = value
     );
   }
 
   public ngOnInit() {
+    this.ccForm.reset()
+    this.achForm.reset()
     if (this.store.isFrequencySetAndNotOneTime()) {
       this.store.resetExistingPmtInfo();
       this.store.clearUserPmtInfo();
@@ -159,6 +182,7 @@ export class BillingComponent implements OnInit {
       this.ccForm.controls['cvv'].markAsTouched();
       this.ccForm.controls['zipCode'].markAsTouched();
     }
+
   }
 
   private getDonor(email: string): Observable<any> {
@@ -172,6 +196,14 @@ export class BillingComponent implements OnInit {
   }
 
   public process(donor: any, callBody: CustomerBank | CustomerCard, stripeMethod: string, restMethod: string) {
+    // Start Analytics Call
+    if (this.store.isDonation()) {
+      this.analyticsService.paymentDetailsEntered(
+        this.store.paymentMethod,
+        this.store.isGuest ? this.store.email : '' ,
+        this.store.isGuest ? 'Guest' : 'Registered');
+    }
+    //End Analytics Call
     this.api.createStripeToken(stripeMethod, callBody).subscribe(
       token => this.storeToken(donor, token, stripeMethod, restMethod),
       error => this.handleError(error, stripeMethod)
@@ -247,10 +279,9 @@ export class BillingComponent implements OnInit {
   }
 
   public hideBack() {
-    if ( this.store.isPayment() && this.store.amountLocked ) {
+    if (this.store.isPayment() && this.store.amountLocked) {
       return true;
     }
     return false;
   }
-
 }

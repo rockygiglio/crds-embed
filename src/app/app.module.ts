@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2Segment } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { SelectModule } from 'angular2-select';
@@ -21,7 +21,6 @@ import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-freque
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
-import { AddMeToMapComponent } from './add-me-to-map/add-me-to-map.component';
 
 import { APIService } from './services/api.service';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -30,12 +29,8 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
-import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
-import { LocationService } from './services/location.service';
+import { AnalyticsService } from './services/analytics.service';
 import { CustomHttpRequestOptions } from './shared/custom-http-request-options';
-
-import { StateListResolver } from './route-resolvers/state-list-resolver';
-import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -44,13 +39,12 @@ import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { IsPredefinedToggleDirective } from './directives/is-predefined-toggle.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
-import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
 
 
 @NgModule({
   imports: [
     AlertModule,
-    Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
+    Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2Segment]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -64,7 +58,6 @@ import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
     SelectModule
   ],
   declarations: [
-    AddMeToMapComponent,
     AmountComponent,
     AppComponent,
     AuthenticationComponent,
@@ -80,23 +73,19 @@ import { NowAPinComponent } from './now-a-pin/now-a-pin.component';
     PageNotFoundComponent,
     RegisterComponent,
     FormatPaymentNumberDirective,
-    SummaryComponent,
-    NowAPinComponent
+    SummaryComponent
   ],
   providers: [
-    AddMeToTheMapHelperService,
     appRoutingProviders,
     ContentService,
     CookieService,
     APIService,
     IFrameParentService,
-    LocationService,
     SessionService,
     StateService,
-    StateListResolver,
     StoreService,
     ValidationService,
-    UserDataResolver,
+    AnalyticsService,
     {provide: WindowToken, useFactory: _window},
     {provide: RequestOptions, useClass: CustomHttpRequestOptions}
   ],
