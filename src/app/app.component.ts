@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2GoogleTagManager, Angulartics2Segment } from 'angulartics2';
 
 import { StateService } from './services/state.service';
 
@@ -28,6 +28,7 @@ export class AppComponent {
     private route: ActivatedRoute,
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
+    private angulartics2Segment: Angulartics2Segment,
     private state: StateService) {
 
     if ( this.iFrameResizerCW === undefined ) {

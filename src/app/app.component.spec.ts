@@ -9,7 +9,7 @@ import { StateService } from './services/state.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2, Angulartics2GoogleTagManager, Angulartics2Segment } from 'angulartics2';
 import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
 
@@ -35,6 +35,7 @@ describe('App: CrdsEmbed', () => {
         ContentService,
         Angulartics2,
         Angulartics2GoogleTagManager,
+        Angulartics2Segment,
         ValidationService
       ]
     })

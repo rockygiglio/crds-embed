@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Angulartics2 } from 'angulartics2';
+import { AnalyticsService } from '../services/analytics.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -36,11 +36,15 @@ export class AmountComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private validation: ValidationService,
-    private angulartics: Angulartics2
-  ) {}
+    private analyticsService: AnalyticsService
+  ) { }
 
   public ngOnInit() {
-
+    // Start Analytics Call
+    if (this.store.isDonation()) {
+      this.analyticsService.giveModalViewed();
+    }
+    // End Analytics Call
     this.state.setLoading(true);
     if (this.store.isDonation()) {
       if (!this.store.predefinedAmounts) {
@@ -75,7 +79,7 @@ export class AmountComponent implements OnInit {
 
     this.selectedAmount = this.store.selectedAmount;
 
-    if ( this.store.customAmount ) {
+    if (this.store.customAmount) {
       this.customAmount = Number(this.store.customAmount).toFixed(2);
       this.customAmtSelected = true;
     }
@@ -103,7 +107,7 @@ export class AmountComponent implements OnInit {
       this.router.navigateByUrl(this.state.getNextPageToShow(this.state.amountIndex));
 
       if (!this.store.isPayment()) {
-        this.angulartics.eventTrack.next({ action: 'Submitted', properties: { category: 'amountDonation', value: this.store.amount }});
+        this.analyticsService.trackAmountSubmitted(this.store.amount);
       }
 
     } else {
@@ -121,7 +125,7 @@ export class AmountComponent implements OnInit {
     } else if (isNaN(this.store.amount) || !this.validation.validDollarAmount(this.store.amount)) {
       this.errorMessage = this.store.content.getContent('invalidDonationAmount');
     } else if (Number(this.store.amount) < this.store.minimumStripeAmount) {
-      let block =  this.store.content.getContent('embedAmountStripeMinimum');
+      let block = this.store.content.getContent('embedAmountStripeMinimum');
       let amount = new CurrencyPipe('en-US').transform(this.store.minimumStripeAmount, 'USD', true);
       this.errorMessage = this.store.dynamicData(block, new DynamicReplace('minimumStripeAmount', amount));
     } else if (this.store.isPayment() && Number(this.store.amount) > this.store.totalCost) {
@@ -134,7 +138,7 @@ export class AmountComponent implements OnInit {
       this.errorMessage = this.store.content.getContent('embedAmountUnknown');
     }
 
-    if ( this.errorMessage === '' ) {
+    if (this.errorMessage === '') {
       this.errorMessage = 'An unknown error has occurred.';
     }
 
