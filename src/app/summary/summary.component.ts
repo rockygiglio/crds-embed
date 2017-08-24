@@ -181,7 +181,7 @@ export class SummaryComponent implements OnInit {
     } else {
       this.store.stripeException = true;
       this.changePayment();
-      this.router.navigateByUrl('/billing');
+      this.router.navigateByUrl('/give/billing');
       this.isSubmitInProgress = false;
     }
   }

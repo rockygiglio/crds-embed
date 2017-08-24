@@ -19,13 +19,13 @@ export class StateService {
   public currentIndex = 0;
 
   public paymentState: PageState[] = [
-    { path: '/amount', show: true },
-    { path: '/fund', show: false },
-    { path: '/authentication', show: true },
-    { path: '/registration', show: false },
-    { path: '/billing', show: true },
-    { path: '/summary', show: true },
-    { path: '/confirmation', show: true}
+    { path: '/give/amount', show: true },
+    { path: '/give/fund', show: false },
+    { path: '/give/authentication', show: true },
+    { path: '/give/registration', show: false },
+    { path: '/give/billing', show: true },
+    { path: '/give/summary', show: true },
+    { path: '/give/confirmation', show: true}
   ];
 
   public getNextPageToShow(currentPage: number): string {

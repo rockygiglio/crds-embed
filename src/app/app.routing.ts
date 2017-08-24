@@ -11,15 +11,15 @@ import { FundAndFrequencyComponent } from './fund-and-frequency/fund-and-frequen
 
 
 export const appRoutes: Routes = [
-  { path: '', component: AmountComponent },
-  { path: 'amount', component: AmountComponent },
-  { path: 'fund', component: FundAndFrequencyComponent },
-  { path: 'authentication', component: AuthenticationComponent },
-  { path: 'billing', component: BillingComponent },
-  { path: 'signin', component: AuthenticationComponent },
-  { path: 'summary', component: SummaryComponent },
-  { path: 'confirmation', component: ConfirmationComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'give', component: AmountComponent },
+  { path: 'give/amount', component: AmountComponent },
+  { path: 'give/fund', component: FundAndFrequencyComponent },
+  { path: 'give/authentication', component: AuthenticationComponent },
+  { path: 'give/billing', component: BillingComponent },
+  { path: 'give/signin', component: AuthenticationComponent },
+  { path: 'give/summary', component: SummaryComponent },
+  { path: 'give/confirmation', component: ConfirmationComponent },
+  { path: 'give/register', component: RegisterComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

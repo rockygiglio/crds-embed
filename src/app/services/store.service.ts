@@ -397,7 +397,7 @@ export class StoreService {
   public validateRoute(router) {
     if (!this.type) {
       this.state.setLoading(true);
-      router.navigateByUrl('/');
+      router.navigateByUrl('/give');
     }
   }
 
