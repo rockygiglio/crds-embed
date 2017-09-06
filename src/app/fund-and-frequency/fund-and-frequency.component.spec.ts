@@ -72,6 +72,8 @@ describe('Component: FundAndFrequency', () => {
     });
     this.fixture = TestBed.createComponent(FundAndFrequencyComponent);
     this.component = this.fixture.componentInstance;
+
+    spyOn(this.component.router, 'navigateByUrl');
   });
 
   it('should retrieve the default fund when a user has not selected a fund', () => {
